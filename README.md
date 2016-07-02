@@ -17,7 +17,9 @@ Caf.CMS（疯狂蚂蚁CMS） 是一个免费的、 开源，功能全面的CMS(�
 6、主要功能:自定义频道、无限分类 树形栏目分类结构，支持无限级别子类目的分类、SEO优化、扩展字段
 
 
-###主要使用的技术： ASP.NET 4.5.1、 ASP.NET MVC 5、  Entity Framework 6.1
+###主要使用的技术： 
+
+ASP.NET 4.5.1、 ASP.NET MVC 5、  Entity Framework 6.1
 
 ###系统环境
 
