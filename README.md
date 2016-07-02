@@ -2,7 +2,7 @@
 Caf.CMS（疯狂蚂蚁CMS） 是一个免费的、 开源，功能全面的CMS(内容管理系统)。定位CMS也有点狭义呢，因为Caf.CMS是基于国外SmartStore.NET 开源商城源码的基础上改造而成的CMS。
 定位：由于基于Smartstore.Net开源商城框架进行改造，所以整体上相对于其他几MB的CMS来说，Caf.CMS比较笨重，只适合编程人员进行模板开发及功能扩展。
 
-功能：
+###功能：
 
 1、多站点支持 支持后台创建站点，站点内容可私有可共享。大大节省服务器空间开支和维护成本。
 
@@ -17,9 +17,9 @@ Caf.CMS（疯狂蚂蚁CMS） 是一个免费的、 开源，功能全面的CMS(�
 6、主要功能:自定义频道、无限分类 树形栏目分类结构，支持无限级别子类目的分类、SEO优化、扩展字段
 
 
-主要使用的技术： ASP.NET 4.5.1、 ASP.NET MVC 5、  Entity Framework 6.1
+###主要使用的技术： ASP.NET 4.5.1、 ASP.NET MVC 5、  Entity Framework 6.1
 
-系统环境
+###系统环境
 
 操作系统：Windows Sever 2008+
 
@@ -31,14 +31,18 @@ IIS版本：IIS 7.0+（推荐）
 
 许可：无限制+永久免费
 
-声明
+###声明
 
 Caf.CMS 还很年轻，功能上等各方面还不完善，请大家能够包容，也请大家提出一些好的意见和建议（不一定采纳, 因为疯狂蚂蚁果很任性 ^ ^ ） 。相信在我们的共同努力下它会一步步成长起来，希望能够看到他疯狂的那一天......
 
-协议
+###协议
 
 开源、免费（商业项目）
 
 有疑问的话就悄悄联系下我们吧
 
 SmartStore.net学习群 433379982
+
+![image](https://github.com/crazyants/Caf.CMS/blob/master/home.png)
+
+![image](https://github.com/crazyants/Caf.CMS/blob/master/site1.png)
