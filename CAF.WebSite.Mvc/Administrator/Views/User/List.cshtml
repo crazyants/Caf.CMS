@@ -1,0 +1,361 @@
+﻿@model UserListModel
+@using System.Globalization;
+@using CAF.Infrastructure.Core.Utilities;
+
+@{
+   
+
+    var gridPageSize = EngineContext.Current.Resolve<CAF.Infrastructure.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
+    ViewBag.Title = T("Admin.Users.Users").Text;
+    var g = Html.GridToolKit<UserModel>();
+    var grid = g.DataGrid("usersGrid", g.Param(x => x.Id)).TableId("table-id").GridKey("Id").PageLength(gridPageSize)
+    .MainGrid(
+    g.GridColumn(null, null, 50).DefaultContent("<input type='checkbox' class='checkboxes' value='#Id#'>"),
+    g.GridColumn(x => x.Id, 100),
+    g.GridColumn(x => x.Email).DefaultContent("<a href='" + @Url.Content("~/Admin/User/Edit/") + "#Id#'>#Email#</a>"),
+    g.GridColumn(x => x.UserName, 100).Hidden(Model.UserNamesEnabled),
+    g.GridColumn(x => x.FullName, 100),
+    g.GridColumn(x => x.UserRoleNames, 100),
+        //g.GridColumn(x => x.Company, 100).Hidden(Model.CompanyEnabled),
+    g.GridColumn(x => x.Phone, 100).Hidden(Model.PhoneEnabled),
+    g.GridColumn(x => x.ZipPostalCode, 100).Hidden(Model.ZipPostalCodeEnabled),
+    g.GridColumn(x => x.Active, 100),
+    g.GridColumn(x => x.CreatedOn, 150).DefaultContent("#CreatedOn-DateTime#"),
+    g.GridColumn(x => x.LastActivityDate, 150).DefaultContent("#LastActivityDate-DateTime#"),
+    g.GridColumn("operation", "" + T("Admin.Common.Operation").Text + "", 100).DefaultContent("<a href='Edit/#Id#' class='btn default btn-xs purple'><i class='fa fa-edit'></i></a>"))
+    .Url(Url.Action("UserList", "User")).DefaultTableClass().BindDataParamBinding("onDataBinding").BindAjaxCallback("bindAjaxCallback");
+}
+@using (Html.BeginForm())
+{
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase"> @T("Admin.Users.Users")</span>
+                        <span class="caption-helper"></span>
+                    </div>
+                    <div class="actions">
+                        <a id="btnIframe" href="javascript:" class="btn yellow"><i class="fa fa-plus"></i>@T("Admin.Common.AddNew") </a>
+                        <a href="@Url.Action("Create")" class="btn yellow"><i class="fa fa-plus"></i>@T("Admin.Common.AddNew") </a>
+                        <div class="btn-group">
+                            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+                                @T("Common.Export")
+                                <span class="fa fa-caret-down"></span>
+                            </a>
+                            <ul class="dropdown-menu pull-right">
+                                <li><a href="@Url.Action("ExportXmlAll")">@T("Admin.Common.ExportToXml.All")</a></li>
+                                <li><a href="javascript:void(0)" id="exportxml-selected">@T("Admin.Common.ExportToXml.Selected")</a></li>
+                                <li><a href="@Url.Action("ExportExcelAll")">@T("Admin.Common.ExportToExcel.All")</a></li>
+                                <li><a href="javascript:void(0)" id="exportexcel-selected">@T("Admin.Common.ExportToExcel.Selected")</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                    <div class="portlet">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-search"></i>@T("Admin.Common.Search")
+                            </div>
+                            <div class="tools">
+                              
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="well">
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group-sm">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SearchEmail)</label>
+                                            <div class="col-md-6">
+                                                @Html.TextBoxFor(model => Model.SearchEmail, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group-sm">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SearchUserName)</label>
+                                            <div class="col-md-6">
+                                                @Html.TextBoxFor(model => Model.SearchUserName, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group-sm">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SearchFirstName)</label>
+                                            <div class="col-md-6">
+                                                @Html.TextBoxFor(model => model.SearchFirstName, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group-sm">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SearchLastName)</label>
+                                            <div class="col-md-6">
+                                                @Html.TextBoxFor(model => model.SearchLastName, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @if (Model.DateOfBirthEnabled)
+                                {
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group-sm">
+                                                <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SearchDayOfBirth)</label>
+                                                <div class="col-md-6">
+                                                    @{
+                                    var monthOfBirthValues = new List<SelectListItem>();
+                                    //monthOfBirthValues.Add(new SelectListItem() { Text = T("Admin.Users.Users.List.SearchDateOfBirth.Month").Text, Value = "0" });
+                                    for (int i = 1; i <= 12; i++)
+                                    {
+                                        monthOfBirthValues.Add(new SelectListItem() { Text = i.ToString(CultureInfo.InvariantCulture), Value = i.ToString(CultureInfo.InvariantCulture) });
+                                    }
+                                    var dayOfBirthValues = new List<SelectListItem>();
+                                    //dayOfBirthValues.Add(new SelectListItem() { Text = T("Admin.Users.Users.List.SearchDateOfBirth.Day").Text, Value = "0" });
+                                    for (int i = 1; i <= 31; i++)
+                                    {
+                                        dayOfBirthValues.Add(new SelectListItem() { Text = i.ToString(CultureInfo.InvariantCulture), Value = i.ToString(CultureInfo.InvariantCulture) });
+                                    }
+                                                    }
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            @Html.DropDownListFor(model => Model.SearchMonthOfBirth, monthOfBirthValues, T("Admin.Users.Users.List.SearchDateOfBirth.Month").Text, new { @class = "form-control input-xsmall select2me" })
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            @Html.DropDownListFor(model => Model.SearchDayOfBirth, dayOfBirthValues, T("Admin.Users.Users.List.SearchDateOfBirth.Day").Text, new { @class = "form-control input-xsmall select2me" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                @if (Model.CompanyEnabled)
+                                { <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group-sm">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SearchCompany)</label>
+                                            <div class="col-md-6">
+                                                @Html.TextBoxFor(model => model.SearchCompany, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                                @if (Model.PhoneEnabled)
+                                { <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group-sm">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SearchPhone)</label>
+                                            <div class="col-md-6">
+                                                @Html.TextBoxFor(model => model.SearchPhone, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                                @if (Model.ZipPostalCodeEnabled)
+                                { <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group-sm">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SearchZipPostalCode)</label>
+                                            <div class="col-md-6">
+                                                @Html.TextBoxFor(model => model.SearchZipPostalCode, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group-sm">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SearchUserRoleIds)</label>
+                                            <div class="col-md-6">
+                                                @foreach (var userRole in Model.AvailableUserRoles)
+                                                {
+                                                    <label class="checkbox">
+                                                        <input type="checkbox" name="SearchUserRoleIds" value="@userRole.Id"
+                                                               @if (Model.SearchUserRoleIds != null && Model.SearchUserRoleIds.Contains(userRole.Id)) { <text> checked="checked" </text>           } /> @userRole.Name
+                                                        </label>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-offset-3 col-md-9">
+                                                <button type="submit" id="search-users" class="btn btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                    @T("Admin.Common.Search")
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="portlet-body flip-scroll">
+                    <div class="portlet">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-search"></i>@T("Admin.Common.List")
+                            </div>
+                            <div class="tools">
+                               
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+                                <thead>
+                                    <tr>
+                                        @foreach (var column in grid.GetColumns)
+                                        {
+                                            if (column.Name == "操作")
+                                            {
+
+                                                <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                                            }
+                                            else if (column.DisplayName == null)
+                                            {
+
+                                                <th class="@column.CssClassHeader"><input type="checkbox" class="group-checkable" data-set="checkboxes"></th>
+                                            }
+                                            else
+                                            {
+                                                <th class="@column.CssClassHeader">@column.DisplayName</th>
+                                            }
+
+                                        }
+                                    </tr>
+
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function onDataBinding() {
+            var userRoleIds = [];
+            $('[name=SearchUserRoleIds]:checked').each(function () {
+                userRoleIds.push($(this).val());
+            });
+
+            var searchModel = {
+                SearchUserRoleIds: userRoleIds.join(","),
+                SearchEmail: $('#@Html.FieldIdFor(model => model.SearchEmail)').val(),
+                SearchUserName: $('#@Html.FieldIdFor(model => model.SearchUserName)').val(),
+                SearchFirstName: $('#@Html.FieldIdFor(model => model.SearchFirstName)').val(),
+                SearchLastName: $('#@Html.FieldIdFor(model => model.SearchLastName)').val(),
+                SearchDayOfBirth: $('#@Html.FieldIdFor(model => model.SearchDayOfBirth)').val(),
+                SearchMonthOfBirth: $('#@Html.FieldIdFor(model => model.SearchMonthOfBirth)').val(),
+                SearchCompany: $('#@Html.FieldIdFor(model => model.SearchCompany)').val(),
+                SearchPhone: $('#@Html.FieldIdFor(model => model.SearchPhone)').val(),
+                SearchZipPostalCode: $('#@Html.FieldIdFor(model => model.SearchZipPostalCode)').val()
+            };
+            return searchModel;
+        }
+        function bindAjaxCallback(aData) {
+            $.each(aData, function (k, v) {
+                if ((v.CreatedOn || '').length > 0) v.CreatedOn = eval('new ' + (v.CreatedOn.replace(/\//g, ''))).format('yyyy-MM-dd');
+                if ((v.LastActivityDate || '').length > 0) v.LastActivityDate = eval('new ' + (v.LastActivityDate.replace(/\//g, ''))).format('yyyy-MM-dd');
+            });
+        }
+       
+
+        @(grid)
+        $(document).ready(function () {
+
+         
+            //search button
+            $('#search-users').click(function () {
+                //search
+                var grid = usersGrid.reload();
+                return false;
+            });
+
+
+            $("#@Html.FieldIdFor(model => model.SearchEmail)").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    $("#search-users").click();
+                    return false;
+                }
+            });
+            $("#@Html.FieldIdFor(model => model.SearchUserName)").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    $("#search-users").click();
+                    return false;
+                }
+            });
+            $("#@Html.FieldIdFor(model => model.SearchFirstName)").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    $("#search-users").click();
+                    return false;
+                }
+            });
+            $("#@Html.FieldIdFor(model => model.SearchLastName)").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    $("#search-users").click();
+                    return false;
+                }
+            });
+            $("#@Html.FieldIdFor(model => model.SearchCompany)").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    $("#search-users").click();
+                    return false;
+                }
+            });
+            $("#@Html.FieldIdFor(model => model.SearchPhone)").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    $("#search-users").click();
+                    return false;
+                }
+            });
+            $("#@Html.FieldIdFor(model => model.SearchZipPostalCode)").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    $("#search-users").click();
+                    return false;
+                }
+            });
+
+
+            //"Export Excel selected" button
+            $('#exportexcel-selected').click(function (e) {
+                e.preventDefault();
+                //redirect to required URL
+                setLocation('@(Url.Action("ExportExcelSelected", "User"))?selectedIds=' + selectedIds.join(","));
+                return false;
+            });
+
+            //"Export XML selected" button
+            $('#exportxml-selected').click(function (e) {
+                e.preventDefault();
+                //redirect to required URL
+                setLocation('@(Url.Action("ExportXmlSelected", "User"))?selectedIds=' + selectedIds.join(","));
+                return false;
+            });
+
+        });
+
+
+    </script>
+}

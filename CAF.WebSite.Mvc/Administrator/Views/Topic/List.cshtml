@@ -1,0 +1,111 @@
+﻿@model TopicListModel
+@{
+
+    var gridPageSize = EngineContext.Current.Resolve<CAF.Infrastructure.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
+    //page title
+    ViewBag.Title = T("Admin.ContentManagement.Topics").Text;
+    var g = Html.GridToolKit<CAF.WebSite.Mvc.Admin.Models.Topics.TopicModel>();
+    var grid = g.DataGrid("topicGrid", g.Param(x => x.Id)).TableId("table-id").GridKey("Id").Pager(false)
+    .MainGrid(
+    g.GridColumn(x => x.SystemName, 300).DefaultContent("<a href=\"Edit/#Id#\">#SystemName#</a>"),
+    g.GridColumn(x => x.Title, 300),
+    g.GridColumn(x => x.IsPasswordProtected, 300),
+    g.GridColumn(x => x.IncludeInSitemap, 300),
+      g.GridColumn("operation", "" + T("Admin.Common.Operation").Text + "", 100).DefaultContent("<a href='Edit/#Id#' class='btn default btn-xs purple'><i class='fa fa-edit'></i></a>"))
+    .Url(Url.Action("List", "Topic")).DefaultTableClass().BindDataParamBinding("onDataBinding");
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="section-header sticky">
+                <div class="caption">
+                    <i class="icon-equalizer font-red-sunglo"></i>
+                    <span class="caption-subject font-red-sunglo bold uppercase"> @T("Admin.ContentManagement.Topics")</span>
+                    <span class="caption-helper"></span>
+                </div>
+                <div class="tools">
+
+                </div>
+                <div class="actions">
+                    <a href="@Url.Action("Create")" class="btn yellow"><i class="fa fa-plus"></i>@T("Admin.Common.AddNew") </a>
+                </div>
+            </div>
+            <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <div class="input-group">
+                                <div class="input-icon">
+                                    <label class="control-label col-md-4">@Html.LangLabelFor(model => model.SearchSiteId)</label>
+                                    <div class="col-md-8">
+                                        @Html.DropDownList("SearchSiteId", Model.AvailableSites, new { @class = "form-control", onchange = "onLocaleResourceLanguageSelected(this.value);" })
+                                    </div>
+                                </div>
+                                <span class="input-group-btn">
+                                    <button type="button" id="btnSearch" class="btn btn-default">
+                                        <i class="fa fa-search"></i>
+                                        @T("Admin.Common.Search")
+                                    </button>
+                                </span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="portlet-body flip-scroll">
+                <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+                    <thead>
+                        <tr>
+                            @foreach (var column in grid.GetColumns)
+                            {
+                                if (column.Name == "操作")
+                                {
+
+                                    <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                                }
+                                else if (column.DisplayName == null)
+                                {
+
+                                    <th class="@column.CssClassHeader"><input type="checkbox" class="group-checkable" data-set="checkboxes">@T("Admin.Configuration.ActivityLog.ActivityLogType.Fields.Enabled")</th>
+                                }
+                                else
+                                {
+                                    <th class="@column.CssClassHeader">@column.DisplayName</th>
+                                }
+
+                            }
+                        </tr>
+
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function onDataBinding() {
+        var searchModel = {
+            SearchSiteId: $('#@Html.FieldIdFor(model => model.SearchSiteId)').val(),
+
+        };
+        return searchModel;
+    }
+    @(grid)
+    $(document).ready(function () {
+
+        //search button
+        $('#btnSearch').click(function () {
+            //search
+            var grid = topicGrid.reload();
+            return false;
+        });
+    });
+
+
+</script>

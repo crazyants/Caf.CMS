@@ -1,0 +1,9 @@
+﻿Group: Mobile
+FriendlyName:  SMS Provider
+SystemName: CAF.WebSite.Sms
+Version: 1.1.0.0
+MinAppVersion: 1.1.0.0
+Author: CAF AG
+DisplayOrder: 1
+FileName: CAF.WebSite.Sms.dll
+ResourceRootKey: Plugins.Sms

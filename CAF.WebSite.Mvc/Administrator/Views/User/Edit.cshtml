@@ -1,0 +1,129 @@
+﻿@model UserModel
+@{
+    //page title
+    ViewBag.Title = T("Admin.Users.Users.EditUserDetails").Text;
+}
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase"> @T("Admin.Users.Users.EditUserDetails") </span>
+                        <span class="caption-helper">@Model.FirstName @Html.ActionLink("(" + T("Admin.Users.Users.BackToList") + ")", "List")</span>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" name="save" value="save" class="btn btn-primary"><i class="fa fa-check"></i>@T("Admin.Common.Save")</button>
+                        <button type="submit" name="save" value="save-continue" class="btn blue-madison">@T("Admin.Common.SaveContinue")</button>
+                        <a href="#sendemail-window" data-toggle="modal" class="btn btn-default">
+                            <i class="fa fa-envelope"></i>&nbsp;@T("Admin.Users.Users.SendEmail")
+                        </a>
+                        <a href="#sendprivatemessage-window" data-toggle="modal" class="btn btn-default">
+                            <i class="fa fa-envelope"></i>&nbsp;@T("Admin.Users.Users.SendPM")
+                        </a>
+                        <a class="btn btn-danger" data-toggle="modal" href="#usermodel-delete-confirmation">
+                            <i class="fa fa-trash-o"></i>&nbsp;@T("Admin.Common.Delete")
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                    @Html.Partial("_CreateOrUpdate", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+@Html.DeleteConfirmation("useritem-delete")
+@*send email form*@
+@{Html.CafSite().Window()
+    .Name("sendemail-window")
+    .Title(T("Admin.Users.Users.SendEmail").Text)
+    .Content(@<text>
+        @using (Html.BeginForm("SendEmail", "User", new { id = Model.Id }))
+        {
+            <div class="portlet-body form form-horizontal">
+                <div class="form-body">
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.SendEmail.Subject)</label>
+                        <div class="col-md-3">
+                            @Html.TextBoxFor(model => model.SendEmail.Subject, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.SendEmail.Subject)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.SendEmail.Body)</label>
+                        <div class="col-md-3">
+                            @Html.TextAreaFor(model => model.SendEmail.Body, new { @class = "form-control", style = "Width: 300px; Height: 300px;" })
+                            @Html.ValidationMessageFor(model => model.SendEmail.Body)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </text>)
+    .FooterContent(@<text>
+        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">@T("Common.Close")</button>
+        <button id="sendemail" type="button" class="btn btn-primary">@T("Admin.Users.Users.SendEmail")</button>
+    </text>)
+   .Modal(true)
+        .Visible(true)
+        .Render();
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#sendemail").click(function (e) {
+            e.preventDefault();
+            $("#sendemail-window").find("form").submit();
+        });
+    });
+</script>
+@*send PM form*@
+@{Html.CafSite().Window()
+        .Name("sendprivatemessage-window")
+        .Title(T("Admin.Users.Users.SendPM").Text)
+        .Content(@<text>
+
+            @using (Html.BeginForm("SendPm", "User", new { id = Model.Id }))
+            {
+                <div class="portlet-body form form-horizontal">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.SendPm.Subject)</label>
+                            <div class="col-md-3">
+                                @Html.TextBoxFor(model => model.SendPm.Subject, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.SendPm.Subject)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.SendPm.Message)</label>
+                            <div class="col-md-3">
+                                @Html.TextAreaFor(model => model.SendPm.Message, new { @class = "form-control", style = "Width: 300px; Height: 300px;" })
+                                @Html.ValidationMessageFor(model => model.SendPm.Message)
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </text>)
+    .FooterContent(@<text>
+            <button class="btn" data-dismiss="modal" aria-hidden="true">@T("Common.Close")</button>
+            <button id="sendprivatemessage" type="button" class="btn btn-primary">@T("Admin.Users.Users.SendPM")</button>
+    </text>)
+      .Modal(true)
+        .Visible(true)
+        .Render();
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#sendprivatemessage").click(function (e) {
+            e.preventDefault();
+            $("#sendprivatemessage-window").find("form").submit();
+        });
+    });
+</script>

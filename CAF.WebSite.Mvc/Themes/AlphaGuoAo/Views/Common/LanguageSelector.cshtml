@@ -1,0 +1,27 @@
+﻿@model LanguageSelectorModel
+@if (Model.AvailableLanguages.Count > 1)
+{
+    var webHelper = EngineContext.Current.Resolve<IWebHelper>();
+    var currentLanguage = Model.AvailableLanguages.FirstOrDefault(p => p.Id == Model.CurrentLanguageId);
+    <div class="language">
+        <ul class="sf-menu sf-js-enabled">
+            <li class="">
+                <a href="javascript:;" class="first-level sf-with-ul">
+                    <span><em>@currentLanguage.ISOCode.ToUpper().Substring(0, 2)</em></span>
+                    <span class="sf-sub-indicator"> »</span>
+                </a>
+                <ul style="display: none; visibility: hidden;">
+                    @foreach (var lang in Model.AvailableLanguages)
+                    {
+                        <li>
+                            <a href="@webHelper.ModifyQueryString(Url.RouteUrl("ChangeLanguage", new { langid = lang.Id }), "returnurl=" + Url.Encode(Model.ReturnUrls[lang.SeoCode]), null)" title="@lang.NativeName">
+                                <span><em>@lang.ISOCode.ToUpper().Substring(0, 2)</em></span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+}

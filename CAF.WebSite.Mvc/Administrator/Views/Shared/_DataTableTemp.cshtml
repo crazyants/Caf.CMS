@@ -1,0 +1,28 @@
+﻿@model GridTable<object>
+
+
+<table id="@Model.GetTableId" class="@Model.GetDefaultTableClass" @Html.Raw(Model.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+    <thead>
+        <tr>
+            @foreach (var column in Model.GetColumns)
+            {
+                if (column.Name == "" + T("Admin.Common.Edit").Text + "")
+                {
+
+                    <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                }
+                else
+                {
+                    <th class="@column.CssClassHeader">@column.DisplayName</th>
+                }
+
+            }
+        </tr>
+
+    </thead>
+    <tbody></tbody>
+</table>
+
+
+ 

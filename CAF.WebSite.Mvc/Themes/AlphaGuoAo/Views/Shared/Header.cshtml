@@ -1,0 +1,8 @@
+﻿@model SiteHeaderModel
+ 
+<div class="logo float-left">
+    <a href="@Url.RouteUrl("HomePage")">
+        <img src="@Model.LogoUrl" alt="@Model.LogoTitle">
+    </a>
+</div>
+@Html.Action("LanguageSelector", "Common")

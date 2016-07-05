@@ -1,0 +1,153 @@
+﻿@model int?
+@using CAF.Infrastructure.Core;
+@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core.Utilities;
+@{
+
+    //other variables
+    var random = CommonHelper.GenerateRandomInteger();
+    int articleId = Model.HasValue ? Model.Value : 0; // codehint: sm-add
+    @* var clientId = "picture" + random;
+        var pictureService = EngineContext.Current.Resolve<caf.website.application.services.media.ipictureservice>();
+        int pictureId = Model.HasValue ? Model.Value : 0; // codehint: sm-add
+        var picture = pictureService.GetPictureById(pictureId); // codehint: sm-edit*@
+
+    //var MediaRootPath = "~/Content/assets/";
+    //Html.AppendCssFileParts(ResourceLocation.Head,
+    //MediaRootPath + "global/plugins/dropzone/css/basic.css",
+    //MediaRootPath + "global/plugins/dropzone/css/dropzone.css");
+    //Html.AppendScriptParts(ResourceLocation.Head,
+    //MediaRootPath + "global/plugins/dropzone/dropzone.js");
+}
+
+<div class="jumbotron">
+    <form action="~/Admin/Picture/SaveUploaded" method="post" enctype="multipart/form-data" class="dropzone" id="dropzoneForm">
+        @Html.HiddenFor(x => x, new { @class = "hidden" })
+        <div class="fallback">
+            <input name="file" type="file" multiple />
+            <input type="submit" value="Upload" />
+        </div>
+    </form>
+</div>
+<style type="text/css">
+    .dz-max-files-reached {
+        background-color: red;
+    }
+</style>
+<script type="text/javascript">
+
+    jQuery(document).ready(function() {
+        //File Upload response from the server
+        Dropzone.options.dropzoneForm = {
+            //添加上传取消和删除预览图片的链接，默认不添加
+            //addRemoveLinks: true,
+            //关闭自动上传功能，默认会true会自动上传
+            //也就是添加一张图片向服务器发送一次请求
+            //autoProcessQueue: false,
+            //允许上传多个照片
+            //uploadMultiple: true,
+            //每次上传的最多文件数，经测试默认为2，坑啊
+            //记得修改web.config 限制上传文件大小的节
+            //parallelUploads: 100,
+            maxFiles: 10,
+            maxFilesize:5,//MB
+            acceptedFiles:'image/*',
+            init: function () {
+                var thisDropzone = this;
+                //如果图片不为空，则加载默认图片
+                if(@articleId !=0){
+                    $.getJSON('@(Url.Content("~/Admin/Picture/GetAttachments/" + @articleId))').done(function (data) {
+                        if (data.Data != '') {
+                            $.each(data.Data, function (index, item) {
+                                //// Create the mock file:
+                                var mockFile = {
+                                    name: item.SeoFilename,
+                                    pid:  item.PictureId,
+                                    //size: 12345
+                                };
+                                // Call the default addedfile event handler
+                                thisDropzone.emit("addedfile", mockFile);
+                                // And optionally show the thumbnail of the file:
+                                thisDropzone.emit("thumbnail", mockFile, item.PictureUrl);
+                                // If you use the maxFiles option, make sure you adjust it to the
+                                // correct amount:
+                                var existingFileCount = 1; // The number of files already uploaded
+                                thisDropzone.options.maxFiles = thisDropzone.options.maxFiles - existingFileCount;
+                            });
+                        }
+
+                    });
+                }
+                this.on("maxfilesexceeded", function (data) {
+                    var res = eval('(' + data.xhr.responseText + ')');
+
+                });
+                //当上传完成后的事件，接受的数据为JSON格式
+                //this.on("complete", function (data) {
+                //    var res = eval('(' + data.xhr.responseText + ')');
+                //    alert(res.Message);
+                //});
+                this.on("success", function (file,data) {
+                    var res =data.xhr.responseText;// eval('(' + data.xhr.responseText + ')');
+                    if(res.success)
+                    {     
+                        file.pid=res.pictureId;
+                        thisDropzone.bingRemove(file);
+                    }
+                });
+                this.on("uploadprogress", function(file, progress, bytesSent) {
+
+                });
+
+                //当添加图片后的事件，上传按钮恢复可用
+                this.on("addedfile", function (file) {
+                    thisDropzone.bingRemove(file);
+                });
+
+                //删除图片的事件，当上传的图片为空时，使上传按钮不可用状态
+                //this.on("removedfile", function () {
+                //    if (this.getAcceptedFiles().length === 0) {
+                //        $("#submit-all").attr("disabled", true);
+                //    }
+                //});
+            },
+            bingRemove:function(file) {
+                if(file.pid!=0){
+                    // Create the remove button
+                    var removeButton = Dropzone.createElement("<button>删除</button>");
+                    // Capture the Dropzone instance as closure.
+                    var _this = this;
+                    // Listen to the click event
+                    removeButton.addEventListener("click", function (e) {
+                        // Make sure the button click doesn't submit the form:
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        // If you want to the delete the file on the server as well,
+                        // you can do the AJAX request here.
+
+                        $.ajax({
+                            cache:false,
+                            type: "POST",
+                            url: '@(Url.Content("~/Admin/Picture/ArticlePictureDelete"))/'+file.pid,
+                            //data: { "articleId": 1 },
+                            success: function (data) {
+                                // Remove the file preview.
+                                if(data.success)   _this.removeFile(file);
+                                else if(data.error)  alert(message)
+                            },
+                            error:function (xhr, ajaxOptions, thrownError){
+                                alert('@T("Admin.Catalog.Products.Pictures.AddFailed")')
+                            }
+                        });
+
+                    });
+
+                    // Add the button to the file preview element.
+                    file.previewElement.appendChild(removeButton);
+                }
+            }
+        };
+    });
+
+</script>

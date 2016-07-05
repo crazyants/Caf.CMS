@@ -1,0 +1,165 @@
+﻿@{
+    Layout = "~/Administrator/Views/Shared/_AdminPopupLayout.cshtml";
+}
+@model ArticleModel.AddRelatedArticleModel
+@{
+    var gridPageSize = EngineContext.Current.Resolve<CAF.Infrastructure.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
+    ViewBag.Title = T("Admin.ContentManagement.Articles.RelatedArticles.AddNew").Text;
+    var g = Html.GridToolKit<ArticleModel>();
+    var grid = g.DataGrid("articleGrid", g.Param(x => x.Id)).TableId("table-id").GridKey("Id").PageLength(gridPageSize)
+    .MainGrid(
+    g.GridColumn(null, null, 30).DefaultContent("<input type='checkbox'  class='checkboxes' value='#Id#'>"),
+    g.GridColumn(x => x.Title))
+    .Url(Url.Action("RelatedArticleAddPopupList", "Article")).DefaultTableClass().BindDataParamBinding("onDataBinding");
+}
+@using (Html.BeginForm())
+{
+    if (ViewBag.RefreshPage == true)
+    {
+        <script type="text/javascript">
+            try {window.opener.document.forms['@(ViewBag.formId)'].@(ViewBag.btnId).click();}
+            catch (e){}
+            window.close();
+        </script>
+    }
+    <script type="text/javascript">
+        function onDataBinding() {
+            var searchModel = {
+                SearchArticleName: $('#@Html.FieldIdFor(model => model.SearchArticleName)').val(),
+                SearchCategoryId: $('#SearchCategoryId').val(),
+                SearchSiteId: $('#SearchSiteId').val(),
+                SearchArticleTypeId: $('#SearchArticleTypeId').val()
+            };
+            return searchModel;
+        }
+        $(document).ready(function () {
+            @(grid)
+            $('#btnSearch').click(function () {
+                articleGrid.reload();
+                return false;
+            });
+            $('#save').click(function () {
+                var  selectedIds = articleGrid.getSelectedRows();
+                var postData = {
+                    SelectedArticleIds:selectedIds,
+                    ArticleId:'@Model.ArticleId',
+                }
+                // $("#SelectedArticleIds").val(selectedIds.join(","));
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "@(Url.Action("RelatedArticleAddPopup", "Article"))",
+                    data: postData,
+                    complete: function (data) {
+                        try {window.opener.document.forms['@(ViewBag.formId)'].@(ViewBag.btnId).click();}
+                        catch (e){}
+                        window.close();
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert(thrownError);
+                    },
+                    traditional: true
+                });
+                return false;
+            });
+            $("#@Html.FieldIdFor(model => model.SearchArticleName)").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    $("#btnSearch").click();
+                    return false;
+                }
+            });
+        });
+    </script>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase"> @T("Admin.ContentManagement.Articles.RelatedArticles.AddNew")</span>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" id="save" name="save" value="save" class="btn btn-primary"><i class="fa fa-check"></i>@T("Admin.Common.Save")</button>
+                    </div>
+                </div>
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SearchArticleName)</label>
+                                    <div class="col-md-9">
+                                        @Html.TextBoxFor(model => model.SearchArticleName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SearchCategoryId)</label>
+                                    <div class="col-md-9">
+                                        @Html.DropDownList("SearchCategoryId", Model.AvailableCategories, T("Admin.Common.All").Text, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SearchSiteId)</label>
+                                    <div class="col-md-9">
+                                        @Html.DropDownList("SearchSiteId", Model.AvailableSites, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3"></label>
+                                    <div class="col-md-9">
+                                        <button id="btnSearch" class="btn btn-default">
+                                            <i class="fa fa-search"></i>
+                                            @T("Admin.Common.Search")
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="portlet-body flip-scroll">
+
+                    <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+                        <thead>
+                            <tr>
+                                @foreach (var column in grid.GetColumns)
+                                {
+                                    if (column.Name == "" + T("Admin.Common.Edit").Text + "")
+                                    {
+
+                                        <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                                    }
+                                    else if (column.DisplayName == null)
+                                    {
+
+                                        <th class="@column.CssClassHeader"><input type="checkbox" class="group-checkable" data-set="checkboxes"></th>
+
+                                    }
+                                    else
+                                    {
+                                        <th class="@column.CssClassHeader">@column.DisplayName</th>
+                                    }
+
+                                }
+                            </tr>
+
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}

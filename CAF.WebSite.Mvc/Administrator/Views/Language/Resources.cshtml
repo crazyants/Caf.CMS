@@ -1,0 +1,135 @@
+﻿@model CAF.WebSite.Mvc.Admin.Models.Localization.LanguageResourceModel
+@using CAF.WebSite.Application.WebUI
+@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+@using CAF.Mvc.JQuery.Datatables.Core;
+
+@{
+
+    var gridPageSize = EngineContext.Current.Resolve<CAF.Infrastructure.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
+    //page title
+    ViewBag.Title = T("Admin.Configuration.Languages.Resources").Text;
+    var g = Html.GridToolKit();
+    var grid = g.DataGrid("resourcesGrid", g.Param(x => x.Id)).TableId("table-id").GridKey("Id").Pager(true).PageLength(gridPageSize)
+     .MainGrid(
+    g.GridColumn(x => x.LanguageName, 300),
+    g.GridColumn(x => x.Name, 300),
+    g.GridColumn(x => x.Value, 300),
+    g.GridColumn("operation", "" + T("Admin.Common.Operation").Text + "", 150).DefaultContent("<a onclick='javascript:OpenWindow(\"" + @Url.Content("~/Admin/Language/OptionEditPopup/") + "#Id#?btnId=btnRefresh&formId=resources-form\", 850, 250, true); return false;'  class='btn default btn-xs purple'><i class='fa fa-pencil'></i></a> <a href='ResourceDelete/#Id#?languageId=#LanguageId#' class='btn default btn-xs black delete'><i class='fa fa-trash-o'></i></a>"))
+    .Url(Url.Action("Resources", "Language")).DefaultTableClass().BindDataParamBinding("onDataBinding");
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="section-header sticky">
+                <div class="caption">
+                    <i class="icon-equalizer font-red-sunglo"></i>
+                    <span class="caption-subject font-red-sunglo bold uppercase"> @T("Admin.Configuration.Languages.Resources")</span>
+                    <span class="caption-helper">@Html.ActionLink("(" + T("Admin.Configuration.Languages.BackToList") + ")", "List", "Language")</span>
+                </div>
+
+                <div class="actions">
+                    <button type="button" id="btnAddNewOption" name="btnAddNewOption" class="btn btn-default"
+                            onclick="javascript:AddOpenWindow(); ">
+                        <i class="fa fa-plus"></i>&nbsp;@T("Admin.Configuration.Languages.Resources.AddNew")
+                    </button>
+                </div>
+            </div>
+            @if (ViewBag.AllLanguages != null)
+            {
+
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                    <form action="#" id="resources-form">
+                        <div class="portlet-body form ">
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">@T("Admin.Configuration.Languages.Select")</label>
+                                            <div class="col-md-9">
+                                                @Html.DropDownList("LanguageId", (IEnumerable<SelectListItem>)ViewBag.AllLanguages, new
+                               {
+                                   onchange =
+                                       "onLocaleResourceLanguageSelected(this.value);",
+                                   @class = "form-control"
+                               })
+                                                <script type="text/javascript">
+                                                    function onLocaleResourceLanguageSelected(languageid) {
+                                                        resourcesGrid.reload();
+                                                    }
+                                                </script>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">@T("Admin.Configuration.Languages.ResourceName")</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    @Html.TextBox("ResourceName", null, new { id = "ResourceName", @class = "form-control" })
+                                                    <span class="input-group-btn">
+                                                        <button id="btnRefresh" class="btn btn-default">
+                                                            <i class="fa fa-search"></i>
+                                                            @T("Admin.Common.Search")
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+            }
+            <div class="portlet-body flip-scroll">
+
+                <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+                    <thead>
+                        <tr>
+                            @foreach (var column in grid.GetColumns)
+                            {
+                                <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                            }
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function onDataBinding() {
+        var searchModel = {
+            languageId: $('#@Html.FieldIdFor(model => model.LanguageId)').val(),
+            resourceName: $('#ResourceName').val()
+        };
+        return searchModel;
+    }
+
+    function AddOpenWindow() {
+        var languageId = $('#@Html.FieldIdFor(model => model.LanguageId)').val();
+        var url = '@Url.Content("~/Admin/Language/OptionCreatePopup")?languageId=' + languageId + '&btnId=btnRefresh&formId=resources-form';
+        OpenWindow(url, 800, 250, true);
+        return false;
+    }
+    @(grid)
+    $(document).ready(function () {
+
+        //search button
+        $('#btnRefresh').click(function () {
+            //search
+            var grid = resourcesGrid.reload();
+
+            return false;
+        });
+    });
+</script>

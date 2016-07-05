@@ -1,0 +1,137 @@
+﻿@using SmartStore.Admin.Models.Themes
+@model ConfigureThemeModel
+
+@{    
+    ViewBag.Title = string.Format(T("Admin.Configuration.Themes.Title"), Model.ThemeName);
+	string parsingError = (string)TempData["LessParsingError"];
+}
+
+@using (Html.BeginForm())
+{
+	<div class="multi-store-scope well well-small">
+		<table class="adminContent">
+		<tr>
+			<td class="adminTitle">
+				@Html.SmartLabelFor(model => model.StoreId)
+			</td>
+			<td class="adminData">
+				@Html.DropDownList("StoreId", Model.AvailableStores, new { onchange = "location.href = '" + ViewData["ConfigureThemeUrl"] + "&storeId=' + this.value;" })
+			</td>
+		</tr>
+		</table>
+	</div>
+
+    <div class="section-header">
+        <div class="title">
+            <i class="fa fa-paint-brush"></i>
+            @ViewBag.Title @Html.ActionLink("(" + T("Admin.Common.BackToList") + ")", "List", new { storeId = Model.StoreId })
+        </div>
+        <div class="options">
+            <button type="submit" name="save" value="save" class="btn btn-primary">
+                <i class="fa fa-check"></i>&nbsp;
+                @T("Admin.Common.Save")
+            </button>
+            <button type="submit" name="save" value="save-continue" class="btn">
+                @T("Admin.Common.SaveContinue")
+            </button>
+            <a href="#importvariables-window" data-toggle="modal" class="btn">
+                <i class="fa fa-arrow-circle-o-up"></i>
+                @T("Common.Import")
+            </a>
+            <a href="#exportvariables-window" data-toggle="modal" class="btn">
+                <i class="fa fa-arrow-circle-o-down"></i>
+                @T("Common.Export")
+            </a>
+            <a href='@Url.Action("Reset", new { theme = Model.ThemeName, storeId = Model.StoreId })' id="reset-vars" class="btn btn-danger">
+                <i class="fa fa-trash-o"></i>
+                @T("Admin.Common.Reset")
+            </a>
+        </div>
+    </div>
+
+	if (parsingError.HasValue())
+	{
+		<div style="margin-bottom: 20px">
+			<h4 class="text-error">@T("Admin.Configuration.Themes.Validation.ErrorReportTitle")</h4>
+			<pre>
+				@parsingError
+			</pre>
+			<a class="btn" href='@Url.Action("Configure", new { theme = Model.ThemeName, storeId = Model.StoreId })'>
+				@T("Admin.Configuration.Themes.Validation.RestorePrevValues")
+			</a>	
+		</div>
+	}
+	
+    @Html.Action("ConfigureTheme", "Theme", new { theme = Model.ThemeName, storeId = Model.StoreId, area = (string)null })
+}
+
+@*import variables window*@
+@{Html.SmartStore().Window()
+    .Name("importvariables-window")
+    .Title(T("Admin.Configuration.Themes.ImportVars"))
+    .Content(
+    @<text>
+        @using (Html.BeginForm("ImportVariables", "Theme", new { theme = Model.ThemeName, storeId = Model.StoreId }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="alert alert-info">
+                @T("Admin.Configuration.Themes.ImportVars.Note")
+            </div>
+            <div>
+                @T("Admin.Configuration.Themes.ImportVars.XmlFile"): <input type="file" id="importxmlfile" name="importxmlfile" />
+            </div>
+        }
+    </text>)
+    .FooterContent(
+    @<text>
+        <button type="button" class="btn" data-dismiss="modal">@T("Admin.Common.Cancel")</button>
+        <button id="importxmlsubmit" type="button" class="btn btn-primary">@T("Common.Import")</button>
+    </text>)
+    .Modal(true)
+    .Visible(false)
+    .Render();
+}
+
+@*export variables window*@
+@{Html.SmartStore().Window()
+    .Name("exportvariables-window")
+    .Title(T("Admin.Configuration.Themes.ExportVars"))
+    .Content(
+    @<text>
+        @using (Html.BeginForm("ExportVariables", "Theme", new { theme = Model.ThemeName, storeId = Model.StoreId }, FormMethod.Post))
+        {
+            <div class="alert alert-info">
+                @T("Admin.Configuration.Themes.ExportVars.Note")
+            </div>
+            <div>
+                @T("Admin.Configuration.Themes.ExportVars.ProfileName"): @Html.TextBox("exportprofilename", "", new { placeholder = T("Common.Optional") })
+            </div>
+        }
+    </text>)
+    .FooterContent(
+    @<text>
+        <button type="button" class="btn" data-dismiss="modal">@T("Admin.Common.Cancel")</button>
+        <button id="exportxmlsubmit" type="button" class="btn btn-primary">@T("Common.Export")</button>
+    </text>)
+    .Modal(true)
+    .Visible(false)
+    .Render();
+}
+
+<script>
+    $(function () {
+
+        // import
+        $('#importxmlsubmit').on('click', function (e) {
+            e.preventDefault();
+            $('#importvariables-window').find("form").submit();
+        });
+
+        // export
+        $('#exportxmlsubmit').on('click', function (e) {
+            e.preventDefault();
+            $('#exportvariables-window').find("form").submit();
+            $('#exportvariables-window').data('modal').hide();
+        });
+
+    });
+</script>

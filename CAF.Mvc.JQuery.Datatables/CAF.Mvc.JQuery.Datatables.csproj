@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{05680B71-88F6-425D-A8FE-0048C7F9EAD9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CAF.Mvc.JQuery.Datatables</RootNamespace>
+    <AssemblyName>CAF.Mvc.JQuery.Datatables</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CAF.Infrastructure.Core">
+      <HintPath>..\Libraries\CAF.Infrastructure.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Dynamic.cs" />
+    <Compile Include="HtmlExtensions\Code\GridCell.cs" />
+    <Compile Include="HtmlExtensions\Code\GridColumn.cs" />
+    <Compile Include="HtmlExtensions\Code\GridColumnBuilder.cs" />
+    <Compile Include="HtmlExtensions\Code\GridConfiguration.cs" />
+    <Compile Include="HtmlExtensions\Code\GridOperation.cs" />
+    <Compile Include="HtmlExtensions\Code\GridTable.cs" />
+    <Compile Include="HtmlExtensions\Enum\CellTypes.cs" />
+    <Compile Include="HtmlExtensions\Enum\ColumnSorts.cs" />
+    <Compile Include="HtmlExtensions\Enum\Driections.cs" />
+    <Compile Include="HtmlExtensions\Enum\GridOperators.cs" />
+    <Compile Include="HtmlExtensions\Enum\ResponseDatas.cs" />
+    <Compile Include="HtmlExtensions\Enum\SortOrders.cs" />
+    <Compile Include="HtmlExtensions\Factory\GridExtensions.cs" />
+    <Compile Include="HtmlExtensions\Factory\GridFacotory.cs" />
+    <Compile Include="HtmlExtensions\Factory\GridFactoryExtensions.cs" />
+    <Compile Include="HtmlExtensions\Function\GridTypeInfoHelper.cs" />
+    <Compile Include="HtmlExtensions\Function\GridFilters.cs" />
+    <Compile Include="HtmlExtensions\Function\GridListSort.cs" />
+    <Compile Include="HtmlExtensions\Function\GridPagerExtention.cs" />
+    <Compile Include="HtmlExtensions\Function\GridRule.cs" />
+    <Compile Include="HtmlExtensions\Function\GridSearchPredicate.cs" />
+    <Compile Include="HtmlExtensions\Function\PageParams.cs" />
+    <Compile Include="HtmlExtensions\Function\PredicateBuilder.cs" />
+    <Compile Include="HtmlExtensions\Serializer\SerializerHelper.cs" />
+    <Compile Include="DataTablesFiltering.cs" />
+    <Compile Include="DataTablesModelBinder.cs" />
+    <Compile Include="DataTablesParam.cs" />
+    <Compile Include="DataTablesResult.cs" />
+    <Compile Include="Models\DataTablesData.cs" />
+    <Compile Include="Models\Language.cs" />
+    <Compile Include="Models\Paginate.cs" />
+    <Compile Include="HtmlExtensions\Processing\StringTransformers.cs" />
+    <Compile Include="HtmlExtensions\Processing\TypeFilters.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="HtmlExtensions\Function\DataTablesPropertyInfo.cs" />
+    <Compile Include="HtmlExtensions\Function\DataTablesTypeInfo.cs" />
+    <Compile Include="HtmlExtensions\Function\StaticReflectionHelper.cs" />
+    <Compile Include="HtmlExtensions\Function\TransformTypeInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CAF.WebSite.Application.Services\CAF.WebSite.Application.Services.csproj">
+      <Project>{83bab22a-c88b-43e9-928b-5c3d5c5a738f}</Project>
+      <Name>CAF.WebSite.Application.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CAF.WebSite.Application.WebUI\CAF.WebSite.Application.WebUI.csproj">
+      <Project>{1bb4fb3d-b5c0-4e3f-b1b6-1638c0303d5c}</Project>
+      <Name>CAF.WebSite.Application.WebUI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

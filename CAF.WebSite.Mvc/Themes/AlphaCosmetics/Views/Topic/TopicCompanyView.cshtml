@@ -1,0 +1,28 @@
+﻿@model TopicModel
+@{
+    Layout = "~/Themes/AlphaCosmetics/Views/Shared/_ColumnsTwo.cshtml";
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Title);
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+}
+
+
+    @section left {
+        @Html.Partial("_PartialCompanyLeft")
+    }
+    
+        <h3 class="sb--box-title">
+            <div class="sb--box-size fl">当前位置：
+            <a href="@Url.RouteUrl("HomePage")" title="首页">首页</a> &gt; 
+            <a href="#">@Html.Raw(Model.Title)</a></div>
+            <div class="sb--box-right fr"></div>
+        </h3>
+        <div class="clear"></div>
+
+        <div class="editor active" id="showtext">
+            <div>
+                @Html.Raw(Model.Body)
+            </div>
+            <div class="clear"></div>
+        </div>
+

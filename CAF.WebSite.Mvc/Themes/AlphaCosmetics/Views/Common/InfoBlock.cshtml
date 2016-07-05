@@ -1,0 +1,34 @@
+﻿@model InfoBlockModel
+
+
+<h2 class="no-top-space">@T("Information")</h2>
+<ul class="nav sidebar-categories margin-bottom-40">
+    @Html.Widget("infoblock_before")
+    <li><a href="@Url.RouteUrl("ContactUs")">@T("ContactUs")</a> </li>
+    <li><a href="@Url.RouteUrl("Topic", new { SystemName = "aboutus" })">@T("AboutUs")</a></li>
+    @*@if (Model.BlogEnabled)
+        {
+            <li><a href="@Url.RouteUrl("Blog")">@T("Blog")</a></li>
+        }
+        @if (Model.ForumEnabled)
+        {
+            <li><a href="@Url.RouteUrl("Boards")">@T("Forum.Forums")</a></li>
+        }
+        @if (Model.RecentlyAddedProductsEnabled)
+        {
+            <li><a href="@Url.RouteUrl("RecentlyAddedProducts")">@T("Products.NewProducts")</a></li>
+        }
+        @if (Model.RecentlyViewedProductsEnabled)
+        {
+            <li><a href="@Url.RouteUrl("RecentlyViewedProducts")">@T("Products.RecentlyViewedProducts")</a></li>
+        }
+        @if (Model.CompareProductsEnabled)
+        {
+            <li><a href="@Url.RouteUrl("CompareProducts")">@T("Products.Compare.List")</a></li>
+        }
+        @if (Model.SitemapEnabled)
+        {
+            <li><a href="@Url.RouteUrl("Sitemap")">@T("Sitemap")</a></li>
+        }*@
+    @Html.Widget("infoblock_after")
+</ul>

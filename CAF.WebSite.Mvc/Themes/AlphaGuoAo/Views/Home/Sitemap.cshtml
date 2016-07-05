@@ -1,0 +1,64 @@
+﻿@model SitemapModel
+@{
+    Layout = "~/Themes/AlphaCosmetic/Views/Shared/_ColumnsTwo.cshtml";
+    //title
+    Html.AddTitleParts(T("PageTitle.Sitemap").Text);
+}
+
+
+
+@section left {
+    
+}
+
+<div class="page-content" id="pageContent">
+    @if (Model.Topics.Count > 0)
+    {
+        <div class="entity">
+            @(Html.DataList<TopicModel>(Model.Topics, 4,
+            @<div class="topic-box">
+                <div class="item">
+                    <a href="@Url.RouteUrl("Topic", new { SystemName = @item.SystemName.ToLowerInvariant() })">@item.Title</a>
+                </div>
+            </div>
+                        ))
+        </div>
+        <div class="clear">
+        </div>
+    }
+    @if (Model.ArticleCategories.Count > 0)
+    {
+        <div class="entity">
+            <h2>
+                @T("Sitemap.Categories")
+            </h2>
+            @(Html.DataList<ArticleCategoryModel>(Model.ArticleCategories, 4,
+            @<div class="category-box">
+                <div class="item">
+                    <a href="@Url.RouteUrl("ArticleCategory", new { SeName = item.SeName })">@item.Name</a>
+                </div>
+            </div>
+                        ))
+        </div>
+        <div class="clear">
+        </div>
+    }
+  
+    @if (Model.Articles.Count > 0)
+    {
+        <div class="entity">
+            <h2>
+                @T("Sitemap.Products")
+            </h2>
+            @(Html.DataList<ArticlePostModel>(Model.Articles, 4,
+            @<div class="product-box">
+                <div class="item">
+                    <a href="@Url.RouteUrl("Product", new { SeName = item.SeName })">@item.Title</a>
+                </div>
+            </div>
+                        ))
+        </div>
+    }
+</div>
+<div class="clear"></div>
+ 

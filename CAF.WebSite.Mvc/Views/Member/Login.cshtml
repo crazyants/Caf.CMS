@@ -1,0 +1,184 @@
+﻿@model CAF.WebSite.Mvc.Models.Users.LoginModel
+@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+@using CAF.WebSite.Application.WebUI;
+@using CaptchaMvc.Models;
+@{
+    Layout = null;
+    var currentUICulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+
+    Html.AddTitleParts(T("PageTitle.Login").Text);
+    var registerUrl = Url.RouteUrl("Register");
+    if (!String.IsNullOrEmpty(this.Context.Request.QueryString["returnUrl"]))
+    {
+        var webHelper = EngineContext.Current.Resolve<IWebHelper>();
+        registerUrl = webHelper.ModifyQueryString(registerUrl, "returnurl=" + HttpUtility.UrlEncode(this.Context.Request.QueryString["returnUrl"]), null);
+    }
+    // add css assets
+    var MediaRootPath = "~/Content/assets/";
+    Html.AppendCssFileParts(
+       MediaRootPath + "global/plugins/font-awesome/css/font-awesome.min.css",
+       MediaRootPath + "global/plugins/simple-line-icons/simple-line-icons.min.css",
+       MediaRootPath + "global/plugins/bootstrap/css/bootstrap.min.css",
+       MediaRootPath + "global/plugins/uniform/css/uniform.default.css",
+       MediaRootPath + "admin/pages/css/login-soft.css",
+      MediaRootPath + "global/css/components.css"
+
+       );
+
+
+    // add js assets (Head)
+    Html.AppendScriptParts(ResourceLocation.Head,
+            MediaRootPath + "global/plugins/jquery.min.js",
+            MediaRootPath + "global/plugins/jquery-migrate.min.js",
+            MediaRootPath + "global/plugins/bootstrap/js/bootstrap.min.js",
+            MediaRootPath + "global/plugins/jquery.blockui.min.js",
+            MediaRootPath + "global/plugins/jquery.cokie.min.js",
+            MediaRootPath + "global/plugins/uniform/jquery.uniform.min.js",
+
+            MediaRootPath + "global/plugins/jquery-validation/js/jquery.validate.js",
+            MediaRootPath + "global/plugins/backstretch/jquery.backstretch.min.js",
+            MediaRootPath + "global/scripts/metronic.js",
+            MediaRootPath + "admin/pages/scripts/login-soft.js"
+       );
+}
+
+<!DOCTYPE html>
+
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+
+    @Html.MetaAcceptLanguage()
+    @Html.WorkCssFiles(this.Url, ResourceLocation.Head)
+    @Html.WorkScripts(this.Url, ResourceLocation.Head)
+    <link rel="shortcut icon" href="~/favicon.ico" />
+</head>
+<body class="login">
+    <!-- BEGIN LOGO -->
+    <div class="logo">
+        <a href="index.html">
+            <img src="~/Content/assets//admin/layout/img/logo-big.png" alt="" />
+        </a>
+    </div>
+    <!-- END LOGO -->
+    <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+    <div class="menu-toggler sidebar-toggler">
+    </div>
+    <!-- END SIDEBAR TOGGLER BUTTON -->
+    <!-- BEGIN LOGIN -->
+    <div class="content">
+        <!-- BEGIN LOGIN FORM -->
+        <form action="@ViewContext.HttpContext.Request.RawUrl" method="post" class="login-form">
+            <h3 class="form-title">登录</h3>
+            <div class="alert alert-danger@(ViewData.ModelState.IsValid?" display-hide":"")">
+                <button class="close" data-close="alert"></button>
+
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    @Html.ValidationSummary(true, T("Account.Login.Unsuccessful").Text)
+                }
+                else
+                {
+                    <span>Enter any username and password.</span>
+                }
+
+            </div>
+
+
+            @if (Model.UserNamesEnabled)
+            {
+                <div class="form-group">
+                    <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                    <label class="control-label visible-ie8 visible-ie9">UserName</label>
+                    <div class="input-icon">
+                        <i class="fa fa-user"></i>
+                        <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="UserName" name="username" />
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                    <label class="control-label visible-ie8 visible-ie9">Email</label>
+                    <div class="input-icon">
+                        <i class="fa fa-user"></i>
+                        <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="Email" />
+                    </div>
+                </div>
+            }
+            <div class="form-group">
+                <label class="control-label visible-ie8 visible-ie9">Password</label>
+                <div class="input-icon">
+                    <i class="fa fa-lock"></i>
+                    <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password" />
+                </div>
+            </div>
+            @if (Model.DisplayCaptcha)
+            {
+
+                <div class="form-group">
+                    <label class="control-label visible-ie8 visible-ie9">验证码</label>
+                    <div class="input-icon">
+                        @Html.Captcha("点击刷新", "",5, "请填写验证码", false)
+                    </div>
+                </div>
+            }
+            <div class="form-actions">
+                <label class="checkbox">
+                    <input type="checkbox" name="remember" value="1" /> 记住我？
+                </label>
+                <button type="submit" class="btn blue pull-right">
+                    登录 <i class="m-icon-swapright m-icon-white"></i>
+                </button>
+            </div>
+            <div class="login-options">
+                <h4>其他登录方式</h4>
+                <ul class="social-icons">
+                    @Html.Action("ExternalMethods", "ExternalAuthentication")
+
+                </ul>
+            </div>
+        </form>
+        <!-- END LOGIN FORM -->
+
+    </div>
+    <!-- END LOGIN -->
+    <!-- BEGIN COPYRIGHT -->
+    <div class="copyright">
+        2014 &copy; 疯狂蚂蚁网络工作室.
+    </div>
+    <!-- END COPYRIGHT -->
+    <script>
+        jQuery(document).ready(function () {
+            Metronic.init(); // init metronic core components
+            Login.init();
+            $.backstretch([
+             "/Content/assets/admin/pages/media/bg/1.jpg",
+             "/Content/assets/admin/pages/media/bg/2.jpg",
+             "/Content/assets/admin/pages/media/bg/3.jpg",
+             "/Content/assets/admin/pages/media/bg/4.jpg"
+            ], {
+                fade: 1000,
+                duration: 8000
+            }
+         );
+        });
+    </script>
+    <!-- END JAVASCRIPTS -->
+
+</body>
+
+</html>

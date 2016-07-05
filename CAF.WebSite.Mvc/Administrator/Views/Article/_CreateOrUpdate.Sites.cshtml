@@ -1,0 +1,51 @@
+﻿@model ArticleModel
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('input[id="@Html.FieldIdFor(model => model.LimitedToSites)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+            toggleSiteMapping(state);
+        });
+        toggleSiteMapping(@Model.LimitedToSites.ToString().ToLower());
+    });
+    function toggleSiteMapping(state) {
+        if (state) {
+            $('#pnl-available-sites').show();
+        }
+        else {
+            $('#pnl-available-sites').hide();
+        }
+    }
+
+</script>
+
+<div class="form-group">
+    <label class="control-label col-md-2">
+        @Html.LangLabelFor(model => model.LimitedToSites)
+    </label>
+    <div class="col-md-6">
+        @Html.EditorFor(x => x.LimitedToSites)
+        @Html.ValidationMessageFor(model => model.LimitedToSites)
+
+    </div>
+</div>
+<div id="pnl-available-sites" class="form-group">
+    <label class="control-label col-md-2">
+        @Html.LangLabelFor(model => model.AvailableSites)
+    </label>
+    <div class="col-md-6">
+        @if (Model.AvailableSites != null && Model.AvailableSites.Count > 0)
+        {
+            foreach (var site in Model.AvailableSites)
+            {
+                <label class="checkbox">
+                    <input type="checkbox" name="SelectedSiteIds" value="@site.Id" checked="@(Model.SelectedSiteIds != null && Model.SelectedSiteIds.Contains(site.Id))" />
+                    <span>@site.Name</span>
+                </label>
+            }
+        }
+        else
+        {
+            <div>@T("Admin.Configuration.Sites.NoSitesDefined")</div>
+        }
+    </div>
+</div>

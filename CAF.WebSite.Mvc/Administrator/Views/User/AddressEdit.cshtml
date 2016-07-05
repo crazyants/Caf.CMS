@@ -1,0 +1,28 @@
+﻿@model UserAddressModel
+@{
+    //page title
+    ViewBag.Title = T("Admin.Users.Users.Addresses.EditAddress").Text;
+}
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase"> @T("Admin.Users.Users.Addresses.EditAddress")</span>
+                        <span class="caption-helper">@Html.ActionLink("(" + T("Admin.Users.Users.Addresses.BackToUser") + ")", "Edit", new { id = Model.UserId })</span>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" name="save" value="save" class="btn btn-primary"><i class="fa fa-check"></i>@T("Admin.Common.Save")</button>
+                    </div>
+                </div>
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                    @Html.Partial("_CreateOrUpdateAddress", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+  
+}

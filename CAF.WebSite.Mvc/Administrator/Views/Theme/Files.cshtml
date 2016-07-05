@@ -1,0 +1,212 @@
+﻿@model PageTemplateModel
+
+@{
+    //page title
+    ViewBag.Title = T("Admin.Configuration.Themes").Text;
+    Html.AddScriptParts( ResourceLocation.Head,"~/Content/codemirror/codemirror.js");
+    Html.AddCssFileParts("~/Content/codemirror/codemirror.css");
+}
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase">@T("Admin.Configuration.Themes") </span>
+                        <span class="caption-helper">@Html.ActionLink("(" + T("Admin.BackToList") + ")", "List")</span>
+                    </div>
+                    <div class="actions">
+
+                    </div>
+                </div>
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>模板样式文件</h5>
+                        </div>
+                        <div class="ibox-content">
+                            @if (Model.CssFiles.Any())
+                            {
+                                <ul class="list-group">
+                                    @foreach (var file in Model.CssFiles)
+                                    {
+                                        <li class="list-group-item">
+                                            <span class="fa fa-file-code-o"></span>
+                                            <strong>
+                                                @file.Name
+                                            </strong>
+                                            <div class="dropdown pull-right">
+                                                <button class="btn btn-default btn-outline dropdown-toggle" type="button" data-toggle="dropdown">
+                                                    <i class="fa fa-gear"></i>
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="editFile('@file.Name')"><span class="fa fa-edit"></span>&nbsp;Edit</a></li>
+                                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("DownloadFile", new { theme = Model.Name, name = file.Name })"><span class="fa fa-download"></span>&nbsp;Download</a></li>
+                                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="uploadFile('@file.Name')"><span class="fa fa-upload"></span>&nbsp;Upload</a></li>
+                                                </ul>
+                                            </div>
+                                            <br />
+                                            <small>Last Updated: @file.LastUpdated</small>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <div>There are no files</div>
+                            }
+                        </div>
+                    </div>
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>模板视图文件</h5>
+                        </div>
+                        <div class="ibox-content">
+                            @if (Model.ViewFiles.Any())
+                            {
+                                <ul class="list-group">
+                                    @foreach (var file in Model.ViewFiles)
+                                    {
+                                        <li class="list-group-item">
+                                            <span class="fa fa-file-code-o"></span>
+                                            <strong>
+                                                @file.Controller
+                                                <span class="fa fa-angle-right"></span>
+                                                @file.Action
+                                            </strong>
+                                            <div class="dropdown pull-right">
+                                                <button class="btn btn-default btn-outline dropdown-toggle" type="button" data-toggle="dropdown">
+                                                    <i class="fa fa-gear"></i>
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="editFile('@file.Name')"><span class="fa fa-edit"></span>&nbsp;Edit</a></li>
+                                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="@Url.Action("DownloadFile", new { theme = Model.Name, name = file.Name })"><span class="fa fa-download"></span>&nbsp;Download</a></li>
+                                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="uploadFile('@file.Name')"><span class="fa fa-upload"></span>&nbsp;Upload</a></li>
+                                                </ul>
+                                            </div>
+                                            <br />
+                                            <small>Last Updated: @file.LastUpdated</small>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <div>There are no files</div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalEditLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" style="width: 1000px">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <h4 id="modalEditTitle" class="modal-title">Edit</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <input id="editFilename" type="hidden" />
+
+                                    <textarea id="preContent" name="preContent"></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" onclick="saveFile()">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="modalUpload" tabindex="-1" role="dialog" aria-labelledby="modalEditLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                @using (Html.BeginForm("UploadFile", "PageTemplate", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 id="modalUploadTitle" class="modal-title">Upload</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input id="uploadTheme" name="theme" value="@Model.Name" type="hidden" />
+                                        <input id="uploadFilename" name="name" type="hidden" />
+                                        <div class="form-group">
+                                            <label class="control-label col-md-2">File</label>
+                                            <div class="col-md-10">
+                                                <input id="fileUpload" name="file" type="file" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Upload</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function editFile(name) {
+
+            $.ajax(
+            {
+                url: '@Url.Action("LoadFile", "Theme", new { theme = Model.Name })&name=' + encodeURIComponent(name),
+                dataType: 'html',
+                success: function (data) {
+                    editor.setValue(data);
+                }
+            });
+
+            $('#editFilename').val(name);
+            $('#modalEditTitle').text("Edit " + name);
+            $('#modalEdit').modal();
+        }
+
+        function saveFile() {
+
+            $.ajax(
+            {
+                url: '@Url.Action("SaveFile", "Theme")',
+                method: "POST",
+                data: {
+                    theme: '@Model.Name',
+                    name: $('#editFilename').val(),
+                    contents: editor.getValue()
+                },
+                success: function (data) {
+                    //alerts.success('The changes have been saved successfully');
+                    $('#modalEdit').modal('hide');
+                }
+            });
+        }
+
+        function uploadFile(name) {
+            $('#uploadFilename').val(name);
+            $('#modalUploadTitle').text("Upload " + name);
+            $('#modalUpload').modal();
+        }
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("preContent"), {
+            mode: "text/html",
+            indentWithTabs: true,
+            smartIndent: true,
+            lineNumbers: true,
+            matchBrackets: true,
+            autofocus: true
+        });
+
+        $(function () {
+          //  editor.setSize("1020px", "540px");
+        });
+    </script>
+}

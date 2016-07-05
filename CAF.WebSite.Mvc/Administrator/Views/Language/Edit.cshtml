@@ -1,0 +1,95 @@
+﻿@model CAF.WebSite.Mvc.Admin.Models.Localization.LanguageModel
+@{
+    //page title
+    ViewBag.Title = T("Admin.Configuration.Languages.EditLanguageDetails").Text;
+}
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase">@T("Admin.Configuration.Languages.EditLanguageDetails") </span>
+                        <span class="caption-helper">@Html.ActionLink("(" + T("Admin.Configuration.Languages.BackToList") + ")", "List")</span>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" name="save" value="save" class="btn btn-primary"><i class="fa fa-check"></i>@T("Admin.Common.Save")</button>
+                        <button type="submit" name="save" value="save-continue" class="btn blue-madison">@T("Admin.Common.SaveContinue")</button>
+                        <a href="@Url.Action("ExportXml", new { id = Model.Id })" class="btn btn-default">@T("Admin.Configuration.Languages.Export")</a>
+                        <a href="#importxml-window" data-toggle="modal" class="btn btn-default">@T("Admin.Configuration.Languages.Import")</a>
+                        <a class="btn btn-danger" data-toggle="modal" href="#languagemodel-delete-confirmation">
+                            <i class="fa fa-trash-o"></i>&nbsp;@T("Admin.Common.Delete")
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                    @Html.Partial("_CreateOrUpdate", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+   
+}
+@Html.DeleteConfirmation("languageitem-delete")
+@*import resources form*@
+@{Html.CafSite().Window()
+        .Name("importxml-window")
+        .Title(T("Admin.Configuration.Languages.Import").Text)
+        .Content(@<text>
+    @using (Html.BeginForm("ImportXml", "Language", new { id = Model.Id }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div style="margin-bottom: 8px">
+            <strong>@T("Admin.Configuration.Languages.XmlFile"):</strong> <input type="file" id="importxmlfile" name="importxmlfile" />
+        </div>
+
+        <label class="radio">
+            @Html.RadioButton("mode", "3", true, new { id = "importxmlmode_3" })
+            @T("Admin.Configuration.Languages.Import.InsertUpdate")
+        </label>
+        <label class="radio">
+            @Html.RadioButton("mode", "1", false, new { id = "importxmlmode_1" })
+            @T("Admin.Configuration.Languages.Import.Insert")
+        </label>
+        <label class="radio">
+            @Html.RadioButton("mode", "2", false, new { id = "importxmlmode_2" })
+            @T("Admin.Configuration.Languages.Import.Update")
+        </label>
+        <hr />
+        <label class="checkbox">
+            @Html.CheckBox("updatetouched", false, new { id = "importxmlupdatetouched" })
+            <span class="caption">@T("Admin.Configuration.Languages.Import.UpdateTouched")</span>
+        </label>
+        
+    }
+    </text>)
+    .FooterContent(@<text>
+        <button id="importxmlsubmit" type="button" class="btn btn-primary">@T("Admin.Configuration.Languages.Import")</button>
+        <a href="#" class="btn btn-link" data-dismiss="modal">@T("Common.Cancel")</a>
+    </text>)
+        //.Width(400)
+        .Modal(true)
+        .Visible(true)
+        .Render();
+}
+<script type="text/javascript">
+    $(function () {
+        $("#importxmlsubmit").click(function (e) {
+            e.preventDefault();
+            $('#importxml-window').find("form").submit();
+        });
+
+        $("#importxml-window input[name=mode]").on("change", function (e) {
+            var id = $(this).attr("id");
+            var chk = $("#importxmlupdatetouched");
+            if (id == "importxmlmode_1") {
+                chk.attr("disabled", "true").parent().find(">span").addClass("muted");
+            }
+            else {
+                chk.removeAttr("disabled").parent().find(">span").removeClass("muted");
+            }
+        });
+    });
+
+</script>

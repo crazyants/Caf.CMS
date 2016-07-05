@@ -1,0 +1,103 @@
+﻿@model QueuedEmailModel
+           
+
+@Html.HiddenFor(model => model.Id)
+<div class="form-body">
+    <h2 class="margin-bottom-20">  @Html.ValidationSummary(true)</h2>
+
+    <div class="form-group">
+        <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.Priority)</label>
+        <div class="col-md-3">
+            @Html.EditorFor(model => model.Priority)
+            @Html.ValidationMessageFor(model => model.Priority)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.From)</label>
+        <div class="col-md-3">
+            @Html.TextBoxFor(model => model.From, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.From)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.FromName)</label>
+        <div class="col-md-3">
+            @Html.TextBoxFor(model => model.FromName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.FromName)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.To)</label>
+        <div class="col-md-3">
+            @Html.TextBoxFor(model => model.To, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.To)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.ToName)</label>
+        <div class="col-md-3">
+            @Html.TextBoxFor(model => model.ToName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ToName)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.CC)</label>
+        <div class="col-md-3">
+            @Html.TextBoxFor(model => model.CC, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.CC)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Bcc)</label>
+        <div class="col-md-3">
+            @Html.TextBoxFor(model => model.Bcc, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Bcc)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Subject)</label>
+        <div class="col-md-3">
+            @Html.TextBoxFor(model => model.Subject, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Subject)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Body)</label>
+        <div class="col-md-9">
+            @Html.EditorFor(model => model.Body, Html.RichEditorFlavor())
+            @Html.ValidationMessageFor(model => model.Body)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.SentTries)</label>
+        <div class="col-md-3">
+            @Html.EditorFor(model => model.SentTries)
+            @Html.ValidationMessageFor(model => model.SentTries)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.SentOn)</label>
+        <div class="col-md-3">
+            @if (Model.SentOn.HasValue)
+            {
+                @Html.DisplayFor(model => model.SentOn)
+            }
+            else
+            {
+                @("".NaIfEmpty())
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.EmailAccountName)</label>
+        <div class="col-md-3">
+            @Html.DisplayFor(model => model.EmailAccountName)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.CreatedOn)</label>
+        <div class="col-md-3">
+            @Html.DisplayFor(model => model.CreatedOn)
+        </div>
+    </div>
+</div>

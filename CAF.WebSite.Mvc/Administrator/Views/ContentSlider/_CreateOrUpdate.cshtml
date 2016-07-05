@@ -1,0 +1,260 @@
+﻿@model ContentSliderSlideModel
+@{
+    var cultures = System.Globalization.CultureInfo.GetCultures(System.Globalization.CultureTypes.SpecificCultures).ToList();
+}
+@Html.HiddenFor(model => model.Id)
+@Html.CafSite().TabStrip().Name("content-slide-edit").Items(x =>
+{
+    x.Add().Text(T("Admin.Common.General").Text).Content(TabGeneral()).Selected(true);
+    x.Add().Text(T("Admin.Common.Sites").Text).Content(TabSites());
+
+    //generate an event
+    EngineContext.Current.Resolve<IEventPublisher>().Publish(new TabStripCreated(x, "content-slide-edit", this.Html, this.Model));
+})
+<script type="text/javascript">
+    $(function () {
+        $('input[id="@Html.FieldIdFor(model => model.Button1.Published)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+            toggleButton1(state);
+        });
+        $('input[id="@Html.FieldIdFor(model => model.Button2.Published)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+            toggleButton2(state);
+        });
+        $('input[id="@Html.FieldIdFor(model => model.Button3.Published)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+            toggleButton3(state);
+        });
+
+        toggleButton1(@Model.Button1.Published.ToString().ToLower());
+        toggleButton2(@Model.Button2.Published.ToString().ToLower());
+        toggleButton3(@Model.Button3.Published.ToString().ToLower());
+    });
+
+    function toggleButton1(state) {
+        if (state) {
+            $('.button1-props').show();
+        }
+        else {
+            $('.button1-props').hide();
+        }
+    }
+
+    function toggleButton2(state) {
+        if (state) {
+            $('.button2-props').show();
+        }
+        else {
+            $('.button2-props').hide();
+        }
+    }
+
+    function toggleButton3(state) {
+        if (state) {
+            $('.button3-props').show();
+        }
+        else {
+            $('.button3-props').hide();
+        }
+    }
+</script>
+@helper TabGeneral()
+{
+    <div class="form-body">
+        <h4 class="margin-bottom-20">  @Html.ValidationSummary(true)</h4>
+        <div class="form-group">
+            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.Title)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.Color)
+                @Html.ValidationMessageFor(model => model.Color)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.Title)</label>
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Title)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Text)</label>
+            <div class="col-md-6">
+                @Html.EditorFor(x => x.Text, Html.RichEditorFlavor())
+                @Html.ValidationMessageFor(model => model.Text)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Published)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.Published)
+                @Html.ValidationMessageFor(model => model.Published)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.DisplayOrder)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.DisplayOrder)
+                @Html.ValidationMessageFor(model => model.DisplayOrder)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.LanguageCulture)</label>
+            <div class="col-md-3">
+                @Html.DropDownListFor(model => model.LanguageCulture, new SelectList(ViewBag.AllLanguages, "LanguageCulture", "Name"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LanguageCulture)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.PictureId)</label>
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.PictureId, "Picture")
+                @Html.ValidationMessageFor(model => model.PictureId)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3"> @Html.LangLabelFor(model => model.BackgroundPictureId)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.BackgroundPictureId, "Picture")
+                @Html.ValidationMessageFor(model => model.BackgroundPictureId)
+            </div>
+        </div>
+        <h4 class="margin-bottom-20">@T("Admin.Configuration.ContentSlider.Button1")</h4>
+        <div class="form-group">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Button1.Published)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.Button1.Published)
+                @Html.ValidationMessageFor(model => model.Button1.Published)
+            </div>
+        </div>
+        <div class="form-group button1-props">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Button1.Text)</label>
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.Button1.Text, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Button1.Text)
+            </div>
+        </div>
+        <div class="form-group button1-props">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Button1.Type)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.Button1.Type)
+                @Html.ValidationMessageFor(model => model.Button1.Type)
+            </div>
+        </div>
+        <div class="form-group button1-props">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Button1.Url)</label>
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.Button1.Url, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Button1.Url)
+            </div>
+        </div>
+        
+        <h4 class="margin-bottom-20">@T("Admin.Configuration.ContentSlider.Button2")</h4>
+        <div class="form-group">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Button2.Published)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.Button2.Published)
+                @Html.ValidationMessageFor(model => model.Button2.Published)
+            </div>
+        </div>
+        <div class="form-group button2-props">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Button2.Text)</label>
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.Button2.Text, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Button2.Text)
+            </div>
+        </div>
+        <div class="form-group button2-props">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Button2.Type)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.Button2.Type)
+                @Html.ValidationMessageFor(model => model.Button2.Type)
+            </div>
+        </div>
+        <div class="form-group button2-props">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Button2.Url)</label>
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.Button2.Url, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Button2.Url)
+            </div>
+        </div>
+        <h4 class="margin-bottom-20">@T("Admin.Configuration.ContentSlider.Button3")</h4>
+        <div class="form-group">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Button3.Published)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.Button3.Published)
+                @Html.ValidationMessageFor(model => model.Button3.Published)
+            </div>
+        </div>
+        <div class="form-group button3-props">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Button3.Text)</label>
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.Button3.Text, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Button3.Text)
+            </div>
+        </div>
+        <div class="form-group button3-props">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Button3.Type)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.Button3.Type)
+                @Html.ValidationMessageFor(model => model.Button3.Type)
+            </div>
+        </div>
+        <div class="form-group button3-props">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Button3.Url)</label>
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.Button3.Url, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Button3.Url)
+            </div>
+        </div>
+    </div>
+}
+@helper TabSites()
+{
+    <script type="text/javascript">
+    	$(document).ready(function () {
+
+    	    $('input[id="@Html.FieldIdFor(model => model.LimitedToSites)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+    	        toggleSiteMapping(state);
+    	    });
+    	    toggleSiteMapping(@Model.LimitedToSites.ToString().ToLower());
+    	});
+
+    	function toggleSiteMapping(state) {
+    	    if (state) {
+    	        $('#pnl-available-sites').show();
+    	    }
+    	    else {
+    	        $('#pnl-available-sites').hide();
+    	    }
+    	}
+
+    </script>
+    <div class="form-body">
+        <h4 class="margin-bottom-20"> </h4>
+
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.LimitedToSites)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.LimitedToSites)
+                @Html.ValidationMessageFor(model => model.LimitedToSites)
+            </div>
+        </div>
+        <div id="pnl-available-sites" class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.AvailableSites)</label>
+            <div class="col-md-3">
+                @if (Model.AvailableSites != null && Model.AvailableSites.Count > 0)
+                {
+                    foreach (var site in Model.AvailableSites)
+                    {
+                        <label class="checkbox">
+                            <input type="checkbox" name="SelectedSiteIds" value="@site.Id" checked="@(Model.SelectedSiteIds != null && Model.SelectedSiteIds.Contains(site.Id))" />
+                            <span>@site.Name</span>
+                        </label>
+                    }
+                }
+                else
+                {
+                    <div>@T("Admin.Configuration.Sites.NoSitesDefined")</div>
+                }
+            </div>
+        </div>
+    </div>
+  
+}

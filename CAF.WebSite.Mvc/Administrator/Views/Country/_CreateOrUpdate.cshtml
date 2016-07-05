@@ -1,0 +1,168 @@
+﻿@model CountryModel
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+@Html.CafSite().TabStrip().Name("country-edit").Items(x =>
+{
+    x.Add().Text(T("Admin.Configuration.Countries.Info").Text).Content(TabInfo()).Selected(true);
+    x.Add().Text(T("Admin.Configuration.Countries.States").Text).Content(TabStates());
+
+    //generate an event
+    EngineContext.Current.Resolve<IEventPublisher>().Publish(new TabStripCreated(x, "country-edit", this.Html, this.Model));
+})
+@helper TabInfo()
+{
+    @(Html.LocalizedEditor<CountryModel, CountryLocalizedModel>("country-info-localized",
+    @<div class="form-body">
+        <h2 class="margin-bottom-20">  @Html.ValidationSummary(true)</h2>
+
+        <div class="form-group">
+            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.Locales[item].Name)</label>
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.Locales[item].Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Locales[item].Name)
+                @Html.HiddenFor(model => model.Locales[item].LanguageId)
+            </div>
+        </div>
+    </div> ,
+    @<div class="form-body">
+        <h2 class="margin-bottom-20">  @Html.ValidationSummary(true)</h2>
+
+        <div class="form-group">
+            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.Name)</label>
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Name)
+
+            </div>
+        </div>
+    </div>))
+    <div class="form-body">
+        <h2 class="margin-bottom-20">  @Html.ValidationSummary(true)</h2>
+
+        <div class="form-group">
+            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.AllowsBilling)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.AllowsBilling)
+                @Html.ValidationMessageFor(model => model.AllowsBilling)
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.AllowsShipping)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.AllowsShipping)
+                @Html.ValidationMessageFor(model => model.AllowsShipping)
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.TwoLetterIsoCode)</label>
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.TwoLetterIsoCode, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TwoLetterIsoCode)
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.ThreeLetterIsoCode)</label>
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.ThreeLetterIsoCode, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ThreeLetterIsoCode)
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.NumericIsoCode)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.NumericIsoCode)
+                @Html.ValidationMessageFor(model => model.NumericIsoCode)
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.SubjectToVat)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.SubjectToVat)
+                @Html.ValidationMessageFor(model => model.SubjectToVat)
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.Published)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.Published)
+                @Html.ValidationMessageFor(model => model.Published)
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.DisplayOrder)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.DisplayOrder)
+                @Html.ValidationMessageFor(model => model.DisplayOrder)
+
+            </div>
+        </div>
+    </div>
+
+}
+@helper TabStates()
+{
+    if (Model.Id > 0)
+    {
+        var g = Html.GridToolKit<StateProvinceModel>();
+        var grid = g.DataGrid("statesGrid", g.Param(x => x.Id)).TableId("table-id").GridKey("Id").Pager()
+        .MainGrid(
+        g.GridColumn(x => x.Name, 50),
+        g.GridColumn(x => x.Abbreviation, 100),
+        g.GridColumn(x => x.Published, 100),
+        g.GridColumn(x => x.DisplayOrder1, 100),
+        g.GridColumn("operation", "" + T("Admin.Common.Operation").Text + "", 100).DefaultContent("<a href='#'  onclick='javascript:OpenWindow(\"" + @Url.Content("~/Admin/Country/StateEditPopup/") + "#Id#?btnId=btnRefresh&formId=country-form\", 900, 250, true); return false;' class='btn default btn-xs purple'><i class='fa fa-edit'></i></a><a href='" + Url.Content("~/Admin/Country/StateDelete/") + "#Id#' class='btn default btn-xs purple delete'><i class='fa fa-trash-o'></i></a>"))
+        .Url(Url.Action("States", "Country", new { countryId = Model.Id })).DefaultTableClass();
+
+        <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+            <thead>
+                <tr>
+                    @foreach (var column in grid.GetColumns)
+                    {
+                        if (column.Name == "操作")
+                        {
+
+                            <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                        }
+
+                        else
+                        {
+                            <th class="@column.CssClassHeader">@column.DisplayName</th>
+                        }
+
+                    }
+                </tr>
+
+            </thead>
+            <tbody></tbody>
+        </table>
+    <button type="submit" id="btnAddNewState" name="btnAddNewState" class="btn btn-default pull-right"
+            onclick="javascript:OpenWindow('@(Url.Action("StateCreatePopup", "Country", new { countryId = Model.Id, btnId = "btnRefresh", formId = "country-form" }))', 900, 250, true); return false;">
+        <i class="fa fa-plus"></i>&nbsp;@T("Admin.Configuration.Countries.States.AddNew")
+    </button>
+        <input type="submit" id="btnRefresh" name="btnRefresh" style="display: none" />
+        <script type="text/javascript">
+
+            @(grid)
+            $(document).ready(function () {
+                $('#btnRefresh').click(function () {
+                    //refresh grid
+                    var grid = statesGrid.reload();
+                    //return false to don't reload a page
+                    return false;
+                });
+            });
+        </script>
+    }
+    else
+    {
+        @T("Admin.Configuration.Countries.States.SaveBeforeEdit")
+    }
+}

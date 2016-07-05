@@ -1,0 +1,68 @@
+﻿@model FeedbackModel
+
+@{
+ 
+    var gridPageSize = EngineContext.Current.Resolve<CAF.Infrastructure.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
+
+    //page title
+    ViewBag.Title = T("Admin.ContentManagement.Feedbacks").Text;
+    int? filterByArticleId = ViewBag.FilterByArticleId;
+
+    var g = Html.GridToolKit();
+    var grid = g.DataGrid("ArticleCommentsGrid", g.Param(x => x.Id)).TableId("table-id").GridKey("Id").PageLength(gridPageSize)
+    .MainGrid(
+    g.GridColumn(x => x.Id, 50),
+    g.GridColumn(x => x.Title, 50),
+    g.GridColumn(x => x.Content, 50),
+    g.GridColumn(x => x.UserName, 50),
+    g.GridColumn(x => x.UserTel, 50),
+    g.GridColumn(x => x.UserQQ, 50),
+    g.GridColumn(x => x.UserEmail, 50),
+    g.GridColumn(x => x.AddTime, 50).DefaultContent("#CreatedOn-DateTime#"),
+    g.GridColumn("operation", "" + T("Admin.Common.Operation").Text + "", 100).DefaultContent("<a href='Delete/#Id#' class='btn default btn-xs black delete'><i class='fa fa-trash-o'></i></a>"))
+    .Url(Url.Action("List", "Feedback", new { filterByArticleId = filterByArticleId })).DefaultTableClass();
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        @(grid)
+
+    });
+</script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="section-header sticky">
+                <div class="caption">
+                    <i class="icon-equalizer font-red-sunglo"></i>
+                    <span class="caption-subject font-red-sunglo bold uppercase">@T("Admin.ContentManagement.Feedbacks")</span>
+                    <span class="caption-helper"></span>
+                </div>
+
+            </div>
+            <div class="portlet-body flip-scroll">
+                <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+                    <thead>
+                        <tr>
+                            @foreach (var column in grid.GetColumns)
+                            {
+                                if (column.Name == "" + T("Admin.Common.Edit").Text + "")
+                                {
+
+                                    <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                                }
+                                else
+                                {
+                                    <th class="@column.CssClassHeader">@column.DisplayName</th>
+                                }
+
+                            }
+                        </tr>
+
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

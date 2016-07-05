@@ -1,0 +1,56 @@
+﻿@model ArticleCategoryModel
+@using CAF.Infrastructure.Core.Collections
+@{
+    var node = Model.CategoryBreadcrumb.LastOrDefault();
+    var url = node.GenerateUrl(this.Url);
+}
+@if (Model.Articles.Count > 0)
+{
+
+    for (int i = 1; i <= 3; i++)
+    {
+        var article1 = Model.Articles[i * 2];
+        var article2 = Model.Articles[i * 2 + 1];
+
+        <ul class="column marg-per5 clearfix">
+            <li class="col-2-1  fadeInUp animated" data-animate="fadeInUp" data-delay="200">
+                <div class="entry-item">
+                    <div class="time">
+                        <p class="time-day">@article1.CreatedOn.ToString("dd")</p>
+                        <p class="time-date">@article1.CreatedOn.ToString("yyyy-MM")</p>
+                    </div>
+                    <div class="entry-title">
+                        <h2>
+                            <a href="@Url.RouteUrl("Article", new { SeName = article1.SeName })" target="_blank">@article1.Title</a>
+                        </h2>
+                    </div><div class="entry-summary">
+                        <div class="qhd-content">
+                            @article1.ShortContent
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="col-2-1 last fadeInUp animated" data-animate="fadeInUp" data-delay="400">
+                <div class="entry-item">
+                    <div class="time">
+                        <p class="time-day">@article2.CreatedOn.ToString("dd")</p>
+                        <p class="time-date">@article2.CreatedOn.ToString("yyyy-MM")</p>
+                    </div>
+                    <div class="entry-title">
+                        <h2>
+                            <a href="@Url.RouteUrl("Article", new { SeName = article2.SeName })" target="_blank">@article2.Title</a>
+                        </h2>
+                    </div><div class="entry-summary">
+                        <div class="qhd-content">
+                            @article2.ShortContent
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+
+    }
+
+
+}

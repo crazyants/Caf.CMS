@@ -1,0 +1,125 @@
+﻿@model List<CAF.WebSite.Mvc.Admin.Models.Tasks.ScheduleTaskModel>
+@using System.Linq;
+@using CAF.Infrastructure.Core;
+@{
+    //page title
+    ViewBag.Title = T("Admin.System.ScheduleTasks").Text;
+
+
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="section-header sticky">
+                <div class="caption">
+                    <i class="icon-equalizer font-red-sunglo"></i>
+                    <span class="caption-subject font-red-sunglo bold uppercase"> @T("Admin.System.ScheduleTasks")</span>
+                    <span class="caption-helper"></span>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-default" id="btnRefresh" style="display:none">
+                        <i class="fa fa-search"></i>@T("Admin.Common.Search")
+                    </button>
+                </div>
+            </div>
+            <div class="portlet-body flip-scroll">
+                <div class="alert alert-info fade in">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    @T("Admin.System.ScheduleTasks.RestartApplication")
+                </div>
+                <table class="table table-bordered table-hover" id="schedule-tasks-grid">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">
+                                <b>@T("Admin.System.ScheduleTasks.Name")</b>
+                            </th>
+
+                            <th><b>@T("Admin.System.ScheduleTasks.CronExpression")</b></th>
+                            <th style="text-align: center">
+                                <b>@T("Admin.System.ScheduleTasks.Enabled")</b>
+                            </th>
+                            <th><b>@T("Admin.System.ScheduleTasks.LastStart")</b></th>
+                            <th><b>@T("Admin.System.ScheduleTasks.NextRun")</b></th>
+                            <th style="text-align: center">
+                                <b>@T("Admin.Common.Edit")</b>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var task in Model)
+                        {
+
+                            <tr>
+                                <td align="center" data-task-id='@task.Id' style='@(task.Enabled ? "" : "background: #fafafa")'>
+                                    <a href='@task.EditUrl'>@task.Name</a>
+                                </td>
+
+                                <td>
+                                    <div>@task.CronExpression</div>
+                                    @if (task.CronDescription.HasValue())
+                                    {
+                                        <div class="muted">@task.CronDescription</div>
+                                    }
+                                </td>
+                                <td>@Html.SymbolForBool(task.Enabled)</td>
+                                <!-- LastStart -->
+                                <td>
+                                    <div class="last-run-info">
+                                        @Html.Partial("_LastRun", task)
+                                    </div>
+                                </td>
+                                <!-- NextRun -->
+                                <td style="min-width: 300px">
+                                    <div class="next-run-info">
+                                        @Html.Partial("_NextRun", task)
+                                    </div>
+                                    <div class='task-progress text-success@(task.IsRunning ? "" : " hide")' data-task-id='@task.Id' data-running='@(task.IsRunning ? "true" : "false")'></div>
+                                </td>
+                                <!-- Actions -->
+                                <td>
+                                    <a href='@task.EditUrl' class="btn btn-small" style="margin-bottom: 4px">@T("Common.Edit")</a>
+                                    <a href='@task.ExecuteUrl' data-task-id='@task.Id' class='btn btn-small btn-success btn-run-task@(task.IsRunning ? " hide" : "")' style="margin-bottom: 4px">
+                                        @T("Admin.System.ScheduleTasks.RunNow")
+                                    </a>
+                                    <a href='@task.CancelUrl' data-task-id='@task.Id' class='btn btn-small btn-danger btn-cancel-task@(!task.IsRunning ? " hide" : "")' onclick="return confirm('@T("Admin.Common.AreYouSure")');" style="margin-bottom: 4px">
+                                        @T("Common.Cancel")
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        Admin.TaskWatcher.startWatching({
+            context: $('#schedule-tasks-grid'),
+            elementsSelector: '.task-progress',
+            defaultProgressMessage: '@T("Admin.System.ScheduleTasks.RunNow.IsRunning")',
+            pollUrl: '@Url.Action("GetRunningTasks")',
+            onTaskStarted: function (task, el) {
+                el.closest('tr').find('.btn-run-task').addClass('hide').next().removeClass('hide');
+                el.closest('tr').find('.next-run-info').addClass('hide');
+            },
+            onTaskCompleted: function (taskId, el) {
+                el.closest('tr').find('.btn-run-task').removeClass('hide').next().addClass('hide');
+                $.ajax({
+                    cache: false,
+                    global: false,
+                    type: 'POST',
+                    url: '@Url.Action("GetTaskRunInfo")',
+                    data: { id: taskId },
+                    success: function (data) {
+                        el.closest('tr').find('.next-run-info').html(data.nextRunHtml).removeClass("hide");
+                        el.closest('tr').find('.last-run-info').html(data.lastRunHtml);
+                    }
+                });
+            }
+        });
+    });
+</script>

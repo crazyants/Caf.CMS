@@ -1,0 +1,56 @@
+﻿@model CAF.WebSite.Mvc.Admin.Models.Common.InstallModel
+@{
+    //page title
+    ViewBag.Title = T("Admin.System.Maintenance").Text;
+}
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-horizontal" }))
+{
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase">@T("Admin.System.Maintenance") </span>
+                        <span class="caption-helper"></span>
+                    </div>
+
+                </div>
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                    <div class="form-horizontal  form-body">
+                        <h4 class="form-section">@T("Admin.System.Install.InstallPermissions")</h4>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label col-md-3"></label>
+                                <div class="col-md-3">
+                                    <button type="submit" name="install-permissions" value="install-permissions" class="btn btn-default">
+                                        <i class="fa fa-trash-o"></i>
+                                        @T("Admin.Header.Install")
+                                    </button>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3"></label>
+                                <div class="col-md-3">
+
+                                    <button type="submit" name="uninstall-permissions" value="uninstall-permissions" class="btn btn-default">
+                                        <i class="fa fa-trash-o"></i>
+                                        @T("Admin.Header.UnInstall")
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+
+

@@ -1,0 +1,211 @@
+﻿@model TreeNode<MenuItem>
+@{ 
+                
+    var controllerName=ViewContext.RouteData.Route.GetRouteData(this.Context).Values["controller"].ToString();       
+    var actionName=  ViewContext.RouteData.Route.GetRouteData(this.Context).Values["action"].ToString();
+  
+     TreeNode<MenuItem> currentNode =   Model.SelectNode(p => p.Value.ActionName == actionName && p.Value.ControllerName == controllerName);
+    if (currentNode==null)
+    { 
+        currentNode = Model.SelectNode(p => p.Value.ControllerName == controllerName);
+    }
+    var currentNodes = new List<TreeNode<MenuItem>>();
+    currentNode.TraverseParentTree(x =>
+    {
+        currentNodes.Add(x);
+    });
+    
+}
+@functions {
+    public string GetNodeLink(TreeNode<MenuItem> node)
+    {
+        if (node.HasChildren)
+        {
+            return "javascript:void(0)";
+        }
+
+        return node.Value.GenerateUrl(this.ViewContext.RequestContext);
+    }
+
+    public string GetItemText(TreeNode<MenuItem> node)
+    {
+        string result = null;
+
+        if (node.Value.ResKey.HasValue())
+        {
+            result = T(node.Value.ResKey).ToHtmlString();
+        }
+
+        if (!result.HasValue() || result.IsCaseInsensitiveEqual(node.Value.ResKey))
+        {
+            result = node.Value.Text;
+        }
+
+        return result;
+    }
+   
+
+  
+}
+<ul class="page-sidebar-menu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+    <li class="sidebar-toggler-wrapper">
+        <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+        <div class="sidebar-toggler">
+        </div>
+        <!-- END SIDEBAR TOGGLER BUTTON -->
+    </li>
+    @{
+        var isFirst = true;
+        int index = 1;
+        int totalCount = Model.Children.Count();
+        foreach (var node in Model.Children)
+        {
+            var item = node.Value;
+
+            if (!item.Visible)
+            {
+                continue;
+            }
+            var imageUrl = item.ImageUrl;
+            if (!imageUrl.HasValue())
+            {
+                imageUrl = "~/Administrator/Content/images/ap-default-white.png";
+            }
+
+            string itemText = GetItemText(node);
+
+            if (ViewBag.SelectedMenuItem == itemText)
+            {
+                item.Selected = true;
+            }
+
+            var itemUrl = GetNodeLink(node);
+            string liClass = null;
+            if (isFirst)
+            {
+                liClass = "start"; //"drop-list-item";
+
+            }
+            else if (index == totalCount)
+            {
+                liClass = "last";
+            }
+
+            if (node.HasChildren)
+            {
+                liClass += (IsAny(currentNodes, node)) ? " active open " : "";
+            }
+            else
+            {
+                liClass += ((IsAny(currentNodes, node)) ? " active " : "");
+            }
+            <li data-id="@item.Id" class='@liClass '>
+                <a href="@itemUrl">
+                    @if (item.Icon.HasValue())
+                    {
+                    <i class="fa fa-fw fa-@item.Icon"></i>
+                    }
+                    else
+                    {
+                    <img class="sm-icon" src="@Url.Content(imageUrl)" alt="" />
+                    }
+                    <span class="title">@itemText</span>
+                    <span class="arrow "></span>
+                </a>
+                @if (node.HasChildren)
+                {
+                @CreateDropdown(currentNodes,node.Children, true)
+                }
+            </li>
+
+                isFirst = false;
+                index++;
+        }
+    }
+</ul>
+
+
+
+@helper CreateDropdown(List<TreeNode<MenuItem>> currentNodes, IEnumerable<TreeNode<MenuItem>> nodes, bool isRoot)
+{
+    var isFirst = true;
+    var hasIcons = nodes.Any(x => x.Value.Icon.HasValue());
+
+    <ul class="sub-menu">
+        @foreach (var node in nodes)
+        {
+            var item = node.Value;
+
+            if (!item.Visible)
+            {
+                continue;
+            }
+
+            string itemText = GetItemText(node);
+
+            if (item.IsGroupHeader)
+            {
+                if (!isFirst)
+                {
+        <li class="divider"></li>
+                }
+                if (item.Text.HasValue() && item.Text != "[SKIP]")
+                {
+        <li data-id="@item.Id"><h3>@itemText</h3></li>
+                }
+                isFirst = false;
+                continue;
+            }
+
+            string liClass = null;
+            if (isRoot)
+            {
+                //liClass = ""; //"drop-list-item";
+                //if (node.HasChildren)
+                //{
+                //    liClass += " dropdown-submenu";
+                //    liClass += (IsAny(GetControllerNames(node))) ? " active open " + string.Join(",", GetControllerNames(node)) : "";
+                //}
+                //else
+                //{
+                //    liClass += (Is(node.Value.ControllerName) ? " active " + node.Value.ControllerName : "");
+                //}
+            }
+
+            liClass = ""; //"drop-list-item";
+            if (node.HasChildren)
+            {
+                liClass += (IsAny(currentNodes, node)) ? " active open" : "";
+            }
+            else
+            {
+                liClass += (IsAny(currentNodes, node)) ? " active ": "";
+            }
+        <li data-id="@item.Id" class='@liClass'>
+            <a href="@GetNodeLink(node)">
+                @if (hasIcons)
+                    {
+                        var iconClass = "fa fa-fw";
+                        if (node.Value.Icon.HasValue())
+                        {
+                            iconClass += " fa-" + node.Value.Icon;
+                        }
+                    <i class='@iconClass'></i>
+                    }
+                @itemText
+@if (node.HasChildren)
+{  
+     <span class="arrow "></span>
+}
+            </a>
+            @if (node.HasChildren)
+                {
+                @CreateDropdown(currentNodes,node.Children, false)
+                }
+        </li>
+
+                isFirst = false;
+
+        }
+    </ul>
+}

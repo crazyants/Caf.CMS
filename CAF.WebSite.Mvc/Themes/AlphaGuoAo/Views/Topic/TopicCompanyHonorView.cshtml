@@ -1,0 +1,104 @@
+﻿@model TopicModel
+@{
+    Layout = "~/Themes/AlphaGuoAo/Views/Shared/_ColumnsOne.cshtml";
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Title);
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+}
+
+
+<section class="main">
+    <section class="full-page-title-wrap clearfix">
+        <h2>关于我们</h2><em class="full-page-title-line"></em>
+    </section>
+    <section class="full-page-menu">
+        <div class="full-page-menu-content">
+            <div class="page-width">
+                <ul class="clearfix">
+                    <li class="@(Model.SystemName == "companyinfo" ? "current" : "")"><a href="@Url.RouteUrl("Topic", new { SystemName = "companyinfo" })">公司简介</a></li>
+                    <li class="@(Model.SystemName == "companyculture" ? "current" : "")"><a href="@Url.RouteUrl("Topic", new { SystemName = "companyculture" })">企业文化</a></li>
+                    <li class="@(Model.SystemName == "companyhonor" ? "current" : "")"><a href="@Url.RouteUrl("Topic", new { SystemName = "companyhonor" })">企业荣誉</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <div class="page-width clearfix">
+        <div class="full-page-content">
+            <div class="full-page-content-wrapper">
+                <div class="module-default">
+                    <div class="module-inner">
+                        <div class="module-content">
+                            <div class="portfolio-list">
+                                <ul class="column marg-per2 clearfix">
+                                    <li class="col-4-1 fadeInUp animated" data-animate="fadeInUp" data-delay="200">
+                                        <div class="portfolio-img">
+                                            <a href="~/Themes/AlphaGuoAo/Content/images/page/honor1.jpg" rel="imgZoom-group-honor" title="企业荣誉">
+                                                <img src="~/Themes/AlphaGuoAo/Content/images/page/honor1.jpg" alt="企业荣誉">
+                                                <span class="opacity-overlay"><i class="icon-zoom"></i></span>
+                                            </a>
+                                        </div>
+                                        <div class="portfolio-title">
+                                            <h2>
+                                                <a href="~/Themes/AlphaGuoAo/Content/images/page/honor1.jpg" rel="imgZoom-group-title-honor" title="企业荣誉">企业荣誉</a>
+                                            </h2>
+                                        </div>
+                                    </li>
+                                    <li class="col-4-1 fadeInUp animated" data-animate="fadeInUp" data-delay="400">
+                                        <div class="portfolio-img">
+                                            <a href="~/Themes/AlphaGuoAo/Content/images/page/honor1.jpg" rel="imgZoom-group-honor" title="企业荣誉">
+                                                <img src="~/Themes/AlphaGuoAo/Content/images/page/honor1.jpg" alt="企业荣誉">
+                                                <span class="opacity-overlay"><i class="icon-zoom"></i></span>
+                                            </a>
+                                        </div>
+                                        <div class="portfolio-title">
+                                            <h2>
+                                                <a href="~/Themes/AlphaGuoAo/Content/images/page/honor1.jpg" rel="imgZoom-group-title-honor" title="企业荣誉">企业荣誉</a>
+                                            </h2>
+                                        </div>
+                                    </li>
+                                    <li class="col-4-1 fadeInUp animated" data-animate="fadeInUp" data-delay="600">
+                                        <div class="portfolio-img">
+                                            <a href="~/Themes/AlphaGuoAo/Content/images/page/honor1.jpg" rel="imgZoom-group-honor" title="企业荣誉">
+                                                <img src="~/Themes/AlphaGuoAo/Content/images/page/honor1.jpg" alt="企业荣誉"><span class="opacity-overlay"><i class="icon-zoom"></i></span>
+                                            </a>
+                                        </div><div class="portfolio-title">
+                                            <h2>
+                                                <a href="~/Themes/AlphaGuoAo/Content/images/page/honor1.jpg" rel="imgZoom-group-title-honor" title="企业荣誉">企业荣誉</a>
+                                            </h2>
+                                        </div>
+                                    </li>
+                                    <li class="col-4-1 last fadeInUp animated" data-animate="fadeInUp" data-delay="800">
+                                        <div class="portfolio-img">
+                                            <a href="~/Themes/AlphaGuoAo/Content/images/page/honor1.jpg" rel="imgZoom-group-honor" title="企业荣誉">
+                                                <img src="~/Themes/AlphaGuoAo/Content/images/page/honor1.jpg" alt="企业荣誉">
+                                                <span class="opacity-overlay"><i class="icon-zoom"></i></span>
+                                            </a>
+                                        </div>
+                                        <div class="portfolio-title">
+                                            <h2>
+                                                <a href="~/Themes/AlphaGuoAo/Content/images/page/honor1.jpg" rel="imgZoom-group-title-honor" title="企业荣誉">企业荣誉</a>
+                                            </h2>
+                                        </div>
+                                    </li>
+                                </ul>                <script type="text/javascript">
+                                    $(document).ready(function () {
+                                        //弹窗
+                                        $('a[rel=imgZoom-group-honor],a[rel=imgZoom-group-title-honor]').fancybox({
+                                            'transitionIn': 'elastic',
+                                            'transitionOut': 'elastic',
+                                            'hideOnOverlayClick': false,
+                                            'centerOnScroll': true,
+                                            'overlayColor': '#000',
+                                            'padding': '0'
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

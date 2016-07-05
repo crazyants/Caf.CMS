@@ -1,0 +1,19 @@
+﻿@model CAF.WebSite.Application.WebUI.Mvc.DeleteConfirmationModel
+@*codehint: sm-edit*@
+@using (Html.BeginForm(Model.ActionName, Model.ControllerName, new { id = Model.Id }, FormMethod.Post, new { style = "margin:0;" }))
+{
+        <p>
+            @T("Admin.Common.DeleteConfirmation")
+        </p><div class="row">
+            <div style="margin-top:18px;" class="pull-right">
+                <button type="submit" class="btn btn-danger entity-commit-trigger" value='@T("Admin.Common.Delete")' data-commit-type="@Model.EntityType" data-commit-action="delete" data-commit-id="@Model.Id">
+                    @T("Admin.Common.Delete")
+                </button>
+                <button type="button" class="btn btn-link" data-dismiss="modal">
+                    @T("Admin.Common.NoCancel")
+                </button>
+            </div>
+        </div>
+
+}
+

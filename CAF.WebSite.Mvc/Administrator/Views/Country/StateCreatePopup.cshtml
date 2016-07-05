@@ -1,0 +1,26 @@
+﻿@{
+    Layout = "~/Administrator/Views/Shared/_AdminPopupLayout.cshtml";
+}
+@model StateProvinceModel
+@{
+    //page title
+    ViewBag.Title = T("Admin.Configuration.Countries.States.AddNew").Text;
+}
+@using (Html.BeginForm())
+{
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                @T("Admin.Configuration.Countries.States.AddNew")
+            </li>
+        </ul>
+        <div class="page-toolbar">
+            <div class="btn-group options">
+                <button type="submit" name="save" value="save" class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;@T("Admin.Common.Save")</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @Html.Partial("_CreateOrUpdateState", Model)
+    </div>
+}

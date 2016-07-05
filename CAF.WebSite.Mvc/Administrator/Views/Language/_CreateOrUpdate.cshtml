@@ -1,0 +1,191 @@
+﻿@model CAF.WebSite.Mvc.Admin.Models.Localization.LanguageModel
+
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+@Html.CafSite().TabStrip().Name("language-edit").Style(TabsStyle.Tabs).Position(TabsPosition.Top).Items(x =>
+{
+    x.Add().Text(T("Admin.Common.Info").Text).Content(TabInfo()).Selected(true);
+    x.Add().Text(T("Admin.Common.Sites").Text).Content(TabSites());
+
+    //generate an event
+    EngineContext.Current.Resolve<IEventPublisher>().Publish(new TabStripCreated(x, "language-edit", this.Html, this.Model));
+})
+
+@helper TabInfo()
+{
+    
+     
+
+
+    <div class="form-body" id="LanguageEditTable">
+
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.Name)
+            </label>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Name)
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.LanguageCulture)
+            </label>
+            <div class="col-md-4">
+                @Html.DropDownListFor(x => x.LanguageCulture, Model.AvailableCultures, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LanguageCulture)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UniqueSeoCode)
+            </label>
+            <div class="col-md-4">
+                @Html.DropDownListFor(x => x.UniqueSeoCode, Model.AvailableTwoLetterLanguageCodes, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.UniqueSeoCode)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.FlagImageFileName)
+            </label>
+            <div class="col-md-4">
+                <select name="FlagImageFileName" data-placeholder="@T("Common.Unspecified")" class="form-control">
+                    <option></option>
+                    @foreach (var item in Model.AvailableFlags)
+                    {
+                        var select = item.Value.IsCaseInsensitiveEqual(Model.FlagImageFileName);
+                        <option value="@item.Value" @(select ? "selected='selected'" : "")>@item.Text</option>
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.FlagImageFileName)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.Rtl)
+            </label>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Rtl)
+                @Html.ValidationMessageFor(model => model.Rtl)
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.Published)
+            </label>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Published)
+                @Html.ValidationMessageFor(model => model.Published)
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.DisplayOrder)
+            </label>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.DisplayOrder)
+                @Html.ValidationMessageFor(model => model.DisplayOrder)
+
+            </div>
+        </div>
+    </div>
+
+}
+
+@helper TabSites()
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // init flags select
+            $('#LanguageEditTable').find('select[name=FlagImageFileName]').select2({
+                allowClear: true,
+                minimumResultsForSearch: 16,
+                formatResult: flagSelectItemFormatting,
+                formatSelection: flagSelectItemFormatting
+            });
+
+            function flagSelectItemFormatting(item) {
+                var flagUrl = '@Url.Content("~/Content/Images/flags/")';
+
+                try {
+                    if (item.text.length > 0) {
+                        var option = $(item.element),
+    	    				html = '<div class="select2-image-item">';
+
+                        // item.element is undefined for selection formatting
+                        if (option.length === 0) {
+                            option = $('select[name="FlagImageFileName"]').find('option[value="' + item.id + '"]');
+                        }
+
+                        if (option.length !== 0) {
+                            html += '<div class="icon-container"><img alt="" src="' + flagUrl + option.val() + '" /></div>';
+                        }
+
+                        html += '<span>' + item.text + '</span></div>';
+
+                        return html;
+                    }
+                }
+                catch (e) { }
+
+                return item.text;
+            }
+            $('input[id="@Html.FieldIdFor(model => model.LimitedToSites)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleSiteMapping(state);
+            });
+            toggleSiteMapping(@Model.LimitedToSites.ToString().ToLower());
+
+          
+        });
+
+
+        function toggleSiteMapping(state) {
+            if (state) {
+                $('#pnl-available-sites').show();
+            }
+            else {
+                $('#pnl-available-sites').hide();
+            }
+        }
+
+    </script>
+
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.LimitedToSites)
+            </label>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.LimitedToSites)
+                @Html.ValidationMessageFor(model => model.LimitedToSites)
+
+            </div>
+        </div>
+        <div id="pnl-available-sites" class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AvailableSites)
+            </label>
+            <div class="col-md-4">
+                @if (Model.AvailableSites != null && Model.AvailableSites.Count > 0)
+                {
+                    foreach (var site in Model.AvailableSites)
+                    {
+                        <label class="checkbox">
+                            <input type="checkbox" name="SelectedSiteIds" value="@site.Id" checked="@(Model.SelectedSiteIds != null && Model.SelectedSiteIds.Contains(site.Id))" />
+                            <span>@site.Name</span>
+                        </label>
+                    }
+                }
+                else
+                {
+                    <div>@T("Admin.Configuration.Sites.NoSitesDefined")</div>
+                }
+            </div>
+        </div>
+    </div>
+}

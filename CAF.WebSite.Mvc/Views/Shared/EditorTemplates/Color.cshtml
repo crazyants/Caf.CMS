@@ -1,0 +1,31 @@
+@functions{   
+    private string Value
+    {
+        get
+        {
+            string value = null;
+            if (ViewData.Model != null)
+            {
+                value = Convert.ToString(ViewData.Model);
+            }
+            return value;
+        }
+    }
+}
+
+@{
+    var color = "transparent";
+    if (!string.IsNullOrEmpty(Value)) 
+    {
+        color = Value;
+    }
+}
+@*<div class="input-group color colorpicker-default" data-color="#3865a8" data-color-format="rgba">
+												<input type="text" class="form-control" value="#3865a8" readonly>
+												<span class="input-group-btn">
+												<button class="btn default" type="button"><i style="background-color: #3865a8;"></i>&nbsp;</button>
+												</span>
+											</div>*@
+@Html.ColorBox("", color)
+
+

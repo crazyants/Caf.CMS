@@ -1,0 +1,24 @@
+﻿@model CAF.WebSite.CustomBanner.Models.PictureEditTabModel
+
+
+@{
+    Layout = "";
+}
+
+@* VERY IMPORTANT for proper model binding *@
+@Html.Hidden("__Type__", Model.GetType().AssemblyQualifiedName)
+
+@Html.HiddenFor(m => m.EntityId)
+@Html.HiddenFor(m => m.EntityName)
+
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.PictureId)</label>
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.PictureId, "Picture")
+                @Html.ValidationMessageFor(model => model.PictureId)
+
+            </div>
+        </div>
+    </div>
+

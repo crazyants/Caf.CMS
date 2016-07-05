@@ -1,0 +1,69 @@
+﻿@model ArticleCategoryModel
+@using CAF.Infrastructure.Core.Domain.Seo;
+@{
+    Layout = "~/Themes/AlphaCosmetic/Views/Shared/_ColumnsTwo.cshtml";
+
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+
+    var canonicalUrlsEnabled = EngineContext.Current.Resolve<SeoSettings>().CanonicalUrlsEnabled;
+    if (canonicalUrlsEnabled)
+    {
+        var categoryUrl = Url.RouteUrl("ArticleCategory", new { SeName = Model.SeName }, this.Request.Url.Scheme);
+        Html.AddCanonicalUrlParts(categoryUrl);
+    }
+
+
+}
+
+@section left {
+    @Html.Action("CategoryNavigation", "ArticleCatalog", new { currentCategoryId = this.CurrentArticleCategoryId, currentArticleId = this.CurrentArticleId, onlyShowChildren = true, showParent = true, area = "" })
+}
+@if (Model.DisplayCategoryBreadcrumb)
+{
+    <h3 class="sb--box-title">
+        <div class="sb--box-size fl">
+            当前位置：<a href="@Url.RouteUrl("HomePage")" title="首页">首页</a> &gt;
+
+            @for (int i = 0; i < Model.CategoryBreadcrumb.Count; i++)
+            {
+                var menuItem = Model.CategoryBreadcrumb[i];
+                var isLastCategory = menuItem.EntityId == Model.Id;
+
+                if (isLastCategory)
+                {
+                    @menuItem.Text
+                }
+                else
+                {
+                    <a href="@menuItem.GenerateUrl(this.Url)" title="@menuItem.Text">@menuItem.Text</a><text>&gt;</text>
+                }
+
+            }
+        </div>
+        <div class="sb--box-right fr"></div>
+    </h3>
+}
+
+<div class="clear"></div>
+
+@if (Model.Articles.Count > 0)
+{
+    @*list mode*@
+    <div class="active" id="newslist">
+        <ul class="list-none metlist">
+            @foreach (var article in Model.Articles)
+            {
+                @Html.Partial("_ArticleBoxList", article)
+            }
+        </ul>
+
+    </div>
+}
+<div id="flip">
+    <div class="digg4 metpager_8">
+        @Html.CafSite().Pager(Model.PagingFilteringContext).Name("pagination-bottom").QueryParam("pagenumber").ShowFirst(true).ShowLast(true).ShowNext(true).ShowPrevious(true)
+
+    </div>
+</div>

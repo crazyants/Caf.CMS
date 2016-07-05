@@ -1,0 +1,10 @@
+﻿@model List<ExternalAuthenticationMethodModel>
+@foreach (var eam in Model)
+{
+    <li>
+        @Html.Action(eam.ActionName, eam.ControllerName, eam.RouteValues)
+    </li>
+}
+
+
+

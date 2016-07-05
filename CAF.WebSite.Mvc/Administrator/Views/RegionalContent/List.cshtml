@@ -1,0 +1,69 @@
+﻿@model  RegionalContentModel
+@{
+
+    var gridPageSize = EngineContext.Current.Resolve<CAF.Infrastructure.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
+    //page title
+    ViewBag.Title = T("Admin.ContentManagement.RegionalContents").Text;
+    var g = Html.GridToolKit();
+    var grid = g.DataGrid("otable", g.Param(x => x.Id)).TableId("table-id").GridKey("Id").Pager(true) 
+    .MainGrid(
+    g.GridColumn(x => x.SystemName, 300).DefaultContent("<a href=\"Edit/#Id#\">#SystemName#</a>"),
+    g.GridColumn(x => x.Name, 300),
+    g.GridColumn(x => x.DisplayOrder, 300),
+   g.GridColumn("operation", "" + T("Admin.Common.Operation").Text + "", 150).DefaultContent("<a href=\"Edit/#Id#\"  class='btn default btn-xs purple'><i class='fa fa-pencil'></i></a>"))
+    .Url(Url.Action("List", "RegionalContent")).DefaultTableClass();
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        @(grid)
+    });
+</script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="section-header sticky">
+                <div class="caption">
+                    <i class="icon-equalizer font-red-sunglo"></i>
+                    <span class="caption-subject font-red-sunglo bold uppercase">  @T("Admin.ContentManagement.RegionalContents")</span>
+                    <span class="caption-helper"></span>
+                </div>
+                <div class="tools">
+
+                </div>
+                <div class="actions">
+                    <a href="@Url.Action("Create")" class="btn yellow"><i class="fa fa-plus"></i>@T("Admin.Common.AddNew") </a>
+
+                </div>
+            </div>
+            <div class="portlet-body flip-scroll">
+                <div class="alert alert-info fade in">
+                    <button class="close" data-dismiss="alert">x</button>
+                    区域块代码指包含Html代码的内容.
+                </div>
+                <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+                    <thead>
+                        <tr>
+                            @foreach (var column in grid.GetColumns)
+                            {
+                                if (column.Name == "操作")
+                                {
+
+                                    <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                                }
+                                else
+                                {
+                                    <th class="@column.CssClassHeader">@column.DisplayName</th>
+                                }
+
+                            }
+                        </tr>
+
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+ 

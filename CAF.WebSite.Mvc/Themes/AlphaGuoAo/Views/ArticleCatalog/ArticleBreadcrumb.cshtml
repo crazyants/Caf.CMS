@@ -1,0 +1,8 @@
+﻿@model ArticlePostModel.ArticleBreadcrumbModel
+
+
+@if (Model.OnlyCurrentCategory)
+{
+    var menuItem = Model.CategoryBreadcrumb.FirstOrDefault();
+    <a href="@menuItem.GenerateUrl(this.Url)">@menuItem.Text</a>
+}

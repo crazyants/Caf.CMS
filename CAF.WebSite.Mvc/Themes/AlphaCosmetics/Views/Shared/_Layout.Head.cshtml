@@ -1,0 +1,58 @@
+﻿@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+@{
+
+    var currentUICulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+
+    var localizationService = EngineContext.Current.Resolve<ILocalizationService>();
+
+    var jqueryCssRootPath = "~/Themes/AlphaCosmetics/Content/";
+
+    Html.AppendScriptParts(ResourceLocation.Foot,
+        jqueryCssRootPath + "js/jQuery1.7.2.js",
+        jqueryCssRootPath + "Js/ckplayer/ckplayer.js",
+        jqueryCssRootPath + "js/metinfo_ui.js",
+        jqueryCssRootPath + "js/fun.inc.js",
+        "~/Scripts/jquery.validate.min.js",
+        //  "~/Scripts/jquery.unobtrusive-ajax.js",
+        "~/Scripts/jquery.validate.unobtrusive.js");
+     
+
+}
+<!DOCTYPE html>
+<html @Html.Partial("LanguageAttributes")>
+<head>
+    <title>@Html.WorkTitle(true)</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="@(Html.WorkMetaDescription())" />
+    <meta name="keywords" content="@(Html.WorkMetaKeywords())" />
+    <meta name="generator" content="Caf.NET @WorkVersion.CurrentFullVersion" />
+    @*This is used so that themes can inject content into the header*@
+    @Html.Partial("Head")
+    @Html.MetaAcceptLanguage()
+    @* @Html.Partial("_ClientRes")*@
+    @Html.WorkCssFiles(this.Url, ResourceLocation.Head)
+    @Html.WorkScripts(this.Url, ResourceLocation.Head)
+   
+    @Html.CanonicalUrls()
+    @Html.LinkRels()
+    @*@Html.Action("RssHeaderLink", "News", new { area = "" })
+        @Html.Action("RssHeaderLink", "Blog", new { area = "" })*@
+    @*Favicon - upload favicon.ico or favicon-[StoreId].ico file either to the root web or your theme directory*@
+    @Html.Action("Favicon", "Common", new { area = "" })
+    @Html.CustomHead()
+</head>
+<body class="@Html.BodyCssClass()" @(Html.BodyId())>
+    @RenderBody()
+
+    @Html.WorkCssFiles(this.Url, ResourceLocation.Foot)
+    @Html.WorkScripts(this.Url, ResourceLocation.Foot)
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+
+        });
+    </script>
+    @RenderSection("FootScript", required: false)
+</body>
+</html>

@@ -1,0 +1,155 @@
+﻿@model CAF.WebSite.Mvc.Admin.Models.Tasks.ScheduleTaskModel
+@{
+
+    ViewBag.Title = T("Admin.System.ScheduleTasks.EditTask") + " - " + Model.Name;
+    var cronHelpLink = WorkContext.WorkingLanguage.UniqueSeoCode.ToLower() == "de" ? "https://de.wikipedia.org/wiki/Cron" : "https://en.wikipedia.org/wiki/Cron";
+    var returnUrl = ((string)ViewBag.ReturnUrl).NullEmpty();
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+    @Html.Hidden("returnUrl", returnUrl)
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase"> 	@ViewBag.Title </span>
+                        <span class="caption-helper"><a href='@(returnUrl ?? Url.Action("List"))'>(@T("Common.Back"))</a></span>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" name="save" value="save" class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;@T("Admin.Common.Save")</button>
+                        <button type="submit" name="save" value="save-continue" class="btn btn-default">@T("Admin.Common.SaveContinue")</button>
+                        @if (!Model.IsRunning)
+                        {
+                            <a href="@Model.ExecuteUrl" class="btn btn-default"><i class='fa fa-play'></i>&nbsp;@T("Admin.System.ScheduleTasks.RunNow")</a>
+                        }
+                    </div>
+                </div>
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                    <div class="form-body">
+                        <h2 class="margin-bottom-20"> @Html.ValidationSummary(false)</h2>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.Name)</label>
+                            <div class="col-md-3">
+                                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Name)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Enabled)</label>
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.Enabled)
+                                @Html.ValidationMessageFor(model => model.Enabled)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.StopOnError)</label>
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.StopOnError)
+                                @Html.ValidationMessageFor(model => model.StopOnError)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.LastStart)</label>
+                            <div class="col-md-3">
+                                @(Model.LastStart.HasValue ? Model.LastStart.Value.ToString("g") : T("Common.Never").Text)
+                            </div>
+                        </div>
+                        @if (Model.Duration.HasValue())
+                        {
+                            <div class="form-group">
+                                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Duration)</label>
+                                <div class="col-md-3">
+                                    @Html.DisplayFor(model => model.Duration)
+                                </div>
+                            </div>
+                        }
+                        @if (Model.LastError.HasValue())
+                        {
+                            <div class="form-group">
+                                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.LastError)</label>
+                                <div class="col-md-3">
+                                    <span class="text-error">@Html.DisplayFor(model => model.LastError)</span>
+                                </div>
+                            </div>
+
+                            if (Model.LastSuccess.HasValue && Model.LastSuccess != Model.LastEnd)
+                            {
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.LastSuccess)</label>
+                                    <div class="col-md-3">
+                                        @Model.LastSuccess.Value.ToString("g")
+                                    </div>
+                                </div>
+                            }
+                        }
+                        @if (Model.NextRun.HasValue)
+                        {
+                            <div class="form-group">
+                                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.NextRun)</label>
+                                <div class="col-md-3">
+                                    @Model.NextRun.Value.ToString("g")
+                                </div>
+                            </div>
+                        }
+                        <div class="form-group">
+                            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.CronExpression)</label>
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.CronExpression)
+                                @Html.ValidationMessageFor(model => model.CronExpression)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3"></label>
+                            <div class="col-md-3">
+                                <div class="muted">@T("Admin.System.ScheduleTasks.CronHelp", cronHelpLink)</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3"></label>
+                            <div class="col-md-3">
+                                <div id="future-schedules"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $(function () {
+        $('#@Html.FieldIdFor(m => m.CronExpression)').on('input propertychange paste', function (e) {
+            getFutureSchedules.apply(this);
+        });
+
+        getFutureSchedules.apply($('#@Html.FieldIdFor(m => m.CronExpression)')[0]);
+
+        function getFutureSchedules() {
+            var input = $(this);
+
+            if (!input.val().length)
+                return;
+
+            $.ajax({
+                cache: false,
+                type: 'POST',
+                url: '@Url.Action("FutureSchedules")',
+                data: { expression: input.val() },
+                success: function (data) {
+                    $('#future-schedules').html(data);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+
+                }
+            });
+        }
+    });
+</script>

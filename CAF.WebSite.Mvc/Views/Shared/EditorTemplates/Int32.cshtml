@@ -1,0 +1,52 @@
+﻿@functions{
+    private int? Value
+    {
+        get
+        {
+            int? value = null;
+            if (ViewData.Model != null)
+            {
+                value = Convert.ToInt32(ViewData.Model, System.Globalization.CultureInfo.InvariantCulture);
+            }
+            
+            return value;
+        }
+    }
+}
+@{
+    var id = ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty);
+    var name = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty);
+    string additionalClass = string.Empty;
+    if (ViewData.ContainsKey("small"))
+    {
+        additionalClass = ViewData["small"].Convert<bool>() ? "small" : "";
+    }
+}
+<div id="@id-parent">
+    <div class="input-group">
+        @Html.TextBoxFor(model => model, new { @class = "spinner-input form-control" })
+        @*<input type="text" class="spinner-input form-control" maxlength="3" >*@
+        <div class="spinner-buttons input-group-btn btn-group-vertical">
+            <button type="button" class="btn spinner-up btn-xs blue">
+                <i class="fa fa-angle-up"></i>
+            </button>
+            <button type="button" class="btn spinner-down btn-xs blue">
+                <i class="fa fa-angle-down"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+@*@Html.(model => model, new { @class = "form-control" })*@
+<script>
+    $(function () {
+        //$("#@id").inputmask({
+        //    "mask": "9",
+        //    "repeat": 10,
+        //    "greedy": false,
+        //    'placeholder': "0",
+        //});
+        // ~ mask "9" or mask "99" or ... mask "9999999999"
+        $('#@id-parent').spinner({ max: 10000,min:0 });
+    });
+</script>

@@ -1,0 +1,10 @@
+﻿FriendlyName: Custom banner
+SystemName: CAF.WebSite.CustomBanner
+Group: CMS
+Version: 1.1.0.0
+MinAppVersion: 1.1.0.0
+Author: CAF AG
+DisplayOrder: 1
+FileName: CAF.WebSite.CustomBanner.dll
+ResourceRootKey: Plugins.Widgets.CustomBanner
+Url: http://community.smartstore.com/index.php?/files/file/51-custom-banner/

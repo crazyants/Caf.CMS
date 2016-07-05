@@ -1,0 +1,811 @@
+﻿@model ArticleCatalogSettingsModel
+@{
+    //page title
+    ViewBag.Title = T("Admin.Configuration.Settings.Catalog").Text;
+}
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase">@T("Admin.Configuration.Settings.Catalog")</span>
+                        <span class="caption-helper"></span>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" name="save" value="save" class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;@T("Admin.Common.Save")</button>
+                    </div>
+                </div>
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                    <script type="text/javascript">
+                        $(function () {
+                            $('input[id="@Html.FieldIdFor(model => model.ShowCategoryArticleNumber)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                                toggleShowCategoryArticleNumberIncludingSubcategories(state);
+                            });
+                            $('input[id="@Html.FieldIdFor(model => model.EmailAFriendEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                                toggleEmailAFriend(state);
+                            });
+                            $('input[id="@Html.FieldIdFor(model => model.RecentlyViewedArticlesEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                                toggleRecentlyViewedArticles(state);
+                            });
+                            $('input[id="@Html.FieldIdFor(model => model.RecentlyAddedArticlesEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                                toggleRecentlyAddedArticles(state);
+                            });
+                            $('input[id="@Html.FieldIdFor(model => model.ShowBestsellersOnHomepage)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                                toggleBestsellersOnHomepage(state);
+                            });
+
+                            $('input[id="@Html.FieldIdFor(model => model.ArticlesByTagAllowUsersToSelectPageSize)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                                toggleTagPageSize(state);
+                            });
+                            $('input[id="@Html.FieldIdFor(model => model.ArticleSearchAllowUsersToSelectPageSize)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                                toggleSearchPageSize(state);
+                            });
+                            $('input[id="@Html.FieldIdFor(model => model.ArticleSearchAutoCompleteEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                                toggleArticleSearchAutoComplete(state);
+                            });
+                            $('input[id="@Html.FieldIdFor(model => model.EnableHtmlTextCollapser)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                                toggleHtmlTextCollapsedHeight(state);
+                            });
+                            $('input[id="@Html.FieldIdFor(model => model.FilterEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                                toggleFilterEnabled(state);
+                            });
+
+
+
+
+                            toggleShowCategoryArticleNumberIncludingSubcategories(@Model.ShowCategoryArticleNumber.ToString().ToLower());
+                            toggleEmailAFriend(@Model.EmailAFriendEnabled.ToString().ToLower());
+                            toggleRecentlyViewedArticles(@Model.RecentlyViewedArticlesEnabled.ToString().ToLower());
+                            toggleRecentlyAddedArticles(@Model.RecentlyAddedArticlesEnabled.ToString().ToLower());
+                            toggleBestsellersOnHomepage(@Model.ShowBestsellersOnHomepage.ToString().ToLower());
+
+                            toggleTagPageSize(@Model.ArticlesByTagAllowUsersToSelectPageSize.ToString().ToLower());
+                            toggleSearchPageSize(@Model.ArticleSearchAllowUsersToSelectPageSize.ToString().ToLower());
+                            toggleArticleSearchAutoComplete(@Model.ArticleSearchAutoCompleteEnabled.ToString().ToLower());
+                            toggleHtmlTextCollapsedHeight(@Model.EnableHtmlTextCollapser.ToString().ToLower());
+                            toggleFilterEnabled(@Model.FilterEnabled.ToString().ToLower());
+                        });
+
+                        function toggleShowCategoryArticleNumberIncludingSubcategories(state) {
+                            if (state) {
+                                $('#pnlShowCategoryArticleNumberIncludingSubcategories').show();
+                            }
+                            else {
+                                $('#pnlShowCategoryArticleNumberIncludingSubcategories').hide();
+                            }
+                        }
+
+                        function toggleEmailAFriend(state) {
+                            if (state) {
+                                $('#pnlAllowAnonymousUsersToEmailAFriend').show();
+                            }
+                            else {
+                                $('#pnlAllowAnonymousUsersToEmailAFriend').hide();
+                            }
+                        }
+
+                        function toggleRecentlyViewedArticles(state) {
+                            if (state) {
+                                $('#pnlRecentlyViewedArticlesNumber').show();
+                            }
+                            else {
+                                $('#pnlRecentlyViewedArticlesNumber').hide();
+                            }
+                        }
+
+                        function toggleRecentlyAddedArticles(state) {
+                            if (state) {
+                                $('#pnlRecentlyAddedArticlesNumber').show();
+                            }
+                            else {
+                                $('#pnlRecentlyAddedArticlesNumber').hide();
+                            }
+                        }
+
+                        function toggleBestsellersOnHomepage(state) {
+                            if (state) {
+                                $('#pnlNumberOfBestsellersOnHomepage').show();
+                            }
+                            else {
+                                $('#pnlNumberOfBestsellersOnHomepage').hide();
+                            }
+                        }
+
+                        function toggleTagPageSize(state) {
+                            if (state) {
+                                $('#pnlTagPageSizeOptions').show();
+                            } else {
+                                $('#pnlTagPageSizeOptions').hide();
+                            }
+                        }
+
+                        function toggleSearchPageSize(state) {
+                            if (state) {
+                                $('#pnlSearchPageSizeOptions').show();
+                            } else {
+                                $('#pnlSearchPageSizeOptions').hide();
+                            }
+                        }
+
+                        function toggleArticleSearchAutoComplete(state) {
+                            if (state) {
+                                $('#pnlArticleSearchAutoCompleteNumberOfArticles').show();
+                                $('#pnlShowArticleImagesInSearchAutoComplete').show();
+                            }
+                            else {
+                                $('#pnlArticleSearchAutoCompleteNumberOfArticles').hide();
+                                $('#pnlShowArticleImagesInSearchAutoComplete').hide();
+                            }
+                        }
+
+                        function toggleHtmlTextCollapsedHeight(state) {
+                            if (state) {
+                                $('#pnlHtmlTextCollapsedHeight').show();
+                            }
+                            else {
+                                $('#pnlHtmlTextCollapsedHeight').hide();
+                            }
+                        }
+
+                        function toggleFilterEnabled(state) {
+                            if (state) {
+                                $('#pnlMaxFilterItemsToDisplay').show();
+                                $('#pnlExpandAllFilterCriteria').show();
+                            } else {
+                                $('#pnlMaxFilterItemsToDisplay').hide();
+                                $('#pnlExpandAllFilterCriteria').hide();
+                            }
+                        }
+                    </script>
+
+                    @Html.Action("SiteScopeConfiguration", "Setting")
+                    @Html.ValidationSummary(false)
+                    @(Html.CafSite().TabStrip().Name("catalogsettings-edit").Items(x =>
+                    {
+                        x.Add().Text(T("Admin.Configuration.Settings.Catalog.MiscSettings").Text).Content(@TabMiscSettings()).Selected(true);
+                        x.Add().Text(T("Admin.Configuration.Settings.Catalog.ArticleListSettings").Text).Content(@TabArticleListSettings());
+                        x.Add().Text(T("Admin.Configuration.Settings.Catalog.UserSettings").Text).Content(@TabUserSettings());
+                        x.Add().Text(T("Admin.Configuration.Settings.Catalog.ArticleDetailSettings").Text).Content(@TabArticleDetailSettings());
+                        x.Add().Text(T("Admin.Configuration.Settings.Catalog.ArticleSearchSettings").Text).Content(@TabArticleSearchSettings());
+                    }))
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @helper TabMiscSettings()
+{
+    <div class="form-body">
+
+     
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.IgnoreFeaturedArticles)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.IgnoreFeaturedArticles)
+                    @Html.ValidationMessageFor(model => model.IgnoreFeaturedArticles)
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.ShowBestsellersOnHomepage)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.ShowBestsellersOnHomepage)
+                    @Html.ValidationMessageFor(model => model.ShowBestsellersOnHomepage)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlNumberOfBestsellersOnHomepage">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.NumberOfBestsellersOnHomepage)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.NumberOfBestsellersOnHomepage)
+                    @Html.ValidationMessageFor(model => model.NumberOfBestsellersOnHomepage)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.EnableHtmlTextCollapser)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.EnableHtmlTextCollapser)
+                    @Html.ValidationMessageFor(model => model.EnableHtmlTextCollapser)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlHtmlTextCollapsedHeight">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.HtmlTextCollapsedHeight)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.HtmlTextCollapsedHeight)
+                    @Html.ValidationMessageFor(model => model.HtmlTextCollapsedHeight)
+                </div>
+            </div>
+        </div>
+   
+    </div>
+}
+
+    @helper TabArticleListSettings()
+{
+    <fieldset>
+        <legend>@T("Common.Navigation")</legend>
+        <div class="form-body">
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.ShowArticlesFromSubcategories)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.ShowArticlesFromSubcategories)
+                        @Html.ValidationMessageFor(model => model.ShowArticlesFromSubcategories)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.IncludeFeaturedArticlesInNormalLists)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.IncludeFeaturedArticlesInNormalLists)
+                        @Html.ValidationMessageFor(model => model.IncludeFeaturedArticlesInNormalLists)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.ShowCategoryArticleNumber)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.ShowCategoryArticleNumber)
+                        @Html.ValidationMessageFor(model => model.ShowCategoryArticleNumber)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" id="pnlShowCategoryArticleNumberIncludingSubcategories">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.ShowCategoryArticleNumberIncludingSubcategories)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.ShowCategoryArticleNumberIncludingSubcategories)
+                        @Html.ValidationMessageFor(model => model.ShowCategoryArticleNumberIncludingSubcategories)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.CategoryBreadcrumbEnabled)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.CategoryBreadcrumbEnabled)
+                        @Html.ValidationMessageFor(model => model.CategoryBreadcrumbEnabled)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.FilterEnabled)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.FilterEnabled)
+                        @Html.ValidationMessageFor(model => model.FilterEnabled)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" id="pnlMaxFilterItemsToDisplay">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.MaxFilterItemsToDisplay)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.MaxFilterItemsToDisplay)
+                        @Html.ValidationMessageFor(model => model.MaxFilterItemsToDisplay)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" id="pnlExpandAllFilterCriteria">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.ExpandAllFilterCriteria)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.ExpandAllFilterCriteria)
+                        @Html.ValidationMessageFor(model => model.ExpandAllFilterCriteria)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.ShowSubcategoriesAboveArticleLists)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.ShowSubcategoriesAboveArticleLists)
+                        @Html.ValidationMessageFor(model => model.ShowSubcategoriesAboveArticleLists)
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>@T("Common.List")</legend>
+        <div class="form-body">
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.AllowArticleSorting)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.AllowArticleSorting)
+                        @Html.ValidationMessageFor(model => model.AllowArticleSorting)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.DefaultViewMode)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingOverrideCheckbox(model => Model.DefaultViewMode)
+                        @Html.DropDownListFor(model => model.DefaultViewMode, Model.AvailableDefaultViewModes, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.DefaultViewMode)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.AllowArticleViewModeChanging)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.AllowArticleViewModeChanging)
+                        @Html.ValidationMessageFor(model => model.AllowArticleViewModeChanging)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.DefaultPageSizeOptions)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.DefaultPageSizeOptions)
+                        @Html.ValidationMessageFor(model => model.DefaultPageSizeOptions)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    @*<fieldset>
+        <legend>@T("Admin.ContentManagement.Articles")</legend>
+        <div class="form-body">
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.ShowDeliveryTimesInArticleLists)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.ShowDeliveryTimesInArticleLists)
+                        @Html.ValidationMessageFor(model => model.ShowDeliveryTimesInArticleLists)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.ShowBasePriceInArticleLists)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.ShowBasePriceInArticleLists)
+                        @Html.ValidationMessageFor(model => model.ShowBasePriceInArticleLists)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.ShowColorSquaresInLists)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.ShowColorSquaresInLists)
+                        @Html.ValidationMessageFor(model => model.ShowColorSquaresInLists)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.HideBuyButtonInLists)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.HideBuyButtonInLists)
+                        @Html.ValidationMessageFor(model => model.HideBuyButtonInLists)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.LabelAsNewForMaxDays)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.LabelAsNewForMaxDays)
+                        @Html.ValidationMessageFor(model => model.LabelAsNewForMaxDays)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>*@
+
+    <fieldset>
+        <legend>@T("Admin.ArticleCategory.ArticleTags")</legend>
+        <div class="form-body">
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.NumberOfArticleTags)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.NumberOfArticleTags)
+                        @Html.ValidationMessageFor(model => model.NumberOfArticleTags)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.ArticlesByTagPageSize)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.ArticlesByTagPageSize)
+                        @Html.ValidationMessageFor(model => model.ArticlesByTagPageSize)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.ArticlesByTagAllowUsersToSelectPageSize)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.ArticlesByTagAllowUsersToSelectPageSize)
+                        @Html.ValidationMessageFor(model => model.ArticlesByTagAllowUsersToSelectPageSize)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" id="pnlTagPageSizeOptions">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.ArticlesByTagPageSizeOptions)
+                </label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @Html.SettingEditorFor(model => model.ArticlesByTagPageSizeOptions)
+                        @Html.ValidationMessageFor(model => model.ArticlesByTagPageSizeOptions)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+
+    @helper TabUserSettings()
+{
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.ShowArticleReviewsInArticleLists)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.ShowArticleReviewsInArticleLists)
+                    @Html.ValidationMessageFor(model => model.ShowArticleReviewsInArticleLists)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.ShowArticleReviewsInArticleDetail)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.ShowArticleReviewsInArticleDetail)
+                    @Html.ValidationMessageFor(model => model.ShowArticleReviewsInArticleDetail)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.ArticleReviewsMustBeApproved)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.ArticleReviewsMustBeApproved)
+                    @Html.ValidationMessageFor(model => model.ArticleReviewsMustBeApproved)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AllowAnonymousUsersToReviewArticle)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AllowAnonymousUsersToReviewArticle)
+                    @Html.ValidationMessageFor(model => model.AllowAnonymousUsersToReviewArticle)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.NotifySiteOwnerAboutNewArticleReviews)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.NotifySiteOwnerAboutNewArticleReviews)
+                    @Html.ValidationMessageFor(model => model.NotifySiteOwnerAboutNewArticleReviews)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AskQuestionEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AskQuestionEnabled)
+                    @Html.ValidationMessageFor(model => model.AskQuestionEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.EmailAFriendEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.EmailAFriendEnabled)
+                    @Html.ValidationMessageFor(model => model.EmailAFriendEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlAllowAnonymousUsersToEmailAFriend">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AllowAnonymousUsersToEmailAFriend)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AllowAnonymousUsersToEmailAFriend)
+                    @Html.ValidationMessageFor(model => model.AllowAnonymousUsersToEmailAFriend)
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+    @helper TabArticleDetailSettings()
+{
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.RecentlyViewedArticlesEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.RecentlyViewedArticlesEnabled)
+                    @Html.ValidationMessageFor(model => model.RecentlyViewedArticlesEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlRecentlyViewedArticlesNumber">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.RecentlyViewedArticlesNumber)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.RecentlyViewedArticlesNumber)
+                    @Html.ValidationMessageFor(model => model.RecentlyViewedArticlesNumber)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.RecentlyAddedArticlesEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.RecentlyAddedArticlesEnabled)
+                    @Html.ValidationMessageFor(model => model.RecentlyAddedArticlesEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlRecentlyAddedArticlesNumber">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.RecentlyAddedArticlesNumber)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.RecentlyAddedArticlesNumber)
+                    @Html.ValidationMessageFor(model => model.RecentlyAddedArticlesNumber)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.ShowShareButton)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.ShowShareButton)
+                    @Html.ValidationMessageFor(model => model.ShowShareButton)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.DisplayAllImagesNumber)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.DisplayAllImagesNumber)
+                    @Html.ValidationMessageFor(model => model.DisplayAllImagesNumber)
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.PostsPageSize)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.PostsPageSize)
+                    @Html.ValidationMessageFor(model => model.PostsPageSize)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AllowNotRegisteredUsersToLeaveComments)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AllowNotRegisteredUsersToLeaveComments)
+                    @Html.ValidationMessageFor(model => model.AllowNotRegisteredUsersToLeaveComments)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.NotifyAboutNewArticleComments)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.NotifyAboutNewArticleComments)
+                    @Html.ValidationMessageFor(model => model.NotifyAboutNewArticleComments)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.NumberOfTags)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.NumberOfTags)
+                    @Html.ValidationMessageFor(model => model.NumberOfTags)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.ShowHeaderRssUrl)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.ShowHeaderRssUrl)
+                    @Html.ValidationMessageFor(model => model.ShowHeaderRssUrl)
+                </div>
+            </div>
+        </div>
+    </div>
+}
+    @helper TabArticleSearchSettings()
+{
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.SearchPageArticlesPerPage)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.SearchPageArticlesPerPage)
+                    @Html.ValidationMessageFor(model => model.SearchPageArticlesPerPage)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.ArticleSearchAllowUsersToSelectPageSize)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.ArticleSearchAllowUsersToSelectPageSize)
+                    @Html.ValidationMessageFor(model => model.ArticleSearchAllowUsersToSelectPageSize)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlSearchPageSizeOptions">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.ArticleSearchPageSizeOptions)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.ArticleSearchPageSizeOptions)
+                    @Html.ValidationMessageFor(model => model.ArticleSearchPageSizeOptions)
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.ArticleSearchAutoCompleteEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.ArticleSearchAutoCompleteEnabled)
+                    @Html.ValidationMessageFor(model => model.ArticleSearchAutoCompleteEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlShowArticleImagesInSearchAutoComplete">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.ShowArticleImagesInSearchAutoComplete)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.ShowArticleImagesInSearchAutoComplete)
+                    @Html.ValidationMessageFor(model => model.ShowArticleImagesInSearchAutoComplete)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlArticleSearchAutoCompleteNumberOfArticles">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.ArticleSearchAutoCompleteNumberOfArticles)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.ArticleSearchAutoCompleteNumberOfArticles)
+                    @Html.ValidationMessageFor(model => model.ArticleSearchAutoCompleteNumberOfArticles)
+                </div>
+            </div>
+        </div>
+    </div>
+}
+}

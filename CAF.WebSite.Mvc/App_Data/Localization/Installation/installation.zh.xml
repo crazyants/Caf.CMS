@@ -1,0 +1,187 @@
+﻿<Language Name="中文" IsDefault="true" IsRightToLeft="false" LanguageCulture="zh-CN" FlagImageFileName="cn.png">
+  <LocaleResource Name="AdminEmail">
+    <Value>管理员用户的电子邮件</Value>
+  </LocaleResource>
+  <LocaleResource Name="AdminEmailRequired">
+    <Value>输入管理员的电子邮件</Value>
+  </LocaleResource>
+  <LocaleResource Name="AdminPassword">
+    <Value>管理员用户密码</Value>
+  </LocaleResource>
+  <LocaleResource Name="AdminPasswordRequired">
+    <Value>输入管理员密码</Value>
+  </LocaleResource>
+  <LocaleResource Name="ConfigureDirectoryPermissions">
+    <Value>'{0}' 帐户不被授予文件夹 '{1}'修改权限. 请配置这些权限.</Value>
+  </LocaleResource>
+  <LocaleResource Name="ConfigureFilePermissions">
+    <Value>'{0}'帐户不授予与文件'{1}'修改权限. 请配置这些权限.</Value>
+  </LocaleResource>
+  <LocaleResource Name="ConfirmPassword">
+    <Value>确认密码</Value>
+  </LocaleResource>
+  <LocaleResource Name="ConfirmPasswordRequired">
+    <Value>输入确认密码</Value>
+  </LocaleResource>
+  <LocaleResource Name="ConnectionString">
+    <Value>连接字符串</Value>
+  </LocaleResource>
+  <LocaleResource Name="ConnectionStringRequired">
+    <Value>SQL 连接字符串是必须的</Value>
+  </LocaleResource>
+  <LocaleResource Name="ConnectionStringValues">
+    <Value>输入 SQL 连接字符串</Value>
+  </LocaleResource>
+  <LocaleResource Name="ConnectionStringWrongFormat">
+    <Value>SQL 连接字符串格式错误</Value>
+  </LocaleResource>
+  <LocaleResource Name="CreateDatabaseIfDoesNotExist">
+    <Value>如果数据库不存在则创建数据库</Value>
+  </LocaleResource>
+  <LocaleResource Name="CreateSampleData">
+    <Value>创建示例数据</Value>
+  </LocaleResource>
+  <LocaleResource Name="CustomCollation">
+    <Value>指定自定义的 SQL Server 排序规则</Value>
+  </LocaleResource>
+  <LocaleResource Name="DatabaseCreationError">
+    <Value>创建数据库时出错: {0}</Value>
+  </LocaleResource>
+  <LocaleResource Name="DatabaseInformation">
+    <Value>数据库信息</Value>
+  </LocaleResource>
+  <LocaleResource Name="DatabaseName">
+    <Value>数据库名称</Value>
+  </LocaleResource>
+  <LocaleResource Name="DatabaseNameRequired">
+    <Value>数据库名称是必填项</Value>
+  </LocaleResource>
+  <LocaleResource Name="DatabaseNotExists">
+    <Value>数据库不存在或者您没有权限连接到它</Value>
+  </LocaleResource>
+  <LocaleResource Name="DataProviderRequired">
+    <Value>选择数据提供程序</Value>
+  </LocaleResource>
+  <LocaleResource Name="Example">
+    <Value>示例</Value>
+  </LocaleResource>
+  <LocaleResource Name="Install">
+    <Value>安装</Value>
+  </LocaleResource>
+  <LocaleResource Name="Installing">
+    <Value>安装疯狂蚂蚁CMS ...</Value>
+  </LocaleResource>
+  <LocaleResource Name="PasswordsDoNotMatch">
+    <Value>密码不匹配</Value>
+  </LocaleResource>
+  <LocaleResource Name="RawConnectionString">
+    <Value>输入原始连接字符串 （高级）</Value>
+  </LocaleResource>
+  <LocaleResource Name="Recommended">
+    <Value>[建议]</Value>
+  </LocaleResource>
+  <LocaleResource Name="RestartInstallation">
+    <Value>重新启动安装</Value>
+  </LocaleResource>
+  <LocaleResource Name="RestartInstallationTooltip">
+    <Value>单击以重新启动安装过程 （清除所有的缓存值）</Value>
+  </LocaleResource>
+  <LocaleResource Name="SetupFailed">
+    <Value>安装失败: {0}</Value>
+  </LocaleResource>
+  <LocaleResource Name="SqlAuthentication">
+    <Value>使用 SQL Server 帐户</Value>
+  </LocaleResource>
+  <LocaleResource Name="SqlCompact">
+    <Value>使用内置的数据存储 (SQL Server Compact)</Value>
+  </LocaleResource>
+  <LocaleResource Name="SqlServerName">
+    <Value>SQL 服务器名称</Value>
+  </LocaleResource>
+  <LocaleResource Name="SqlServerNameRequired">
+    <Value>SQL 服务器名称是必填项</Value>
+  </LocaleResource>
+  <LocaleResource Name="SqlServerPassword">
+    <Value>SQL 密码</Value>
+  </LocaleResource>
+  <LocaleResource Name="SqlServerPasswordRequired">
+    <Value>SQL 密码是必填项</Value>
+  </LocaleResource>
+  <LocaleResource Name="SqlServerUserName">
+    <Value>SQL 用户名</Value>
+  </LocaleResource>
+  <LocaleResource Name="SqlServerUserNameRequired">
+    <Value>SQL 用户名是必填项</Value>
+  </LocaleResource>
+  <LocaleResource Name="SqlStandard">
+    <Value>使用 SQL Server (or SQL Express) 数据库</Value>
+  </LocaleResource>
+  <LocaleResource Name="SiteInformation">
+    <Value>网站信息</Value>
+  </LocaleResource>
+  <LocaleResource Name="Title">
+    <Value>安装</Value>
+  </LocaleResource>
+  <LocaleResource Name="Tooltip1">
+    <Value>疯狂蚂蚁CMS 是领先的 ASP.NET 内容管理系统解决方案。此向导将指导您完成配置 疯狂蚂蚁CMS 的安装</Value>
+  </LocaleResource>
+  <LocaleResource Name="Tooltip2">
+    <Value>若要完成此向导，您必须知道关于您的数据库服务器 （"连接字符串"） 的一些信息。请如有必要，与您的 ISP 联系。如果你安装在本地计算机或服务器上，您可能需要从系统管理员了解信息.</Value>
+  </LocaleResource>
+  <LocaleResource Name="WindowsAuthentication">
+    <Value>使用集成的 Windows 身份验证</Value>
+  </LocaleResource>
+  
+  <LocaleResource Name="PrimaryLanguage">
+    <Value>主要语言</Value>
+  </LocaleResource>
+  <LocaleResource Name="PrimaryLanguageRequired">
+    <Value>主要语言为必填项</Value>
+  </LocaleResource>
+  <LocaleResource Name="ConfirmInstall">
+    <Value>你现在想要安装《疯狂蚂蚁CMS》吗?</Value>
+  </LocaleResource>
+  <LocaleResource Name="AdminEmailValue">
+    <Value>admin@mystore.com</Value>
+  </LocaleResource>
+  
+  <LocaleResource Name="MediaStorage.Label">
+    <Value>媒体存储</Value>
+  </LocaleResource>
+  <LocaleResource Name="MediaStorage.Hint">
+    <Value>选择'文件系统'，如果您的数据库不能提供足够的磁盘空间 (&lt; 500 MB). 否则，建议您选择'数据库'存储.</Value>
+  </LocaleResource>
+  <LocaleResource Name="MediaStorage.DB">
+    <Value>数据库</Value>
+  </LocaleResource>
+  <LocaleResource Name="MediaStorage.FS">
+    <Value>文件系统</Value>
+  </LocaleResource>
+
+  <LocaleResource Name="Common.Notification">
+    <Value>提示</Value>
+  </LocaleResource>
+  <LocaleResource Name="Common.StartShop">
+    <Value>安装完成成功 ;-) 现在正在启动你的网站...</Value>
+  </LocaleResource>
+  
+  <LocaleResource Name="Progress.CheckingRequirements">
+    <Value>检查要求</Value>
+  </LocaleResource>
+  <LocaleResource Name="Progress.BuildingDatabase">
+    <Value>构建数据库</Value>
+  </LocaleResource>
+  <LocaleResource Name="Progress.InstallingPlugins">
+    <Value>安装插件 {0} of {1}</Value>
+  </LocaleResource>
+  <LocaleResource Name="Progress.Finalizing">
+    <Value>正在完成安装</Value>
+  </LocaleResource>
+  <LocaleResource Name="Progress.CreatingRequiredData">
+    <Value>创建所需的数据</Value>
+  </LocaleResource>
+  <LocaleResource Name="Progress.CreatingSampleData">
+    <Value>创建示例数据</Value>
+  </LocaleResource>
+  
+</Language>

@@ -1,0 +1,247 @@
+﻿@model  ArticleCategoryModel
+@using CAF.WebSite.Application.WebUI
+@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+@using CAF.Mvc.JQuery.Datatables.Core;
+@{
+    Layout = "~/Administrator/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = T("Admin.ContentManagement.ArticleCategory.Manage").Text;
+    var g = Html.GridToolKit();
+    var grid = g.DataGrid("categoryGird", g.Param(x => x.Id)).TableId("table-id").GridKey("Id").Pager()
+    .IsTree("ParentCategoryId")
+    .MainGrid(
+    g.GridColumn(null, null, 50).DefaultContent("<input type='checkbox' class='checkboxes' value='#Id#'>"),
+    g.GridColumn(x => x.Breadcrumb),
+   g.GridColumn(x => x.ChannelName, 100),
+    g.GridColumn(x => x.Published, 50),
+    g.GridColumn(x => x.DisplayOrder, 50),
+    g.GridColumn("operation", "" + T("Admin.Common.Operation").Text + "", 150).DefaultContent("<a href='" + @Url.Content("~/Admin/ArticleCategory/Edit/") + "#Id#' title='编辑分类' class='btn default btn-xs purple'><i class='fa fa-pencil'></i></a>"))
+    .Url(Url.Action("List", "ArticleCategory", new { id = Model.Id, SearchChannelId = Model.ChannelId })).DefaultTableClass().BindInitComplete("BindTreeTable").BindDataParamBinding("onDataBinding");
+}
+<script type="text/javascript">
+    function onDataBinding() {
+        var searchModel = {
+            SearchCategoryName: $('#@Html.FieldIdFor(model => model.Name)').val(),
+            SearchAlias: $('#@Html.FieldIdFor(model => model.Alias)').val(),
+            SearchChannelId: $('#@Html.FieldIdFor(model => model.ChannelId)').val()
+        };
+        return searchModel;
+    }
+    window.BindTreeTable = function () {
+        var $treeTable = $('#table-id');
+        $treeTable.treetable({ expandable: true });
+        $treeTable.treetable('expandAll');
+    }
+
+    var selectedIds = [];
+
+    $(document).ready(function () {
+        @(grid)
+
+        //"delete selected" button
+        $('#delete-selected').click(function (e) {
+            bootbox.confirm("你确定删除?", function (result) {
+                if (result) {
+                    e.preventDefault();
+                    selectedIds = categoryGird.getSelectedRows();
+                    var postData = {
+                        selectedIds: selectedIds
+                    };
+                    $.ajax({
+                        cache: false,
+                        type: "POST",
+                        url: "@(Url.Action("DeleteSelected", "ArticleCategory"))",
+                        data: postData,
+                        complete: function (data) {
+                            //reload grid
+                            categoryGird.reload();
+                            selectedIds = [];
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert(thrownError);
+                        },
+                        traditional: true
+                    });
+                }
+            });
+            return false;
+        });
+
+
+        //search button
+        $('#btnSearch').click(function () {
+            //search
+            categoryGird.reload();
+            return false;
+        });
+        $("#bulkEditSave").click(function (e) {
+            e.preventDefault();
+
+            var selectedIds = categoryGird.getSelectedRows();
+            if (selectedIds.length <= 0) {
+                bootbox.alert("至少选择选择一项内容!");
+                return;
+            }
+
+            var postData = {
+                selectedIds: selectedIds,
+                TemplateId: $("#TemplateId").val(),
+                OpenTemplateCheckBox: $("#@Html.FieldIdFor(model => model.BatchCategory.OpenTemplateCheckBox)").is(":checked"),
+            };
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "@(Url.Action("BulkEditSave", "ArticleCategory"))",
+                data: postData,
+                complete: function (data) {
+                    $('#bulkedit-window').modal('toggle');
+
+                    categoryGird.reload();
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(thrownError);
+                },
+                traditional: true
+            });
+
+        });
+    });
+</script>
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "categorylist-form" }))
+        {
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase">@T("Admin.ContentManagement.ArticleCategory.Manage")</span>
+                        <span class="caption-helper"></span>
+                    </div>
+                    <div class="tools">
+                        @*<a href="javascript:;" class="collapse"></a>*@
+                    </div>
+                    <div class="actions">
+                        <a href="@Url.Action("Create", new { channelId=Model.ChannelId })" class="btn yellow"><i class="fa fa-plus"></i>@T("Admin.Common.AddNew") </a>
+                        <button type="submit" id="delete-selected" class="btn green">
+                            <i class="fa fa-trash-o"></i>
+                            @T("Admin.Common.Delete.Selected")
+                        </button>
+                        <a href="#bulkedit-window" data-toggle="modal" class="btn btn-default">
+                            <i class="fa fa-arrow-left"></i>&nbsp;批量修改
+                        </a>
+                    </div>
+                </div>
+                @*<div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3">@Html.LangLabelFor(model => model.Name)</label>
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.Name, new { @id = "Title", @class = "form-filter form-control placeholder-no-fix", placeholder = "类别名称" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-groupm">
+                                        <label class="control-label col-md-3">@Html.LangLabelFor(model => model.Alias)</label>
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.Alias, new { @id = "CallIndex", @class = "form-filter form-control placeholder-no-fix", placeholder = "调用别名" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-groupm">
+                                        <label class="control-label col-md-3">@Html.LangLabelFor(model => model.ChannelId)</label>
+                                        <div class="col-md-9">
+                                            @Html.DropDownListFor(model => model.ChannelId, Model.AvailableChannels, T("Admin.Common.All").Text, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-groupm">
+
+                                        <div class="col-md-12">
+                                            <button type="submit" id="btnSearch" class="btn btn-default">
+                                                <i class="fa fa-search"></i>
+                                                @T("Admin.Common.Search")
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>*@
+                <div class="portlet-body flip-scroll">
+                    <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+                        <thead>
+                            <tr>
+                                @foreach (var column in grid.GetColumns)
+                                {
+                                    if (column.Name == "" + T("Admin.Common.Edit").Text + "")
+                                    {
+
+                                        <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                                    }
+                                    else if (column.DisplayName == null)
+                                    {
+
+                                        <th class="@column.CssClassHeader"><input type="checkbox" class="group-checkable" data-set="checkboxes"></th>
+
+                                    }
+                                    else
+                                    {
+                                        <th class="@column.CssClassHeader">@column.DisplayName</th>
+                                    }
+
+                                }
+                            </tr>
+
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@{Html.CafSite().Window()
+    .Name("bulkedit-window")
+    .Title(T("Admin.ContentManagement.BulkEdit").Text)
+    .Content(@<text>
+        @using (Html.BeginForm())
+        {
+            <input type="hidden" id="SelectedIds" name="SelectedIds" />
+            <div class="portlet-body form form-horizontal">
+                <div class="form-body">
+                    <div class="form-group">
+                        <label class="control-label col-md-3"> @T("Admin.ContentManagement.ModelTemplates").Text</label>
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    @Html.CheckBoxFor(model => model.BatchCategory.OpenTemplateCheckBox)
+                                </span>
+                                @Html.DropDownList("TemplateId", Model.AvailableModelTemplates, "", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.AvailableModelTemplates)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </text>)
+    .FooterContent(@<text>
+        <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">@T("Common.Close")</button>
+        <button id="bulkEditSave" type="button" class="btn btn-primary">@T("Admin.Common.Save")</button>
+    </text>)
+   .Modal(true)
+        .Visible(true)
+        .Render();
+}

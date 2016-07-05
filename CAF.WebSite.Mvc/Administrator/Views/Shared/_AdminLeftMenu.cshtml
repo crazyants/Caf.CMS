@@ -1,0 +1,226 @@
+﻿@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+@using CAF.WebSite.Application.WebUI;
+@{
+    var currentUser = this.WorkContext.CurrentUser;
+    // page title
+    string adminPageTitle = "";
+    if (!string.IsNullOrWhiteSpace(ViewBag.Title))
+    {
+        adminPageTitle = ViewBag.Title + " / ";
+    }
+    adminPageTitle += T("Admin.PageTitle").Text;
+
+    Layout = "";
+    var MediaRootPath = "~/Content/assets/";
+    Html.AppendCssFileParts(
+            MediaRootPath + "global/plugins/font-awesome/css/font-awesome.min.css",
+            MediaRootPath + "ace/css/bootstrap.css",
+            MediaRootPath + "ace/css/jquery.gritter.css",
+            MediaRootPath + "ace/css/ace.min.css",
+            MediaRootPath + "ace/css/site.css");
+
+    Html.AppendScriptParts(ResourceLocation.Head,
+          MediaRootPath + "global/plugins/jquery.min.js",
+          MediaRootPath + "ace/js/bootstrap.js",
+          MediaRootPath + "ace/js/com.opertool.js",
+          MediaRootPath + "ace/js/com.inithome.js",
+          MediaRootPath + "ace/js/ace-extra.js",
+          //MediaRootPath + "ace/js/ace.submenu-hover.js",
+          //MediaRootPath + "ace/js/elements.scroller.js",
+          MediaRootPath + "ace/js/ace.js",
+          MediaRootPath + "ace/js/ace-elements.js",
+          //MediaRootPath + "ace/js/ace.settings-skin.js",
+          //MediaRootPath + "ace/js/ace.sidebar.js",
+          MediaRootPath + "ace/js/jquery.popupoverlay.js",
+          MediaRootPath + "ace/js/bootstrap-tabdrop.js");
+
+}
+
+<!DOCTYPE html>
+<html class="no-js not-ready loading">
+<head>
+    <title>@adminPageTitle</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge; chrome=1" />
+    <script>
+        window.Res = {
+            "Common.Notification": "@T("Common.Notification").ToString().EncodeJsString()",
+        }
+    </script>
+
+    @Html.Partial("ConditionalComments")
+    @Html.MetaAcceptLanguage()
+    @Html.WorkCssFiles(this.Url, ResourceLocation.Head)
+    @Html.WorkScripts(this.Url, ResourceLocation.Head)
+
+    <link rel="shortcut icon" href="~/Administration/favicon.ico" />
+    <style type="text/css">
+        .nav-tabs,
+        .nav-pills {
+            position: relative;
+        }
+
+        .dropdown-preview {
+            margin: 0 5px;
+            display: inline-block;
+        }
+
+            .dropdown-preview > .dropdown-menu {
+                display: block;
+                position: static;
+                margin-bottom: 5px;
+            }
+    </style>
+
+
+</head>
+<body class="no-skin">
+    <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+        <script type="text/javascript">
+            try { ace.settings.check('navbar', 'fixed') } catch (e) {
+            }
+            var OldWindowNeedResize = true;
+
+        </script>
+
+        <div class="navbar-container" id="navbar-container">
+            <!-- #section:basics/sidebar.mobile.toggle -->
+            <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+                <span class="sr-only">Toggle sidebar</span>
+
+                <span class="icon-bar"></span>
+
+                <span class="icon-bar"></span>
+
+                <span class="icon-bar"></span>
+            </button>
+
+            <!-- /section:basics/sidebar.mobile.toggle -->
+
+            @Html.Action("Navbar", "Common", new { area = "Admin" })
+        
+          
+        </div>
+        <!-- /.navbar-container -->
+    </div>
+
+    <div class="main-container" id="main-container">
+
+        <!-- #section:basics/sidebar -->
+        <div id="sidebar" class="sidebar  responsive">
+            <script type="text/javascript">
+                try { ace.settings.check('sidebar', 'fixed') } catch (e) { }
+            </script>
+
+            
+            <div class="sidebar-shortcuts" id="sidebar-shortcuts" style="z-index:10000;">
+                <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+                    <button class="btn btn-success sidebar-collapse" id="sidebar-collapse">
+                        <i class="ace-icon fa fa-compress" data-icon1="ace-icon fa fa-compress" data-icon2="ace-icon fa fa-expand"></i>
+
+                    </button>
+                    <button class="btn btn-success">
+                        <i class="ace-icon fa fa-signal"></i>
+                    </button>
+
+                    <button class="btn btn-info">
+                        <i class="ace-icon fa fa-pencil"></i>
+                    </button>
+
+                </div>
+
+                <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+                    <span class="btn btn-success"></span>
+
+                    <span class="btn btn-info"></span>
+
+                    <span class="btn btn-warning"></span>
+
+                    <span class="btn btn-danger"></span>
+                </div>
+            </div>
+            @Html.Action("Menu", "Common", new { area = "Admin" })
+            <!-- /.nav-list -->
+            <!-- /section:basics/sidebar.layout.minimize -->
+            <script type="text/javascript">
+                try { ace.settings.check('sidebar', 'collapsed') } catch (e) { }
+            </script>
+        </div>
+
+        <!-- /section:basics/sidebar -->
+        <div class="main-content">
+
+            <div class="widget-box transparent" style="margin: 0px;">
+                <div class="widget-header" style="background-color: #f9f9f9">
+                    <div class="widget-toolbar no-border" style="float: left; padding: 0px;">
+                        <ul class="nav  nav-tabs nav-pills" id="myTab">
+                            <li id="tab-FirstPage"><a data-toggle="tab" href="#tab-menuFirstPage"><i class="green ace-icon fa fa-home"></i>首页</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-0">
+                        <div id="myTabContent" class="tab-content" style="padding: 0px;">
+                            <div id="tab-menuFirstPage" class="tab-pane fade" style="background-color: #fcfcfc;">
+                                <div style="padding: 10px 50px" id="homePage">
+                                    @RenderBody()
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.main-content -->
+
+    </div>
+
+    <div class="dropdown dropdown-preview RMclickmenu" id="myTabMenu" style="display: none; position: absolute; z-index: 99;">
+        <ul class="dropdown-menu dropdown-yellow">
+            <li onmousedown="RefThisTab();">
+                <a href="#" tabindex="-1"><i class="ace-icon fa fa-refresh green " style="margin-right:5px;"></i>刷新</a>
+            </li>
+            <li class="divider"></li>
+            <li onmousedown="CloseThisTab();">
+                <a href="#" tabindex="-1"><i class="ace-icon fa fa-times fa-lg orange" style="margin-right:5px;"></i>关闭当前页</a>
+            </li>
+            <li onmousedown="CloseAllTab();">
+                <a href="#" tabindex="-1"><i class="ace-icon fa fa-unlink1 red" style="margin-right:5px;"></i>除此之外全部关闭</a>
+            </li>
+            <li class="divider"></li>
+            <li onmousedown="CloseAllTab('true');">
+                <a href="#" tabindex="-1"><i class="ace-icon fa fa-unlink red" style="margin-right:5px;"></i>关闭所有页面</a>
+            </li>
+
+        </ul>
+    </div>
+
+
+    <div id="homeDialog" class="row no-margin hidden">
+
+    </div>
+
+    <div id="connUserInfo" class="hidden">
+        <div class="row">
+
+            <div class="col-xs-12">
+                <button class="btn  btn-white btn-warning pull-right" id="btnHeCut" style="margin-bottom: 10px;"><i class="ace-icon fa fa-unlink"></i>强制下线</button>
+            </div>
+
+            <div class="col-xs-12">
+                <div class="width-100" style="height:300px;">
+                    <table id="tt_connUserInfo"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Html.WorkCssFiles(this.Url, ResourceLocation.Foot)
+    @Html.WorkScripts(this.Url, ResourceLocation.Foot)
+
+
+</body>
+
+</html>

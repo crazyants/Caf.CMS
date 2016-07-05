@@ -1,0 +1,47 @@
+﻿@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+@{
+    Layout = "~/Views/Shared/_Layout.Head.cshtml";
+}
+@if (IsSectionDefined("header"))
+{
+    @RenderSection("header")
+}
+else
+{
+    <header>
+        @Html.Action("Header", "Common", new { area = "" })
+        <div class="HER--con position">
+            <div class="width DG-nav">
+                <div class="HER--con-logo fl">
+                    <a href="" title="护肤品公司" id="web_logo">
+                        <img src="/Themes/AlphaCosmetics/Content/images/logo.png" alt="护肤品公司" title="护肤品公司" style="margin:0px 0px 0px 0px;" />
+                    </a>
+                </div>
+                <nav class="DG-nav fr met_nav">
+                    @Html.Action("MegaMenu", "ArticleCatalog", new { currentCategoryId = this.CurrentArticleCategoryId, currentArticleId = this.CurrentArticleId, area = "" })
+                </nav>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </header>
+}
+
+@RenderBody()
+@if (IsSectionDefined("footer"))
+{
+    @RenderSection("footer")
+}
+else
+{
+    @Html.Action("Footer", "Common", new { area = "" })
+}
+@if (IsSectionDefined("FootScript"))
+{
+    @RenderSection("FootScript", required: false)
+}
+else
+{
+
+}
+

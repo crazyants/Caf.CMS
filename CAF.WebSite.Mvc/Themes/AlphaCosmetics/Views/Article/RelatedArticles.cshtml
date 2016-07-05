@@ -1,0 +1,27 @@
+﻿@model IList<ArticlePostModel>
+
+@if (Model.Count > 0)
+{
+
+    <div class="block">
+        <div class="block-title">
+            <h3>@T("Products.RelatedArticles")</h3>
+        </div>
+        <div class="block-body">
+            <div class="related-articles-grid article-list scroll">
+                <div class="pl-row row">
+                    @foreach (var item in Model)
+                    {
+                        <article class="item-box article-compact span4 equalized-column" data-equalized-deep="true">
+                            @*@Html.Partial("_ProductBoxCompact", item)*@
+                        </article>
+                    }
+                </div>
+                <a class="sb invisible pl-scroll-prev sb-dir-left disabled" href="#" rel="nofollow"><</a>
+                <a class="sb invisible pl-scroll-next sb-dir-right" href="#" rel="nofollow">></a>
+            </div>
+        </div>
+    </div>
+
+   
+}

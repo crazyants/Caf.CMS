@@ -1,0 +1,55 @@
+﻿@model SiteScopeConfigurationModel
+
+@*<div class="multi-site-scope well well-small">
+        <table class="adminContent">
+        <tr>
+            <td class="adminTitle">
+                <div class="ctl-label">
+                    @T("Admin.Configuration.Settings.SiteScope")
+                </div>
+            </td>
+            <td class="adminData">
+                @Html.DropDownList("site-scope-configuration", Model.AllSites, new { onchange = "setLocation(this.value);" })
+            </td>
+        </tr>
+        @if (Model.SiteId > 0)
+        {
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <label class="checkbox">
+                        <input type="checkbox" onclick="Admin.checkAllOverriddenSiteValue(this)">
+                        <span>@T("Admin.Configuration.Settings.SiteScope.CheckAll")</span>
+                        <span class="hint">(@(T("Admin.Configuration.Settings.SiteScope.CheckAll.Hint")))</span>
+                    </label>
+                </td>
+            </tr>
+        }
+        </table>
+    </div>*@
+
+<div class="form-body">
+    <div class="form-group">
+        <label class="control-label col-md-3">@T("Admin.Configuration.Settings.SiteScope")</label>
+        <div class="col-md-3">
+            @Html.DropDownList("site-scope-configuration", Model.AllSites, new { @class = "form-control", onchange = "setLocation(this.value);" })
+        </div>
+    </div>
+    @if (Model.SiteId > 0)
+    {
+        <div class="form-group">
+            <label class="control-label col-md-3"></label>
+            <div class="col-md-6">
+                <input type="checkbox" onclick="Admin.checkAllOverriddenSiteValue(this)">
+                <span>@T("Admin.Configuration.Settings.SiteScope.CheckAll")</span>
+                <span class="hint">(@(T("Admin.Configuration.Settings.SiteScope.CheckAll.Hint")))</span>
+            </div>
+        </div>     
+    }
+</div>
+
+<script>
+    $(function () {
+        $('#site-scope-configuration').selectWrapper();
+    });
+</script>

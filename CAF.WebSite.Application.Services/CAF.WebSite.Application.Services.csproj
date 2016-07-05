@@ -1,0 +1,486 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{83BAB22A-C88B-43E9-928B-5C3D5C5A738F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CAF.WebSite.Application.Services</RootNamespace>
+    <AssemblyName>CAF.WebSite.Application.Services</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.4.0\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="CAF.Infrastructure.Core">
+      <HintPath>..\Libraries\CAF.Infrastructure.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="CAF.Infrastructure.Data">
+      <HintPath>..\Libraries\CAF.Infrastructure.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="CAF.Infrastructure.Search">
+      <HintPath>..\Libraries\CAF.Infrastructure.Search.dll</HintPath>
+    </Reference>
+    <Reference Include="CronExpressionDescriptor">
+      <HintPath>..\packages\CronExpressionDescriptor.1.17.0\lib\net45\CronExpressionDescriptor.dll</HintPath>
+    </Reference>
+    <Reference Include="EFCache">
+      <HintPath>..\packages\EntityFramework.Cache.1.0.0\lib\net45\EFCache.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus">
+      <HintPath>..\packages\EPPlus.4.0.3\lib\net20\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="Fasterflect">
+      <HintPath>..\packages\fasterflect.2.1.3\lib\net40\Fasterflect.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageResizer">
+      <HintPath>..\packages\ImageResizer.3.4.3\lib\ImageResizer.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageResizer.Plugins.PrettyGifs">
+      <HintPath>..\packages\ImageResizer.Plugins.PrettyGifs.3.4.3\lib\ImageResizer.Plugins.PrettyGifs.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp">
+      <HintPath>..\packages\iTextSharp.5.5.5\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="MaxMind.GeoIP">
+      <HintPath>..\packages\MaxMind.GeoIP.2.1.17\lib\net35\MaxMind.GeoIP.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="NCrontab">
+      <HintPath>..\packages\ncrontab.2.0.0\lib\net20\NCrontab.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NReco.PdfGenerator">
+      <HintPath>..\packages\NReco.PdfGenerator.1.1.6.0\lib\net20\NReco.PdfGenerator.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UAParser">
+      <HintPath>..\packages\UAParser.1.2.0.0\lib\net35-Client\UAParser.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Affiliates\AffiliateService.cs" />
+    <Compile Include="Affiliates\IAffiliateService.cs" />
+    <Compile Include="Authentication\External\AuthorizationResult.cs" />
+    <Compile Include="Authentication\External\AuthorizeState.cs" />
+    <Compile Include="Authentication\External\ExternalAuthorizer.cs" />
+    <Compile Include="Authentication\External\ExternalAuthorizerHelper.cs" />
+    <Compile Include="Authentication\External\IClaimsTranslator.cs" />
+    <Compile Include="Authentication\External\IExternalAuthenticationMethod.cs" />
+    <Compile Include="Authentication\External\IExternalAuthorizer.cs" />
+    <Compile Include="Authentication\External\IExternalProviderAuthorizer.cs" />
+    <Compile Include="Authentication\External\IOpenAuthenticationService.cs" />
+    <Compile Include="Authentication\External\OpenAuthenticationParameters.cs" />
+    <Compile Include="Authentication\External\OpenAuthenticationService.cs" />
+    <Compile Include="Authentication\External\OpenAuthenticationStatus.cs" />
+    <Compile Include="Authentication\External\OpenAuthentificationExtentions.cs" />
+    <Compile Include="Authentication\External\RegistrationDetails.cs" />
+    <Compile Include="Authentication\External\UserClaims.cs" />
+    <Compile Include="Authentication\FormsAuthenticationService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Authentication\IAuthenticationService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Cms\Articles\ArticleExtensions.cs" />
+    <Compile Include="Cms\Articles\ArticleSearchContext.cs" />
+    <Compile Include="Cms\Articles\ArticleService.cs" />
+    <Compile Include="Cms\Articles\ModelTemplateService.cs" />
+    <Compile Include="Cms\Articles\ExtendedAttributeExtensions.cs" />
+    <Compile Include="Cms\Articles\ExtendedAttributeFormatter.cs" />
+    <Compile Include="Cms\Articles\ExtendedAttributeParser.cs" />
+    <Compile Include="Cms\Articles\ExtendedAttributeService.cs" />
+    <Compile Include="Cms\Articles\ArticleAttributeService.cs" />
+    <Compile Include="Cms\Articles\ArticleAttributeExtentions.cs" />
+    <Compile Include="Cms\Articles\IArticleService.cs" />
+    <Compile Include="Cms\Articles\ArticleCategoryExtensions.cs" />
+    <Compile Include="Cms\Articles\ArticleCategoryService.cs" />
+    <Compile Include="Cms\Articles\IArticleCategoryService.cs" />
+    <Compile Include="Cms\Articles\IModelTemplateService.cs" />
+    <Compile Include="Cms\Articles\ArticlesSearchingEvent.cs" />
+    <Compile Include="Cms\Articles\IArticleTagService.cs" />
+    <Compile Include="Cms\Articles\ArticleTagService.cs" />
+    <Compile Include="Cms\Articles\IExtendedAttributeFormatter.cs" />
+    <Compile Include="Cms\Articles\IExtendedAttributeParser.cs" />
+    <Compile Include="Cms\Articles\IExtendedAttributeService.cs" />
+    <Compile Include="Cms\Articles\IArticleAttributeService.cs" />
+    <Compile Include="Cms\Articles\IRecentlyViewedProductsService.cs" />
+    <Compile Include="Cms\Articles\IArticleCategoryMappingService.cs" />
+    <Compile Include="Cms\Articles\RecentlyViewedProductsService.cs" />
+    <Compile Include="Cms\Articles\ArticleCategoryMappingService.cs" />
+    <Compile Include="Cms\Channels\ChannelExtensions.cs" />
+    <Compile Include="Cms\Channels\ChannelService.cs" />
+    <Compile Include="Cms\Channels\IChannelService.cs" />
+    <Compile Include="Cms\Clients\IClientService.cs" />
+    <Compile Include="Cms\Clients\ClientService.cs" />
+    <Compile Include="Cms\Feedback\IFeedbackService.cs" />
+    <Compile Include="Cms\Feedback\FeedbackService.cs" />
+    <Compile Include="Cms\Media\CachedImageResult.cs" />
+    <Compile Include="Cms\Media\DownloadService.cs" />
+    <Compile Include="Cms\Media\Extensions.cs" />
+    <Compile Include="Cms\Media\FileDownloadManager.cs" />
+    <Compile Include="Cms\Media\IDownloadService.cs" />
+    <Compile Include="Cms\Media\IImageCache.cs" />
+    <Compile Include="Cms\Media\IImageResizerService.cs" />
+    <Compile Include="Cms\Media\ImageCache.cs" />
+    <Compile Include="Cms\Media\ImageCacheExtensions.cs" />
+    <Compile Include="Cms\Media\ImageHeader.cs" />
+    <Compile Include="Cms\Media\ImageResizerService.cs" />
+    <Compile Include="Cms\Media\ImageResizerUtils.cs" />
+    <Compile Include="Cms\Media\ImageTypes.cs" />
+    <Compile Include="Cms\Media\IPictureService.cs" />
+    <Compile Include="Cms\Media\PictureService.cs" />
+    <Compile Include="Cms\Media\TransientMediaClearTask.cs" />
+    <Compile Include="Cms\RegionalContents\IRegionalContentService.cs" />
+    <Compile Include="Cms\RegionalContents\RegionalContentService.cs" />
+    <Compile Include="Cms\Topics\ITopicService.cs" />
+    <Compile Include="Cms\Topics\TopicService.cs" />
+    <Compile Include="Cms\Links\ILinkService.cs" />
+    <Compile Include="Cms\Links\LinkService.cs" />
+    <Compile Include="Cms\Widgets\IWidget.cs" />
+    <Compile Include="Cms\Widgets\IWidgetService.cs" />
+    <Compile Include="Cms\Widgets\WidgetExtensions.cs" />
+    <Compile Include="Cms\Widgets\WidgetService.cs" />
+    <Compile Include="CommonServices.cs" />
+    <Compile Include="Common\AddressExtentions.cs" />
+    <Compile Include="Common\IVisitRecordService.cs" />
+    <Compile Include="Common\VisitRecordService.cs" />
+    <Compile Include="Common\AddressService.cs" />
+    <Compile Include="Common\FulltextService.cs" />
+    <Compile Include="Common\GenericAttributeExtentions.cs" />
+    <Compile Include="Common\GenericAttributeService.cs" />
+    <Compile Include="Common\IAddressService.cs" />
+    <Compile Include="Common\IFulltextService.cs" />
+    <Compile Include="Common\IGenericAttributeService.cs" />
+    <Compile Include="Common\IMaintenanceService.cs" />
+    <Compile Include="Common\IMobileDeviceHelper.cs" />
+    <Compile Include="Common\ISerialRuleService.cs" />
+    <Compile Include="Common\IUserAgent.cs" />
+    <Compile Include="Common\MaintenanceService.cs" />
+    <Compile Include="Common\MobileDeviceHelper.cs" />
+    <Compile Include="Common\SerialRuleService.cs" />
+    <Compile Include="Common\TempFileCleanupTask.cs" />
+    <Compile Include="Common\UAParserUserAgent.cs" />
+    <Compile Include="Directory\EcbExchangeRateProvider.cs" />
+    <Compile Include="Directory\IExchangeRateProvider.cs" />
+    <Compile Include="Directory\McExchangeRateProvider.cs" />
+    <Compile Include="ExportImport\DataSegmenter.cs" />
+    <Compile Include="Extensions\BaseEntityExtensions.cs" />
+    <Compile Include="Extensions\NameValueCollectionExtensions.cs" />
+    <Compile Include="Forums\ForumExtensions.cs" />
+    <Compile Include="Forums\ForumService.cs" />
+    <Compile Include="Forums\IForumService.cs" />
+    <Compile Include="ICommonServices.cs" />
+    <Compile Include="Messages\GenericMessageContext.cs" />
+    <Compile Include="Messages\QueuedMessagesClearTask.cs" />
+    <Compile Include="Messages\QueuedMessagesSendTask.cs" />
+    <Compile Include="Messages\QueuingEmailEvent.cs" />
+    <Compile Include="Messages\QueuingEmailEventConsumer.cs" />
+    <Compile Include="Payments\CancelRecurringPaymentRequest.cs" />
+    <Compile Include="Payments\CancelRecurringPaymentResult.cs" />
+    <Compile Include="Payments\CapturePaymentRequest.cs" />
+    <Compile Include="Payments\CapturePaymentResult.cs" />
+    <Compile Include="Payments\IPaymentMethod.cs" />
+    <Compile Include="Payments\IPaymentService.cs" />
+    <Compile Include="Payments\PaymentExtentions.cs" />
+    <Compile Include="Payments\PaymentMethodBase.cs" />
+    <Compile Include="Payments\PaymentMethodType.cs" />
+    <Compile Include="Payments\PaymentPluginBase.cs" />
+    <Compile Include="Payments\PaymentService.cs" />
+    <Compile Include="Payments\PostProcessPaymentRequest.cs" />
+    <Compile Include="Payments\PreProcessPaymentResult.cs" />
+    <Compile Include="Payments\ProcessPaymentRequest.cs" />
+    <Compile Include="Payments\ProcessPaymentResult.cs" />
+    <Compile Include="Payments\ProcessPaymentResultBase.cs" />
+    <Compile Include="Payments\RecurringPaymentType.cs" />
+    <Compile Include="Payments\RecurringProductCyclePeriod.cs" />
+    <Compile Include="Payments\RefundPaymentRequest.cs" />
+    <Compile Include="Payments\RefundPaymentResult.cs" />
+    <Compile Include="Payments\VoidPaymentRequest.cs" />
+    <Compile Include="Payments\VoidPaymentResult.cs" />
+    <Compile Include="Pdf\Content\IPdfContent.cs" />
+    <Compile Include="Pdf\Content\PdfHtmlContent.cs" />
+    <Compile Include="Pdf\Content\PdfUrlContent.cs" />
+    <Compile Include="Pdf\IPdfConverter.cs" />
+    <Compile Include="Pdf\Options\IPdfOptions.cs" />
+    <Compile Include="Pdf\Options\PdfHeaderFooterOptions.cs" />
+    <Compile Include="Pdf\Options\PdfPageOptions.cs" />
+    <Compile Include="Pdf\Options\PdfTocOptions.cs" />
+    <Compile Include="Pdf\PdfConvertSettings.cs" />
+    <Compile Include="Pdf\PdfPageMargins.cs" />
+    <Compile Include="Pdf\PdfPagePrientation.cs" />
+    <Compile Include="Pdf\PdfPageSize.cs" />
+    <Compile Include="Pdf\WkHtmlToPdfConverter.cs" />
+    <Compile Include="Polls\IPollService.cs" />
+    <Compile Include="Polls\PollService.cs" />
+    <Compile Include="PushNotifications\InMemoryPushNotificationManager.cs" />
+    <Compile Include="Searchs\ArticleEvent.cs" />
+    <Compile Include="Searchs\ArticleSearchProvider.cs" />
+    <Compile Include="Searchs\ArticleEventConsumer.cs" />
+    <Compile Include="Searchs\ISearchProvider.cs" />
+    <Compile Include="Searchs\PageDocument.cs" />
+    <Compile Include="Searchs\SearchStartupTask.cs" />
+    <Compile Include="Searchs\IndexItem.cs" />
+    <Compile Include="Searchs\NullSearchProvider.cs" />
+    <Compile Include="Searchs\SearchProviderBase.cs" />
+    <Compile Include="Searchs\SearchQuery.cs" />
+    <Compile Include="Security\AclService.cs" />
+    <Compile Include="Security\IAclService.cs" />
+    <Compile Include="Seo\SitemapGenerator.cs" />
+    <Compile Include="Service References\EuropaCheckVatService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceCacheConsumer.cs" />
+    <Compile Include="Sites\SiteMappingService.cs" />
+    <Compile Include="Sites\SiteService.cs" />
+    <Compile Include="Sites\ISiteMappingService.cs" />
+    <Compile Include="Sites\ISiteService.cs" />
+    <Compile Include="Configuration\SettingService.cs" />
+    <Compile Include="Directory\CountryService.cs" />
+    <Compile Include="Directory\DeliveryTimeService.cs" />
+    <Compile Include="Directory\GeoCountryLookup.cs" />
+    <Compile Include="Directory\ICountryService.cs" />
+    <Compile Include="Directory\IDeliveryTimeService.cs" />
+    <Compile Include="Directory\IGeoCountryLookup.cs" />
+    <Compile Include="Directory\IMeasureService.cs" />
+    <Compile Include="Directory\IStateProvinceService.cs" />
+    <Compile Include="Directory\MeasureService.cs" />
+    <Compile Include="Directory\StateProvinceService.cs" />
+    <Compile Include="Events\DefaultConsumerFactory.cs" />
+    <Compile Include="Events\EventPublisher.cs" />
+    <Compile Include="ExportImport\ExportManager.cs" />
+    <Compile Include="ExportImport\IExportManager.cs" />
+    <Compile Include="Helpers\DateTimeHelper.cs" />
+    <Compile Include="Helpers\DateTimeSettings.cs" />
+    <Compile Include="Helpers\IDateTimeHelper.cs" />
+    <Compile Include="Localization\ILanguageService.cs" />
+    <Compile Include="Localization\ILocalizationService.cs" />
+    <Compile Include="Localization\ILocalizedEntityService.cs" />
+    <Compile Include="Localization\LanguageService.cs" />
+    <Compile Include="Localization\LocalizationExtentions.cs" />
+    <Compile Include="Localization\LocalizationService.cs" />
+    <Compile Include="Localization\LocalizedEntityService.cs" />
+    <Compile Include="Logging\DefaultLogger.cs" />
+    <Compile Include="Logging\UserActivityService.cs" />
+    <Compile Include="Messages\CampaignService.cs" />
+    <Compile Include="Messages\EmailAccountService.cs" />
+    <Compile Include="Messages\EventPublisherExtensions.cs" />
+    <Compile Include="Messages\ICampaignService.cs" />
+    <Compile Include="Messages\IEmailAccountService.cs" />
+    <Compile Include="Messages\IMessageTemplateService.cs" />
+    <Compile Include="Messages\IMessageTokenProvider.cs" />
+    <Compile Include="Messages\INewsLetterSubscriptionService.cs" />
+    <Compile Include="Messages\IQueuedEmailService.cs" />
+    <Compile Include="Messages\ITokenizer.cs" />
+    <Compile Include="Messages\IWorkflowMessageService.cs" />
+    <Compile Include="Messages\MessageTemplateService.cs" />
+    <Compile Include="Messages\MessageTokenProvider.cs" />
+    <Compile Include="Messages\NewsLetterSubscriptionService.cs" />
+    <Compile Include="Messages\QueuedEmailService.cs" />
+    <Compile Include="Messages\Token.cs" />
+    <Compile Include="Messages\Tokenizer.cs" />
+    <Compile Include="Messages\WorkflowMessageService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\EncryptionService.cs" />
+    <Compile Include="Security\IEncryptionService.cs" />
+    <Compile Include="Security\IPermissionProvider.cs" />
+    <Compile Include="Security\IPermissionService.cs" />
+    <Compile Include="Security\PermissionService.cs" />
+    <Compile Include="Security\StandardPermissionProvider.cs" />
+    <Compile Include="Seo\BaseSitemapGenerator.cs" />
+    <Compile Include="Seo\ISitemapGenerator.cs" />
+    <Compile Include="Seo\IUrlRecordService.cs" />
+    <Compile Include="Seo\SeoExtensions.cs" />
+    <Compile Include="Seo\UpdateFrequency.cs" />
+    <Compile Include="Seo\UrlRecordService.cs" />
+    <Compile Include="Tasks\ChangeTaskSchedulerBaseUrlConsumer.cs" />
+    <Compile Include="Tasks\ClearCacheTask.cs" />
+    <Compile Include="Tasks\ClearLogsTask.cs" />
+    <Compile Include="Tasks\CronExpression.cs" />
+    <Compile Include="Tasks\InitializeSchedulerFilter.cs" />
+    <Compile Include="Tasks\IScheduleTaskService.cs" />
+    <Compile Include="Tasks\ITask.cs" />
+    <Compile Include="Tasks\ITaskExecutor.cs" />
+    <Compile Include="Tasks\ITaskScheduler.cs" />
+    <Compile Include="Tasks\ScheduleTaskService.cs" />
+    <Compile Include="Tasks\TaskExecutionContext.cs" />
+    <Compile Include="Tasks\TaskExecutor.cs" />
+    <Compile Include="Tasks\TaskScheduler.cs" />
+    <Compile Include="Themes\IThemeVariablesService.cs" />
+    <Compile Include="Themes\ThemeVariablesService.cs" />
+    <Compile Include="Users\ChangePasswordRequest.cs" />
+    <Compile Include="Users\IUserReportService.cs" />
+    <Compile Include="Users\UserReportService.cs" />
+    <Compile Include="Users\EventPublisherExtensions.cs" />
+    <Compile Include="Users\UserContentService.cs" />
+    <Compile Include="Users\DeleteGuestsTask.cs" />
+    <Compile Include="Users\IUserContentService.cs" />
+    <Compile Include="Users\IUserRegistrationService.cs" />
+    <Compile Include="Users\IUserService.cs" />
+    <Compile Include="Users\PasswordChangeResult.cs" />
+    <Compile Include="Users\UserExtentions.cs" />
+    <Compile Include="Users\UserRegistrationRequest.cs" />
+    <Compile Include="Users\UserRegistrationResult.cs" />
+    <Compile Include="Users\UserRegistrationService.cs" />
+    <Compile Include="Users\UserService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Service References\EuropaCheckVatService\CAF.WebSite.Application.Services.EuropaCheckVatService.checkVatApproxResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EuropaCheckVatService\CAF.WebSite.Application.Services.EuropaCheckVatService.checkVatResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EuropaCheckVatService\CAF.WebSite.Application.Services.EuropaCheckVatService.matchCode.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\EuropaCheckVatService\checkVatService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\EuropaCheckVatService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\EuropaCheckVatService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\EuropaCheckVatService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\EuropaCheckVatService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\jquery-1.8.3.intellisense.js" />
+    <Content Include="Scripts\jquery-1.8.3.js" />
+    <Content Include="Scripts\jquery-1.8.3.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Hooks\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

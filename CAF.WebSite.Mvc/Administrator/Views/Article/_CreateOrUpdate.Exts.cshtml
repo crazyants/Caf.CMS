@@ -1,0 +1,308 @@
+﻿@model ArticleModel
+@using CAF.Infrastructure.Core.Domain.Cms.Articles
+@using CAF.Infrastructure.Core;
+@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core.Utilities;
+@if (Model.ArticleExtendedAttributes.Count > 0)
+{
+
+    <div class="form-body">
+        <div class="form-vertical">
+            @foreach (var attribute in Model.ArticleExtendedAttributes)
+            {
+                string controlId = string.Format("extended_attribute_{0}", attribute.Id);
+                string textPrompt = !string.IsNullOrEmpty(attribute.TextPrompt) ? attribute.TextPrompt : attribute.Name;
+
+                <div class="form-group">
+                    <label for="@controlId" class='col-md-2 control-label@(attribute.IsRequired ? " required" : "")'>@textPrompt</label>
+                    <div class="col-md-6 controls">
+                        @switch (attribute.AttributeControlType)
+                        {
+                            case AttributeControlType.DropdownList:
+                                {
+                                    <select name="@(controlId)" id="@(controlId)" style="width:100%" class="form-control@(attribute.IsRequired ? " required" : "")">
+                                        @if (!attribute.IsRequired)
+                                        {
+                                            <option value="0">@T("Common.Unspecified")</option>
+                                        }
+                                        else if (attribute.Values.Count > 0 && !attribute.Values.Any(x => x.IsPreSelected))
+                                        {
+                                            <option value="0">@T("Common.PleaseSelect")</option>
+                                        }
+                                        @foreach (var pvaValue in attribute.Values)
+                                        {
+                                            <option value="@pvaValue.Id" @Html.Attr("selected", "selected", pvaValue.IsPreSelected)>@(pvaValue.Name)</option>
+                                        }
+                                    </select>
+
+
+                                }
+                                break;
+                            case AttributeControlType.RadioList:
+                                {
+                                    foreach (var caValue in attribute.Values)
+                                    {
+                                        <label for="@(controlId)_@(caValue.Id)" class="radio">
+                                            <input id="@(controlId)_@(caValue.Id)" type="radio" class="form-control@(attribute.IsRequired ? " required" : "")" name="@(controlId)" value="@caValue.Id" checked="@caValue.IsPreSelected" />
+                                            @caValue.Name
+                                        </label>
+                                    }
+                                }
+                                break;
+                            case AttributeControlType.Checkboxes:
+                                {
+                                    foreach (var caValue in attribute.Values)
+                                    {
+                                        <label for="@(controlId)_@(caValue.Id)" class="checkbox">
+                                            <input id="@(controlId)_@(caValue.Id)" type="checkbox" class="form-control@(attribute.IsRequired ? " required" : "")" name="@(controlId)" value="@caValue.Id" checked="@caValue.IsPreSelected" />
+                                            @caValue.Name
+                                        </label>
+                                    }
+                                }
+                                break;
+                            case AttributeControlType.TextBox:
+                                {
+
+                                    <input name="@(controlId)" type="text" @(attribute.IsRequired ? " data-val=true  data-val-required=" + @textPrompt + "" : "") class="form-control input-block-level@(attribute.IsRequired ? " required" : "")" id="@(controlId)" value="@attribute.DefaultValue" />
+
+                                }
+                                break;
+                            case AttributeControlType.MultilineTextbox:
+                                {
+                                    <textarea id="@(controlId)" class="form-control input-block-level@(attribute.IsRequired ? " required" : "")" name="@(controlId)">@attribute.DefaultValue</textarea>
+                                }
+                                break;
+                            case AttributeControlType.Datepicker:
+                                {
+                                    @Html.DatePickerDropDowns(controlId + "_day", controlId + "_month", controlId + "_year", DateTime.Now.Year, DateTime.Now.Year + 1, attribute.SelectedDay, attribute.SelectedMonth, attribute.SelectedYear)
+                                }
+                                break;
+                            case AttributeControlType.FileUpload:
+                                {
+                                    var randomNumber = CommonHelper.GenerateRandomInteger();
+                                    var clientId = "download" + randomNumber;
+                                    var downloadService = EngineContext.Current.Resolve<CAF.WebSite.Application.Services.Media.IDownloadService>();
+                                    var download = downloadService.GetDownloadById(attribute.DefaultValue.ToInt());
+
+                                    <div style="font-weight: bold; margin-bottom: 3px">@(download != null ? download.Filename : "")</div>
+                                    <div class="well well-small">
+                                        <table class="adminContent">
+                                            <colgroup>
+                                                <col width="100px">
+                                                <col width="*">
+                                            </colgroup>
+
+                                            <tr id="pnlDownloadFile@(randomNumber)">
+                                                <td class="adminTitle">
+                                                    @T("Admin.Download.UploadFile"):
+                                                </td>
+                                                <td class="adminData">
+                                                    <div>
+                                                        <div id="@clientId" class="fileupload">
+
+                                                            @Html.Hidden(controlId, attribute.DefaultValue, new { @class = "hidden" })
+                                                            <button class="btn red remove" @Html.Attr("style", "display:none", download == null)>
+                                                                <i class="fa fa-trash-o"></i>
+                                                                @T("Admin.Download.RemoveDownload")
+                                                            </button>
+                                                            <span class="btn btn-primary fileinput-button">
+                                                                <i class="fa fa-upload"></i>
+                                                                <span>@T("Common.Fileuploader.Upload")</span>
+                                                                <input id="fileupload-@randomNumber" type="file" name="file" />
+                                                            </span>
+                                                            <button class="btn btn-warning cancel">
+                                                                <i class="fa fa-times"></i>
+                                                                <span>@T("Common.Fileuploader.Cancel")</span>
+                                                            </button>
+                                                            <!-- The global progress information -->
+                                                            <div class="span5 fileupload-progress fade">
+                                                                <!-- The global progress bar -->
+                                                                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                                                    <div class="bar" style="width:0%;"></div>
+                                                                </div>
+                                                                <!-- The extended global progress information -->
+                                                                <div class="progress-extended">&nbsp;</div>
+                                                            </div>
+                                                        </div>
+                                                        <script type="text/javascript">
+                                                            $(function () {
+                                                                $(function () {
+
+                                                                    var el = $('#@clientId'),
+                                                                        elHidden = el.find('.hidden'),
+                                                                        elRemove = el.find('.remove');
+
+                                                                    $('#@clientId').fileupload({
+                                                                        url: '@(Url.Content("~/Admin/Download/AsyncUpload"))',
+                                                                        dataType: 'json',
+                                                                        acceptFileTypes: /(\.|\/)(gif|jpe?g|png|bmp|rar|zip|doc|xls|txt)$/i,
+                                                                        done: function (e, data) {
+                                                                            var result = data.result;
+                                                                            if (result.success) {
+                                                                                $('#@(clientId + "downloadurl")').html('<a href="' + result.downloadUrl + '">@T("Admin.Download.DownloadUploadedFile"): <strong>' + result.fileName + '</strong></a>');
+                                                                                elHidden.val(result.downloadId);
+                                                                                elRemove.show();
+                                                                            }
+                                                                        },
+
+                                                                        error: function (jqXHR, textStatus, errorThrown) {
+                                                                            if (errorThrown === 'abort') {
+                                                                                //alert('File Upload has been canceled');
+                                                                            }
+                                                                        }
+                                                                    });
+
+                                                                    elRemove.click(function (e) {
+                                                                        $('#@(clientId + "downloadurl")').html("&nbsp;");
+                                                                        elHidden.val(0);
+                                                                        $(this).hide();
+                                                                        e.preventDefault();
+                                                                    });
+
+
+                                                                });
+                                                            });
+                                                        </script>
+                                                    </div>
+                                                    <div id="@(clientId + "downloadurl")">
+                                                        @if (download != null)
+                                                        {
+                                                            <a href="@(Url.Action("DownloadFile", "Download", new { downloadId = attribute.DefaultValue }))">@T("Admin.Download.DownloadUploadedFile"): <strong>@download.Filename@download.Extension</strong></a>
+                                                        }
+                                                    </div>
+                                                    <div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+
+                                }
+                                break;
+                            case AttributeControlType.VideoUpload:
+                                {
+                                    var randomNumber = CommonHelper.GenerateRandomInteger();
+                                    var clientId = "download" + randomNumber;
+                                    var downloadService = EngineContext.Current.Resolve<CAF.WebSite.Application.Services.Media.IDownloadService>();
+                                    var download = downloadService.GetDownloadById(attribute.DefaultValue.ToInt());
+
+                                    <div style="font-weight: bold; margin-bottom: 3px">@(download != null ? download.Filename : "")</div>
+                                    <div class="well well-small">
+                                        <table class="adminContent">
+                                            <colgroup>
+                                                <col width="100px">
+                                                <col width="*">
+                                            </colgroup>
+
+                                            <tr id="pnlDownloadFile@(randomNumber)">
+                                                <td class="adminTitle">
+                                                    @T("Admin.Download.UploadFile"):
+                                                </td>
+                                                <td class="adminData">
+                                                    <div>
+                                                        <div id="@clientId" class="fileupload">
+
+                                                            @Html.Hidden(controlId, attribute.DefaultValue, new { @class = "hidden" })
+                                                            <button class="btn red remove" @Html.Attr("style", "display:none", download == null)>
+                                                                <i class="fa fa-trash-o"></i>
+                                                                @T("Admin.Download.RemoveDownload")
+                                                            </button>
+                                                            <span class="btn btn-primary fileinput-button">
+                                                                <i class="fa fa-upload"></i>
+                                                                <span>@T("Common.Fileuploader.Upload")</span>
+                                                                <input id="fileupload-@randomNumber" type="file" name="file" />
+                                                            </span>
+                                                            <button class="btn btn-warning cancel">
+                                                                <i class="fa fa-times"></i>
+                                                                <span>@T("Common.Fileuploader.Cancel")</span>
+                                                            </button>
+                                                            <!-- The global progress information -->
+                                                            <div class="span5 fileupload-progress fade">
+                                                                <!-- The global progress bar -->
+                                                                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                                                    <div class="bar" style="width:0%;"></div>
+                                                                </div>
+                                                                <!-- The extended global progress information -->
+                                                                <div class="progress-extended">&nbsp;</div>
+                                                            </div>
+                                                        </div>
+                                                        <script type="text/javascript">
+                                                            $(function () {
+                                                                $(function () {
+
+                                                                    var el = $('#@clientId'),
+                                                                        elHidden = el.find('.hidden'),
+                                                                        elRemove = el.find('.remove');
+
+                                                                    $('#@clientId').fileupload({
+                                                                        url: '@(Url.Content("~/Admin/Download/AsyncUpload"))',
+                                                                        dataType: 'json',
+                                                                        acceptFileTypes: /(\.|\/)(flv|mp3|mp4|avi)$/i,
+                                                                        done: function (e, data) {
+                                                                            var result = data.result;
+                                                                            if (result.success) {
+                                                                                $('#@(clientId + "downloadurl")').html('<a href="' + result.downloadUrl + '">@T("Admin.Download.DownloadUploadedFile"): <strong>' + result.fileName + '</strong></a>');
+                                                                                elHidden.val(result.downloadId);
+                                                                                elRemove.show();
+                                                                            }
+                                                                        },
+
+                                                                        error: function (jqXHR, textStatus, errorThrown) {
+                                                                            if (errorThrown === 'abort') {
+                                                                                //alert('File Upload has been canceled');
+                                                                            }
+                                                                        }
+                                                                    });
+
+                                                                    elRemove.click(function (e) {
+                                                                        $('#@(clientId + "downloadurl")').html("&nbsp;");
+                                                                        elHidden.val(0);
+                                                                        $(this).hide();
+                                                                        e.preventDefault();
+                                                                    });
+
+
+                                                                });
+                                                            });
+                                                        </script>
+                                                    </div>
+                                                    <div id="@(clientId + "downloadurl")">
+                                                        @if (download != null)
+                                                        {
+                                                            <a href="@(Url.Action("DownloadFile", "Download", new { downloadId = attribute.DefaultValue }))">@T("Admin.Download.DownloadUploadedFile"): <strong>@download.Filename@download.Extension</strong></a>
+                                                        }
+                                                    </div>
+                                                    <div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+
+                                }
+                                break;
+                            case AttributeControlType.ColorSquares:
+                                {
+                                    <div class="input-group color colorpicker-default" data-color="#3865a8">
+                                        <input type="text" id="@(controlId)" name="@(controlId)" class="form-control" value="@attribute.DefaultValue" readonly>
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button"><i style="background-color: @attribute.DefaultValue;"></i>&nbsp;</button>
+                                        </span>
+                                    </div>
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $('.colorpicker-default').colorpicker()
+                                        });
+                                    </script>
+
+                                }
+                                break;
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

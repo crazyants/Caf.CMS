@@ -1,0 +1,101 @@
+@functions{
+    private DateTime? Value
+    {
+        get
+        {
+            DateTime? value = null;
+            if (ViewData.Model != null)
+            {
+                value = Convert.ToDateTime(ViewData.Model, System.Globalization.CultureInfo.CurrentCulture);
+            }
+            return value;
+        }
+    }
+
+    private bool PickTime
+    {
+        get
+        {
+            if (ViewData.ContainsKey("pickTime"))
+            {
+                return ViewData["pickTime"].Convert<bool>();
+            }
+            return false;
+        }
+    }
+}
+@{
+    var id = ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty);
+    var name = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty);
+    var value = String.Empty;
+    if (Value.HasValue && Value.Value > DateTime.MinValue)
+    {
+        value = PickTime ? Value.Value.ToString() : Value.Value.ToShortDateString();
+    }
+    var currentUICulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+}
+<div class="input-group date" id="@id-parent" data-date="@value">
+    @Html.TextBox("", value, new { @class = "form-control" })
+    @if (PickTime)
+    {
+        <span class="input-group-btn">
+            <button class="btn default date-set" type="button"><i class="fa fa-calendar"></i></button>
+        </span>
+    }
+    else
+    {
+       <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+    }
+</div>
+<script>
+    $(function () {
+        var c = Globalize.culture().calendars.standard;
+        //var fmt = c.patterns["d"];
+        var fmt = 'yyyy-MM-dd';
+        @if (PickTime)
+		{
+		<text>
+        fmt += " " + c.patterns["T"].toLowerCase();
+        //时间样式
+        if (jQuery().datetimepicker) {
+            $("#@id-parent").datetimepicker({
+                language: '@currentUICulture.ToString()',
+                isRTL: Metronic.isRTL(),
+                format: fmt,
+                autoclose: true,
+                // todayBtn: true,
+                //startDate:@Value,
+                showMeridian: false,
+                minView: 'day',
+                viewSelect: 'day',
+                pickerPosition: (Metronic.isRTL() ? "bottom-right" : "bottom-left"),
+                //minuteStep: 10
+            });
+
+        }
+        </text>
+        }
+        else
+        {
+            <text>
+        //时间样式
+        if (jQuery().datepicker) {
+            $("#@id-parent").datepicker({
+                language: '@currentUICulture.ToString()',
+                rtl: Metronic.isRTL(),
+                format: fmt,
+                //startDate: @Value,
+                //endDate: "12/01/2015",
+                //startView: 1,
+                //minViewMode: 1,
+                todayBtn: true,
+                clearBtn: true,
+                orientation: "top left"
+            });
+        }
+        </text>
+        }
+
+
+    });
+</script>

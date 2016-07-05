@@ -1,0 +1,78 @@
+﻿@model CAF.WebSite.Mvc.Admin.Models.Users.UserRoleModel
+@Html.HiddenFor(model => model.Id)
+<div class="form-body">
+    <h2 class="margin-bottom-20">  @Html.ValidationSummary(true)</h2>
+    <div class="form-group">
+        <label class="control-label col-md-3">
+            @Html.LangLabelFor(model => model.Name)
+        </label>
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Name)
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">
+            @Html.LangLabelFor(model => model.SystemName)
+        </label>
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.SystemName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SystemName)
+
+        </div>
+    </div>
+    @*<div class="form-group">
+        <label class="control-label col-md-3">
+            @Html.LangLabelFor(model => model.FreeShipping)
+        </label>
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.FreeShipping, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.FreeShipping)
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">
+            @Html.LangLabelFor(model => model.TaxDisplayType)
+        </label>
+        <div class="col-md-4">
+            @Html.DropDownListFor(model => model.TaxDisplayType, Model.TaxDisplayTypes, T("Common.PleaseSelect").Text, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.TaxDisplayType)
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">
+            @Html.LangLabelFor(model => model.TaxExempt)
+        </label>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.TaxExempt)
+            @Html.ValidationMessageFor(model => model.TaxExempt)
+
+        </div>
+    </div>*@
+    <div class="form-group">
+        <label class="control-label col-md-3">
+            @Html.LangLabelFor(model => model.Active)
+        </label>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.Active)
+            @Html.ValidationMessageFor(model => model.Active)
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">
+            @Html.LangLabelFor(model => model.IsSystemRole)
+        </label>
+        <div class="col-md-4">
+            @T(Model.IsSystemRole ? "Admin.Common.Yes" : "Admin.Common.No")
+            @Html.HiddenFor(model => model.IsSystemRole)
+            @Html.ValidationMessageFor(model => model.IsSystemRole)
+
+        </div>
+    </div>
+
+</div>
+

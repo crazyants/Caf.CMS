@@ -1,0 +1,405 @@
+﻿@model UserModel
+@Html.ValidationSummary(false)
+@Html.HiddenFor(model => model.Id)
+@Html.CafSite().TabStrip().Name("user-edit").Items(x =>
+{
+    var tabInfo = x.Add().Text(T("Admin.Users.Users.Info").Text).Content(TabInfo()).Selected(true);
+    var tabUserRoles = x.Add().Text(T("Admin.Users.Users.UserRoles").Text).Content(TabUserRoles());
+
+    //TabBuilder tabOrders = null;
+    //if (Model.Id > 0)
+    //    tabOrders = x.Add().Text(T("Admin.Users.Users.Orders").Text).Content(TabOrders());
+
+    //TabBuilder tabRewardPoints = null;
+    //if (Model.DisplayRewardPointsHistory)
+    //    tabRewardPoints = x.Add().Text(T("Admin.Users.Users.RewardPoints").Text).Content(TabRewardPoints());
+
+    TabBuilder tabAddresses = null;
+    if (Model.Id > 0)
+        tabAddresses = x.Add().Text(T("Admin.Users.Users.Addresses").Text).Content(TabAddresses());
+
+    //TabBuilder tabShoppingCart = null;
+    //if (Model.Id > 0)
+    //    tabShoppingCart = x.Add().Text(T("Admin.Users.Users.CurrentShoppingCart").Text).Content(TabCurrentShoppingCart());
+
+    //TabBuilder tabWishlist = null;
+    //if (Model.Id > 0)
+    //    tabWishlist = x.Add().Text(T("Admin.Users.Users.CurrentWishlist").Text).Content(TabCurrentWishlist());
+
+    //TabBuilder tabImpersonate = null;
+    //if (Model.Id > 0)
+    //    tabImpersonate = x.Add().Text(T("Admin.Users.Users.Impersonate").Text).Content(TabImpersonate());
+
+    //generate an event
+    EngineContext.Current.Resolve<IEventPublisher>().Publish(new TabStripCreated(x, "user-edit", this.Html, this.Model));
+})
+@helper TabInfo()
+{
+    if (Model.CountryEnabled && Model.StateProvinceEnabled)
+    {
+        <script type="text/javascript">
+            $(function () {
+                $("#@Html.FieldIdFor(model => model.CountryId)").change(function () {
+                    var selectedItem = $(this).val();
+                    var ddlStates = $("#@Html.FieldIdFor(model => model.StateProvinceId)");
+                    $.ajax({
+                        cache: false,
+                        type: "GET",
+                        url: "@(Url.Action("GetStatesByCountryId", "Country"))",
+                        data: { "countryId": selectedItem, "addEmptyStateIfRequired": "true" },
+                        success: function (data) {
+                            ddlStates.html('');
+                            $.each(data, function (id, option) {
+                                ddlStates.append($('<option></option>').val(option.id).html(option.name));
+                            });
+                            ddlStates.trigger("change");
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert('Failed to retrieve states.')
+                        }
+                    });
+                });
+            });
+        </script>
+    }
+    <div class="form-body">
+        <h2 class="margin-bottom-20">  @Html.ValidationSummary(true)</h2>
+        @if (Model.UserNamesEnabled)
+        {
+            if (Model.Id == 0 || Model.AllowUsersToChangeUserNames)
+            {
+                <div class="form-group">
+                    <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.UserName)</label>
+                    <div class="col-md-3">
+                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.UserName)
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.UserName)</label>
+                    <div class="col-md-3">
+                        @Model.UserName
+                        @Html.HiddenFor(model => model.UserName)
+                    </div>
+                </div>
+            }
+        }
+        <div class="form-group">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Email)</label>
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-envelope"></i>
+                    </span>
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Password)</label>
+            <div class="col-md-3">
+                <div class="input-group">
+                    <div class="input-icon">
+                        <i class="fa fa-lock fa-fw"></i>
+                        @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                          @Html.ValidationMessageFor(model => model.Password)
+                    </div>
+                    @if (Model.Id > 0)
+                    {
+                        <span class="input-group-btn">
+                            <button type="submit" name="changepassword" value="changepassword" class="btn btn-default">
+                                <i class="fa fa-arrow-left fa-fw"></i>&nbsp; @T("Account.ChangePassword")
+                            </button>
+                        </span>
+                    }
+                </div>
+            </div>
+        </div>
+        @if (Model.GenderEnabled)
+        {
+            <div class="form-group">
+                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Gender)</label>
+                <div class="col-md-3">
+                    <label class="radio inline">
+                        @Html.RadioButton("Gender", "M", (Model.Gender == "M"))
+                        @T("Admin.Users.Users.Fields.Gender.Male")
+                    </label>
+
+                    <label class="radio inline">
+                        @Html.RadioButton("Gender", "F", (Model.Gender == "F"))
+                        @T("Admin.Users.Users.Fields.Gender.Female")
+                    </label>
+                </div>
+            </div>
+        }
+        <div class="form-group">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.FirstName)</label>
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FirstName)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.LastName)</label>
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LastName)
+            </div>
+        </div>
+
+        @if (Model.DateOfBirthEnabled)
+        {
+            <div class="form-group">
+                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.DateOfBirth)</label>
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.DateOfBirth)
+                    @Html.ValidationMessageFor(model => model.DateOfBirth)
+                </div>
+            </div>
+        }
+        @if (Model.CompanyEnabled)
+        {
+            <div class="form-group">
+                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Company)</label>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.Company, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Company)
+                </div>
+            </div>
+        }
+        @if (Model.StreetAddressEnabled)
+        {
+            <div class="form-group">
+                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.StreetAddress)</label>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.StreetAddress, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.StreetAddress)
+                </div>
+            </div>
+        }
+        @if (Model.StreetAddress2Enabled)
+        {
+            <div class="form-group">
+                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.StreetAddress2)</label>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.StreetAddress2, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.StreetAddress2)
+                </div>
+            </div>
+        }
+        @if (Model.ZipPostalCodeEnabled)
+        {
+            <div class="form-group">
+                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.ZipPostalCode)</label>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.ZipPostalCode, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ZipPostalCode)
+                </div>
+            </div>
+        }
+        @if (Model.CityEnabled)
+        {
+            <div class="form-group">
+                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.City)</label>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.City, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.City)
+                </div>
+            </div>
+        }
+        @if (Model.CountryEnabled)
+        {
+            <div class="form-group">
+                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.CountryId)</label>
+                <div class="col-md-3">
+                    @Html.DropDownList("CountryId", Model.AvailableCountries)
+                </div>
+            </div>
+        }
+        @if (Model.StateProvinceEnabled)
+        {
+            <div class="form-group">
+                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.StateProvinceId)</label>
+                <div class="col-md-3">
+                    @Html.DropDownList("StateProvinceId", Model.AvailableStates)
+                </div>
+            </div>
+        }
+        @if (Model.PhoneEnabled)
+        {
+            <div class="form-group">
+                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Phone)</label>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.Phone, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Phone)
+                </div>
+            </div>
+        }
+        @if (Model.FaxEnabled)
+        {
+            <div class="form-group">
+                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Fax)</label>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.Fax, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Fax)
+                </div>
+            </div>
+        }
+        <div class="form-group">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.AdminComment)</label>
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.AdminComment, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AdminComment)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.IsTaxExempt)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.IsTaxExempt)
+                @Html.ValidationMessageFor(model => model.IsTaxExempt)
+            </div>
+        </div>
+
+        @if (Model.AllowUsersToSetTimeZone)
+        {
+            <div class="form-group">
+                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.TimeZoneId)</label>
+                <div class="col-md-3">
+                    @Html.DropDownList("TimeZoneId", Model.AvailableTimeZones)
+                    @Html.ValidationMessageFor(model => model.TimeZoneId)
+                </div>
+            </div>
+        }
+        @if (Model.AffiliateId != 0)
+        {
+            <div class="form-group">
+                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.AffiliateId)</label>
+                <div class="col-md-3">
+                    <a href="@Url.Action("Edit", "Affiliate", new { id = Model.AffiliateId })">@Model.AffiliateFullName</a>
+                </div>
+            </div>
+        }
+        @if (Model.DisplayVatNumber)
+        {
+            <div class="form-group">
+                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.VatNumber)</label>
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.VatNumber, new { @class = "form-control" })
+                    (@string.Format(T("Admin.Users.Users.Fields.VatNumberStatus").Text, Model.VatNumberStatusNote))
+                    <button type="submit" name="markVatNumberAsValid" value="markVatNumberAsValid" class="btn">@T("Admin.Users.Users.Fields.VatNumber.MarkAsValid")</button>
+                    <button type="submit" name="markVatNumberAsInvalid" value="markVatNumberAsInvalid"
+                            class="btn">
+                        @T("Admin.Users.Users.Fields.VatNumber.MarkAsInvalid")
+                    </button>
+                    @Html.ValidationMessageFor(model => model.AdminComment)
+                </div>
+            </div>
+        }
+        <div class="form-group">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Active)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.Active)
+                @Html.ValidationMessageFor(model => model.Active)
+            </div>
+        </div>
+        @if (Model.Id > 0)
+        {
+            <div class="form-group">
+                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.LastIpAddress)</label>
+                <div class="col-md-3">
+                    @Html.DisplayFor(model => model.LastIpAddress)
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.CreatedOn)</label>
+                <div class="col-md-3">
+                    @Html.DisplayFor(model => model.CreatedOn)
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.LastActivityDate)</label>
+                <div class="col-md-3">
+                    @Html.DisplayFor(model => model.LastActivityDate)
+                </div>
+            </div>
+        }
+        @if (Model.Id > 0 && !String.IsNullOrEmpty(Model.LastVisitedPage))
+        {
+            <div class="form-group">
+                <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.LastVisitedPage)</label>
+                <div class="col-md-3">
+                    @Html.DisplayFor(model => model.LastVisitedPage)
+                </div>
+            </div>
+
+        }
+    </div>
+}
+@helper TabUserRoles()
+{
+    if (Model.AvailableUserRoles != null && Model.AvailableUserRoles.Count > 0)
+    {
+        foreach (var userRole in Model.AvailableUserRoles)
+        {
+            <label class="checkbox">
+                <input type="checkbox" name="SelectedUserRoleIds" value="@userRole.Id"
+                       @if (Model.SelectedUserRoleIds != null && Model.SelectedUserRoleIds.Contains(userRole.Id)) { <text> checked="checked" </text>               }
+                       @if (!Model.AllowManagingUserRoles) { <text> disabled="disabled" </text>               } />@userRole.Name
+                </label>
+        }
+    }
+    else
+    {
+        @T("Admin.Users.Users.Fields.UserRoles.NoRoles")
+    }
+}
+@helper TabAddresses()
+{
+    var g = Html.GridToolKit<AddressModel>();
+    var grid = g.DataGrid("addressesGrid", g.Param(x => x.Id)).TableId("table-id").GridKey("Id").Pager()
+    .MainGrid(
+    g.GridColumn(x => x.FirstName, 50),
+    g.GridColumn(x => x.LastName, 100),
+    g.GridColumn(x => x.Email, 100),
+    g.GridColumn(x => x.PhoneNumber, 100),
+    g.GridColumn(x => x.FaxNumber, 100),
+    g.GridColumn(x => x.AddressHtml, 100),
+    g.GridColumn("operation", "" + T("Admin.Common.Operation").Text + "", 100).DefaultContent("<a href='" + @Url.Content("~/Admin/User/AddressEdit?userId=") + @Model.Id + "&addressid=#Id#' class='btn default btn-xs purple'><i class='fa fa-pencil'></i></a><a href='" + Url.Content("~/Admin/User/AddressDelete?userId=") + "#Id#' class='btn default btn-xs purple delete'><i class='fa fa-trash-o'></i></a>"))
+    .Url(Url.Action("AddressesSelect", "User", new { userId = Model.Id })).DefaultTableClass();
+    <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+        <thead>
+            <tr>
+                @foreach (var column in grid.GetColumns)
+                {
+                    if (column.Name == "操作")
+                    {
+
+                        <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                    }
+
+                    else
+                    {
+                        <th class="@column.CssClassHeader">@column.DisplayName</th>
+                    }
+
+                }
+            </tr>
+
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script type="text/javascript">
+         @(grid)
+    </script>
+    <div class="clear">
+    </div>
+
+    <button type="button" class="btn btn-default pull-right" onclick="location.href='@Url.Action("AddressCreate", new { userId = Model.Id })'">
+        <i class="fa fa-plus"></i>&nbsp;@T("Admin.Users.Users.Addresses.AddButton")
+    </button>
+}

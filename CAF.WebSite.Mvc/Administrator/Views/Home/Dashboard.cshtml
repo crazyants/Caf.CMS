@@ -1,0 +1,70 @@
+﻿@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+
+@{
+    Layout = "~/Administrator/Views/Shared/_AdminMenu.cshtml";
+    ViewBag.Title = T("Admin.Dashboard").Text;
+}
+
+<h3 class="page-title">
+    <i class="fa fa-bar-chart-o"></i>
+    @T("Admin.Dashboard.SiteStatistics")
+</h3>
+
+<div class="row ">
+    <div class="col-md-12">
+        <div class="portlet box blue-steel ">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-bell-o"></i>新手指引
+                </div>
+                <div class="actions">
+
+                </div>
+            </div>
+            <div class="portlet-body index_point">
+                <ul>
+                    <li>
+                        <a href="@Url.Action("GeneralCommon", "Setting", new { area="admin"})">
+                            <i class="fa fa-newspaper-o"></i>
+                            基本信息
+                        </a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("List", "ArticleCategory", new { area = "admin" })">
+                            <i class="fa fa-sitemap"></i>
+                            配置栏目
+                        </a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("List", "Article", new { area = "admin" })">
+                            <i class="fa fa-plus"></i>
+                            发布内容
+                        </a>
+                        <i class="fa fa-angle-right"></i>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("List", "Theme", new { area = "admin" })">
+                            <i class="fa fa-tachometer"></i>
+                            调试外观
+                        </a>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        @Html.Action("ReportRegisteredUsers", "User")
+    </div>
+    <div class="col-md-6">
+        @Html.Action("ReportVisit", "Home")
+    </div>
+</div>
+
+<div class="clearfix">
+</div>

@@ -1,0 +1,62 @@
+﻿@model IList<SystemWarningModel>
+@{
+    //page title
+    ViewBag.Title = T("Admin.System.Warnings").Text;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="section-header sticky">
+                <div class="caption">
+                    <i class="fa fa-exclamation-circle fa-2x"></i>
+                    <span class="caption-subject font-red-sunglo bold uppercase">@T("Admin.System.Warnings") </span>
+                    <span class="caption-helper"></span>
+                </div>
+
+            </div>
+            <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                <ul class="list-group">
+                    @foreach (var warning in Model)
+                    {
+                        switch (warning.Level)
+                        {
+                            case SystemWarningLevel.Pass:
+                                {
+                                    <li class="list-group-item">
+                                        <span class="pass">
+                                            <i class="fa fa-check"></i>
+                                            @warning.Text
+                                        </span>
+                                    </li>
+                                }
+                                break;
+                            case SystemWarningLevel.Warning:
+                                {
+                                    <li class="list-group-item list-group-item-warning">
+                                        <span class="warning">
+                                            <i class="fa fa-question-circle"></i>
+                                            @warning.Text
+                                        </span>
+                                    </li>
+                                }
+                                break;
+                            case SystemWarningLevel.Fail:
+                                {
+                                    <li class="list-group-item list-group-item-danger">
+                                        <span class="fail">
+                                            <i class="fa fa-times-circle"></i>
+                                            @warning.Text
+                                        </span>
+                                    </li>
+                                }
+                                break;
+                        }
+
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

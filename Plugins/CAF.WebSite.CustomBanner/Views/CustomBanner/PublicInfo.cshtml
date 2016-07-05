@@ -1,0 +1,11 @@
+﻿@model CAF.WebSite.CustomBanner.Models.PublicInfoModel
+@{
+    Layout = "";
+}
+<div class="row margin-bottom-40">
+    <div style="@(Model.ShowBorderTop == true ? "border-top: 1px solid " + Model.BorderTopColor + ";" : "" )@(Model.ShowBorderTop == true ? "border-top: 1px solid " + Model.BorderTopColor  : "" )">
+        <img src="@Model.PicturePath" style="max-height:@(Model.MaxBannerHeight)px;@(Model.StretchPicture == true ? "width: 100%" : "" )">
+    </div>
+</div>
+
+

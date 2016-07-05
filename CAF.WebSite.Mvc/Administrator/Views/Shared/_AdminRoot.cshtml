@@ -1,0 +1,175 @@
+﻿@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+@using CAF.WebSite.Application.WebUI;
+@{
+    Layout = null;
+    var currentUICulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+
+
+    // add css assets
+    var MediaRootPath = "~/Content/assets/";
+    Html.AppendCssFileParts(
+       MediaRootPath + "global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.css",
+       MediaRootPath + "global/plugins/font-awesome/css/font-awesome.min.css",
+       MediaRootPath + "global/plugins/simple-line-icons/simple-line-icons.min.css",
+       MediaRootPath + "global/plugins/bootstrap/css/bootstrap.css",
+       MediaRootPath + "global/plugins/uniform/css/uniform.default.css",
+       MediaRootPath + "global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css",
+
+       MediaRootPath + "global/plugins/pace/themes/pace-theme-barber-shop.css",//进度条皮肤
+       MediaRootPath + "global/plugins/bootstrap-toastr/toastr.min.css",//信息提示
+        //Form
+        MediaRootPath + "global/plugins/bootstrap-select/bootstrap-select.min.css",
+        MediaRootPath + "global/plugins/select2/select2.css",
+        MediaRootPath + "global/plugins/jquery-multi-select/css/multi-select.css",
+        MediaRootPath + "global/plugins/bootstrap-fileinput/bootstrap-fileinput.css",
+
+       MediaRootPath + "global/css/components.css",
+       MediaRootPath + "global/css/plugins.css",
+       MediaRootPath + "admin/layout/css/layout.css",
+       MediaRootPath + "admin/layout/css/themes/default.css",
+       MediaRootPath + "admin/layout/css/custom.css",
+
+        //日期时间样式
+        // MediaRootPath + "global/plugins/jquery-multi-select/css/multi-select.css",
+       MediaRootPath + "global/plugins/bootstrap-datepicker/css/datepicker3.css",
+       MediaRootPath + "global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css",
+       MediaRootPath + "global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css",
+       MediaRootPath + "global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css",
+       MediaRootPath + "global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css",
+       MediaRootPath + "global/plugins/bootstrap-switch/css/bootstrap-switch.min.css",
+       MediaRootPath + "global/plugins/bootstrap-editable/bootstrap-editable/css/bootstrap-editable.css",
+
+
+        "~/Content/custom/bootstrap-colorpicker/css/colorpicker.css",
+        //遮罩等待
+       "~/Content/throbber/throbber.css",
+       MediaRootPath + "global/plugins/dropzone/css/basic.css",
+       MediaRootPath + "global/plugins/dropzone/css/dropzone.css",
+       "~/css/fileupload"
+       );
+
+
+    // add js assets (Head)
+    Html.AppendScriptParts(ResourceLocation.Head,
+            MediaRootPath + "global/plugins/jquery.min.js",
+            "~/Scripts/modernizr-2.8.3.js",
+            "~/Scripts/globalize/globalize.js",
+            "~/Scripts/globalize/cultures/globalize.culture.{0}.js".FormatInvariant(currentUICulture.ToString()),
+            MediaRootPath + "global/plugins/jquery-migrate.min.js",
+            MediaRootPath + "global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js",
+            MediaRootPath + "global/plugins/bootstrap/js/bootstrap.min.js",
+            MediaRootPath + "global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js",
+            MediaRootPath + "global/plugins/jquery-slimscroll/jquery.slimscroll.min.js",
+            MediaRootPath + "global/plugins/jquery.blockui.min.js",
+            MediaRootPath + "global/plugins/jquery.cokie.min.js",
+            MediaRootPath + "global/plugins/uniform/jquery.uniform.min.js",
+            MediaRootPath + "global/plugins/pace/pace.js",//进度条
+            MediaRootPath + "global/plugins/bootstrap-toastr/toastr.min.js",//信息提示
+            MediaRootPath + "global/plugins/bootbox/bootbox.min.js",//Dialog
+            MediaRootPath + "global/plugins/jquery-file-upload/js/vendor/load-image.min.js",//load-image
+            "~/Scripts/jquery.json.min.js",
+        //Form
+        //验证
+            MediaRootPath + "global/plugins/jquery-validation/js/jquery.validate.js",
+            MediaRootPath + "global/plugins/jquery-validation/js/localization/messages_zh.js",
+            "~/Scripts/jquery.validate.unobtrusive.js",
+            MediaRootPath + "global/plugins/bootstrap-select/bootstrap-select.min.js",
+            MediaRootPath + "global/plugins/jquery-multi-select/js/jquery.multi-select.js",
+            MediaRootPath + "global/plugins/select2/select2.min.js",
+            MediaRootPath + "global/plugins/bootstrap-fileinput/bootstrap-fileinput.js",
+
+            MediaRootPath + "global/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js",
+            MediaRootPath + "global/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.{0}.js".FormatInvariant(currentUICulture.ToString()),
+
+              MediaRootPath + "global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js",
+            MediaRootPath + "global/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js",
+            MediaRootPath + "global/plugins/bootstrap-daterangepicker/daterangepicker.js",
+
+
+            MediaRootPath + "global/plugins/dropzone/dropzone.js",
+
+            MediaRootPath + "global/plugins/bootstrap-editable/bootstrap-editable/js/bootstrap-editable.js",
+        //Form Tool
+            MediaRootPath + "global/plugins/bootstrap-switch/js/bootstrap-switch.min.js",
+            MediaRootPath + "global/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js",
+            MediaRootPath + "global/plugins/bootstrap-touchspin/bootstrap.touchspin.js",
+            MediaRootPath + "global/plugins/fuelux/js/spinner.min.js",
+            MediaRootPath + "global/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js",
+
+            MediaRootPath + "global/scripts/metronic.js",
+            MediaRootPath + "admin/layout/scripts/layout.js",
+            MediaRootPath + "admin/layout/scripts/quick-sidebar.js",
+
+            "~/Content/custom/bootstrap-colorpicker/js/bootstrap-colorpicker.js",
+            "~/Content/custom/bootstrap-colorpicker/js/bootstrap-colorpicker-globalinit.js",
+
+
+            //后台其他方法
+            "~/Scripts/jquery.transit.js",
+            "~/Scripts/underscore.js",
+            "~/Scripts/underscore.string.js",
+            "~/Scripts/underscore.mixins.js",
+            "~/Scripts/jquery.unobtrusive-ajax.js",
+            "~/Scripts/system.eventbroker.js",
+            "~/Content/js/cms.selectwrapper.js",
+            "~/Content/js/cms.common.js",
+            "~/Content/js/cms.jquery.utils.js",
+            "~/Content/js/cms.system.js",
+            "~/Content/js/cms.timeFormat.js",
+            "~/Content/js/table-managed.js",
+            "~/Content/throbber/cms.throbber.js",
+
+            "~/Scripts/jquery.preload.js",
+            "~/Scripts/Highcharts-4.1.5/js/highcharts.js",
+            "~/Scripts/admin.common.js",
+            "~/Scripts/admin.globalinit.js",
+            "~/Scripts/admin.column-equalizer.js",
+            "~/bundles/fileupload"
+            );
+
+}
+
+<!DOCTYPE html>
+
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" class="no-js  not-ready loading">
+<!--<![endif]-->
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge; chrome=1" />
+    <script>
+    </script>
+    @Html.MetaAcceptLanguage()
+    @Html.WorkCssFiles(this.Url, ResourceLocation.Head)
+    @Html.WorkScripts(this.Url, ResourceLocation.Head)
+    @RenderSection("Header", false)
+    @*<link rel="shortcut icon" href="~/Administrator/favicon.ico" />*@
+</head>
+<body class="page-header-fixed page-quick-sidebar-over-content page-style-rounded">
+
+    @RenderBody()
+
+    @Html.Partial("_Notifications")
+    @RenderSection("Foot", required: false)
+    <!--[if lt IE 9]>
+    <script src="~/Content/assets/global/plugins/respond.min.js"></script>
+    <script src="~/Content/assets/global/plugins/excanvas.min.js"></script>
+    <![endif]-->
+    @Html.WorkCssFiles(this.Url, ResourceLocation.Foot)
+    @Html.WorkScripts(this.Url, ResourceLocation.Foot)
+
+    <script>
+        jQuery(document).ready(function () {
+            Metronic.init(); // init metronic core componets
+            Layout.init(); // init layout
+            QuickSidebar.init(); // init quick sidebar
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+﻿@using CAF.Infrastructure.Core.Logging;
+@if (this.HasMessages)
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            @foreach (var message in this.GetMessages(NotifyType.Success))
+            {
+            <text>
+            toastr['success']('@message', '@T("Admin.Common.Success").Text');
+            </text>
+            }
+            @foreach (var message in this.GetMessages(NotifyType.Error))
+            {
+            <text>
+            toastr['error']('@message', '@T("Admin.Common.Error").Text');
+            </text>
+            }
+            @foreach (var message in this.GetMessages(NotifyType.Info))
+            {
+            <text>
+            toastr['info']('@message', '@T("Admin.Common.Info").Text');
+            </text>
+            }
+            @foreach (var message in this.GetMessages(NotifyType.Warning))
+            {
+            <text>
+            toastr['warning']('@message', '@T("Admin.Common.Warning").Text');
+            </text>
+            }
+
+        });
+    </script>
+
+}
+
+

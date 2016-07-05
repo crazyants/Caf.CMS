@@ -1,0 +1,31 @@
+﻿@model PagedList<CAF.WebSite.Mvc.Admin.Models.Channels.ChannelCategoryModel>
+<div>当前查询条件：标题：<span class="emph">@Request.Form["title"]</span></div>
+<table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Domain)
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Domain)
+            </td>
+        </tr>
+    }
+</table>
+<div class="row">
+    <div class="col-md-5 col-sm-12"><div class="dataTables_info" id="table-id_info" role="status" aria-live="polite">共 @Model.TotalPageCount 页 @Model.TotalItemCount 条记录，当前为第 @Model.CurrentPageIndex 页</div></div>
+    <div class="col-md-7 col-sm-12 text-right">
+        @Ajax.Pager(Model, new PagerOptions { PageIndexParameterName = "id", ShowPageIndexBox = false, PageIndexBoxType = PageIndexBoxType.TextBox, ShowGoButton = false }, new MvcAjaxOptions { UpdateTargetId = "articles", HttpMethod = "Post", DataFormId = "searchForm" }, new { style = "float:right" })
+
+        @*@Html.Pager(Model, new PagerOptions { PageIndexParameterName = "id", ContainerTagName = "ul", PrevPageText = "上页", NextPageText = "下页", FirstPageText = "首页", LastPageText = "尾页", CssClass = "dataTables_paginate paging_bootstrap_full_number", PagerItemsSeperator = "", CurrentPagerItemWrapperFormatString = "<li class=\"active\"><a href=\"#\">{0}</a></li>", PagerItemWrapperFormatString = "<li>{0}</li>" }, new { id = "bootstrappager" })*@
+    </div>
+</div>

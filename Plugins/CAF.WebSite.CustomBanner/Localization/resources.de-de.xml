@@ -1,0 +1,31 @@
+﻿<Language Name="Deutsch" IsDefault="true" IsRightToLeft="false">
+  <LocaleResource Name="Plugins.FriendlyName.Widgets.CustomBanner" AppendRootKey="false">
+    <Value>Banner</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.CustomBanner" AppendRootKey="false">
+    <Children>
+      <LocaleResource Name="AdminInstruction">
+        <Value>
+          <![CDATA[
+            Navigieren Sie zur Konfiguration dieses Plugin in die jeweilige Warengruppe oder das Produkt für die Sie einen eigenen Banner hinterlegen wollen
+            und wählen Sie dort im Reiter Banner die Grafik die im Headerbereich angezeigt werden soll. Für ein optimales Ergebnis, empfiehlt es sich, die Bilder
+            ind der Shopbreite (1170px) und in der hier eingestellten Bannerhöhe zu hinterlegen, damit die Grafiken nicht gestreckt werden müssen.
+          ]]>
+        </Value>
+      </LocaleResource>
+      <LocaleResource Name="MaxBannerHeight">
+        <Value>Maximal Bannerhöhe</Value>
+      </LocaleResource>
+      <LocaleResource Name="MaxBannerHeight.Hint">
+        <Value>Geben Sie hier die maximal Höhe des Bannerbereichs an.</Value>
+      </LocaleResource>
+      <LocaleResource Name="StretchPicture">
+        <Value>Banner strecken</Value>
+      </LocaleResource>
+      <LocaleResource Name="StretchPicture.Hint">
+        <Value>Legen Sie hier fest ob der hinterlegte Banner über die komplette zur Verfügung stehende Breite gestreckt werden soll.</Value>
+      </LocaleResource>
+      
+    </Children>
+  </LocaleResource>
+</Language>

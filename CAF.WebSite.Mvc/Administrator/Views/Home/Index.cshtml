@@ -1,0 +1,59 @@
+﻿@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+
+@{
+    Layout = "~/Administrator/Views/Shared/_AdminLeftMenu.cshtml";
+    ViewBag.Title = T("Admin.Dashboard").Text;
+}
+<div class="page-content-area">
+    <div class="page-header">
+        <h1>
+            <i class="ace-icon fa fa-hand-o-right icon-animated-hand-pointer blue"></i>    新手指引
+        </h1>
+    </div>
+    <div class="row ">
+        <div id="fuelux-wizard" data-target="#step-container">
+            <ul class="wizard-steps">
+                <li data-target="#step1" class="active">
+                    <span class="step">1</span>
+                    <span class="title">
+
+                        <a name="item" icon="newspaper-o" href="#" objid="@Guid.NewGuid().ToString()" tagid="@Guid.NewGuid().ToString()" url="@Url.Action("GeneralCommon", "Setting", new { area="admin"})">
+                            <i class="fa fa-newspaper-o"></i>
+                            基本信息
+                        </a>
+                    </span>
+                </li>
+                <li data-target="#step2" class="active">
+                    <span class="step">2</span>
+                    <span class="title">
+                        <a href="@Url.Action("List", "ArticleCategory", new { area = "admin" })" target="_blank">
+                            <i class="fa fa-sitemap"></i>
+                            配置栏目
+                        </a>
+                    </span>
+                </li>
+                <li data-target="#step3" class="active">
+                    <span class="step">3</span>
+                    <span class="title">
+                        <a href="@Url.Action("List", "Article", new { area = "admin" })" target="_blank">
+                            <i class="fa fa-plus"></i>
+                            发布内容
+                        </a>
+                    </span>
+                </li>
+                <li data-target="#step4" class="active">
+                    <span class="step">4</span>
+                    <span class="title">
+                        <a name="item" icon="tachometer" href="#" objid="@Guid.NewGuid().ToString()" tagid="@Guid.NewGuid().ToString()" url="@Url.Action("List", "Theme", new { area = "admin" })">
+                            <i class="fa fa-tachometer"></i>
+                            调试外观
+                        </a>
+                    </span>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,18 @@
+﻿@model ArticlePostModel.ArticleBreadcrumbModel
+
+<h3 class="sb--box-title">
+    <div class="sb--box-size fl">
+        当前位置：<a href="@Url.RouteUrl("HomePage")" title="首页">首页</a>
+
+        @for (int i = 0; i < Model.CategoryBreadcrumb.Count; i++)
+        {
+            var menuItem = Model.CategoryBreadcrumb[i];
+
+            <text>&gt;</text><a href="@menuItem.GenerateUrl(this.Url)" title="@menuItem.Text">@menuItem.Text</a>
+
+
+        }
+    </div>
+    <div class="sb--box-right fr"></div>
+</h3>
+

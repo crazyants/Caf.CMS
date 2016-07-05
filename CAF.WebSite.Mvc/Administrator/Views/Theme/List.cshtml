@@ -1,0 +1,245 @@
+﻿@model ThemeListModel
+
+@{
+    //page title
+    ViewBag.Title = T("Admin.Configuration.Themes").Text;
+}
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase">@T("Admin.Configuration.Themes") </span>
+
+                    </div>
+                    <div class="actions">
+                        <button type="submit" name="save" value="save" class="btn btn-primary"><i class="fa fa-check"></i>@T("Admin.Common.Save")</button>
+                        <a href='@Url.Action("ReloadThemes", new { siteId = Model.SiteId })' class="btn btn-default">
+                            <i class="fa fa-refresh"></i>
+                            @T("Admin.Configuration.Themes.Reload")
+                        </a>
+                        @*<a id="uploadpackage" href="#uploadpackage-window" data-toggle="modal" class="btn btn-default" role="button">
+                    <i class="fa fa-upload"></i>
+                    @T("Admin.Packaging.UploadTheme")
+                </a>*@
+                    </div>
+                </div>
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+
+                    <div class=" form-body">
+                        <h2 class="margin-bottom-20">  @Html.ValidationSummary(true)</h2>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.SiteId)
+                            </label>
+                            <div class="col-md-4">
+                                @Html.DropDownList("SiteId", Model.AvailableSites, new { onchange = "location.href = '" + @Url.Action("List") + "?siteId=' + this.value;", @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    @Html.CafSite().TabStrip().Name("themes-tab").Items(x =>
+    {
+        x.Add().Text(T("Admin.Configuration.Themes")).Content(ThemesTab()).Selected(true);
+        x.Add().Text(T("Admin.Common.Settings")).Content(ThemeSettingsTab());
+    })
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+@helper ThemesTab()
+{
+    if (Model.DesktopThemes.Count > 0)
+    {
+        @ThemeList(Model.DesktopThemes, T("Admin.Configuration.Themes.AvailableDesktopThemes"), false)
+    }
+
+    if (Model.MobileThemes.Count > 0)
+    {
+        @ThemeList(Model.MobileThemes, T("Admin.Configuration.Themes.AvailableMobileThemes"), true)
+    }
+
+    <script>
+        $(function () {
+
+            $('#theme-list').find(".equalized-column").equalizeColumns({ /*deep: true,*/ responsive: true });
+
+            $("#themes-tab").on("click", ".set-as-defaulttheme", function (e) {
+                var el = $(this);
+                var name = el.data("name");
+                var mobile = toBool(el.data("mobile"));
+
+                var hidden;
+
+                if (mobile) {
+                    hidden = $('#@Html.FieldIdFor(x => x.DefaultMobileTheme)');
+                }
+                else {
+                    hidden = $('#@Html.FieldIdFor(x => x.DefaultDesktopTheme)');
+                }
+
+                hidden.val(name);
+
+                el.closest("form").submit();
+
+                return false;
+            });
+        });
+    </script>
+}
+@helper ThemeList(IList<ThemeManifestModel> themes, string caption, bool mobile)
+{
+    <fieldset class="">
+        <legend style="border: none">@caption</legend>
+        <ul id="theme-list" class="unstyled clearfix">
+            @foreach (var theme in themes)
+            {
+                var isActive = theme.IsActive;
+                var isBroken = theme.State != CAF.Infrastructure.Core.Themes.ThemeManifestState.Active;
+
+                <li class="theme-item equalized-column@(isActive ? " active" : "")@(isBroken ? " broken" : "")" data-equalized-deep="true" @Html.Attr("title", theme.Description.EmptyNull(), theme.Description.HasValue())>
+                    <div class="theme-thumbnail-wrapper">
+                        <div class="theme-thumbnail" style="background-image: url('@Url.Content(theme.PreviewImageUrl)')"></div>
+                    </div>
+                    <div class="theme-data">
+                        <h4 data-equalized-part="title">
+                            @(theme.Title ?? theme.Name)
+                            @if (theme.BaseTheme.HasValue())
+                            {
+                                <small title='@T("Admin.Configuration.Themes.IsBasedOn"): @theme.BaseTheme'>
+                                    <i class="fa fa-@(isBroken ? "chain-broken" : "chain") fa-flip-horizontal"></i>
+                                    @theme.BaseTheme
+                                </small>
+                            }
+                        </h4>
+                        <div data-equalized-part="data" class="theme-info">
+                            @if (theme.Author.HasValue())
+                            {
+                                <span>@T("Admin.Configuration.Themes.Author"): </span><span class="muted">@theme.Author, </span>
+                            }
+                            <span>@T("Admin.Configuration.Themes.Version"): </span><span class="muted">@theme.Version</span>
+                        </div>
+                        <div class="theme-buttons clearfix">
+                            @if (!theme.IsActive)
+                            {
+                                <a href="#" class="btn btn-primary set-as-defaulttheme@(isBroken ? " invisible" : "")" data-mobile="@theme.IsMobileTheme" data-name="@theme.Name">
+                                    @T("Admin.Common.Activate")
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="#" class="btn btn-default disabled">
+                                    <i class="fa fa-check"></i>
+                                    @T("Common.Active")
+                                </a>
+                            }
+                            <a href="@Url.Action("Files", "Theme", new { theme = theme.Name, siteId = Model.SiteId })" class="btn btn-primary ">
+                               @T("Admin.Configuration.Themes.Files")
+                            </a>
+                            @if (!isBroken)
+                            {
+                                <div class="btn-group pull-right">
+                                    @if (!theme.IsMobileTheme)
+                                    {
+                                        <a href='@Url.Action("Preview", "Theme", new { theme = theme.Name, siteId = Model.SiteId })' class="btn btn-default" title="@T("Admin.Configuration.Themes.Preview")">
+                                            @T("Admin.Configuration.Themes.Preview")<i class="fa fa-fw fa-eye"></i>
+                                        </a>
+                                    }
+                                    @if (theme.IsConfigurable)
+                                    {
+                                        <a href='@Url.Action("Configure", "Theme", new { theme = theme.Name, siteId = Model.SiteId })' class="btn btn-default" title="@T("Admin.Common.Configure")">
+                                            <i class="fa fa-fw fa-gea"></i>
+                                        </a>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    @if (isBroken)
+                    {
+                        <div class="theme-broken-badge" title='@T("Admin.Configuration.Themes.MissingBaseTheme", theme.BaseTheme).Text'>
+                            <i class="fa fa-exclamation"></i>
+                        </div>
+                    }
+                </li>
+            }
+        </ul>
+    </fieldset>
+}
+@helper ThemeSettingsTab()
+{
+    <script>
+        $(function () {
+            $('input[id="@Html.FieldIdFor(model => model.AllowCustomerToSelectTheme)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleThemeChooser(state);
+            });
+        });
+        toggleThemeChooser(@Model.AllowCustomerToSelectTheme.ToString().ToLower());
+
+        function toggleThemeChooser(state) {
+            if (state) {
+                $('#pnlSaveThemeChoiceInCookie').show();
+            }
+            else {
+                $('#pnlSaveThemeChoiceInCookie').hide();
+            }
+        }
+    </script>
+
+    @Html.HiddenFor(x => x.DefaultDesktopTheme)
+    @Html.HiddenFor(x => x.DefaultMobileTheme)
+
+
+    <div class=" form-body">
+        <h2 class="margin-bottom-20">  @Html.ValidationSummary(false)</h2>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AllowCustomerToSelectTheme)
+            </label>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.AllowCustomerToSelectTheme)
+                @Html.ValidationMessageFor(model => model.AllowCustomerToSelectTheme)
+            </div>
+        </div>
+        <div class="form-group" id="pnlSaveThemeChoiceInCookie">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.SaveThemeChoiceInCookie)
+            </label>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.SaveThemeChoiceInCookie)
+                @Html.ValidationMessageFor(model => model.SaveThemeChoiceInCookie)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.MobileDevicesSupported)
+            </label>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.MobileDevicesSupported)
+                @Html.ValidationMessageFor(model => model.MobileDevicesSupported)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="alert alert-info fade in">
+                <button class="close" data-dismiss="alert">x</button>
+                <h4>@T("Admin.Configuration.Themes.Options.Title")</h4>
+                <p>@T("Admin.Configuration.Themes.Options.Info")</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.BundleOptimizationEnabled)
+            </label>
+            <div class="col-md-4">
+                @Html.DropDownListFor(model => model.BundleOptimizationEnabled, Model.AvailableBundleOptimizationValues, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BundleOptimizationEnabled)
+            </div>
+        </div>
+    </div>
+
+}

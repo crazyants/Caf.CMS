@@ -1,0 +1,217 @@
+﻿@model MessageTemplateModel
+@using CAF.Infrastructure.Core.Collections;
+@Html.HiddenFor(model => model.Id)
+@Html.CafSite().TabStrip().Name("template-edit").Style(TabsStyle.Tabs).Position(TabsPosition.Top).Items(x =>
+{
+    x.Add().Text(T("Admin.Common.Info").Text).Content(TabInfo()).Selected(true);
+    x.Add().Text(T("Admin.Common.Sites").Text).Content(TabSites());
+
+    //generate an event
+    EngineContext.Current.Resolve<IEventPublisher>().Publish(new TabStripCreated(x, "template-edit", this.Html, this.Model));
+})
+@helper TokenSelector(TreeNode<string> root)
+{
+    if (root.HasChildren)
+    {
+        <div class="btn-group message-token-selector">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                @T("Admin.Common.ChooseToken") <i class="fa fa-angle-down"></i>
+            </button>
+            @TokenList(root)
+        </div>
+        
+    }
+}
+@helper TokenList(TreeNode<string> node)
+{
+    <ul class="dropdown-menu" role="menu">
+        @foreach (var child in node.Children)
+        {
+            if (child.IsLeaf)
+            {
+                List<string> tokens = new List<string>();
+                var curNode = child;
+                while (!curNode.IsRoot)
+                {
+                    tokens.Insert(0, curNode.Value);
+                    curNode = curNode.Parent;
+                }
+                <li><a tabindex="-1" href="#" class="message-token" @Html.Attr("data-token", String.Join(".", tokens), tokens.Count > 0)>@child.Value</a></li>
+            }
+            else
+            {
+                <li class="dropdown-submenu">
+                    <a tabindex="-1" href="#" class="message-token">@child.Value</a>
+                    @TokenList(child)
+                </li>
+            }
+        }
+    </ul>
+}
+@helper TabInfo()
+{
+    <div class="form-body">
+        <h2 class="margin-bottom-20">  @Html.ValidationSummary(true)</h2>
+
+        <div class="form-group">
+            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.TokensTree)</label>
+            <div class="col-md-3">
+                @TokenSelector(Model.TokensTree)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Name)</label>
+            <div class="col-md-3">
+                @Model.Name
+                @Html.HiddenFor(model => model.Name)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.IsActive)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.IsActive)
+                @Html.ValidationMessageFor(model => model.IsActive)
+            </div>
+        </div>
+    </div>
+    @(Html.LocalizedEditor<MessageTemplateModel, MessageTemplateLocalizedModel>("messagetemplate-localized",
+    @<div class="form-body">
+        <h2 class="margin-bottom-20"> </h2>
+
+        <div class="form-group">
+            <label class="control-label col-md-3"> @Html.LangLabelFor(model => model.Locales[item].BccEmailAddresses)</label>
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => Model.Locales[item].BccEmailAddresses, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Locales[item].BccEmailAddresses)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3"> @Html.LangLabelFor(model => model.Locales[item].Subject)</label>
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => Model.Locales[item].Subject, new { @class = "input-large" })
+                @Html.ValidationMessageFor(model => model.Locales[item].Subject)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3"> @Html.LangLabelFor(model => model.Locales[item].EmailAccountId)</label>
+            <div class="col-md-3">
+                @Html.DropDownListFor(model => Model.Locales[item].EmailAccountId, new SelectList(Model.AvailableEmailAccounts, "Id", "DisplayName", Model.Locales[item].EmailAccountId), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Locales[item].EmailAccountId)
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.Locales[item].Body)</label>
+            <div class="col-md-9">
+                @Html.EditorFor(model => Model.Locales[item].Body, "RichEditor")
+                @Html.ValidationMessageFor(model => model.Locales[item].Body)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.HiddenFor(model => model.Locales[item].LanguageId)
+        </div>
+    </div>
+    ,
+    @<div class="form-body">
+        <h2 class="margin-bottom-20"> </h2>
+
+        <div class="form-group">
+            <label class="control-label col-md-3"> @Html.LangLabelFor(model => model.BccEmailAddresses)</label>
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => model.BccEmailAddresses, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BccEmailAddresses)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.Subject)</label>
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.Subject, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Subject)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3"> @Html.LangLabelFor(model => model.EmailAccountId)</label>
+            <div class="col-md-3">
+                @Html.DropDownListFor(model => model.EmailAccountId, new SelectList(Model.AvailableEmailAccounts, "Id", "DisplayName"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EmailAccountId)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.Body)</label>
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.Body, "RichEditor")
+                @Html.ValidationMessageFor(model => model.Body)
+            </div>
+        </div>
+    </div>
+                                             ))
+}
+@helper TabSites()
+{
+    <div class="form-body">
+        <h2 class="margin-bottom-20"> </h2>
+
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.LimitedToSites)</label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.LimitedToSites)
+                @Html.ValidationMessageFor(model => model.LimitedToSites)
+            </div>
+        </div>
+        <div id="pnl-available-sites" class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.AvailableSites)</label>
+            <div class="col-md-3">
+                @if (Model.AvailableSites != null && Model.AvailableSites.Count > 0)
+                {
+                    foreach (var site in Model.AvailableSites)
+                    {
+                        <label class="checkbox">
+                            <input type="checkbox" name="SelectedSiteIds" value="@site.Id" checked="@(Model.SelectedSiteIds != null && Model.SelectedSiteIds.Contains(site.Id))" />
+                            <span>@site.Name</span>
+                        </label>
+                    }
+                }
+                else
+                {
+                    <div>@T("Admin.Configuration.Sites.NoSitesDefined")</div>
+                }
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    $(document).ready(function () {
+
+        $('.message-token-selector').on('click', '.message-token', function (e) {
+            e.preventDefault();
+
+            var el = $(this);
+            var token = el.data("token");
+
+            if (!token)
+                return false;
+
+            CKEDITOR.instances.Body.insertHtml('%{0}%'.format(token));
+
+            return false;
+        });
+
+        $('input[id="@Html.FieldIdFor(model => model.LimitedToSites)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+            toggleSiteMapping(state);
+        });
+        toggleSiteMapping(@Model.LimitedToSites.ToString().ToLower());
+    });
+
+    function toggleSiteMapping(state) {
+        if (state) {
+            $('#pnl-available-sites').show();
+        }
+        else {
+            $('#pnl-available-sites').hide();
+        }
+    }
+
+    </script>
+}
+
+
+

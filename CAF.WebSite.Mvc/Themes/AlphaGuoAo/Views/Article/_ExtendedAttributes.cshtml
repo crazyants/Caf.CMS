@@ -1,0 +1,53 @@
+﻿@model ArticlePostModel
+@using CAF.Infrastructure.Core.Domain.Cms.Articles
+@using CAF.Infrastructure.Core;
+@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core.Utilities;
+@if (Model.ArticleExtendedAttributes.Count > 0)
+{
+
+    <ul class="list-none">
+        @foreach (var attribute in Model.ArticleExtendedAttributes)
+        {
+            string controlId = string.Format("checkout_attribute_{0}", attribute.Id);
+            string textPrompt = !string.IsNullOrEmpty(attribute.TextPrompt) ? attribute.TextPrompt : attribute.Name;
+            switch (attribute.AttributeControlType)
+            {
+                case AttributeControlType.DropdownList:
+                case AttributeControlType.Checkboxes:
+                case AttributeControlType.RadioList:
+                    {
+                        <li style="padding-left: 63px;"><span>@textPrompt</span>@attribute.DefaultValue<div style="clear:both;"></div></li>
+                        @*foreach (var caValue in attribute.Values)
+                            {
+                                if (caValue.IsPreSelected)
+                                {
+                                <li style="padding-left: 63px;"><span>@textPrompt</span>@caValue.Name<div style="clear:both;"></div></li>
+                                }
+                            }*@
+                    }
+                    break;
+
+                case AttributeControlType.TextBox:
+                case AttributeControlType.MultilineTextbox:
+                    {
+                        <li style="padding-left: 63px;"><span>@textPrompt</span>@attribute.DefaultValue<div style="clear:both;"></div></li>
+                    }
+                    break;
+                case AttributeControlType.Datepicker:
+                    {
+                        <li style="padding-left: 63px;"><span>@textPrompt</span>@attribute.DefaultValue<div style="clear:both;"></div></li>
+                        @*@Html.DatePickerDropDowns(controlId + "_day", controlId + "_month", controlId + "_year", DateTime.Now.Year, DateTime.Now.Year + 1, attribute.SelectedDay, attribute.SelectedMonth, attribute.SelectedYear)*@
+                    }
+                    break;
+                case AttributeControlType.FileUpload:
+                    {
+
+                    }
+                    break;
+            }
+
+        }
+    </ul>
+
+}

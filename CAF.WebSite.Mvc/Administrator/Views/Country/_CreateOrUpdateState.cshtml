@@ -1,0 +1,64 @@
+﻿@model StateProvinceModel
+@Html.ValidationSummary(false)
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.CountryId)
+@if (ViewBag.RefreshPage == true)
+{
+    <script type="text/javascript">
+        try {window.opener.document.forms['@(ViewBag.formId)'].@(ViewBag.btnId).click();}
+        catch (e){}
+        window.close();
+    </script>
+}
+<div class="portlet">
+    <div class="portlet-body form">
+        <div class="form-horizontal">
+            @(Html.LocalizedEditor<StateProvinceModel, StateProvinceLocalizedModel>("state-localized",
+            @<div class="form-body">
+                <div class="form-group">
+                    <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.Locales[item].Name)</label>
+                    <div class="col-md-3">
+                        @Html.TextBoxFor(model => model.Locales[item].Name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Locales[item].Name)
+                        @Html.HiddenFor(model => model.Locales[item].LanguageId)
+                    </div>
+                </div>
+            </div>,
+            @<div class="form-body">
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.Name)</label>
+                    <div class="col-md-3">
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Name)
+
+                    </div>
+                </div>
+            </div>))
+            <div class="form-body">
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.Abbreviation)</label>
+                    <div class="col-md-3">
+                        @Html.TextBoxFor(model => model.Abbreviation, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Abbreviation)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.Published)</label>
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.Published)
+                        @Html.ValidationMessageFor(model => model.Published)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.DisplayOrder1)</label>
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.DisplayOrder1)
+                        @Html.ValidationMessageFor(model => model.DisplayOrder1)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

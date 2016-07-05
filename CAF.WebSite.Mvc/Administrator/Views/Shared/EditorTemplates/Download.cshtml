@@ -1,0 +1,133 @@
+﻿@model int?
+@using CAF.Infrastructure.Core;
+@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core.Utilities;
+@functions {
+    bool? _minimalMode = null;
+    string _fieldName = null;
+
+    private bool MinimalMode
+    {
+        get
+        {
+            if (!_minimalMode.HasValue)
+            {
+                _minimalMode = ViewData.ContainsKey("minimalMode") ? ViewData["minimalMode"].Convert<bool>() : false;
+            }
+            return _minimalMode.Value;
+        }
+    }
+
+    private string FieldName
+    {
+        get
+        {
+            if (_fieldName == null)
+            {
+                _fieldName = ViewData.ContainsKey("fieldName") ? ViewData["fieldName"].Convert<string>() : ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty);
+            }
+            return _fieldName;
+        }
+    }
+}
+@{
+    var clientId = "download-editor-" + CommonHelper.GenerateRandomInteger();
+    var downloadService = EngineContext.Current.Resolve<CAF.WebSite.Application.Services.Media.IDownloadService>();
+    var download = downloadService.GetDownloadById(Model.GetValueOrDefault());
+    var initiallyShowUrlPanel = false;
+    var hasFile = false;
+    var downloadUrl = "";
+    if (download != null)
+    {
+        downloadUrl = Url.Action("DownloadFile", "Download", new { downloadId = download.Id });
+        initiallyShowUrlPanel = !MinimalMode && download.UseDownloadUrl;
+        hasFile = !download.UseDownloadUrl;
+    }
+    Html.AddScriptParts(true, "~/Scripts/admin.download.js");
+}
+<div id="@clientId" class="download-editor@(MinimalMode ? " minimal" : "")"
+     data-download-id="@Model.GetValueOrDefault()"
+     data-use-url="@(initiallyShowUrlPanel ? "true" : "false")"
+     data-upload-url="@Url.Action("AsyncUpload", "Download", new { minimalMode = MinimalMode, fieldName = FieldName })"
+     data-delete-url="@Url.Action("DeleteDownload", "Download", new { minimalMode = MinimalMode, fieldName = FieldName })">
+    <input type="hidden" id="@FieldName.SanitizeHtmlId()" name="@FieldName" value="@Model" class="hidden" />
+    <!-- Type Chooser Dropdown -->
+    @if (!MinimalMode)
+    {
+        <div class="btn-group panel-switcher pull-left" title='@T("Common.FileUploader.Upload")'>
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-@(initiallyShowUrlPanel ? "globe": "upload") panel-switcher-icon"></i>
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li @Html.Attr("class", "disabled", !initiallyShowUrlPanel)><a href="#" class="toggle-file">@T("Common.FileUploader.Upload")</a></li>
+                <li @Html.Attr("class", "disabled", initiallyShowUrlPanel)><a href="#" class="toggle-url">@T("Common.FileUploader.EnterUrl")</a></li>
+                @if (download != null)
+                {
+                    <li class="divider"></li>
+                    <li><a href="#" class="remove"><i class="fa fa-trash-o"></i>&nbsp;@T("Common.Remove")</a></li>
+                }
+            </ul>
+        </div>
+    }
+    else if (hasFile)
+    {
+        <a href="#" class="btn btn-danger remove pull-left" title='@T("Common.Remove")' style="display: inline-block">
+            <i class="fa fa-trash-o"></i>
+        </a>
+    }
+    <!-- Main Panel -->
+    <div style="position: relative; margin-left: @(!MinimalMode || hasFile ? "60px" : "0")">
+        <!-- FileUpload Panel  -->
+        <div class="panel-upload fileupload" style="display: @(initiallyShowUrlPanel ? "none": "block")">
+            @if (hasFile)
+            {
+                <a href="@downloadUrl" class="filename" title="@download.Filename">
+                    @download.Filename@download.Extension
+                </a>
+            }
+            <span class="btn fileinput-button btn-@(hasFile ? "default" : "primary")" @Html.Attr("title", T("Common.Replace"), hasFile)>
+                @if (hasFile)
+                {
+                    <i class="fa fa-upload"></i>
+                }
+                else
+                {
+                    <span>@T("Common.Fileuploader.Upload")</span>
+                }
+                <input type="file" name="file" />
+            </span>
+            <button class="btn btn-warning cancel">
+                <i class="fa fa-times"></i>
+                <span>@T("Common.Fileuploader.Cancel")</span>
+            </button>
+            <!-- The global progress information -->
+            <div class="span5 fileupload-progress fade" style="vertical-align: top !important; margin-left: 10px">
+                <!-- The global progress bar -->
+                <div class="progress progress-success progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="height: 12px; margin-bottom: 2px;">
+                    <div class="bar" style="width:0%;"></div>
+                </div>
+                <!-- The extended global progress information -->
+                <div class="progress-extended">&nbsp;</div>
+            </div>
+        </div>
+        <!-- URL Panel -->
+        @if (!MinimalMode)
+        {
+            <div class="panel-url" style="display: @(initiallyShowUrlPanel ? "block": "none")">
+                <div class="input-append" style="display: inline-block; vertical-align: top">
+                    @{ var value = download != null ? download.DownloadUrl : ""; }
+                    <input type="text" class="download-url-value" value='@value' data-value='@value' style="width: 396px" />
+                    <a href="@Url.Action("SaveDownloadUrl", "Download", new { minimalMode = MinimalMode, fieldName = FieldName })" title='@T("Common.Save")' class="btn btn-primary save-download-url" disabled="disabled">
+                        <i class="fa fa-fw fa-check"></i>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#@clientId').downloadEditor();
+    });
+</script>

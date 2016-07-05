@@ -1,0 +1,30 @@
+﻿@model  List<MenuModel>
+@{
+    Layout = "~/Administrator/Views/Shared/_AdminArticlePopupLayout.cshtml";
+    ViewBag.Title = T("Admin.ContentManagement.Articles").Text;
+    Html.AppendCssFileParts(
+  "~/Content/bui/css/dpl-min.css",
+  "~/Content/bui/css/bui-min.css",
+  "~/Content/bui/css/main.css");
+
+    Html.AppendScriptParts(ResourceLocation.Head,
+        "~/Content/bui/js/bui-min.js",
+        "~/Content/bui/js/config.js");
+
+}
+
+<ul id="J_NavContent" class="dl-tab-conten"></ul>
+<script type="text/javascript">
+    var data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+    BUI.use('common/main', function () {
+        var config = [{
+            collapsed:false,
+            id: 'menu',
+            menu: data
+        }];
+        new PageUtil.MainPage({
+            modulesConfig: config
+        });
+
+    });
+</script>

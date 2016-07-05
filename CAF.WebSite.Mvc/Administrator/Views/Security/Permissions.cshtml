@@ -1,0 +1,103 @@
+﻿@model CAF.WebSite.Mvc.Admin.Security.PermissionMappingModel
+@{               
+    //page title
+    ViewBag.Title = T("Admin.Configuration.ACL").Text;
+}
+@using (Html.BeginForm())
+{
+<h3 class="page-title">
+    <small>@T("Admin.Configuration.ACL")</small>
+</h3>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box grey-cascade">
+            <div class="section-header sticky">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>角色分配
+
+                </div>
+                <div class="tools">
+
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                <button type="submit" name="save-permissions" value="save-permissions" class="btn btn-primary">
+                                    <i class="fa fa-check"></i>&nbsp;保存
+                                </button>
+                                <button type="submit" name="update-permissions" value="update-permissions" class="btn yellow ">
+                                    <i class="fa fa-circle-o-notch"></i>&nbsp;更新
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="btn-group pull-right">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    @if (Model.AvailablePermissions.Count == 0)
+                            {
+                               
+                    <text>No permissions defined</text>
+                    }
+                            else if (Model.AvailableUserRoles.Count == 0)
+                            {
+                               
+                    <text>No User roles available</text>
+                    }
+                            else
+                            {       
+                                   
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <b>@T("Admin.Configuration.ACL.Permission")</b>
+                                </th>
+                                @foreach (var cr in Model.AvailableUserRoles)
+                                                {
+                                                   
+                                <th style="text-align: center">
+                                    <b>@cr.Name</b>
+                                </th>
+                                }
+                                           
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var pr in Model.AvailablePermissions)
+                                            {
+                                               
+                            <tr>
+                                <td>
+                                    <span>@pr.Name</span>
+                                </td>
+                                @foreach (var cr in Model.AvailableUserRoles)
+                                {
+                                    var allowed = Model.Allowed.ContainsKey(pr.SystemName) && Model.Allowed[pr.SystemName][cr.Id];
+                                    <td align="center">
+                                        <input id="allow_@(cr.Id)" class="allow_@(cr.Id)" type="checkbox" value="@(pr.SystemName)" name="allow_@(cr.Id)" @(allowed ? " checked=checked" : null) />
+                                    </td>
+                                }
+                                               
+                            </tr>
+                            }
+                                       
+                        </tbody>
+                    </table>
+
+                    }
+                            
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+}

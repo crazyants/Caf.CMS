@@ -1,0 +1,55 @@
+﻿@model ArticlePostModel
+@using CAF.Infrastructure.Core.Domain.Seo;
+@using CAF.Infrastructure.Core;
+@{
+    Layout = "~/Themes/AlphaGuoAo/Views/Shared/_ColumnsOne.cshtml";
+    //title, meta
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Title);
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+
+    var canonicalUrlsEnabled = EngineContext.Current.Resolve<CAF.Infrastructure.Core.Domain.Seo.SeoSettings>().CanonicalUrlsEnabled;
+    if (canonicalUrlsEnabled)
+    {
+        var articleUrl = Url.RouteUrl("Article", new { SeName = Model.SeName }, this.Request.Url.Scheme);
+        Html.AddCanonicalUrlParts(articleUrl);
+    }
+    string avatarSpanning = (Model.AllowUsersToUploadAvatars ? "padding-left: {0}px; min-height: {0}px;".FormatWith(Model.AvatarPictureSize + 30) : "");
+}
+
+<section class="main">
+    <div class="page-width clearfix">
+        <div class="full-page-content">
+            <div class="full-page-content-wrapper">
+                <div class="module-default">
+                    <div class="module-inner">
+                        <div class="module-content">
+                            <div class="article-detail">
+                                <div class="article-title"><h1>@(Model.Title)</h1></div>
+                                <div class="entry-meta">
+                                    <span>
+                                        <strong>所属分类：</strong>
+                                        @Html.Action("ArticleBreadcrumb", "ArticleCatalog", new { articleId = Model.Id, OnlyCurrentCategory = true })
+                                    </span>
+                                    <span><strong>发布时间：</strong><strong>@Model.CreatedOn.ToString("yyyy-MM-dd")</strong></span>
+                                    <div class="share-toolbar clearfix">
+                                        <div class="bdsharebuttonbox bdshare-button-style0-16" data-bd-bind="1465894766018"><span>分享到：</span><a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a><a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a><a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a><a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a><a href="#" class="bds_more" data-cmd="more"></a></div>
+                                        <script>
+                                            window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+                                        </script>
+                                    </div>
+                                </div><div class="article-content-wrapper">
+                                    <div class="article-content">
+                                        <div class="qhd-content">
+                                            @Html.Raw(Model.FullContent)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

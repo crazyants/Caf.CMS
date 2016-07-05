@@ -1,0 +1,12 @@
+﻿@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+@using CAF.WebSite.Application.WebUI.Themes;
+
+@{
+    var MediaRootPath = "~/Content/assets/";
+    Html.AppendCssFileParts(false, "~/Themes/AlphaCosmetics/Content/metinfo.css");
+    Html.AppendCssFileParts(false, "~/Themes/AlphaCosmetics/Content/style.css");
+    Html.AppendCssFileParts(MediaRootPath + "global/plugins/font-awesome/css/font-awesome.min.css");
+
+}
+@Html.Partial("ConditionalComments")

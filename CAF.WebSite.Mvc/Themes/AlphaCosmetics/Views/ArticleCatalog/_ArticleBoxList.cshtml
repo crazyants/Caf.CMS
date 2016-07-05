@@ -1,0 +1,13 @@
+﻿@model ArticlePostModel
+@{
+    
+}
+
+<li class="list top">
+    <span>[@Model.PostCreatedOnStr]</span>
+    <a href="@Url.RouteUrl("Article", new { SeName = Model.SeName })" title="@Model.DefaultPictureModel.Title ">
+        @Html.Raw(Model.Title)
+    </a>
+    <img class="listtop" src="~/Themes/AlphaCosmetic/Content/images/top.gif" alt="@Model.DefaultPictureModel.AlternateText">
+    <p>  @Html.Raw(Model.ShortContent.Truncate(50, "..."))</p>
+</li>

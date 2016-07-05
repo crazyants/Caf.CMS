@@ -1,0 +1,69 @@
+﻿@model CAF.WebSite.Mvc.Admin.Models.Articles.ArticleModel
+
+@{
+    //Html.AddCssFileParts(true, "~/Content/x-editable/bootstrap-editable.css");
+    //Html.AppendScriptParts(true, "~/Content/x-editable/bootstrap-editable.js");
+}
+@Html.ValidationSummary(false)
+@Html.HiddenFor(model => model.Id)
+@Html.HiddenFor(model => model.CategoryId)
+@if (ViewBag.RefreshPage == true)
+{
+    <script type="text/javascript">
+        try {window.opener.document.forms['@(ViewBag.formId)'].@(ViewBag.btnId).click();}
+        catch (e){}
+        window.close();
+    </script>
+}
+<script>
+    function articleEditTab_onAjaxSuccess(tab, pane) {
+        applyCommonPlugins(pane);
+    }
+
+</script>
+@Html.CafSite().TabStrip().Name("article-edit").OnAjaxSuccess("articleEditTab_onAjaxSuccess").HtmlAttributes(new { data_article_id = Model.Id }).Style(TabsStyle.Tabs).Position(TabsPosition.Top).Items(x =>
+{
+    x.Add().Text(T("Admin.ContentManagement.Articles.Info").Text)
+        .Icon("fa fa-pencil fa-lg fa-fw")
+        .LinkHtmlAttributes(new { data_tab_name = "Info" })
+        .Content(Html.Partial("_CreateOrUpdate.Info", Model).ToHtmlString())
+        .Selected(true);
+
+    x.Add().Text(T("Admin.Common.SEO").Text)
+    .Icon("fa fa-search fa-lg fa-fw")
+    .LinkHtmlAttributes(new { data_tab_name = "SEO" })
+    .Content(Html.Partial("_CreateOrUpdate.SEO", Model).ToHtmlString());
+
+    //x.Add().Text(T("Admin.ContentManagement.Articles.ExtendedAttributes").Text)
+    //.Icon("fa fa-fw fa-list fa-lg fa-fw")
+    //.LinkHtmlAttributes(new { data_tab_name = "Exts" })
+    //.Action("LoadEditTab", "Article", new { id = Model.Id, tabName = "Exts" })
+    //.Ajax();
+
+    x.Add().Text(T("Admin.ContentManagement.Articles.Pictures").Text)
+        .Icon("fa fa-picture-o fa-lg fa-fw")
+        .LinkHtmlAttributes(new { data_tab_name = "Pictures" })
+        .Action("LoadEditTab", "Article", new { id = Model.Id, tabName = "Pictures" })
+        .Ajax();
+    x.Add().Text(T("Admin.ContentManagement.Articles.Promotion").Text)
+    .Icon("fa fa-bullhorn fa-lg fa-fw")
+    .LinkHtmlAttributes(new { data_tab_name = "Promotion" })
+    .Action("LoadEditTab", "Article", new { id = Model.Id, tabName = "Promotion" })
+    .Ajax();
+    
+    x.Add().Text(T("Admin.ContentManagement.Articles.Acl").Text)
+    .Icon("fa fa-users fa-lg fa-fw")
+    .LinkHtmlAttributes(new { data_tab_name = "Acl" })
+      .Content(Html.Partial("_CreateOrUpdate.Acl", Model).ToHtmlString()).Visible(false);
+    //  .Action("LoadEditTab", "Article", new { id = Model.Id, tabName = "Acl" })
+    //  .Ajax();
+
+    x.Add().Text(T("Admin.Common.Sites").Text)
+        .Icon("fa fa-globe fa-lg fa-fw")
+        .LinkHtmlAttributes(new { data_tab_name = "Sites" })
+      .Content(Html.Partial("_CreateOrUpdate.Sites", Model).ToHtmlString()).Visible(Model.SiteContentShare);
+    // .Action("LoadEditTab", "Article", new { id = Model.Id, tabName = "Sites" })
+    // .Ajax();
+    //generate an event
+    EngineContext.Current.Resolve<IEventPublisher>().Publish(new TabStripCreated(x, "article-edit", this.Html, this.Model));
+})

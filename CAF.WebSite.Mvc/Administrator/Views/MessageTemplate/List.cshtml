@@ -1,0 +1,126 @@
+﻿@model MessageTemplateListModel
+@using CAF.Mvc.JQuery.Datatables.Core;
+@{
+    ViewBag.Title = T("Admin.ContentManagement.MessageTemplates").Text;
+    var g = Html.GridToolKit<MessageTemplateModel>();
+    var grid = g.DataGrid("templatesGrid", g.Param(x => x.Id)).TableId("table-id").GridKey("Id").Pager()
+    .MainGrid(
+    g.GridColumn(x => x.Name, 50).DefaultContent("<a href=\"Edit/#Id#\">#Name#</a>"),
+    g.GridColumn(x => x.Subject),
+    g.GridColumn(x => x.IsActive, 50),
+    g.GridColumn("operation", "" + T("Admin.Common.Operation").Text + "", 100).DefaultContent("<a href='Edit/#Id#' class='btn default btn-xs purple'><i class='fa fa-pencil'></i></a>"))
+    .Url(Url.Action("List", "MessageTemplate")).DefaultTableClass().BindDataParamBinding("onDataBinding");
+}
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase"> @T("Admin.ContentManagement.MessageTemplates")</span>
+                        <span class="caption-helper"></span>
+                    </div>
+                    <div class="tools">
+
+                    </div>
+                    <div class="actions">
+
+                    </div>
+                </div>
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group"> 
+                                    <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SearchSiteId)</label>
+                                    <div class="col-md-9">
+                                        @Html.DropDownList("SearchSiteId", Model.AvailableSites, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                   
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <button type="submit" id="search-templates" class="btn btn-default">
+                                            <i class="fa fa-search"></i>
+                                            @T("Admin.Common.Search")
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                </div>
+                <div class="portlet-body flip-scroll">
+
+                    <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+                        <thead>
+                            <tr>
+                                @foreach (var column in grid.GetColumns)
+                                {
+                                    if (column.Name == "" + T("Admin.Common.Edit").Text + "")
+                                    {
+
+                                        <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                                    }
+                                    else if (column.DisplayName == null)
+                                    {
+
+                                        <th class="@column.CssClassHeader"><input type="checkbox" class="group-checkable" data-set="checkboxes"></th>
+
+                                    }
+                                    else
+                                    {
+                                        <th class="@column.CssClassHeader">@column.DisplayName</th>
+                                    }
+
+                                }
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function onDataBinding() {
+            var searchModel = {
+                SearchSiteId: $('#SearchSiteId').val()
+            };
+            return searchModel;
+        }
+        @(grid)
+
+        $(document).ready(function () {
+
+            //search button
+            $('#search-templates').click(function () {
+                //search
+                var grid = templatesGrid.reload();
+                return false;
+            });
+
+        });
+
+
+
+    </script>
+}

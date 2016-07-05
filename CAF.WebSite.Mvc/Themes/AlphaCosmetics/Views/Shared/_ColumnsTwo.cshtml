@@ -1,0 +1,73 @@
+﻿@{
+    Layout = "~/Themes/AlphaCosmetic/Views/Shared/_Layout.Head.cshtml";
+    Html.AddBodyCssClass("corporate");
+
+}
+<header>
+    @Html.Action("Header", "Common", new { area = "" })
+    <div class="HER--con position">
+        <div class="width DG-nav">
+            <div class="HER--con-logo fl">
+                <a href="" title="护肤品公司" id="web_logo">
+                    <img src="/Themes/AlphaCosmetics/Content/images/logo.png" alt="护肤品公司" title="护肤品公司" style="margin:0px 0px 0px 0px;" />
+                </a>
+            </div>
+            <nav class="DG-nav fr met_nav">
+                @Html.Action("MegaMenu", "ArticleCatalog", new { currentCategoryId = this.CurrentArticleCategoryId, currentArticleId = this.CurrentArticleId, area = "" })
+            </nav>
+            <div class="clear"></div>
+        </div>
+    </div>
+</header>
+ <div class="BAN--bj-2">
+
+    <div class="wwwww BAN--flash">
+        <div class="flash">
+            <img src='/Themes/AlphaCosmetics/Content/images/banner.jpg' width='1000' alt='4' height='90'>
+        </div>
+    </div>
+
+</div>
+<div class="sidebar width">
+    @if (IsSectionDefined("left"))
+    {
+        <div class="sb_nav fl sb-DG">
+            @RenderSection("left")
+            <h3 class="title line myCorner" data-corner="top 5px" style="border-top-left-radius: 5px; border-top-right-radius: 5px;">联系方式</h3>
+            <div class="sb--nav-bot editor">
+                <strong>某某护肤品公司</strong><br>
+                电&nbsp; 话：0731-12345678<br>
+                Q&nbsp;&nbsp; Q：&nbsp; 88888888<br>
+                传&nbsp; 真：0731-12345678<br>
+                Email：mubaipeizhi@163.cn<br>
+                网&nbsp; 址：www.mubanpeizhi.cn<div class="clear"></div>
+            </div>
+
+        </div>
+    }
+    else
+    {
+        @Html.Action("InfoBlock", "Common", new { area = "" })
+    }
+    <div class="sb_box fr sb-DG">
+        @RenderBody()
+    </div>
+    <div class="clear"></div>
+
+   @if (IsSectionDefined("footer"))
+    {
+                @RenderSection("footer")
+    }
+      
+    else
+    {
+        @Html.Action("Footer", "Common", new { area = "" })
+    }
+    @if (IsSectionDefined("FootScript"))
+    {
+        @RenderSection("FootScript", required: false)
+    }
+    else
+    {
+
+    }

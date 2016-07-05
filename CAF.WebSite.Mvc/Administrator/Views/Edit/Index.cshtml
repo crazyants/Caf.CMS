@@ -1,0 +1,515 @@
+﻿@model CAF.WebSite.Mvc.Admin.Models.Users.UserModel
+@using CAF.WebSite.Application.WebUI
+@{
+    Layout = "~/Administrator/Views/Shared/_AdminMenu.cshtml";
+    ViewBag.Title = "用户授权应用登录";
+
+}
+
+<h3 class="page-title">
+    @*控制台 <small>报告 & 统计数据</small>*@
+
+    @*@T("Admin.ContentManagement.News.NewsItems.EditNewsItemDetails") -  @Html.ActionLink("(" + T("Admin.ContentManagement.News.NewsItems.BackToList") + ")", "List")*@
+    <small>频道管理 -  @Html.ActionLink("(返回列表)", "List")</small>
+
+</h3>
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="/Admin/Home">首页</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            @Html.ActionLink("频道管理", "List")
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            编辑
+        </li>
+    </ul>
+    @*<div class="page-toolbar">
+            <div id="dashboard-report-range" class="pull-right tooltips btn btn-fit-height grey-salt" data-placement="top" data-original-title="Change dashboard date range">
+                <i class="icon-calendar"></i>&nbsp;
+                <span class="thin uppercase visible-lg-inline-block">&nbsp;</span>&nbsp;
+                <i class="fa fa-angle-down"></i>
+            </div>
+        </div>*@
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet box grey-cascade">
+            <div class="section-header sticky">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>频道管理
+                </div>
+                <div class="tools">
+
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                <button id="sample_editable_1_new" class="btn yellow">
+                                    Add <i class="fa fa-plus"></i>
+                                </button>
+                                <button id="sample_editable_1_new" class="btn red">
+                                    Edit <i class="fa fa-edit"></i>
+                                </button>
+                                <button id="sample_editable_1_new" class="btn green">
+                                    Delete <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="btn-group pull-right">
+                                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                    Tools <i class="fa fa-angle-down"></i>
+                                </button>
+                                <ul class="dropdown-menu pull-right">
+                                    <li>
+                                        <a href="#">
+                                            Print
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            Save as PDF
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            Export to Excel
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="sample_1_wrapper" class="dataTables_wrapper no-footer">
+                    <div class="row"><div class="col-md-6 col-sm-12"><div class="dataTables_length" id="sample_1_length"><label>  <select name="sample_1_length" aria-controls="sample_1" class="form-control input-xsmall input-inline"><option value="5">5</option><option value="15">15</option><option value="20">20</option><option value="-1">All</option></select> records</label></div></div><div class="col-md-6 col-sm-12"><div id="sample_1_filter" class="dataTables_filter"><label>My search: <input type="search" class="form-control input-small input-inline" placeholder="" aria-controls="sample_1"></label></div></div></div><div class="table-scrollable">
+                        <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_1" role="grid" aria-describedby="sample_1_info">
+                            <thead>
+                                <tr role="row">
+                                    <th class="table-checkbox sorting_disabled" rowspan="1" colspan="1" aria-label="
+
+								" style="width: 24px;">
+                                        <div class="checker"><span><input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes"></span></div>
+                                    </th>
+                                    <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label="
+									 UserName
+								: activate to sort column ascending" style="width: 222px;">
+                                        UserName
+                                    </th>
+                                    <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="
+									 Email
+								" style="width: 371px;">
+                                        Email
+                                    </th>
+                                    <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="
+									 Points
+								" style="width: 137px;">
+                                        Points
+                                    </th>
+                                    <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label="
+									 Joined
+								: activate to sort column ascending" style="width: 200px;">
+                                        Joined
+                                    </th>
+                                    <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="
+									 Status
+								" style="width: 214px;">
+                                        Status
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="gradeX odd" role="row">
+                                    <td>
+                                        <div class="checker"><span><input type="checkbox" class="checkboxes" value="1"></span></div>
+                                    </td>
+                                    <td class="sorting_1">
+                                        coop
+                                    </td>
+                                    <td>
+                                        <a href="mailto:userwow@gmail.com">
+                                            good@gmail.com
+                                        </a>
+                                    </td>
+                                    <td>
+                                        20
+                                    </td>
+                                    <td class="center">
+                                        19.11.2010
+                                    </td>
+                                    <td>
+                                        <span class="label label-sm label-success">
+                                            Approved
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn default btn-xs purple">
+                                            <i class="fa fa-edit"></i> Edit
+                                        </a>
+                                        <a href="#" class="btn default btn-xs black">
+                                            <i class="fa fa-trash-o"></i> Delete
+                                        </a>
+                                        <a href="#" class="btn default btn-xs blue">
+                                            <i class="fa fa-share"></i> Share
+                                        </a>
+                                        <a href="#" class="btn default btn-xs red">
+                                            View
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr class="gradeX even" role="row">
+                                    <td>
+                                        <div class="checker"><span><input type="checkbox" class="checkboxes" value="1"></span></div>
+                                    </td>
+                                    <td class="sorting_1">
+                                        foopl
+                                    </td>
+                                    <td>
+                                        <a href="mailto:userwow@gmail.com">
+                                            good@gmail.com
+                                        </a>
+                                    </td>
+                                    <td>
+                                        20
+                                    </td>
+                                        19.11.2010
+                                    <td class="center">
+                                    </td>
+                                    <td>
+                                        <span class="label label-sm label-success">
+                                            Approved
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr class="gradeX odd" role="row">
+                                    <td>
+                                        <div class="checker"><span><input type="checkbox" class="checkboxes" value="1"></span></div>
+                                    </td>
+                                    <td class="sorting_1">
+                                        fop
+                                    </td>
+                                    <td>
+                                        <a href="mailto:userwow@gmail.com">
+                                            good@gmail.com
+                                        </a>
+                                    </td>
+                                    <td>
+                                        20
+                                    </td>
+                                    <td class="center">
+                                        13.11.2010
+                                    </td>
+                                    <td>
+                                        <span class="label label-sm label-warning">
+                                            Suspended
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr class="gradeX even" role="row">
+                                    <td>
+                                        <div class="checker"><span><input type="checkbox" class="checkboxes" value="1"></span></div>
+                                    </td>
+                                    <td class="sorting_1">
+                                        goop
+                                    </td>
+                                    <td>
+                                        <a href="mailto:userwow@gmail.com">
+                                            good@gmail.com
+                                        </a>
+                                    </td>
+                                    <td>
+                                        20
+                                    </td>
+                                    <td class="center">
+                                        12.11.2010
+                                    </td>
+                                    <td>
+                                        <span class="label label-sm label-success">
+                                            Approved
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr class="gradeX odd" role="row">
+                                    <td>
+                                        <div class="checker"><span><input type="checkbox" class="checkboxes" value="1"></span></div>
+                                    </td>
+                                    <td class="sorting_1">
+                                        kop
+                                    </td>
+                                    <td>
+                                        <a href="mailto:userwow@gmail.com">
+                                            good@gmail.com
+                                        </a>
+                                    </td>
+                                    <td>
+                                        20
+                                    </td>
+                                    <td class="center">
+                                        17.11.2010
+                                    </td>
+                                    <td>
+                                        <span class="label label-sm label-success">
+                                            Approved
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div><div class="row"><div class="col-md-5 col-sm-12"><div class="dataTables_info" id="sample_1_info" role="status" aria-live="polite">Showing 1 to 5 of 25 entries</div></div><div class="col-md-7 col-sm-12"><div class="dataTables_paginate paging_bootstrap_full_number" id="sample_1_paginate"><ul class="pagination" style="visibility: visible;"><li class="prev disabled"><a href="#" title="First"><i class="fa fa-angle-double-left"></i></a></li><li class="prev disabled"><a href="#" title="Prev"><i class="fa fa-angle-left"></i></a></li><li class="active"><a href="#">1</a></li><li><a href="#">2</a></li><li><a href="#">3</a></li><li><a href="#">4</a></li><li><a href="#">5</a></li><li class="next"><a href="#" title="Next"><i class="fa fa-angle-right"></i></a></li><li class="next"><a href="#" title="Last"><i class="fa fa-angle-double-right"></i></a></li></ul></div></div></div>
+                </div>
+            </div>
+        </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @using (Html.BeginForm())
+            {
+
+                <div class="options">
+                    <button type="submit" name="save" value="save" class="btn btn-primary"><i class="icon-ok icon-white"></i>&nbsp;Save</button>
+                    <button type="submit" name="save" value="save-continue" class="btn blue-madison">SaveContinue</button>
+                </div>
+
+                <table class="adminContent">
+                    <tr>
+                        <td class="adminTitle">@Html.LangLabelFor(model => model.UserName)</td>
+                        <td class="adminData">
+                            @Html.EditorFor(model => model.UserName)
+                            @Html.ValidationMessageFor(model => model.UserName)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">@Html.LangLabelFor(model => model.Email)</td>
+                        <td class="adminData">
+                            @Html.EditorFor(model => model.Email)
+                            @Html.ValidationMessageFor(model => model.Email)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="adminTitle">@Html.LangLabelFor(model => model.Password)</td>
+                        <td class="adminData">
+                            @Html.EditorFor(model => model.Password)
+                            @Html.ValidationMessageFor(model => model.Password)
+                        </td>
+                    </tr>
+
+                </table>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN VALIDATION STATES-->
+            <div class="portlet box green">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>Advance Validation
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse" data-original-title="" title="">
+                        </a>
+                        <a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+                        </a>
+                        <a href="javascript:;" class="reload" data-original-title="" title="">
+                        </a>
+                        <a href="javascript:;" class="remove" data-original-title="" title="">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <!-- BEGIN FORM-->
+                    <form action="#" id="form_sample_3" class="form-horizontal" novalidate="novalidate">
+                        <div class="form-body">
+                            <h3 class="form-section">Advance validation. <small>Custom radio buttons, checkboxes and Select2 dropdowns</small></h3>
+                            <div class="alert alert-danger display-hide">
+                                <button class="close" data-close="alert"></button>
+                                You have some form errors. Please check below.
+                            </div>
+                            <div class="alert alert-success display-hide">
+                                <button class="close" data-close="alert"></button>
+                                Your form validation is successful!
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    Name <span class="required" aria-required="true">
+                                        *
+                                    </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <input type="text" name="name" data-required="1" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">
+                                    Email Address <span class="required" aria-required="true">
+                                        *
+                                    </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-envelope"></i>
+                                        </span>
+                                        <input type="email" name="email" class="form-control" placeholder="Email Address">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Occupation&nbsp;&nbsp;</label>
+                                <div class="col-md-4">
+                                    <input name="occupation" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    Select2 Dropdown <span class="required" aria-required="true">
+                                        *
+                                    </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <div class="select2-container form-control select2me" id="s2id_autogen1"><a href="javascript:void(0)" class="select2-choice" tabindex="-1">   <span class="select2-chosen" id="select2-chosen-2">Select...</span><abbr class="select2-search-choice-close"></abbr>   <span class="select2-arrow" role="presentation"><b role="presentation"></b></span></a><label for="s2id_autogen2" class="select2-offscreen"></label><input class="select2-focusser select2-offscreen" type="text" aria-haspopup="true" role="button" aria-labelledby="select2-chosen-2" id="s2id_autogen2"><div class="select2-drop select2-display-none select2-with-searchbox">   <div class="select2-search">       <label for="s2id_autogen2_search" class="select2-offscreen"></label>       <input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="select2-input" role="combobox" aria-expanded="true" aria-autocomplete="list" aria-owns="select2-results-2" id="s2id_autogen2_search" placeholder="">   </div>   <ul class="select2-results" role="listbox" id="select2-results-2">   </ul></div></div><select class="form-control select2me select2-offscreen" name="options2" tabindex="-1" title="">
+                                        <option value="">Select...</option>
+                                        <option value="Option 1">Option 1</option>
+                                        <option value="Option 2">Option 2</option>
+                                        <option value="Option 3">Option 3</option>
+                                        <option value="Option 4">Option 4</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    Select2 Tags <span class="required" aria-required="true">
+                                        *
+                                    </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <div class="select2-container select2-container-multi form-control" id="s2id_select2_tags"><ul class="select2-choices">  <li class="select2-search-field">    <label for="s2id_autogen3" class="select2-offscreen"></label>    <input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="select2-input" id="s2id_autogen3" placeholder="" style="width: 20px;">  </li></ul><div class="select2-drop select2-drop-multi select2-display-none">   <ul class="select2-results">   </ul></div></div><input type="hidden" class="form-control select2-offscreen" id="select2_tags" value="" name="select2tags" tabindex="-1">
+                                    <span class="help-block">
+                                        select tags
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Datepicker</label>
+                                <div class="col-md-4">
+                                    <div class="input-group date date-picker" data-date-format="dd-mm-yyyy">
+                                        <input type="text" class="form-control" readonly="" name="datepicker">
+                                        <span class="input-group-btn">
+                                            <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+                                        </span>
+                                    </div>
+                                    <!-- /input-group -->
+                                    <span class="help-block">
+                                        select a date
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    Membership <span class="required" aria-required="true">
+                                        *
+                                    </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <div class="radio-list" data-error-container="#form_2_membership_error">
+                                        <label>
+                                            <div class="radio"><span><input type="radio" name="membership" value="1"></span></div>
+                                            Fee
+                                        </label>
+                                        <label>
+                                            <div class="radio"><span><input type="radio" name="membership" value="2"></span></div>
+                                            Professional
+                                        </label>
+                                    </div>
+                                    <div id="form_2_membership_error">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    Services <span class="required" aria-required="true">
+                                        *
+                                    </span>
+                                </label>
+                                <div class="col-md-4">
+                                    <div class="checkbox-list" data-error-container="#form_2_services_error">
+                                        <label>
+                                            <div class="checker"><span><input type="checkbox" value="1" name="service"></span></div> Service 1
+                                        </label>
+                                        <label>
+                                            <div class="checker"><span><input type="checkbox" value="2" name="service"></span></div> Service 2
+                                        </label>
+                                        <label>
+                                            <div class="checker"><span><input type="checkbox" value="3" name="service"></span></div> Service 3
+                                        </label>
+                                    </div>
+                                    <span class="help-block">
+                                        (select at least two)
+                                    </span>
+                                    <div id="form_2_services_error">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Markdown</label>
+                                <div class="col-md-9">
+                                    <div class="md-editor" id="1423645043219"><div class="md-header btn-toolbar"><div class="btn-group"><button class="btn-default btn-sm btn" type="button" title="Bold" tabindex="-1" data-provider="bootstrap-markdown" data-handler="bootstrap-markdown-cmdBold" data-hotkey="Ctrl+B"><span class="glyphicon glyphicon-bold"></span> </button><button class="btn-default btn-sm btn" type="button" title="Italic" tabindex="-1" data-provider="bootstrap-markdown" data-handler="bootstrap-markdown-cmdItalic" data-hotkey="Ctrl+I"><span class="glyphicon glyphicon-italic"></span> </button><button class="btn-default btn-sm btn" type="button" title="Heading" tabindex="-1" data-provider="bootstrap-markdown" data-handler="bootstrap-markdown-cmdHeading" data-hotkey="Ctrl+H"><span class="glyphicon glyphicon-header"></span> </button></div><div class="btn-group"><button class="btn-default btn-sm btn" type="button" title="URL/Link" tabindex="-1" data-provider="bootstrap-markdown" data-handler="bootstrap-markdown-cmdUrl" data-hotkey="Ctrl+L"><span class="glyphicon glyphicon-link"></span> </button><button class="btn-default btn-sm btn" type="button" title="Image" tabindex="-1" data-provider="bootstrap-markdown" data-handler="bootstrap-markdown-cmdImage" data-hotkey="Ctrl+G"><span class="glyphicon glyphicon-picture"></span> </button></div><div class="btn-group"><button class="btn-default btn-sm btn" type="button" title="Unordered List" tabindex="-1" data-provider="bootstrap-markdown" data-handler="bootstrap-markdown-cmdList" data-hotkey="Ctrl+U"><span class="glyphicon glyphicon-list"></span> </button><button class="btn-default btn-sm btn" type="button" title="Ordered List" tabindex="-1" data-provider="bootstrap-markdown" data-handler="bootstrap-markdown-cmdListO" data-hotkey="Ctrl+O"><span class="glyphicon glyphicon-th-list"></span> </button><button class="btn-default btn-sm btn" type="button" title="Code" tabindex="-1" data-provider="bootstrap-markdown" data-handler="bootstrap-markdown-cmdCode" data-hotkey="Ctrl+K"><span class="glyphicon glyphicon-asterisk"></span> </button><button class="btn-default btn-sm btn" type="button" title="Quote" tabindex="-1" data-provider="bootstrap-markdown" data-handler="bootstrap-markdown-cmdQuote" data-hotkey="Ctrl+Q"><span class="glyphicon glyphicon-comment"></span> </button></div><div class="btn-group"><button class="btn-sm btn btn-primary" type="button" title="Preview" tabindex="-1" data-provider="bootstrap-markdown" data-handler="bootstrap-markdown-cmdPreview" data-hotkey="Ctrl+P" data-toggle="button"><span class="glyphicon glyphicon-search"></span> Preview</button></div><div class="md-controls"><a class="md-control md-control-fullscreen" href="#"><span class="glyphicon glyphicon-fullscreen"></span></a></div></div><textarea name="markdown" data-provide="markdown" rows="10" data-error-container="#editor_error" class="md-input" style="resize: none;"></textarea>          <div class="md-fullscreen-controls">            <a href="#" class="exit-fullscreen" title="Exit fullscreen"><span class="glyphicon glyphicon-fullscreen"></span></a>          </div></div>
+                                    <div id="editor_error">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">
+                                    WYSIHTML5 Editor <span class="required" aria-required="true">
+                                        *
+                                    </span>
+                                </label>
+                                <div class="col-md-9">
+                                    <ul class="wysihtml5-toolbar"><li class="dropdown"><a class="btn default dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-font"></i>&nbsp;<span class="current-font">Normal text</span>&nbsp;<b class="caret"></b></a><ul class="dropdown-menu"><li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="div" tabindex="-1" href="javascript:;" unselectable="on">Normal text</a></li><li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1" tabindex="-1" href="javascript:;" unselectable="on">Heading 1</a></li><li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2" tabindex="-1" href="javascript:;" unselectable="on">Heading 2</a></li><li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h3" tabindex="-1" href="javascript:;" unselectable="on">Heading 3</a></li><li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h4" href="javascript:;" unselectable="on">Heading 4</a></li><li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h5" href="javascript:;" unselectable="on">Heading 5</a></li><li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h6" href="javascript:;" unselectable="on">Heading 6</a></li></ul></li><li><div class="btn-group"><a class="btn default" data-wysihtml5-command="bold" title="CTRL+B" tabindex="-1" href="javascript:;" unselectable="on">Bold</a><a class="btn default" data-wysihtml5-command="italic" title="CTRL+I" tabindex="-1" href="javascript:;" unselectable="on">Italic</a><a class="btn default" data-wysihtml5-command="underline" title="CTRL+U" tabindex="-1" href="javascript:;" unselectable="on">Underline</a></div></li><li><div class="btn-group"><a class="btn default" data-wysihtml5-command="insertUnorderedList" title="Unordered list" tabindex="-1" href="javascript:;" unselectable="on"><i class="fa fa-list"></i></a><a class="btn default" data-wysihtml5-command="insertOrderedList" title="Ordered list" tabindex="-1" href="javascript:;" unselectable="on"><i class="fa fa-th-list"></i></a><a class="btn default" data-wysihtml5-command="Outdent" title="Outdent" tabindex="-1" href="javascript:;" unselectable="on"><i class="fa fa-outdent"></i></a><a class="btn default" data-wysihtml5-command="Indent" title="Indent" tabindex="-1" href="javascript:;" unselectable="on"><i class="fa fa-indent"></i></a></div></li><li><div class="btn-group"><a class="btn default" data-wysihtml5-action="change_view" title="Edit HTML" tabindex="-1" href="javascript:;" unselectable="on"><i class="fa fa-pencil"></i></a></div></li><li><div class="bootstrap-wysihtml5-insert-link-modal modal fade"><div class="modal-dialog"> <div class="modal-content"><div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3>Insert link</h3></div><div class="modal-body"><input value="http://" class="bootstrap-wysihtml5-insert-link-url form-control input-xlarge"><label style="margin-top:5px;"> <input type="checkbox" class="bootstrap-wysihtml5-insert-link-target" checked="">Open link in new window</label></div><div class="modal-footer"><a href="#" class="btn default" data-dismiss="modal">Cancel</a><a href="#" class="btn btn-primary" data-dismiss="modal">Insert link</a></div></div></div></div><a class="btn default" data-wysihtml5-command="createLink" title="Insert link" tabindex="-1" href="javascript:;" unselectable="on"><i class="fa fa-share"></i></a></li><li><div class="bootstrap-wysihtml5-insert-image-modal modal fade"><div class="modal-dialog"> <div class="modal-content"><div class="modal-header"><a class="close" data-dismiss="modal">×</a><h3>Insert image</h3></div><div class="modal-body"><input value="http://" class="bootstrap-wysihtml5-insert-image-url form-control input-xlarge"></div><div class="modal-footer"><a href="#" class="btn default" data-dismiss="modal">Cancel</a><a href="#" class="btn btn-primary" data-dismiss="modal">Insert image</a></div></div></div></div><a class="btn default" data-wysihtml5-command="insertImage" title="Insert image" tabindex="-1" href="javascript:;" unselectable="on"><i class="fa fa-picture-o"></i></a></li></ul><textarea class="wysihtml5 form-control" rows="6" name="editor1" data-error-container="#editor1_error" style="display: none;"></textarea><input type="hidden" name="_wysihtml5_mode" value="1"><iframe class="wysihtml5-sandbox" security="restricted" allowtransparency="true" frameborder="0" width="0" height="0" marginwidth="0" marginheight="0" style="border-collapse: separate; border: 1px solid rgb(229, 229, 229); clear: none; display: block; float: none; margin: 0px; outline: rgb(51, 51, 51) none 0px; outline-offset: 0px; padding: 6px 12px; position: static; top: auto; left: auto; right: auto; bottom: auto; z-index: auto; vertical-align: baseline; text-align: start; -webkit-box-shadow: none; box-shadow: none; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px; border-top-left-radius: 0px; width: 960.75px; height: 134px; background-color: rgb(255, 255, 255);"></iframe>
+                                    <div id="editor1_error">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group last">
+                                <label class="control-label col-md-3">
+                                    CKEditor <span class="required" aria-required="true">
+                                        *
+                                    </span>
+                                </label>
+                                <div class="col-md-9">
+                                    <textarea class="ckeditor form-control" name="editor2" rows="6" data-error-container="#editor2_error" style="visibility: hidden; display: none;"></textarea><div id="cke_editor2" class="cke_1 cke cke_reset cke_chrome cke_editor_editor2 cke_ltr cke_browser_webkit" dir="ltr" lang="zh-cn" role="application" aria-labelledby="cke_editor2_arialbl"><span id="cke_editor2_arialbl" class="cke_voice_label">所见即所得编辑器, editor2</span><div class="cke_inner cke_reset" role="presentation"><span id="cke_1_top" class="cke_top cke_reset_all" role="presentation" style="height: auto; -webkit-user-select: none;"><span id="cke_9" class="cke_voice_label">工具栏</span><span id="cke_1_toolbox" class="cke_toolbox" role="group" aria-labelledby="cke_9" onmousedown="return false;"><span id="cke_14" class="cke_toolbar" aria-labelledby="cke_14_label" role="toolbar"><span id="cke_14_label" class="cke_voice_label">文档</span><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_15" class="cke_button cke_button__source  cke_button_off" href="javascript:void('源码')" title="源码" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_15_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(2,event);" onfocus="return CKEDITOR.tools.callFunction(3,event);" onclick="CKEDITOR.tools.callFunction(4,this);return false;"><span class="cke_button_icon cke_button__source_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1824px;background-size:auto;">&nbsp;</span><span id="cke_15_label" class="cke_button_label cke_button__source_label" aria-hidden="false">源码</span></a><span class="cke_toolbar_separator" role="separator"></span><a id="cke_16" class="cke_button cke_button__save  cke_button_off" href="javascript:void('保存')" title="保存" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_16_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(5,event);" onfocus="return CKEDITOR.tools.callFunction(6,event);" onclick="CKEDITOR.tools.callFunction(7,this);return false;"><span class="cke_button_icon cke_button__save_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1704px;background-size:auto;">&nbsp;</span><span id="cke_16_label" class="cke_button_label cke_button__save_label" aria-hidden="false">保存</span></a><a id="cke_17" class="cke_button cke_button__newpage  cke_button_off" href="javascript:void('新建')" title="新建" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_17_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(8,event);" onfocus="return CKEDITOR.tools.callFunction(9,event);" onclick="CKEDITOR.tools.callFunction(10,this);return false;"><span class="cke_button_icon cke_button__newpage_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1440px;background-size:auto;">&nbsp;</span><span id="cke_17_label" class="cke_button_label cke_button__newpage_label" aria-hidden="false">新建</span></a><a id="cke_18" class="cke_button cke_button__preview  cke_button_off" href="javascript:void('预览')" title="预览" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_18_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(11,event);" onfocus="return CKEDITOR.tools.callFunction(12,event);" onclick="CKEDITOR.tools.callFunction(13,this);return false;"><span class="cke_button_icon cke_button__preview_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1632px;background-size:auto;">&nbsp;</span><span id="cke_18_label" class="cke_button_label cke_button__preview_label" aria-hidden="false">预览</span></a><a id="cke_19" class="cke_button cke_button__print  cke_button_off" href="javascript:void('打印')" title="打印" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_19_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(14,event);" onfocus="return CKEDITOR.tools.callFunction(15,event);" onclick="CKEDITOR.tools.callFunction(16,this);return false;"><span class="cke_button_icon cke_button__print_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1656px;background-size:auto;">&nbsp;</span><span id="cke_19_label" class="cke_button_label cke_button__print_label" aria-hidden="false">打印</span></a><span class="cke_toolbar_separator" role="separator"></span><a id="cke_20" class="cke_button cke_button__templates  cke_button_off" href="javascript:void('模板')" title="模板" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_20_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(17,event);" onfocus="return CKEDITOR.tools.callFunction(18,event);" onclick="CKEDITOR.tools.callFunction(19,this);return false;"><span class="cke_button_icon cke_button__templates_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -456px;background-size:auto;">&nbsp;</span><span id="cke_20_label" class="cke_button_label cke_button__templates_label" aria-hidden="false">模板</span></a></span><span class="cke_toolbar_end"></span></span><span id="cke_21" class="cke_toolbar" aria-labelledby="cke_21_label" role="toolbar"><span id="cke_21_label" class="cke_voice_label">剪贴板/撤销</span><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_22" class="cke_button cke_button__cut cke_button_disabled " href="javascript:void('剪切')" title="剪切" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_22_label" aria-haspopup="false" aria-disabled="true" onkeydown="return CKEDITOR.tools.callFunction(20,event);" onfocus="return CKEDITOR.tools.callFunction(21,event);" onclick="CKEDITOR.tools.callFunction(22,this);return false;"><span class="cke_button_icon cke_button__cut_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -312px;background-size:auto;">&nbsp;</span><span id="cke_22_label" class="cke_button_label cke_button__cut_label" aria-hidden="false">剪切</span></a><a id="cke_23" class="cke_button cke_button__copy cke_button_disabled " href="javascript:void('复制')" title="复制" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_23_label" aria-haspopup="false" aria-disabled="true" onkeydown="return CKEDITOR.tools.callFunction(23,event);" onfocus="return CKEDITOR.tools.callFunction(24,event);" onclick="CKEDITOR.tools.callFunction(25,this);return false;"><span class="cke_button_icon cke_button__copy_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -264px;background-size:auto;">&nbsp;</span><span id="cke_23_label" class="cke_button_label cke_button__copy_label" aria-hidden="false">复制</span></a><a id="cke_24" class="cke_button cke_button__paste  cke_button_off" href="javascript:void('粘贴')" title="粘贴" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_24_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(26,event);" onfocus="return CKEDITOR.tools.callFunction(27,event);" onclick="CKEDITOR.tools.callFunction(28,this);return false;"><span class="cke_button_icon cke_button__paste_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -360px;background-size:auto;">&nbsp;</span><span id="cke_24_label" class="cke_button_label cke_button__paste_label" aria-hidden="false">粘贴</span></a><a id="cke_25" class="cke_button cke_button__pastetext  cke_button_off" href="javascript:void('粘贴为无格式文本')" title="粘贴为无格式文本" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_25_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(29,event);" onfocus="return CKEDITOR.tools.callFunction(30,event);" onclick="CKEDITOR.tools.callFunction(31,this);return false;"><span class="cke_button_icon cke_button__pastetext_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1536px;background-size:auto;">&nbsp;</span><span id="cke_25_label" class="cke_button_label cke_button__pastetext_label" aria-hidden="false">粘贴为无格式文本</span></a><a id="cke_26" class="cke_button cke_button__pastefromword  cke_button_off" href="javascript:void('从 MS Word 粘贴')" title="从 MS Word 粘贴" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_26_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(32,event);" onfocus="return CKEDITOR.tools.callFunction(33,event);" onclick="CKEDITOR.tools.callFunction(34,this);return false;"><span class="cke_button_icon cke_button__pastefromword_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1584px;background-size:auto;">&nbsp;</span><span id="cke_26_label" class="cke_button_label cke_button__pastefromword_label" aria-hidden="false">从 MS Word 粘贴</span></a><span class="cke_toolbar_separator" role="separator"></span><a id="cke_27" class="cke_button cke_button__undo cke_button_disabled " href="javascript:void('撤消')" title="撤消" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_27_label" aria-haspopup="false" aria-disabled="true" onkeydown="return CKEDITOR.tools.callFunction(35,event);" onfocus="return CKEDITOR.tools.callFunction(36,event);" onclick="CKEDITOR.tools.callFunction(37,this);return false;"><span class="cke_button_icon cke_button__undo_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1992px;background-size:auto;">&nbsp;</span><span id="cke_27_label" class="cke_button_label cke_button__undo_label" aria-hidden="false">撤消</span></a><a id="cke_28" class="cke_button cke_button__redo cke_button_disabled " href="javascript:void('重做')" title="重做" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_28_label" aria-haspopup="false" aria-disabled="true" onkeydown="return CKEDITOR.tools.callFunction(38,event);" onfocus="return CKEDITOR.tools.callFunction(39,event);" onclick="CKEDITOR.tools.callFunction(40,this);return false;"><span class="cke_button_icon cke_button__redo_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1944px;background-size:auto;">&nbsp;</span><span id="cke_28_label" class="cke_button_label cke_button__redo_label" aria-hidden="false">重做</span></a></span><span class="cke_toolbar_end"></span></span><span id="cke_29" class="cke_toolbar" aria-labelledby="cke_29_label" role="toolbar"><span id="cke_29_label" class="cke_voice_label">编辑</span><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_30" class="cke_button cke_button__find  cke_button_off" href="javascript:void('查找')" title="查找" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_30_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(41,event);" onfocus="return CKEDITOR.tools.callFunction(42,event);" onclick="CKEDITOR.tools.callFunction(43,this);return false;"><span class="cke_button_icon cke_button__find_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -528px;background-size:auto;">&nbsp;</span><span id="cke_30_label" class="cke_button_label cke_button__find_label" aria-hidden="false">查找</span></a><a id="cke_31" class="cke_button cke_button__replace  cke_button_off" href="javascript:void('替换')" title="替换" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_31_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(44,event);" onfocus="return CKEDITOR.tools.callFunction(45,event);" onclick="CKEDITOR.tools.callFunction(46,this);return false;"><span class="cke_button_icon cke_button__replace_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -552px;background-size:auto;">&nbsp;</span><span id="cke_31_label" class="cke_button_label cke_button__replace_label" aria-hidden="false">替换</span></a><span class="cke_toolbar_separator" role="separator"></span><a id="cke_32" class="cke_button cke_button__selectall  cke_button_off" href="javascript:void('全选')" title="全选" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_32_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(47,event);" onfocus="return CKEDITOR.tools.callFunction(48,event);" onclick="CKEDITOR.tools.callFunction(49,this);return false;"><span class="cke_button_icon cke_button__selectall_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1728px;background-size:auto;">&nbsp;</span><span id="cke_32_label" class="cke_button_label cke_button__selectall_label" aria-hidden="false">全选</span></a><span class="cke_toolbar_separator" role="separator"></span><a id="cke_33" class="cke_button cke_button__scayt cke_button_off " href="javascript:void('')" title="" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_33_label" aria-haspopup="true" onkeydown="return CKEDITOR.tools.callFunction(50,event);" onfocus="return CKEDITOR.tools.callFunction(51,event);" onclick="CKEDITOR.tools.callFunction(52,this);return false;"><span class="cke_button_icon cke_button__scayt_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1872px;background-size:auto;">&nbsp;</span><span id="cke_33_label" class="cke_button_label cke_button__scayt_label" aria-hidden="false"></span><span class="cke_button_arrow"></span></a></span><span class="cke_toolbar_end"></span></span><span id="cke_34" class="cke_toolbar" aria-labelledby="cke_34_label" role="toolbar"><span id="cke_34_label" class="cke_voice_label">表单</span><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_35" class="cke_button cke_button__form  cke_button_off" href="javascript:void('表单')" title="表单" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_35_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(53,event);" onfocus="return CKEDITOR.tools.callFunction(54,event);" onclick="CKEDITOR.tools.callFunction(55,this);return false;"><span class="cke_button_icon cke_button__form_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -648px;background-size:auto;">&nbsp;</span><span id="cke_35_label" class="cke_button_label cke_button__form_label" aria-hidden="false">表单</span></a><a id="cke_36" class="cke_button cke_button__checkbox  cke_button_off" href="javascript:void('复选框')" title="复选框" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_36_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(56,event);" onfocus="return CKEDITOR.tools.callFunction(57,event);" onclick="CKEDITOR.tools.callFunction(58,this);return false;"><span class="cke_button_icon cke_button__checkbox_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -624px;background-size:auto;">&nbsp;</span><span id="cke_36_label" class="cke_button_label cke_button__checkbox_label" aria-hidden="false">复选框</span></a><a id="cke_37" class="cke_button cke_button__radio  cke_button_off" href="javascript:void('单选按钮')" title="单选按钮" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_37_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(59,event);" onfocus="return CKEDITOR.tools.callFunction(60,event);" onclick="CKEDITOR.tools.callFunction(61,this);return false;"><span class="cke_button_icon cke_button__radio_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -720px;background-size:auto;">&nbsp;</span><span id="cke_37_label" class="cke_button_label cke_button__radio_label" aria-hidden="false">单选按钮</span></a><a id="cke_38" class="cke_button cke_button__textfield  cke_button_off" href="javascript:void('单行文本')" title="单行文本" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_38_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(62,event);" onfocus="return CKEDITOR.tools.callFunction(63,event);" onclick="CKEDITOR.tools.callFunction(64,this);return false;"><span class="cke_button_icon cke_button__textfield_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -864px;background-size:auto;">&nbsp;</span><span id="cke_38_label" class="cke_button_label cke_button__textfield_label" aria-hidden="false">单行文本</span></a><a id="cke_39" class="cke_button cke_button__textarea  cke_button_off" href="javascript:void('多行文本')" title="多行文本" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_39_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(65,event);" onfocus="return CKEDITOR.tools.callFunction(66,event);" onclick="CKEDITOR.tools.callFunction(67,this);return false;"><span class="cke_button_icon cke_button__textarea_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -816px;background-size:auto;">&nbsp;</span><span id="cke_39_label" class="cke_button_label cke_button__textarea_label" aria-hidden="false">多行文本</span></a><a id="cke_40" class="cke_button cke_button__select  cke_button_off" href="javascript:void('列表/菜单')" title="列表/菜单" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_40_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(68,event);" onfocus="return CKEDITOR.tools.callFunction(69,event);" onclick="CKEDITOR.tools.callFunction(70,this);return false;"><span class="cke_button_icon cke_button__select_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -768px;background-size:auto;">&nbsp;</span><span id="cke_40_label" class="cke_button_label cke_button__select_label" aria-hidden="false">列表/菜单</span></a><a id="cke_41" class="cke_button cke_button__button  cke_button_off" href="javascript:void('按钮')" title="按钮" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_41_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(71,event);" onfocus="return CKEDITOR.tools.callFunction(72,event);" onclick="CKEDITOR.tools.callFunction(73,this);return false;"><span class="cke_button_icon cke_button__button_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -600px;background-size:auto;">&nbsp;</span><span id="cke_41_label" class="cke_button_label cke_button__button_label" aria-hidden="false">按钮</span></a><a id="cke_42" class="cke_button cke_button__imagebutton  cke_button_off" href="javascript:void('图像按钮')" title="图像按钮" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_42_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(74,event);" onfocus="return CKEDITOR.tools.callFunction(75,event);" onclick="CKEDITOR.tools.callFunction(76,this);return false;"><span class="cke_button_icon cke_button__imagebutton_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -696px;background-size:auto;">&nbsp;</span><span id="cke_42_label" class="cke_button_label cke_button__imagebutton_label" aria-hidden="false">图像按钮</span></a><a id="cke_43" class="cke_button cke_button__hiddenfield  cke_button_off" href="javascript:void('隐藏域')" title="隐藏域" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_43_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(77,event);" onfocus="return CKEDITOR.tools.callFunction(78,event);" onclick="CKEDITOR.tools.callFunction(79,this);return false;"><span class="cke_button_icon cke_button__hiddenfield_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -672px;background-size:auto;">&nbsp;</span><span id="cke_43_label" class="cke_button_label cke_button__hiddenfield_label" aria-hidden="false">隐藏域</span></a></span><span class="cke_toolbar_end"></span></span><span class="cke_toolbar_break"></span><span id="cke_44" class="cke_toolbar" aria-labelledby="cke_44_label" role="toolbar"><span id="cke_44_label" class="cke_voice_label">基本格式</span><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_45" class="cke_button cke_button__bold  cke_button_off" href="javascript:void('加粗')" title="加粗" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_45_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(80,event);" onfocus="return CKEDITOR.tools.callFunction(81,event);" onclick="CKEDITOR.tools.callFunction(82,this);return false;"><span class="cke_button_icon cke_button__bold_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -24px;background-size:auto;">&nbsp;</span><span id="cke_45_label" class="cke_button_label cke_button__bold_label" aria-hidden="false">加粗</span></a><a id="cke_46" class="cke_button cke_button__italic  cke_button_off" href="javascript:void('倾斜')" title="倾斜" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_46_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(83,event);" onfocus="return CKEDITOR.tools.callFunction(84,event);" onclick="CKEDITOR.tools.callFunction(85,this);return false;"><span class="cke_button_icon cke_button__italic_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -48px;background-size:auto;">&nbsp;</span><span id="cke_46_label" class="cke_button_label cke_button__italic_label" aria-hidden="false">倾斜</span></a><a id="cke_47" class="cke_button cke_button__underline  cke_button_off" href="javascript:void('下划线')" title="下划线" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_47_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(86,event);" onfocus="return CKEDITOR.tools.callFunction(87,event);" onclick="CKEDITOR.tools.callFunction(88,this);return false;"><span class="cke_button_icon cke_button__underline_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -144px;background-size:auto;">&nbsp;</span><span id="cke_47_label" class="cke_button_label cke_button__underline_label" aria-hidden="false">下划线</span></a><a id="cke_48" class="cke_button cke_button__strike  cke_button_off" href="javascript:void('删除线')" title="删除线" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_48_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(89,event);" onfocus="return CKEDITOR.tools.callFunction(90,event);" onclick="CKEDITOR.tools.callFunction(91,this);return false;"><span class="cke_button_icon cke_button__strike_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -72px;background-size:auto;">&nbsp;</span><span id="cke_48_label" class="cke_button_label cke_button__strike_label" aria-hidden="false">删除线</span></a><a id="cke_49" class="cke_button cke_button__subscript  cke_button_off" href="javascript:void('下标')" title="下标" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_49_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(92,event);" onfocus="return CKEDITOR.tools.callFunction(93,event);" onclick="CKEDITOR.tools.callFunction(94,this);return false;"><span class="cke_button_icon cke_button__subscript_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -96px;background-size:auto;">&nbsp;</span><span id="cke_49_label" class="cke_button_label cke_button__subscript_label" aria-hidden="false">下标</span></a><a id="cke_50" class="cke_button cke_button__superscript  cke_button_off" href="javascript:void('上标')" title="上标" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_50_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(95,event);" onfocus="return CKEDITOR.tools.callFunction(96,event);" onclick="CKEDITOR.tools.callFunction(97,this);return false;"><span class="cke_button_icon cke_button__superscript_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -120px;background-size:auto;">&nbsp;</span><span id="cke_50_label" class="cke_button_label cke_button__superscript_label" aria-hidden="false">上标</span></a><span class="cke_toolbar_separator" role="separator"></span><a id="cke_51" class="cke_button cke_button__removeformat  cke_button_off" href="javascript:void('清除格式')" title="清除格式" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_51_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(98,event);" onfocus="return CKEDITOR.tools.callFunction(99,event);" onclick="CKEDITOR.tools.callFunction(100,this);return false;"><span class="cke_button_icon cke_button__removeformat_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1680px;background-size:auto;">&nbsp;</span><span id="cke_51_label" class="cke_button_label cke_button__removeformat_label" aria-hidden="false">清除格式</span></a></span><span class="cke_toolbar_end"></span></span><span id="cke_52" class="cke_toolbar" aria-labelledby="cke_52_label" role="toolbar"><span id="cke_52_label" class="cke_voice_label">段落</span><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_53" class="cke_button cke_button__numberedlist  cke_button_off" href="javascript:void('编号列表')" title="编号列表" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_53_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(101,event);" onfocus="return CKEDITOR.tools.callFunction(102,event);" onclick="CKEDITOR.tools.callFunction(103,this);return false;"><span class="cke_button_icon cke_button__numberedlist_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1368px;background-size:auto;">&nbsp;</span><span id="cke_53_label" class="cke_button_label cke_button__numberedlist_label" aria-hidden="false">编号列表</span></a><a id="cke_54" class="cke_button cke_button__bulletedlist  cke_button_off" href="javascript:void('项目列表')" title="项目列表" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_54_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(104,event);" onfocus="return CKEDITOR.tools.callFunction(105,event);" onclick="CKEDITOR.tools.callFunction(106,this);return false;"><span class="cke_button_icon cke_button__bulletedlist_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1320px;background-size:auto;">&nbsp;</span><span id="cke_54_label" class="cke_button_label cke_button__bulletedlist_label" aria-hidden="false">项目列表</span></a><span class="cke_toolbar_separator" role="separator"></span><a id="cke_55" class="cke_button cke_button__outdent cke_button_disabled " href="javascript:void('减少缩进量')" title="减少缩进量" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_55_label" aria-haspopup="false" aria-disabled="true" onkeydown="return CKEDITOR.tools.callFunction(107,event);" onfocus="return CKEDITOR.tools.callFunction(108,event);" onclick="CKEDITOR.tools.callFunction(109,this);return false;"><span class="cke_button_icon cke_button__outdent_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1032px;background-size:auto;">&nbsp;</span><span id="cke_55_label" class="cke_button_label cke_button__outdent_label" aria-hidden="false">减少缩进量</span></a><a id="cke_56" class="cke_button cke_button__indent  cke_button_off" href="javascript:void('增加缩进量')" title="增加缩进量" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_56_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(110,event);" onfocus="return CKEDITOR.tools.callFunction(111,event);" onclick="CKEDITOR.tools.callFunction(112,this);return false;"><span class="cke_button_icon cke_button__indent_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -984px;background-size:auto;">&nbsp;</span><span id="cke_56_label" class="cke_button_label cke_button__indent_label" aria-hidden="false">增加缩进量</span></a><span class="cke_toolbar_separator" role="separator"></span><a id="cke_57" class="cke_button cke_button__blockquote  cke_button_off" href="javascript:void('块引用')" title="块引用" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_57_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(113,event);" onfocus="return CKEDITOR.tools.callFunction(114,event);" onclick="CKEDITOR.tools.callFunction(115,this);return false;"><span class="cke_button_icon cke_button__blockquote_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -216px;background-size:auto;">&nbsp;</span><span id="cke_57_label" class="cke_button_label cke_button__blockquote_label" aria-hidden="false">块引用</span></a><a id="cke_58" class="cke_button cke_button__creatediv  cke_button_off" href="javascript:void('创建 DIV 容器')" title="创建 DIV 容器" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_58_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(116,event);" onfocus="return CKEDITOR.tools.callFunction(117,event);" onclick="CKEDITOR.tools.callFunction(118,this);return false;"><span class="cke_button_icon cke_button__creatediv_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -480px;background-size:auto;">&nbsp;</span><span id="cke_58_label" class="cke_button_label cke_button__creatediv_label" aria-hidden="false">创建 DIV 容器</span></a><span class="cke_toolbar_separator" role="separator"></span><a id="cke_59" class="cke_button cke_button__justifyleft  cke_button_off" href="javascript:void('左对齐')" title="左对齐" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_59_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(119,event);" onfocus="return CKEDITOR.tools.callFunction(120,event);" onclick="CKEDITOR.tools.callFunction(121,this);return false;"><span class="cke_button_icon cke_button__justifyleft_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1128px;background-size:auto;">&nbsp;</span><span id="cke_59_label" class="cke_button_label cke_button__justifyleft_label" aria-hidden="false">左对齐</span></a><a id="cke_60" class="cke_button cke_button__justifycenter  cke_button_off" href="javascript:void('居中')" title="居中" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_60_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(122,event);" onfocus="return CKEDITOR.tools.callFunction(123,event);" onclick="CKEDITOR.tools.callFunction(124,this);return false;"><span class="cke_button_icon cke_button__justifycenter_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1104px;background-size:auto;">&nbsp;</span><span id="cke_60_label" class="cke_button_label cke_button__justifycenter_label" aria-hidden="false">居中</span></a><a id="cke_61" class="cke_button cke_button__justifyright  cke_button_off" href="javascript:void('右对齐')" title="右对齐" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_61_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(125,event);" onfocus="return CKEDITOR.tools.callFunction(126,event);" onclick="CKEDITOR.tools.callFunction(127,this);return false;"><span class="cke_button_icon cke_button__justifyright_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1152px;background-size:auto;">&nbsp;</span><span id="cke_61_label" class="cke_button_label cke_button__justifyright_label" aria-hidden="false">右对齐</span></a><a id="cke_62" class="cke_button cke_button__justifyblock  cke_button_off" href="javascript:void('两端对齐')" title="两端对齐" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_62_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(128,event);" onfocus="return CKEDITOR.tools.callFunction(129,event);" onclick="CKEDITOR.tools.callFunction(130,this);return false;"><span class="cke_button_icon cke_button__justifyblock_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1080px;background-size:auto;">&nbsp;</span><span id="cke_62_label" class="cke_button_label cke_button__justifyblock_label" aria-hidden="false">两端对齐</span></a><span class="cke_toolbar_separator" role="separator"></span><a id="cke_63" class="cke_button cke_button__bidiltr  cke_button_off" href="javascript:void('文字方向为从左至右')" title="文字方向为从左至右" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_63_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(131,event);" onfocus="return CKEDITOR.tools.callFunction(132,event);" onclick="CKEDITOR.tools.callFunction(133,this);return false;"><span class="cke_button_icon cke_button__bidiltr_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -168px;background-size:auto;">&nbsp;</span><span id="cke_63_label" class="cke_button_label cke_button__bidiltr_label" aria-hidden="false">文字方向为从左至右</span></a><a id="cke_64" class="cke_button cke_button__bidirtl  cke_button_off" href="javascript:void('文字方向为从右至左')" title="文字方向为从右至左" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_64_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(134,event);" onfocus="return CKEDITOR.tools.callFunction(135,event);" onclick="CKEDITOR.tools.callFunction(136,this);return false;"><span class="cke_button_icon cke_button__bidirtl_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -192px;background-size:auto;">&nbsp;</span><span id="cke_64_label" class="cke_button_label cke_button__bidirtl_label" aria-hidden="false">文字方向为从右至左</span></a><a id="cke_65" class="cke_button cke_button__language  cke_button_off" href="javascript:void('设置语言')" title="设置语言" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_65_label" aria-haspopup="true" onkeydown="return CKEDITOR.tools.callFunction(137,event);" onfocus="return CKEDITOR.tools.callFunction(138,event);" onclick="CKEDITOR.tools.callFunction(139,this);return false;"><span class="cke_button_icon cke_button__language_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1176px;background-size:auto;">&nbsp;</span><span id="cke_65_label" class="cke_button_label cke_button__language_label" aria-hidden="false">设置语言</span><span class="cke_button_arrow"></span></a></span><span class="cke_toolbar_end"></span></span><span id="cke_66" class="cke_toolbar" aria-labelledby="cke_66_label" role="toolbar"><span id="cke_66_label" class="cke_voice_label">链接</span><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_67" class="cke_button cke_button__link  cke_button_off" href="javascript:void('插入/编辑超链接')" title="插入/编辑超链接" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_67_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(140,event);" onfocus="return CKEDITOR.tools.callFunction(141,event);" onclick="CKEDITOR.tools.callFunction(142,this);return false;"><span class="cke_button_icon cke_button__link_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1248px;background-size:auto;">&nbsp;</span><span id="cke_67_label" class="cke_button_label cke_button__link_label" aria-hidden="false">插入/编辑超链接</span></a><a id="cke_68" class="cke_button cke_button__unlink cke_button_disabled " href="javascript:void('取消超链接')" title="取消超链接" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_68_label" aria-haspopup="false" aria-disabled="true" onkeydown="return CKEDITOR.tools.callFunction(143,event);" onfocus="return CKEDITOR.tools.callFunction(144,event);" onclick="CKEDITOR.tools.callFunction(145,this);return false;"><span class="cke_button_icon cke_button__unlink_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1272px;background-size:auto;">&nbsp;</span><span id="cke_68_label" class="cke_button_label cke_button__unlink_label" aria-hidden="false">取消超链接</span></a><a id="cke_69" class="cke_button cke_button__anchor  cke_button_off" href="javascript:void('插入/编辑锚点链接')" title="插入/编辑锚点链接" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_69_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(146,event);" onfocus="return CKEDITOR.tools.callFunction(147,event);" onclick="CKEDITOR.tools.callFunction(148,this);return false;"><span class="cke_button_icon cke_button__anchor_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1224px;background-size:auto;">&nbsp;</span><span id="cke_69_label" class="cke_button_label cke_button__anchor_label" aria-hidden="false">插入/编辑锚点链接</span></a></span><span class="cke_toolbar_end"></span></span><span id="cke_70" class="cke_toolbar" aria-labelledby="cke_70_label" role="toolbar"><span id="cke_70_label" class="cke_voice_label">插入</span><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_71" class="cke_button cke_button__image  cke_button_off" href="javascript:void('图像')" title="图像" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_71_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(149,event);" onfocus="return CKEDITOR.tools.callFunction(150,event);" onclick="CKEDITOR.tools.callFunction(151,this);return false;"><span class="cke_button_icon cke_button__image_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -936px;background-size:auto;">&nbsp;</span><span id="cke_71_label" class="cke_button_label cke_button__image_label" aria-hidden="false">图像</span></a><a id="cke_72" class="cke_button cke_button__flash  cke_button_off" href="javascript:void('Flash')" title="Flash" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_72_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(152,event);" onfocus="return CKEDITOR.tools.callFunction(153,event);" onclick="CKEDITOR.tools.callFunction(154,this);return false;"><span class="cke_button_icon cke_button__flash_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -576px;background-size:auto;">&nbsp;</span><span id="cke_72_label" class="cke_button_label cke_button__flash_label" aria-hidden="false">Flash</span></a><a id="cke_73" class="cke_button cke_button__table  cke_button_off" href="javascript:void('表格')" title="表格" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_73_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(155,event);" onfocus="return CKEDITOR.tools.callFunction(156,event);" onclick="CKEDITOR.tools.callFunction(157,this);return false;"><span class="cke_button_icon cke_button__table_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1896px;background-size:auto;">&nbsp;</span><span id="cke_73_label" class="cke_button_label cke_button__table_label" aria-hidden="false">表格</span></a><a id="cke_74" class="cke_button cke_button__horizontalrule  cke_button_off" href="javascript:void('插入水平线')" title="插入水平线" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_74_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(158,event);" onfocus="return CKEDITOR.tools.callFunction(159,event);" onclick="CKEDITOR.tools.callFunction(160,this);return false;"><span class="cke_button_icon cke_button__horizontalrule_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -888px;background-size:auto;">&nbsp;</span><span id="cke_74_label" class="cke_button_label cke_button__horizontalrule_label" aria-hidden="false">插入水平线</span></a><a id="cke_75" class="cke_button cke_button__smiley  cke_button_off" href="javascript:void('表情符')" title="表情符" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_75_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(161,event);" onfocus="return CKEDITOR.tools.callFunction(162,event);" onclick="CKEDITOR.tools.callFunction(163,this);return false;"><span class="cke_button_icon cke_button__smiley_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1056px;background-size:auto;">&nbsp;</span><span id="cke_75_label" class="cke_button_label cke_button__smiley_label" aria-hidden="false">表情符</span></a><a id="cke_76" class="cke_button cke_button__specialchar  cke_button_off" href="javascript:void('插入特殊符号')" title="插入特殊符号" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_76_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(164,event);" onfocus="return CKEDITOR.tools.callFunction(165,event);" onclick="CKEDITOR.tools.callFunction(166,this);return false;"><span class="cke_button_icon cke_button__specialchar_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1848px;background-size:auto;">&nbsp;</span><span id="cke_76_label" class="cke_button_label cke_button__specialchar_label" aria-hidden="false">插入特殊符号</span></a><a id="cke_77" class="cke_button cke_button__pagebreak  cke_button_off" href="javascript:void('插入打印分页符')" title="插入打印分页符" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_77_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(167,event);" onfocus="return CKEDITOR.tools.callFunction(168,event);" onclick="CKEDITOR.tools.callFunction(169,this);return false;"><span class="cke_button_icon cke_button__pagebreak_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1488px;background-size:auto;">&nbsp;</span><span id="cke_77_label" class="cke_button_label cke_button__pagebreak_label" aria-hidden="false">插入打印分页符</span></a><a id="cke_78" class="cke_button cke_button__iframe  cke_button_off" href="javascript:void('IFrame')" title="IFrame" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_78_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(170,event);" onfocus="return CKEDITOR.tools.callFunction(171,event);" onclick="CKEDITOR.tools.callFunction(172,this);return false;"><span class="cke_button_icon cke_button__iframe_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -912px;background-size:auto;">&nbsp;</span><span id="cke_78_label" class="cke_button_label cke_button__iframe_label" aria-hidden="false">IFrame</span></a></span><span class="cke_toolbar_end"></span></span><span class="cke_toolbar_break"></span><span id="cke_79" class="cke_toolbar" aria-labelledby="cke_79_label" role="toolbar"><span id="cke_79_label" class="cke_voice_label">样式</span><span class="cke_toolbar_start"></span><span id="cke_10" class="cke_combo cke_combo__styles  cke_combo_off" role="presentation"><span id="cke_10_label" class="cke_combo_label">样式</span><a class="cke_combo_button" title="样式" tabindex="-1" href="javascript:void('样式')" hidefocus="true" role="button" aria-labelledby="cke_10_label" aria-haspopup="true" onkeydown="return CKEDITOR.tools.callFunction(174,event,this);" onfocus="return CKEDITOR.tools.callFunction(175,event);" onclick="CKEDITOR.tools.callFunction(173,this);return false;"><span id="cke_10_text" class="cke_combo_text cke_combo_inlinelabel">样式</span><span class="cke_combo_open"><span class="cke_combo_arrow"></span></span></a></span><span id="cke_11" class="cke_combo cke_combo__format  cke_combo_off" role="presentation"><span id="cke_11_label" class="cke_combo_label">格式</span><a class="cke_combo_button" title="格式" tabindex="-1" href="javascript:void('格式')" hidefocus="true" role="button" aria-labelledby="cke_11_label" aria-haspopup="true" onkeydown="return CKEDITOR.tools.callFunction(177,event,this);" onfocus="return CKEDITOR.tools.callFunction(178,event);" onclick="CKEDITOR.tools.callFunction(176,this);return false;"><span id="cke_11_text" class="cke_combo_text cke_combo_inlinelabel">格式</span><span class="cke_combo_open"><span class="cke_combo_arrow"></span></span></a></span><span id="cke_12" class="cke_combo cke_combo__font  cke_combo_off" role="presentation"><span id="cke_12_label" class="cke_combo_label">字体</span><a class="cke_combo_button" title="字体" tabindex="-1" href="javascript:void('字体')" hidefocus="true" role="button" aria-labelledby="cke_12_label" aria-haspopup="true" onkeydown="return CKEDITOR.tools.callFunction(180,event,this);" onfocus="return CKEDITOR.tools.callFunction(181,event);" onclick="CKEDITOR.tools.callFunction(179,this);return false;"><span id="cke_12_text" class="cke_combo_text cke_combo_inlinelabel">字体</span><span class="cke_combo_open"><span class="cke_combo_arrow"></span></span></a></span><span id="cke_13" class="cke_combo cke_combo__fontsize  cke_combo_off" role="presentation"><span id="cke_13_label" class="cke_combo_label">大小</span><a class="cke_combo_button" title="大小" tabindex="-1" href="javascript:void('大小')" hidefocus="true" role="button" aria-labelledby="cke_13_label" aria-haspopup="true" onkeydown="return CKEDITOR.tools.callFunction(183,event,this);" onfocus="return CKEDITOR.tools.callFunction(184,event);" onclick="CKEDITOR.tools.callFunction(182,this);return false;"><span id="cke_13_text" class="cke_combo_text cke_combo_inlinelabel">大小</span><span class="cke_combo_open"><span class="cke_combo_arrow"></span></span></a></span><span class="cke_toolbar_end"></span></span><span id="cke_80" class="cke_toolbar" aria-labelledby="cke_80_label" role="toolbar"><span id="cke_80_label" class="cke_voice_label">颜色</span><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_81" class="cke_button cke_button__textcolor cke_button_off " href="javascript:void('文本颜色')" title="文本颜色" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_81_label" aria-haspopup="true" onkeydown="return CKEDITOR.tools.callFunction(185,event);" onfocus="return CKEDITOR.tools.callFunction(186,event);" onclick="CKEDITOR.tools.callFunction(187,this);return false;"><span class="cke_button_icon cke_button__textcolor_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -408px;background-size:auto;">&nbsp;</span><span id="cke_81_label" class="cke_button_label cke_button__textcolor_label" aria-hidden="false">文本颜色</span><span class="cke_button_arrow"></span></a><a id="cke_82" class="cke_button cke_button__bgcolor cke_button_off " href="javascript:void('背景颜色')" title="背景颜色" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_82_label" aria-haspopup="true" onkeydown="return CKEDITOR.tools.callFunction(188,event);" onfocus="return CKEDITOR.tools.callFunction(189,event);" onclick="CKEDITOR.tools.callFunction(190,this);return false;"><span class="cke_button_icon cke_button__bgcolor_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -384px;background-size:auto;">&nbsp;</span><span id="cke_82_label" class="cke_button_label cke_button__bgcolor_label" aria-hidden="false">背景颜色</span><span class="cke_button_arrow"></span></a></span><span class="cke_toolbar_end"></span></span><span id="cke_83" class="cke_toolbar" aria-labelledby="cke_83_label" role="toolbar"><span id="cke_83_label" class="cke_voice_label">工具</span><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_84" class="cke_button cke_button__maximize  cke_button_off" href="javascript:void('全屏')" title="全屏" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_84_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(191,event);" onfocus="return CKEDITOR.tools.callFunction(192,event);" onclick="CKEDITOR.tools.callFunction(193,this);return false;"><span class="cke_button_icon cke_button__maximize_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1392px;background-size:auto;">&nbsp;</span><span id="cke_84_label" class="cke_button_label cke_button__maximize_label" aria-hidden="false">全屏</span></a><a id="cke_85" class="cke_button cke_button__showblocks  cke_button_off" href="javascript:void('显示区块')" title="显示区块" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_85_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(194,event);" onfocus="return CKEDITOR.tools.callFunction(195,event);" onclick="CKEDITOR.tools.callFunction(196,this);return false;"><span class="cke_button_icon cke_button__showblocks_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 -1776px;background-size:auto;">&nbsp;</span><span id="cke_85_label" class="cke_button_label cke_button__showblocks_label" aria-hidden="false">显示区块</span></a></span><span class="cke_toolbar_end"></span></span><span id="cke_86" class="cke_toolbar" aria-labelledby="cke_86_label" role="toolbar"><span id="cke_86_label" class="cke_voice_label">about</span><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_87" class="cke_button cke_button__about  cke_button_off" href="javascript:void('关于 CKEditor')" title="关于 CKEditor" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_87_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(197,event);" onfocus="return CKEDITOR.tools.callFunction(198,event);" onclick="CKEDITOR.tools.callFunction(199,this);return false;"><span class="cke_button_icon cke_button__about_icon" style="background-image:url(file:///E:/Tomny/Project/bootstrap/361/metronic_v3.6.1/theme/assets/global/plugins/ckeditor/plugins/icons.png?t=E8PB);background-position:0 0px;background-size:auto;">&nbsp;</span><span id="cke_87_label" class="cke_button_label cke_button__about_label" aria-hidden="false">关于 CKEditor</span></a></span><span class="cke_toolbar_end"></span></span></span></span><div id="cke_1_contents" class="cke_contents cke_reset" role="presentation" style="height: 200px;"><span id="cke_92" class="cke_voice_label">按 ALT+0 获得帮助</span><iframe src="" frameborder="0" class="cke_wysiwyg_frame cke_reset" style="width: 959px; height: 100%;" title="所见即所得编辑器, editor2" aria-describedby="cke_92" tabindex="0" allowtransparency="true"></iframe></div><span id="cke_1_bottom" class="cke_bottom cke_reset_all" role="presentation" style="-webkit-user-select: none;"><span id="cke_1_resizer" class="cke_resizer cke_resizer_vertical cke_resizer_ltr" title="拖拽以改变大小" onmousedown="CKEDITOR.tools.callFunction(0, event)">◢</span><span id="cke_1_path_label" class="cke_voice_label">元素路径</span><span id="cke_1_path" class="cke_path" role="group" aria-labelledby="cke_1_path_label"><span class="cke_path_empty">&nbsp;</span></span></span></div></div>
+                                    <div id="editor2_error">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button type="submit" class="btn green">Submit</button>
+                                    <button type="button" class="btn default">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- END FORM-->
+                </div>
+                <!-- END VALIDATION STATES-->
+            </div>
+        </div>
+    </div>
+
+</div>

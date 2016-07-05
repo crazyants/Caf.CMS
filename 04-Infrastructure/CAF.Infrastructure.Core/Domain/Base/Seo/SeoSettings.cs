@@ -1,0 +1,44 @@
+﻿
+using CAF.Infrastructure.Core.Configuration;
+using System.Collections.Generic;
+
+
+namespace CAF.Infrastructure.Core.Domain.Seo
+{
+    public class SeoSettings : ISettings
+    {
+		public SeoSettings()
+		{
+			PageTitleSeparator = ". ";
+			PageTitleSeoAdjustment = PageTitleSeoAdjustment.PagenameAfterSitename;
+			DefaultTitle = "Your store";
+			DefaultMetaKeywords = "";
+			DefaultMetaDescription = "";
+			AllowUnicodeCharsInUrls = true;
+			CanonicalHostNameRule = Seo.CanonicalHostNameRule.NoRule;
+			ReservedUrlRecordSlugs = new List<string>() { "admin", "install", "recentlyviewedproducts", "newproducts", "compareproducts", "clearcomparelist", "setproductreviewhelpfulness", "login", "register", "logout", "cart", "wishlist", "emailwishlist", "checkout", "contactus", "passwordrecovery", "subscribenewsletter", "blog", "boards", "inboxupdate", "sentupdate", "news", "sitemap", "sitemapseo", "search", "config", "api", "odata" };
+			ExtraRobotsDisallows = new List<string>();
+            LoadAllUrlAliasesOnStartup = true;
+		}
+		
+		public string PageTitleSeparator { get; set; }
+        public PageTitleSeoAdjustment PageTitleSeoAdjustment { get; set; }
+        public string DefaultTitle { get; set; }
+        public string DefaultMetaKeywords { get; set; }
+        public string DefaultMetaDescription { get; set; }
+
+        public bool ConvertNonWesternChars { get; set; }
+        public bool AllowUnicodeCharsInUrls { get; set; }
+
+        public bool CanonicalUrlsEnabled { get; set; }
+		public CanonicalHostNameRule CanonicalHostNameRule { get; set; }
+
+        /// <summary>
+        /// Slugs (sename) reserved for some other needs
+        /// </summary>
+        public List<string> ReservedUrlRecordSlugs { get; set; }
+
+        public List<string> ExtraRobotsDisallows { get; set; }
+        public bool LoadAllUrlAliasesOnStartup { get; set; }
+    }
+}

@@ -1,0 +1,265 @@
+﻿@model QueuedEmailListModel
+@using CAF.Mvc.JQuery.Datatables.Core;
+@{
+    var gridPageSize = EngineContext.Current.Resolve<CAF.Infrastructure.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
+    ViewBag.Title = T("Admin.System.QueuedEmails").Text;
+    var g = Html.GridToolKit<QueuedEmailModel>();
+    var grid = g.DataGrid("queuedEmailsGrid", g.Param(x => x.Id)).TableId("table-id").GridKey("Id").PageLength(gridPageSize)
+    .MainGrid(
+    g.GridColumn(null, null, 50).DefaultContent("<input type='checkbox' class='checkboxes' value='#Id#'>"),
+     g.GridColumn(x => x.Id, 50),
+      g.GridColumn(x => x.Subject),
+       g.GridColumn(x => x.Priority, 50),
+        g.GridColumn(x => x.From, 100),
+         g.GridColumn(x => x.FromName, 100),
+    g.GridColumn(x => x.SentTries, 100),
+    g.GridColumn(x => x.SentOn, 100),
+    g.GridColumn(x => x.CreatedOn, 100).DefaultContent("#CreatedOn-DateTime#"),
+    g.GridColumn("operation", "" + T("Admin.Common.Operation").Text + "", 100).DefaultContent("<a href='Edit/#Id#' class='btn default btn-xs purple'><i class='fa fa-edit'></i></a>"))
+    .Url(Url.Action("QueuedEmailList", "QueuedEmail")).DefaultTableClass().BindDataParamBinding("onDataBinding").BindAjaxCallback("bindAjaxCallback");
+}
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase"> @T("Admin.System.QueuedEmails")</span>
+                        <span class="caption-helper"></span>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" id="delete-selected" name="delete-selected" value="delete_selected" class="btn btn-default">
+                            <i class="fa fa-trash-o"></i>&nbsp;@T("Admin.System.QueuedEmails.DeleteSelected")
+                        </button>
+
+                    </div>
+                </div>
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                    <div class="portlet">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-search"></i>@T("Admin.Common.Search")
+                            </div>
+                            <div class="tools">
+                               
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="well">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SearchStartDate)</label>
+                                            <div class="col-md-9">
+                                                @Html.EditorFor(model => model.SearchStartDate)
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SearchEndDate)</label>
+                                            <div class="col-md-9">
+                                                @Html.EditorFor(model => model.SearchEndDate)
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SearchFromEmail)</label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(model => model.SearchFromEmail, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SearchToEmail)</label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(model => model.SearchToEmail, new { @class = "form-control" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SearchLoadNotSent)</label>
+                                            <div class="col-md-9">
+                                                @Html.EditorFor(model => model.SearchLoadNotSent)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SearchMaxSentTries)</label>
+                                            <div class="col-md-9">
+                                                @Html.EditorFor(model => model.SearchMaxSentTries)
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.GoDirectlyToNumber)</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group input-large">
+                                                    @Html.EditorFor(model => Model.GoDirectlyToNumber)
+                                                    <span class="input-group-btn">
+                                                        <button type="submit" name="go-to-email-by-number" value="go-to-email-by-number" class="btn">
+                                                            <i class="fa fa-play-circle-o"></i>&nbsp;@T("Admin.Common.Go")
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-offset-3 col-md-9">
+                                                <button type="submit" id="btnSearch" class="btn btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                    @T("Admin.Common.Search")
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="portlet-body flip-scroll">
+                    <div class="portlet">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-search"></i>@T("Admin.Common.List")
+                            </div>
+                            <div class="tools">
+                               
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+                                <thead>
+                                    <tr>
+                                        @foreach (var column in grid.GetColumns)
+                                {
+                                    if (column.Name == "" + T("Admin.Common.Edit").Text + "")
+                                    {
+
+                                        <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                                    }
+                                    else if (column.DisplayName == null)
+                                    {
+
+                                        <th class="@column.CssClassHeader"><input type="checkbox" class="group-checkable" data-set="checkboxes"></th>
+
+                                    }
+                                    else
+                                    {
+                                        <th class="@column.CssClassHeader">@column.DisplayName</th>
+                                    }
+
+                                }
+                                    </tr>
+
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function onDataBinding() {
+            var searchModel = {
+                SearchStartDate: $('#@Html.FieldIdFor(model => model.SearchStartDate)').val(),
+                SearchEndDate: $('#@Html.FieldIdFor(model => model.SearchEndDate)').val(),
+                SearchFromEmail: $('#@Html.FieldIdFor(model => model.SearchFromEmail)').val(),
+                SearchToEmail: $('#@Html.FieldIdFor(model => model.SearchToEmail)').val(),
+                SearchLoadNotSent: $('#@Html.FieldIdFor(model => model.SearchLoadNotSent)').is(':checked'),
+                SearchMaxSentTries: $('#@Html.FieldIdFor(model => model.SearchMaxSentTries)').val()
+            };
+            return searchModel;
+        }
+        function bindAjaxCallback(aData)
+        {
+            $.each(aData, function (k, v) {
+                if ( v.CreatedOn.length > 0) v.CreatedOn = eval('new ' + (v.CreatedOn.replace(/\//g, ''))).format('yyyy-MM-dd');
+                if ((v.SentOn || '').length > 0) v.SentOn = eval('new ' + (v.SentOn.replace(/\//g, ''))).format('yyyy-MM-dd');
+            });
+        }
+        @(grid)
+        var selectedIds = [];
+
+        $(document).ready(function () {
+
+            //search button
+            $('#btnSearch').click(function () {
+                //search
+                var grid = queuedEmailsGrid.reload();
+                selectedIds = [];
+                return false;
+            });
+
+            //"delete selected" button
+            $('#delete-selected').click(function (e) {
+                bootbox.confirm("你确定删除?", function (result) {
+                    if (result) {
+                        e.preventDefault();
+                        selectedIds = queuedEmailsGrid.getSelectedRows();
+                        var postData = {
+                            selectedIds: selectedIds
+                        };
+                        if (selectedIds.length <= 0)
+                            return;
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: "@(Url.Action("DeleteSelected", "QueuedEmail"))",
+                            data: postData,
+                            complete: function (data) {
+                                //reload grid
+                                var grid = queuedEmailsGrid.reload();
+                                selectedIds = [];
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                alert(thrownError);
+                            },
+                            traditional: true
+                        });
+                    }
+                });
+                return false;
+            });
+
+        });
+
+
+
+    </script>
+}
+

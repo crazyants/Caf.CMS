@@ -1,0 +1,19 @@
+﻿{
+	"sProcessing": "<img src='/Content/assets/global/img/ajax-loading.gif' />",
+	"metronicGroupActions":已选择 "_TOTAL_ 条记录:  ",
+    "metronicAjaxRequestGeneralError": "无法完成请求。请检查你的网络连接",
+	"sLengthMenu": "每页显示 _MENU_ 条记录",
+	"sZeroRecords":  "没有找到匹配的记录.",
+	"sInfo": "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+	"sInfoEmpty":"没有找到记录",
+	"sInfoFiltered":"(从 _MAX_ 条数据中检索)",
+	"sInfoPostFix": "",
+	"sSearch": "查询:",
+	"sUrl": "",
+	"oPaginate": {
+		"sFirst":    "首页",
+		"sPrevious":"前一页",
+		"sNext":    "后一页",
+		"sLast":     "尾页"
+	}
+}

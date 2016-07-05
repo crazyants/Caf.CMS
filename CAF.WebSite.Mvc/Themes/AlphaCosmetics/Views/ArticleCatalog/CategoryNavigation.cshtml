@@ -1,0 +1,66 @@
+﻿@model NavigationModel
+@using CAF.Infrastructure.Core.Domain.Cms.Articles;
+@using CAF.WebSite.Mvc.Models.ArticleCatalog;
+@using CAF.Infrastructure.Core.Collections
+@functions {
+    private string GetCssClassForNode(NodePathState state)
+    {
+        var liClasses = new List<string>();
+
+        if ((state & NodePathState.Parent) == NodePathState.Parent)
+        {
+            liClasses.Add("dropdown");
+        }
+
+        if ((state & NodePathState.Expanded) == NodePathState.Expanded)
+        {
+            liClasses.Add("expanded");
+        }
+
+        if ((state & NodePathState.Selected) == NodePathState.Selected)
+        {
+            liClasses.Add("active");
+        }
+
+        return liClasses.Count > 0 ? String.Join(" ", liClasses) : null;
+    }
+
+    private bool ShouldRenderChildren(NodePathState state)
+    {
+        if (!((state & NodePathState.Parent) == NodePathState.Parent) || !Model.Path.Any())
+            return false;
+
+        if ((state & NodePathState.Expanded) == NodePathState.Expanded || (state & NodePathState.Selected) == NodePathState.Selected)
+        {
+            return true;
+        }
+
+        return false;
+    }
+}
+@if (Model.Root.HasChildren)
+{
+    <h3 class="title myCorner" style="border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+        @Model.Root.Value.Text
+    </h3>
+    <div class="sb_active" id="sidebar" data-csnow="2" data-class3="0" data-jsok="2">
+        @CreateMenu(Model.Root.Children, "")
+        <div class="clear"></div>
+    </div>
+
+}
+@helper CreateMenu(IEnumerable<TreeNode<MenuItem>> nodes, string menuSelector)
+{
+    foreach (var node in nodes)
+    {
+        var state = node.GetNodePathState(Model.Path);
+        var url = node.Value.GenerateUrl(this.Url);
+        <dl class="list-none navnow">
+            <dt id="part2_10">
+                <a href="@url" title="@node.Value.Text" class="zm"><span>@node.Value.Text</span></a>
+            </dt>
+        </dl>
+    }
+
+}
+

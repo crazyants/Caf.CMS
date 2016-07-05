@@ -1,0 +1,128 @@
+﻿@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+@using CAF.Infrastructure.Core.Domain.Sites;
+
+@{
+    var currentUser = this.WorkContext.CurrentUser;
+    var currentLanguage = this.WorkContext.WorkingLanguage;
+    var _siteContext = EngineContext.Current.Resolve<ISiteContext>();
+    var userName = (string)ViewBag.UserName;
+    var sites = (IList<Site>)ViewBag.Sites;
+    var siteContentShare = (bool)ViewBag.SiteContentShare; 
+    string currentLanguageCode = currentLanguage.UniqueSeoCode.EmptyNull().ToLower();
+
+}
+
+<div class="navbar-header pull-left hidden-xs">
+    <a href="http://www.mayisite.com" class="navbar-brand " target="_blank" style="padding-top: 0px; padding-bottom: 0px;padding-right:0px;padding-left:5px;">
+        <img src="~/Content/assets/admin/layout/img/logo.png" alt="蚂蚁CMS" class="logo-default" />
+    </a>
+    <span class="navbar-brand " style="padding-left: 0px;">
+        <small>| </small>
+        蚂蚁CMS
+    </span>
+</div>
+@if (!siteContentShare)
+{
+<nav role="navigation" class="navbar-menu pull-left collapse navbar-collapse">
+    <ul class="nav navbar-nav" id="changeCurrentSite">
+        <li>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="currentSite">
+              当前站点:@_siteContext.CurrentSite.Name
+                &nbsp;
+                <i class="ace-icon fa fa-angle-down bigger-110"></i>
+            </a>
+
+            <ul class="dropdown-menu dropdown-light-blue dropdown-caret">
+                  @foreach (var site in sites)
+                  {
+                    <li>
+                        <a name="siteItem" href="@Url.Action("SetSelectedSite", "Common", new { area = "admin", siteId = site.Id, returnUrl = Request.RawUrl })" title="点击切换站点 - @site.Name" data-id="@site.Id">
+                            <i class="fa fa-fw fa-globe"></i>
+                            @site.Name.Truncate(32, "...")
+                        </a>
+                    </li>
+                  }
+            </ul>
+        </li>
+
+    </ul>
+
+</nav>
+}
+<div class="navbar-buttons navbar-header pull-right" role="navigation">
+    <ul class="nav ace-nav">
+        <li class="dark-opaque">
+            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                <i class="ace-icon fa fa-fw fa-globe"></i>
+                <span class="badge badge-warning" id="kcWarringNum"></span>
+            </a>
+            <ul class="dropdown-menu-right dropdown-navbar  dropdown-menu dropdown-caret dropdown-close">
+                <li class="dropdown-header">
+                    <i class="ace-icon fa fa-exclamation-triangle"></i>
+                    站点
+
+                </li>
+                <li class="dropdown-content" data-size="250">
+                    <ul class="dropdown-menu dropdown-navbar navbar-pink">
+                        @foreach (var site in sites)
+                        {
+                            <li>
+                                <a href="@site.Url" title="@T("Admin.Header.PublicStore") - @site.Name" target="_blank">
+                                    <i class="fa fa-fw fa-globe"></i>
+                                    @site.Name.Truncate(32, "...")
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+            </ul>
+        </li>
+
+        <!-- #section:basics/navbar.user_menu -->
+        <li class="light-blue">
+            <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                <img class="nav-user-photo" src="~/Content/assets/ace/avatars/avatar1.png" alt="我的头像" />
+                <i class="ace-icon fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu-right dropdown-navbar  dropdown-menu  dropdown-caret dropdown-close">
+                <li class="dropdown-header">
+                    <i class="ace-icon fa fa-user"></i>
+                    我的后台
+
+                </li>
+                <li>
+                    <a href="@Url.Action("Edit", "User", new { id = currentUser.Id, area = "Admin" })" class="clearfix">
+
+                        <img src="~/Content/assets/ace/avatars/avatar1.png" class="msg-photo" alt="我的头像" />
+                        <span class="msg-body">
+                            <span class="msg-title">
+                                @currentUser.UserName
+                            </span>
+
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("RestartApplication", "Common", new { previousUrl = Request.RawUrl, area = "Admin" })">
+                        <i class="ace-icon fa fa-lock orange"></i>
+                        重启应用程序
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("ClearCache", "Common", new { previousUrl = Request.RawUrl, area = "Admin" })">
+                        <i class="ace-icon fa fa-drupal green"></i>
+                        清除缓存
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Logout", "Customer", new { area = "" })">
+                        <i class="ace-icon fa fa-power-off red"></i>[退出]
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- /section:basics/navbar.user_menu -->
+    </ul>
+</div>

@@ -1,0 +1,255 @@
+﻿@model ForumSettingsModel
+@{
+    //page title
+    ViewBag.Title = T("Admin.Configuration.Settings.Forums").Text;
+}
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase">@T("Admin.Configuration.Settings.Forums")</span>
+                        <span class="caption-helper"></span>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" name="save" value="save" class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;@T("Admin.Common.Save")</button>
+                    </div>
+                </div>
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                    @Html.Action("SiteScopeConfiguration", "Setting")
+                    @Html.ValidationSummary(false)
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.ForumsEnabled)
+                            </label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.ForumsEnabled)
+                                    @Html.ValidationMessageFor(model => model.ForumsEnabled)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.RelativeDateTimeFormattingEnabled)
+                            </label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.RelativeDateTimeFormattingEnabled)
+                                    @Html.ValidationMessageFor(model => model.RelativeDateTimeFormattingEnabled)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.ShowUsersPostCount)
+                            </label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.ShowUsersPostCount)
+                                    @Html.ValidationMessageFor(model => model.ShowUsersPostCount)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.AllowGuestsToCreatePosts)
+                            </label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.AllowGuestsToCreatePosts)
+                                    @Html.ValidationMessageFor(model => model.AllowGuestsToCreatePosts)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.AllowGuestsToCreateTopics)
+                            </label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.AllowGuestsToCreateTopics)
+                                    @Html.ValidationMessageFor(model => model.AllowGuestsToCreateTopics)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.AllowUsersToEditPosts)
+                            </label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.AllowUsersToEditPosts)
+                                    @Html.ValidationMessageFor(model => model.AllowUsersToEditPosts)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.AllowUsersToDeletePosts)
+                            </label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.AllowUsersToDeletePosts)
+                                    @Html.ValidationMessageFor(model => model.AllowUsersToDeletePosts)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.AllowUsersToManageSubscriptions)
+                            </label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.AllowUsersToManageSubscriptions)
+                                    @Html.ValidationMessageFor(model => model.AllowUsersToManageSubscriptions)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.TopicsPageSize)
+                            </label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.TopicsPageSize)
+                                    @Html.ValidationMessageFor(model => model.TopicsPageSize)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.PostsPageSize)
+                            </label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.PostsPageSize)
+                                    @Html.ValidationMessageFor(model => model.PostsPageSize)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.SearchResultsPageSize)
+                            </label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.SearchResultsPageSize)
+                                    @Html.ValidationMessageFor(model => model.SearchResultsPageSize)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.ForumEditor)
+                            </label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingOverrideCheckbox(model => Model.ForumEditor)
+                                    @Html.DropDownListForEnum(model => model.ForumEditor)
+                                    @Html.ValidationMessageFor(model => model.ForumEditor)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.SignaturesEnabled)
+                            </label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.SignaturesEnabled)
+                                    @Html.ValidationMessageFor(model => model.SignaturesEnabled)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.AllowPrivateMessages)
+                            </label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingOverrideCheckbox(model => Model.AllowPrivateMessages)
+                                    @Html.EditorFor(model => model.AllowPrivateMessages)
+                                    @Html.ValidationMessageFor(model => model.AllowPrivateMessages)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.ShowAlertForPM)
+                            </label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.ShowAlertForPM)
+                                    @Html.ValidationMessageFor(model => model.ShowAlertForPM)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.NotifyAboutPrivateMessages)
+                            </label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.NotifyAboutPrivateMessages)
+                                    @Html.ValidationMessageFor(model => model.NotifyAboutPrivateMessages)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.ForumFeedsEnabled)
+                            </label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.ForumFeedsEnabled)
+                                    @Html.ValidationMessageFor(model => model.ForumFeedsEnabled)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.ForumFeedCount)
+                            </label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.ForumFeedCount)
+                                    @Html.ValidationMessageFor(model => model.ForumFeedCount)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.ActiveDiscussionsFeedEnabled)
+                            </label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.ActiveDiscussionsFeedEnabled)
+                                    @Html.ValidationMessageFor(model => model.ActiveDiscussionsFeedEnabled)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                @Html.LangLabelFor(model => model.ActiveDiscussionsFeedCount)
+                            </label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.ActiveDiscussionsFeedCount)
+                                    @Html.ValidationMessageFor(model => model.ActiveDiscussionsFeedCount)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}

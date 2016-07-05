@@ -1,0 +1,191 @@
+﻿@model ExtendedAttributeModel
+
+@using CAF.Infrastructure.Core.Domain.Cms.Articles
+@Html.ValidationSummary(false)
+@Html.HiddenFor(model => model.Id)
+@Html.CafSite().TabStrip().Name("extendedattribute-edit").Items(x =>
+{
+    x.Add().Text(T("Admin.Catalog.Attributes.ExtendedAttributes.Info").Text).Content(TabInfo()).Selected(true);
+    x.Add().Text(T("Admin.Catalog.Attributes.ExtendedAttributes.Values").Text).Content(TabValues());
+
+    //generate an event
+    EngineContext.Current.Resolve<IEventPublisher>().Publish(new TabStripCreated(x, "extendedattribute-edit", this.Html, this.Model));
+
+
+})
+@helper TabInfo()
+{
+
+
+    @(Html.LocalizedEditor<ExtendedAttributeModel, ExtendedAttributeLocalizedModel>("extendedattribute-localized",
+    @<div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.Locales[item].Name)
+            </label>
+            <div class="col-md-4">
+                @Html.EditorFor(model => Model.Locales[item].Name)
+                @Html.ValidationMessageFor(model => model.Locales[item].Name)
+            </div>
+        </div>
+         <div class="form-group">
+             <label class="control-label col-md-3">
+                 @Html.LangLabelFor(model => model.Locales[item].Title)
+             </label>
+             <div class="col-md-4">
+                 @Html.EditorFor(model => Model.Locales[item].Title)
+                 @Html.ValidationMessageFor(model => model.Locales[item].Title)
+             </div>
+         </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.Locales[item].TextPrompt)
+            </label>
+            <div class="col-md-4">
+                @Html.EditorFor(model => Model.Locales[item].TextPrompt)
+                @Html.ValidationMessageFor(model => model.Locales[item].TextPrompt)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">  </label>
+            <div class="col-md-4">
+                @Html.HiddenFor(model => model.Locales[item].LanguageId)
+            </div>
+        </div>
+    </div>
+    ,
+    @<div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.Name)
+            </label>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+         <div class="form-group">
+             <label class="control-label col-md-3">
+                 @Html.LangLabelFor(model => model.Title)
+             </label>
+             <div class="col-md-4">
+                 @Html.EditorFor(model => model.Title)
+                 @Html.ValidationMessageFor(model => model.Title)
+             </div>
+         </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.TextPrompt)
+            </label>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.TextPrompt)
+                @Html.ValidationMessageFor(model => model.TextPrompt)
+            </div>
+        </div>
+    </div>))
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.IsActive)
+            </label>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.IsActive)
+                @Html.ValidationMessageFor(model => model.IsActive)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.IsRequired)
+            </label>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.IsRequired)
+                @Html.ValidationMessageFor(model => model.IsRequired)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AttributeControlTypeId)
+            </label>
+            <div class="col-md-4">
+                @Html.DropDownListFor(model => model.AttributeControlTypeId, ((AttributeControlType)Model.AttributeControlTypeId).ToSelectList())
+                @Html.ValidationMessageFor(model => model.AttributeControlTypeId)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.DisplayOrder)
+            </label>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.DisplayOrder)
+                @Html.ValidationMessageFor(model => model.DisplayOrder)
+            </div>
+        </div>
+    </div>
+}
+@helper TabValues()
+{
+
+    var g = Html.GridToolKit<ExtendedAttributeValueModel>();
+    var grid = g.DataGrid("extendedGrid", g.Param(x => x.ExtendedAttributeId)).TableId("table-id").GridKey("Id").MainGrid(
+    g.GridColumn(x => x.Name, 300),
+    g.GridColumn(x => x.DisplayOrder, 300),
+    g.GridColumn(x => x.IsPreSelected, 300),
+    g.GridColumn("operation", "" + T("Admin.Common.Operation").Text + "", 100).DefaultContent("<a onclick='javascript:OpenWindow(\"" + @Url.Content("~/Admin/ExtendedAttribute/ValueEditPopup/") + "#Id#?btnId=btnRefresh&formId=extendedattribute-form\", 800, 300, true); return false;'  class='btn default btn-xs purple'><i class='fa fa-pencil'></i></a> <a href='/Admin/ExtendedAttribute/ValueDelete?valueId=#Id#&extendedAttributeId=#ExtendedAttributeId#&' class='btn default btn-xs black delete'><i class='fa fa-trash-o'></i></a>"))
+    .Url(Url.Action("ValueList", "ExtendedAttribute", new { extendedAttributeId = Model.Id })).DefaultTableClass();
+    if (Model.Id > 0)
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                @(grid)
+                $('#btnRefresh').click(function () {
+                    //refresh grid
+                    var grid = extendedGrid.reload();
+                    //return false to don't reload a page
+                    return false;
+                });
+            });
+        </script>
+        /*TODO display the following warning if values are not supported by selected attribute control type
+         'Values are not required for this attribute control type'
+         */
+        <div class="row">
+            <div class="table-container">
+                <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+                    <thead>
+                        <tr>
+                            @foreach (var column in grid.GetColumns)
+                            {
+                                <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                            }
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                    @if (grid.GetIsFoot)
+                    {
+                        <tfoot>
+                            <tr>
+                                @foreach (var column in grid.GetColumns)
+                                {
+                                    <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                                }
+                            </tr>
+                        </tfoot>
+                    }
+                </table>
+                <button type="submit" id="btnAddNewValue" name="btnAddNewValue" class="btn btn-below"
+                        onclick="javascript:OpenWindow('@(Url.Action("ValueCreatePopup", "ExtendedAttribute", new { extendedAttributeId = Model.Id, btnId = "btnRefresh", formId = "extendedattribute-form" }))', 800, 300, true); return false;">
+                    <i class="fa fa-plus"></i>&nbsp;@T("Admin.Catalog.Attributes.ExtendedAttributes.Values.AddNew")
+                </button>
+
+                <button class="btn btn-default" id="btnRefresh" style="display:none"></button>
+            </div>
+        </div>
+
+    }
+    else
+    {
+        @T("Admin.Catalog.Attributes.ExtendedAttributes.Values.SaveBeforeEdit")
+    }
+}

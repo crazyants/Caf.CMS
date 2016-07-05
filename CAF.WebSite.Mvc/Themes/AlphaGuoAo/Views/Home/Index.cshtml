@@ -1,0 +1,209 @@
+﻿@section FootScript
+{
+
+}
+@Html.Action("ContentSlider", "Home")
+
+<section class="main">
+    <div class="full-screen">
+        <div class="module-full-screen">
+            <div class="module-inner fadeInUp animated" data-animate="fadeInUp" data-delay="200">
+                <div class="page-width">
+                    <div class="module-full-screen-title">
+                        <h2>关于国窖建材</h2>
+                        <div class="module-title-content">
+                            <i class="mark-left"></i><h3>ABOUT  US</h3><i class="mark-right"></i>
+                        </div>
+                        <em class="module-full-screen-title-line"></em>
+                    </div>
+                    <div class="module-full-screen-content">
+                        <div class="qhd-content">
+                            <p style="text-align: center;">
+                                自2006年成立伊始，恪守德国“品质与创新”的经营理念，实行先进的管理模式，实现布局全球化可持续发展战略。遵循时代趋势和审美品位的意大利产品设计理念，<br>
+                                2009年全球首创2CM石英砖，全心耕耘欧美市场并赢得认可与尊重；2015年，坚守石英砖品类之巅——厚薄有度、内外兼修，推出1CM石英砖，倡导石英砖Indoor<br>
+                                &amp; Outdoor “室内室外”整体应用概念，为全球精英阶层美化环境提供优质产品。
+                            </p>
+                            <p style="text-align: center;">
+                                <a href="@Url.RouteUrl("ContactUs")" target="_blank">
+                                    <img alt="" src="/Themes/AlphaGuoAo/Content/images/page/home_about.jpg" style="width: 900px; height: 150px;">
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="module-full-screen module-full-screen-gray">
+            <div class="module-inner fadeInDown animated" data-animate="fadeInDown" data-delay="200">
+                <div class="module-full-screen-title">
+                    <h2>产品鉴赏</h2>
+                    <div class="module-title-content">
+                        <i class="mark-left"></i><h3>APPRECIATION OF PRODUCTS</h3><i class="mark-right"></i>
+                    </div>
+                    <em class="module-full-screen-title-line"></em>
+                </div>
+                <div class="module-full-screen-content">
+                    <div class="portfolio-grid portfolio-grid-4col clearfix">
+                        @Html.Action("HomeRecentlyArticleViewed", "ArticleCatalog", new { area = "", partialView = "HomeArticleBlockPhoto", categoryId = 1026, articleThumbPictureSize = 395, PageSize = 8, IsTop = true })
+                    </div>
+                </div>
+                <div class="module-full-screen-more">
+                    <a href="@Url.RouteUrl("ArticleCategory", new { SeName = "cases-2" })" target="_blank">查看更多 &gt;</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="module-full-screen">
+            <div class="module-inner not-animated" data-animate="fadeInUp" data-delay="200">
+                <div class="page-width">
+                    <div class="module-full-screen-title">
+                        <h2>六大优势</h2>
+                        <div class="module-title-content">
+                            <i class="mark-left"></i><h3>OUR ADVANTAGES</h3><i class="mark-right"></i>
+                        </div>
+                        <em class="module-full-screen-title-line"></em>
+                    </div>
+                    <div class="module-full-screen-content">
+                        <div class="qhd-content">
+                            <div class="column">
+                                <div class="col-2-1">
+                                    <div class="typo">
+                                        <a href="#"><img class="typo_img" src="/Themes/AlphaGuoAo/Content/images/page/home_c1-1.png" style="width: 144px; height: 166px;"></a>
+                                        <div class="typo_text">
+                                            <h5>
+                                                中德合璧 实力可鉴
+                                            </h5>
+                                            <p>
+                                                由姚文江与欧洲最大中国瓷砖进口商T.Trading GmbH集团董事Alexander Robert Stenzel合资创立。在美国、瑞典、荷兰、印度、香港、意大利已设立分公司/办事处，并成立国际化生产研发团队、纽约产品设计工作室、意大利生产设备和产品试验中心。
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                </div>
+                                <div class="col-2-1 last">
+                                    <div class="typo">
+                                        <a href="#"><img class="typo_img" src="/Themes/AlphaGuoAo/Content/images/page/home_c1-2.png" style="width: 144px; height: 166px;"></a>
+                                        <div class="typo_text">
+                                            <h5>
+                                                以专业化产品制胜&nbsp;
+                                            </h5>
+                                            <p>
+                                                属于现代简约风格，适用于各类时尚、个性的商业项目，无论是室内外应用、幕墙铺地等，“2CM+1CM”唯格石英砖都能满足个性化需求。它是废料利用、再生资源，是无辐射的绿色环保产品。
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="col-2-1">
+                                    <div class="typo">
+                                        <a href="#"><img class="typo_img" src="/Themes/AlphaGuoAo/Content/images/page/home_c2-1.png" style="width: 144px; height: 166px;"></a>
+                                        <div class="typo_text">
+                                            <h5>
+                                                引领国际前沿设计
+                                            </h5>
+                                            <p>
+                                                全球首创2CM石英砖，遵循时代趋势和审美品位的意大利产品设计理念，由美国著名设计师Michael Golden领衔研发设计，并依托全球资源，占据最前沿信息和开发优势，不断引领国际前沿设计趋势。
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        &nbsp;
+                                    </p>
+                                </div>
+                                <div class="col-2-1 last">
+                                    <div class="typo">
+                                        <a href="#"><img class="typo_img" src="/Themes/AlphaGuoAo/Content/images/page/home_c2-2.png" style="width: 144px; height: 166px;"></a>
+                                        <div class="typo_text">
+                                            <h5>
+                                                六项技术 品质先行&nbsp;
+                                            </h5>
+                                            <p>
+                                                现已形成了石英砖品质控制的专有技术，其中2项发明专利技术，6项专有技术、1项首创技术。同步国际生产技术，执行严苛的国际质控标准，锻造了唯格石英砖表里如一、超低吸水率及高耐磨度的卓越品质。
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="col-2-1">
+                                    <div class="typo">
+                                        <a href="#"><img class="typo_img" src="/Themes/AlphaGuoAo/Content/images/page/home_c3-1.png" style="width: 144px; height: 166px;"></a>
+                                        <div class="typo_text">
+                                            <h5>
+                                                全球战略 立体推广
+                                            </h5>
+                                            <p>
+                                                实现布局全球化可持续发展战略。连年参加意大利博洛尼亚展、美国Coverings、迪拜展、维罗纳展、广交会等国内外陶瓷风向展会，召开设计师活动和各媒介宣传的线上线下相结合的立体传播战略，全方位、多维度深化品牌形象。
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-2-1 last">
+                                    <div class="typo">
+                                        <a href="#"><img class="typo_img" src="/Themes/AlphaGuoAo/Content/images/page/home_c3-2.png" style="width: 144px; height: 166px;"></a>
+                                        <div class="typo_text">
+                                            <h5>
+                                                深耕渠道 占领市场
+                                            </h5>
+                                            <p>
+                                                深挖设计师渠道建设，举办 全国一线城市设计师论坛，掌握雄厚设计师资源。迅速占领全球市场，产品先后在荷兰、瑞典、新加坡、韩国、日本、南京、贵州、上海、厦门等地的知名建筑中获得广泛应用，把唯格石英砖的应用推向一个新高度。&nbsp;
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="module-full-screen module-full-screen-hl module-full-screen-bg-img" style="background-image:url(/Themes/AlphaGuoAo/Content/images/page/home_contact.jpg);">
+            <div class="module-inner fadeInDown animated" data-animate="fadeInDown" data-delay="200">
+                <div class="page-width">
+                    <div class="module-full-screen-title">
+                        <h2>愿意结识这样的你</h2>
+                        <em class="module-full-screen-title-line"></em>
+                    </div>
+                    <div class="module-full-screen-content dark-box">
+                        <div class="qhd-content">
+                            <p style="text-align: center;">
+                                <span style="font-size:18px;">
+                                    国窖建材秉承为客户创造价值的合作理念，诚结天下志同道合人士。<br>
+                                    国窖建材六大优势与支持，让我们互利共赢，携手共进！
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="module-full-screen-more">
+                        <a href="@Url.RouteUrl("ArticleCategory", new { SeName = "1026" })" target="_blank">查看详情 &gt;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="module-full-screen module-full-screen-gray">
+            <div class="module-inner fadeInDown animated" data-animate="fadeInUp" data-delay="200">
+                <div class="page-width">
+                    <div class="module-full-screen-title">
+                        <h2>最新资讯</h2>
+                        <div class="module-title-content">
+                            <i class="mark-left"></i><h3>LATEST NEWS</h3><i class="mark-right"></i>
+                        </div>
+                        <em class="module-full-screen-title-line"></em>
+                    </div>
+                    <div  class="module-full-screen-content">
+                        <div class="entry-list-time-hl-col entry-list-time-hl">
+                            @Html.Action("HomeRecentlyArticleViewed", "ArticleCatalog", new { area = "", partialView = "HomeArticleBlockList", categoryId = 1026, articleThumbPictureSize = 395, PageSize = 6, IsTop = true })
+                        </div>
+                    </div>
+                    <div class="module-full-screen-more"><a href="@Url.RouteUrl("ArticleCategory", new { SeName = "1026" })" target="_blank">查看更多 &gt;</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

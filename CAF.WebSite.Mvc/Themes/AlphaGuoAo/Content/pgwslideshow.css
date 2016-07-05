@@ -1,0 +1,59 @@
+/**
+ * PgwSlideshow - Version 2.0
+ *
+ * Copyright 2014, Jonathan M. Piat
+ * http://pgwjs.com - http://pagawa.com
+ *
+ * Released under the GNU GPLv3 license - http://opensource.org/licenses/gpl-3.0
+ */
+/*.pgwSlideshow li { float:left; }*/
+ 
+.pgwSlideshow { width:100%; /*display:none;*/ }
+.pgwSlideshow .ps-current { position:relative; min-height:250px; height:600px; text-align:center; overflow:hidden; background:url(images/loading.gif) no-repeat center; }
+.pgwSlideshow .ps-current ul li { text-align:center; width:100%; z-index:1; opacity:0; display:block;}
+.pgwSlideshow .ps-current ul li img { display:block; max-width:100%; margin:auto; }
+.pgwSlideshow .ps-current ul li a[href="javascript:;"] { cursor:default; }
+
+.ps-caption-wrapper { width:100%; position:absolute; left:0px; bottom:0px; }
+.pgwSlideshow .ps-caption { padding:8px 10px; text-align:left; color:#fff; background:url(images/pgwjs/ps-caption-bg.png);  }
+.pgwSlideshow .ps-caption h3 { line-height:normal; font-size:15px; font-weight:normal; }
+.pgwSlideshow .ps-caption p { margin-top:5px; font-size:12px; }
+.pgwSlideshow .ps-caption a { color:#fff; text-decoration:none; }
+
+.pgwSlideshow .ps-list { position:relative; width:100%; height:86px; overflow:hidden; margin-top:20px; box-sizing:border-box; }
+.pgwSlideshow .ps-list ul { margin:0; padding:0; list-style:none; position:relative; left:0; }
+.pgwSlideshow .ps-list li { float: left; }
+.pgwSlideshow .ps-list li .ps-item { display:block; margin:0 10px 0 0; opacity:0.5; filter:alpha(opacity=50); border:1px solid #ccc; }
+.pgwSlideshow .ps-list li:last-child .ps-item { margin-right:0; }
+.pgwSlideshow .ps-list li .ps-item img { display:block; width:120px; height:84px; }
+.pgwSlideshow .ps-list li .ps-selected { float:left; overflow:hidden; opacity:1; filter:alpha(opacity=100); border-color:#f00; }
+.pgwSlideshow .ps-list li .ps-selected img { }
+
+.pgwSlideshow .ps-prev, .pgwSlideshow .ps-next { position:absolute; top:50%; z-index:100; margin-top:-40px; cursor:pointer; /*display:block !important; opacity:1 !important; filter:alpha(opacity=100) !important;*/ }
+.pgwSlideshow .ps-prev { display:block; left:0; }
+.pgwSlideshow .ps-next { display:block; right:0; }
+.pgwSlideshow .ps-prevIcon, .pgwSlideshow .ps-nextIcon { display:block; width:50px; height:80px; overflow:hidden; cursor:pointer; background-repeat:no-repeat; background-position:center center; background-color:rgba(60,60,60,0.2); _background-color:#e5e5e5; }
+.pgwSlideshow .ps-prevIcon:hover, .pgwSlideshow .ps-nextIcon:hover { background-color:#333; background-color:rgba(60,60,60,0.8); _background-color:#666;}
+.pgwSlideshow .ps-current .ps-prevIcon { background-image:url(images/pgwjs/arrow-left.png); }
+.pgwSlideshow .ps-current .ps-nextIcon { background-image:url(images/pgwjs/arrow-right.png); }
+.pgwSlideshow .ps-list .ps-prev, .pgwSlideshow .ps-list .ps-next { top:0; margin-top:0; height:100%; z-index:10000; display:none; background-color:rgba(60,60,60,0.6); }
+.pgwSlideshow .ps-list .ps-prevIcon, .pgwSlideshow .ps-list .ps-nextIcon { width:30px; height:100%; }
+.pgwSlideshow .ps-list .ps-prevIcon { background-image:url(images/pgwjs/arrow-left-m.png); }
+.pgwSlideshow .ps-list .ps-nextIcon { background-image:url(images/pgwjs/arrow-right-m.png); }
+
+
+/*
+ * The media-queries are not used because IE8 doesn't support them.
+ */
+.pgw-narrow .ps-caption { font-size:0.8rem; }
+
+.pgw-narrow .ps-list { height:62px; margin-top:15px; }
+.pgw-narrow .ps-list li .ps-item img { width:85px; height:60px; }
+.pgw-narrow .ps-prev, .pgw-narrow .ps-next { margin-top:-30px; }
+.pgw-narrow .ps-prevIcon, .pgw-narrow .ps-nextIcon { width:35px; height:60px; }
+.pgw-narrow .ps-current .ps-prevIcon { background-image:url(images/pgwjs/arrow-left-m.png); }
+.pgw-narrow .ps-current .ps-nextIcon { background-image:url(images/pgwjs/arrow-right-m.png); }
+.pgw-narrow .ps-list .ps-prevIcon, .pgw-narrow .ps-list .ps-nextIcon { width:25px; }
+.pgw-narrow .ps-list .ps-prevIcon { background-image:url(images/pgwjs/arrow-left-s.png); }
+.pgw-narrow .ps-list .ps-nextIcon { background-image:url(images/pgwjs/arrow-right-s.png); }
+

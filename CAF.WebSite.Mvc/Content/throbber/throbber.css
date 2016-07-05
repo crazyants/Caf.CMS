@@ -1,0 +1,76 @@
+﻿/*
+CAF throbber
+Version: 1, Timestamp: 18.08.2012
+*/
+.throbber {
+  display: none;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.throbber .throbber-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #000;
+  opacity: 0.7;
+  filter: alpha(opacity=70);
+  z-index: 2147483640;
+}
+.throbber.white .throbber-overlay {
+  background-color: #fff;
+}
+.throbber .throbber-content {
+  position: absolute;
+  z-index: 2147483640;
+  color: #fff;
+  text-shadow: 1px 1px 0 #666;
+  background: url('/Content/throbber/throbber-progress-white-32.gif') 4px 6px no-repeat;
+}
+.throbber.large .throbber-content {
+  min-height: 38px;
+  line-height: 32px;
+  max-width: 400px;
+  font-size: 24px;
+  font-family: 'Segoe UI Light', 'Segoe UI', Tahoma, 'Helvetica Neue', Helvetica, Arial, 'sans-serif';
+  font-weight: 100;
+  padding-left: 44px;
+}
+.throbber.small .throbber-content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  height: 16px;
+  font-size: 13px;
+  line-height: 18px;
+  vertical-align: middle;
+  padding-left: 24px;
+  background: url('/Content/throbber/throbber-progress-white-32.gif') 0 6px no-repeat;
+}
+.throbber.white .throbber-content {
+  color: #000;
+  text-shadow: none;
+}
+.throbber.large .throbber-content {
+  background-image: url('/Content/throbber/throbber-progress-white-32.gif');
+}
+.throbber.small .throbber-content {
+  background-image: url('/Content/throbber/throbber-progress-white-16.gif');
+  background-position: 0 0;
+}
+.throbber.white.large .throbber-content {
+  background-image: url('/Content/throbber/throbber-progress-black-32.gif');
+}
+.throbber.white.small .throbber-content {
+  background-image: url('/Content/throbber/throbber-progress-black-16.gif');
+  background-position: 0 0;
+}
+.throbber.global .throbber-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+.throbber.global .throbber-content {
+  position: fixed;
+}

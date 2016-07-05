@@ -1,0 +1,90 @@
+﻿@model ArticlePostModel
+@using CAF.Infrastructure.Core.Domain.Cms.Articles
+@using CAF.Infrastructure.Core;
+@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core.Utilities;
+@if (Model.ArticleExtendedAttributes.Count > 0)
+{
+
+    <ul class="list-none">
+        @foreach (var attribute in Model.ArticleExtendedAttributes)
+        {
+            string controlId = string.Format("checkout_attribute_{0}", attribute.Id);
+            string textPrompt = !string.IsNullOrEmpty(attribute.TextPrompt) ? attribute.TextPrompt : attribute.Name;
+            switch (attribute.AttributeControlType)
+            {
+                case AttributeControlType.DropdownList:
+                case AttributeControlType.Checkboxes:
+                case AttributeControlType.RadioList:
+                    {
+                        <li style="padding-left: 63px;"><span>@textPrompt</span>@attribute.DefaultValue<div style="clear:both;"></div></li>
+                        @*foreach (var caValue in attribute.Values)
+                            {
+                                if (caValue.IsPreSelected)
+                                {
+                                <li style="padding-left: 63px;"><span>@textPrompt</span>@caValue.Name<div style="clear:both;"></div></li>
+                                }
+                            }*@
+                    }
+                    break;
+
+                case AttributeControlType.TextBox:
+                case AttributeControlType.MultilineTextbox:
+                    {
+                        <li style="padding-left: 63px;"><span>@textPrompt</span>@attribute.DefaultValue<div style="clear:both;"></div></li>
+                    }
+                    break;
+                case AttributeControlType.Datepicker:
+                    {
+                        <li style="padding-left: 63px;"><span>@textPrompt</span>@attribute.DefaultValue<div style="clear:both;"></div></li>
+                        @*@Html.DatePickerDropDowns(controlId + "_day", controlId + "_month", controlId + "_year", DateTime.Now.Year, DateTime.Now.Year + 1, attribute.SelectedDay, attribute.SelectedMonth, attribute.SelectedYear)*@
+                    }
+                    break;
+                case AttributeControlType.FileUpload:
+                    {
+
+                    }
+                    break;
+                case AttributeControlType.VideoUpload:
+                    {
+                        var downloadService = EngineContext.Current.Resolve<CAF.WebSite.Application.Services.Media.IDownloadService>();
+                        var download = downloadService.GetDownloadById(attribute.DefaultValue.ToInt());
+                        var downUrl = Url.Action("GetFileUploadById", "Download", new { id = download.Id });
+                        <li>
+                            <div class="close_light_bg" id="close_light_bg"></div>
+                            <div class="video" id="CuPlayer"><b><img src="~/Themes/AlphaCosmetics/Content/js/player/loading.gif" /> 网页视频播放器加载中，请稍后...</b></div>
+                            <script type="text/javascript" src="~/Themes/AlphaCosmetics/Content/js/player/swfobject.js"></script>
+                          
+                            <script type="text/javascript">
+                                var so = new SWFObject("/Themes/AlphaCosmetics/Content/js/player/player.swf?FlvID=@Model.Id", "ply", "600", "410", "9", "#000000");
+                                so.addParam("allowfullscreen", "true");
+                                so.addParam("allowscriptaccess", "always");
+                                so.addParam("wmode", "opaque");
+                                so.addParam("quality", "high");
+                                so.addParam("salign", "lt");
+                                //播放器设置文件-----------------------------
+                                so.addVariable("JcScpFile", "@Url.Action("VideoShow")");
+                                so.addVariable("JcScpVideoPath", "/Media/Uploaded/20-2.flv");
+                                so.addVariable("JcScpVideoPathHD", "/Media/Uploaded/20-2.flv");
+                                //视频文件及略缩图--------------------------
+                                so.addVariable("JcScpImg", "/Themes/AlphaCosmetics/Content/js/player/startpic.jpg");
+                                //-前置Flash广告-----------------------------
+                                so.addVariable("ShowJcScpAFront", "yes");
+                                so.addVariable("JcScpCountDownsPosition", "top-left");
+                                so.addVariable("JcScpCountDowns", "5");
+                                so.addVariable("JcScpAFrontW", "600");
+                                so.addVariable("JcScpAFrontH", "410");
+                                so.addVariable("JcScpAFrontPath", "/Themes/AlphaCosmetics/Content/js/player/a650x418.swf");
+                                so.addVariable("JcScpAFrontLink", "http://demo.cuplayer.com/CuSunPlayer/demo1.html");
+                                so.write("CuPlayer");
+                            </script>
+                            <script type="text/javascript" src="~/Themes/AlphaCosmetics/Content/js/player/action.js"></script>
+                        </li>
+                    }
+                    break;
+            }
+
+        }
+    </ul>
+
+}

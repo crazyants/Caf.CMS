@@ -1,0 +1,48 @@
+﻿@model ArticleCategoryModel
+@using CAF.Infrastructure.Core.Domain.Seo;
+@{
+    Layout = "~/Themes/AlphaGuoAo/Views/Shared/_ColumnsOne.cshtml";
+
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+
+    var canonicalUrlsEnabled = EngineContext.Current.Resolve<SeoSettings>().CanonicalUrlsEnabled;
+    if (canonicalUrlsEnabled)
+    {
+        var categoryUrl = Url.RouteUrl("ArticleCategory", new { SeName = Model.SeName }, this.Request.Url.Scheme);
+        Html.AddCanonicalUrlParts(categoryUrl);
+    }
+
+
+}
+
+<section class="main">
+    @Html.Action("CategoryNavigation", "ArticleCatalog", new { currentCategoryId = Model.Id, currentArticleId = this.CurrentArticleId, onlyShowChildren = true, showParent = false, templateView = "NewCategoryNavigation", area = "" })
+    @if (Model.Articles.Count > 0)
+    {
+        <div class="page-width clearfix">
+            <div class="full-page-content">
+                <div class="full-page-content-wrapper">
+                    <div class="module-default">
+                        <div class="module-inner">
+                            <div class="module-content">
+                                <div class="portfolio-list article-list ieCode-del">
+                                    <ul class="row2-svar clearfix">
+                                        @foreach (var article in Model.Articles)
+                                        {
+                                            @Html.Partial("_ArticleBoxList", article)
+                                        }
+                                    </ul>
+                                </div>
+                                @Html.CafSite().Pager(Model.PagingFilteringContext).Name("pagination-bottom").QueryParam("pagenumber").ShowFirst(true).ShowLast(true).ShowNext(true).ShowPrevious(true)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</section>
+
+

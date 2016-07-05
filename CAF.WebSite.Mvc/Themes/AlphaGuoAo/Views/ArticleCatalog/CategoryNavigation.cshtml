@@ -1,0 +1,86 @@
+﻿@model NavigationModel
+@using CAF.Infrastructure.Core.Domain.Cms.Articles;
+@using CAF.WebSite.Mvc.Models.ArticleCatalog;
+@using CAF.Infrastructure.Core.Collections
+@functions {
+    private string GetCssClassForNode(NodePathState state)
+    {
+        var liClasses = new List<string>();
+
+        if ((state & NodePathState.Parent) == NodePathState.Parent)
+        {
+            liClasses.Add("dropdown");
+        }
+
+        if ((state & NodePathState.Expanded) == NodePathState.Expanded)
+        {
+            liClasses.Add("expanded");
+        }
+
+        if ((state & NodePathState.Selected) == NodePathState.Selected)
+        {
+            liClasses.Add("active");
+        }
+
+        return liClasses.Count > 0 ? String.Join(" ", liClasses) : null;
+    }
+
+    private bool ShouldRenderChildren(NodePathState state)
+    {
+        if (!((state & NodePathState.Parent) == NodePathState.Parent) || !Model.Path.Any())
+            return false;
+
+        if ((state & NodePathState.Expanded) == NodePathState.Expanded || (state & NodePathState.Selected) == NodePathState.Selected)
+        {
+            return true;
+        }
+
+        return false;
+    }
+}
+<section class="sidebar float-left">
+    <div class="sidebar-content">
+        <div class="module module-hlbg">
+            <div class="module-inner">
+                <div class="module-hlbg-title clearfix">
+                    <h3 class="" style="">@Model.Root.Value.Text</h3>
+                </div>
+                <div class="module-hlbg-content">
+                    @if (Model.Root.HasChildren)
+                    {
+                        <div class="category category-left product-category">
+                            <ul>
+                                @CreateMenu(Model.Root.Children, "")
+                            </ul>
+                        </div>
+                        <script type="text/javascript">
+                            $(document).ready(function () {
+                                $('.category-left ul').find('li:last').addClass('last');
+
+                                $('.category-left > ul > li > a, .category-left > ul > li > i').click(function () {
+                                    if ($(this).parent('li').find('ul')) {
+                                        $(this).parent('li').find('ul').slideDown('fast');
+                                        $(this).parent('li').siblings('li').find('ul').slideUp('fast');
+                                        $(this).parent('li').addClass('current').siblings('li').removeClass('current');
+                                    }
+                                });
+
+                            });
+                        </script>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@helper CreateMenu(IEnumerable<TreeNode<MenuItem>> nodes, string menuSelector)
+{
+    foreach (var node in nodes)
+    {
+        var state = node.GetNodePathState(Model.Path);
+        var url = node.Value.GenerateUrl(this.Url);
+        <li class=""><a href="@url">@node.Value.Text</a></li>
+    }
+
+}
+

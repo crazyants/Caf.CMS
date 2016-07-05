@@ -1,0 +1,33 @@
+﻿@model FooterModel
+<div class="bottom--link"></div>
+<footer class="footer">
+    <div class="width">
+        <div class="foot-nav">
+            <a href="@Url.RouteUrl("Topic", new { SystemName = "information" })" title="关于我们">关于我们</a><span>|</span>
+            <a href="@Url.RouteUrl("Topic", new { SystemName = "information" })" title="公司产品">公司产品</a><span>|</span>
+            <a href="@Url.RouteUrl("Topic", new { SystemName = "information" })" title="护理知识">护理知识</a><span>|</span>
+            <a href="@Url.RouteUrl("Topic", new { SystemName = "information" })" title="友情链接">友情链接</a><span>|</span>
+            <a href="@Url.RouteUrl("Topic", new { SystemName = "information" })" title="公司简介">公司简介</a><span>|</span>
+            <a href="@Url.RouteUrl("Topic", new { SystemName = "information" })" title="公司文化">公司文化</a><span>|</span>
+            <a href="@Url.RouteUrl("Topic", new { SystemName = "information" })" title="联系我们">联系我们</a><span>|</span>
+            <a href="@Url.RouteUrl("Topic", new { SystemName = "information" })" title="人气推荐">人气推荐</a>
+        </div>
+        <div class="foot-text">
+            <p>
+                护肤品公司 版权所有 2008-2012 湘ICP备8888888
+                <script src="http://www.91mb.com.cn/metinfo/metinfo.js"></script>
+            </p>
+            <p>电话：0731-12345678 12345678  QQ:88888888 999999  Email:mubaipeizhi@163.cn</p>
+            <p></p>
+            <div id="metinfo_91mb_Powered">
+                <div class="powered_by_metinfo">
+                    @Html.Raw(Model.CafSiteHint) @T("Content.CopyrightNotice", DateTime.Now.Year.ToString(), @Model.SiteName)
+                    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://"); document.write(unescape("%3Cspan id='cnzz_stat_icon_1255401919'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1255401919%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+                </div>
+            </div>
+            <p></p>
+
+
+        </div>
+    </div>
+</footer>

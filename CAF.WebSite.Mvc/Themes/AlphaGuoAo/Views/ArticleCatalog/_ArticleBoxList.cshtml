@@ -1,0 +1,24 @@
+﻿@model ArticlePostModel
+@{
+
+}
+
+<li class="col-4-1 fadeInUp animated" data-animate="fadeInUp" data-delay="200">
+    <div class="portfolio-item">
+        <div class="portfolio-img">
+            <a href="@Url.RouteUrl("Article", new { SeName = Model.SeName })" target="_blank">
+                <img src="@Model.DefaultPictureModel.ImageUrl" alt="@Model.DefaultPictureModel.Title">
+            </a>
+        </div>
+        <div class="portfolio-title">
+            <h2>
+                <a href="@Url.RouteUrl("Article", new { SeName = Model.SeName })" target="_blank">@Html.Raw(Model.Title)</a>
+            </h2>
+        </div>
+        <div class="portfolio-summary">
+            <div class="qhd-content">
+                @Html.Raw(Model.ShortContent.Truncate(50, "..."))
+            </div>
+        </div><em></em>
+    </div>
+</li>

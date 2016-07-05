@@ -1,0 +1,935 @@
+﻿@model GeneralUserSettingsModel
+@using CAF.Infrastructure.Core.Domain.Users;
+@{
+    //page title
+    ViewBag.Title = T("Admin.Configuration.Settings.GeneralUser").Text;
+}
+@using (Html.BeginForm())
+{
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase">@T("Admin.Configuration.Settings.GeneralUser") </span>
+                        <span class="caption-helper"></span>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" name="save" value="save" class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;@T("Admin.Common.Save")</button>
+                    </div>
+                </div>
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                    @Html.Action("SiteScopeConfiguration", "Setting")
+                    @Html.ValidationSummary(false)
+
+                    @Html.CafSite().TabStrip().Name("usersettings-edit").Items(x =>
+                        {
+                            x.Add().Text(T("Admin.Configuration.Settings.GeneralUser.UserSettings").Text).Content(TabUserSettings()).Selected(true);
+                            x.Add().Text(T("Admin.Configuration.Settings.GeneralUser.UserFormFields").Text).Content(TabUserFormFields().ToHtmlString());
+                            x.Add().Text(T("Admin.Configuration.Settings.GeneralUser.AddressFormFields").Text).Content(TabAddressFormFields().ToHtmlString());
+                            x.Add().Text(T("Admin.Configuration.Settings.GeneralUser.DateTimeSettings").Text).Content(TabDateTimeSettings());
+                            x.Add().Text(T("Admin.Configuration.Settings.GeneralUser.ExternalAuthenticationSettings").Text).Content(TabExternalAuthenticationSettings());
+
+                            //generate an event
+                            EngineContext.Current.Resolve<IEventPublisher>().Publish(new TabStripCreated(x, "usersettings-edit", this.Html, this.Model));
+                        })
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}
+@helper TabUserSettings()
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('input[id="@Html.FieldIdFor(model => model.UserSettings.AllowUsersToUploadAvatars)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleAvatar(state);
+            });
+            $('input[id="@Html.FieldIdFor(model => model.UserSettings.UserNamesEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleUserName(state);
+            });
+
+            toggleAvatar(@Model.UserSettings.AllowUsersToUploadAvatars.ToString().ToLower());
+            toggleUserName(@Model.UserSettings.UserNamesEnabled.ToString().ToLower());
+        });
+
+        function toggleAvatar(state) {
+            if (state) {
+                $('#pnlDefaultAvatarEnabled').show();
+            }
+            else {
+                $('#pnlDefaultAvatarEnabled').hide();
+            }
+        }
+
+        function toggleUserName(state) {
+            if (state) {
+                $('#pnlAllowUsersToChangeUserNames').show();
+                $('#pnlCheckUserNameAvailability').show();
+            }
+            else {
+                $('#pnlAllowUsersToChangeUserNames').hide();
+                $('#pnlCheckUserNameAvailability').hide();
+            }
+        }
+
+    </script>
+
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.UserSettings.UserNamesEnabled)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.UserNamesEnabled, "small")
+                    @Html.ValidationMessageFor(model => model.UserSettings.UserNamesEnabled)
+                </div>
+            </div>
+        </div>
+        <div id="pnlAllowUsersToChangeUserNames" class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.UserSettings.AllowUsersToChangeUserNames)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.AllowUsersToChangeUserNames, "small")
+                    @Html.ValidationMessageFor(model => model.UserSettings.AllowUsersToChangeUserNames)
+                </div>
+            </div>
+        </div>
+        <div id="pnlCheckUserNameAvailability" class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.UserSettings.CheckUserNameAvailabilityEnabled)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.CheckUserNameAvailabilityEnabled, "small")
+                    @Html.ValidationMessageFor(model => model.UserSettings.CheckUserNameAvailabilityEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.UserSettings.UserRegistrationType)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingOverrideCheckbox(model => Model.UserSettings.UserRegistrationType)
+                    @Html.DropDownListFor(model => model.UserSettings.UserRegistrationType, ((UserRegistrationType)Model.UserSettings.UserRegistrationType).ToSelectList(), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.UserSettings.UserRegistrationType)
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.AllowUsersToUploadAvatars)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.AllowUsersToUploadAvatars)
+                    @Html.ValidationMessageFor(model => model.UserSettings.AllowUsersToUploadAvatars)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlDefaultAvatarEnabled">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.DefaultAvatarEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.DefaultAvatarEnabled)
+                    @Html.ValidationMessageFor(model => model.UserSettings.DefaultAvatarEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.ShowUsersLocation)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.ShowUsersLocation)
+                    @Html.ValidationMessageFor(model => model.UserSettings.ShowUsersLocation)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.ShowUsersJoinDate)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.ShowUsersJoinDate)
+                    @Html.ValidationMessageFor(model => model.UserSettings.ShowUsersJoinDate)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.AllowViewingProfiles)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.AllowViewingProfiles)
+                    @Html.ValidationMessageFor(model => model.UserSettings.AllowViewingProfiles)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.NotifyNewUserRegistration)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.NotifyNewUserRegistration)
+                    @Html.ValidationMessageFor(model => model.UserSettings.NotifyNewUserRegistration)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.HideDownloadableArticlesTab)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.HideDownloadableArticlesTab)
+                    @Html.ValidationMessageFor(model => model.UserSettings.HideDownloadableArticlesTab)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.UserNameFormat)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingOverrideCheckbox(model => Model.UserSettings.UserRegistrationType)
+                    @Html.DropDownListFor(model => model.UserSettings.UserNameFormat, ((UserNameFormat)Model.UserSettings.UserNameFormat).ToSelectList(), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.UserSettings.UserNameFormat)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.UserNameFormatMaxLength)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.UserNameFormatMaxLength)
+                    @Html.ValidationMessageFor(model => model.UserSettings.UserNameFormatMaxLength)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.HideNewsletterBlock)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.HideNewsletterBlock)
+                    @Html.ValidationMessageFor(model => model.UserSettings.HideNewsletterBlock)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.SiteLastVisitedPage)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.SiteLastVisitedPage)
+                    @Html.ValidationMessageFor(model => model.UserSettings.SiteLastVisitedPage)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.DefaultPasswordFormat)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.DropDownListFor(model => model.UserSettings.DefaultPasswordFormat, ((PasswordFormat)Model.UserSettings.DefaultPasswordFormat).ToSelectList(), new { @class="form-control"})
+                    @Html.ValidationMessageFor(model => model.UserSettings.DefaultPasswordFormat)
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@helper TabUserFormFields()
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('input[id="@Html.FieldIdFor(model => model.UserSettings.CountryEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleUserCountryFormField(state);
+            });
+            $('input[id="@Html.FieldIdFor(model => model.UserSettings.CompanyEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleUserRequiredFormField(state,1);
+            });
+            $('input[id="@Html.FieldIdFor(model => model.UserSettings.StreetAddressEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleUserRequiredFormField(state,2);
+            });
+            $('input[id="@Html.FieldIdFor(model => model.UserSettings.StreetAddress2Enabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleUserRequiredFormField(state,3);
+            });
+            $('input[id="@Html.FieldIdFor(model => model.UserSettings.ZipPostalCodeEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleUserRequiredFormField(state,4);
+            });
+            $('input[id="@Html.FieldIdFor(model => model.UserSettings.CityEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleUserRequiredFormField(state,5);
+            });
+            $('input[id="@Html.FieldIdFor(model => model.UserSettings.PhoneEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleUserRequiredFormField(state,6);
+            });
+            $('input[id="@Html.FieldIdFor(model => model.UserSettings.FaxEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleUserRequiredFormField(state,7);
+            });
+
+            toggleUserCountryFormField(@Model.UserSettings.CountryEnabled.ToString().ToLower());
+            toggleUserRequiredFormField(@Model.UserSettings.CompanyEnabled.ToString().ToLower(),1);
+            toggleUserRequiredFormField(@Model.UserSettings.StreetAddressEnabled.ToString().ToLower(),2);
+            toggleUserRequiredFormField(@Model.UserSettings.StreetAddress2Enabled.ToString().ToLower(),3);
+            toggleUserRequiredFormField(@Model.UserSettings.ZipPostalCodeEnabled.ToString().ToLower(),4);
+            toggleUserRequiredFormField(@Model.UserSettings.CityEnabled.ToString().ToLower(),5);
+            toggleUserRequiredFormField(@Model.UserSettings.PhoneEnabled.ToString().ToLower(),6);
+            toggleUserRequiredFormField(@Model.UserSettings.FaxEnabled.ToString().ToLower(),7);
+        });
+
+        function toggleUserCountryFormField(state) {
+            if (state) {
+                $('#pnlUserStateProvinceEnabled').show();
+            }
+            else {
+                $('#pnlUserStateProvinceEnabled').hide();
+            }
+        }
+
+        function toggleUserRequiredFormField(state,index) {
+            if (index == 1) {
+                if (state) {
+                    $('#pnlUserCompanyRequired').show();
+                }
+                else {
+                    $('#pnlUserCompanyRequired').hide();
+                }
+            }
+            if (index == 2) {
+                if (state) {
+                    $('#pnlUserStreetAddressRequired').show();
+                }
+                else {
+                    $('#pnlUserStreetAddressRequired').hide();
+                }
+            }
+            if (index == 3) {
+                if (state) {
+                    $('#pnlUserStreetAddress2Required').show();
+                }
+                else {
+                    $('#pnlUserStreetAddress2Required').hide();
+                }
+            }
+
+            if (index == 4) {
+                if (state) {
+                    $('#pnlUserZipPostalCodeRequired').show();
+                }
+                else {
+                    $('#pnlUserZipPostalCodeRequired').hide();
+                }
+            }
+            if (index == 5) {
+                if (state) {
+                    $('#pnlUserCityRequired').show();
+                }
+                else {
+                    $('#pnlUserCityRequired').hide();
+                }
+            }
+            if (index == 6) {
+                if (state) {
+                    $('#pnlUserPhoneRequired').show();
+                }
+                else {
+                    $('#pnlUserPhoneRequired').hide();
+                }
+            }
+            if (index == 7) {
+                if (state) {
+                    $('#pnlUserFaxRequired').show();
+                }
+                else {
+                    $('#pnlUserFaxRequired').hide();
+                }
+            }
+        }
+
+    </script>
+
+    <div class="alert alert-info">
+        <button class="close" data-dismiss="alert">×</button>
+        @T("Admin.Configuration.Settings.GeneralUser.UserFormFields.Description")
+    </div>
+
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.GenderEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.GenderEnabled)
+                    @Html.ValidationMessageFor(model => model.UserSettings.GenderEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.DateOfBirthEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.DateOfBirthEnabled)
+                    @Html.ValidationMessageFor(model => model.UserSettings.DateOfBirthEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.CompanyEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.CompanyEnabled)
+                    @Html.ValidationMessageFor(model => model.UserSettings.CompanyEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlCompanyRequired">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.CompanyRequired)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.CompanyRequired)
+                    @Html.ValidationMessageFor(model => model.UserSettings.CompanyRequired)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.StreetAddressEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.StreetAddressEnabled)
+                    @Html.ValidationMessageFor(model => model.UserSettings.StreetAddressEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlStreetAddressRequired">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.StreetAddressRequired)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.StreetAddressRequired)
+                    @Html.ValidationMessageFor(model => model.UserSettings.StreetAddressRequired)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.StreetAddress2Enabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.StreetAddress2Enabled)
+                    @Html.ValidationMessageFor(model => model.UserSettings.StreetAddress2Enabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlStreetAddress2Required">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.StreetAddress2Required)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.StreetAddress2Required)
+                    @Html.ValidationMessageFor(model => model.UserSettings.StreetAddress2Required)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.ZipPostalCodeEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.ZipPostalCodeEnabled)
+                    @Html.ValidationMessageFor(model => model.UserSettings.ZipPostalCodeEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlZipPostalCodeRequired">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.ZipPostalCodeRequired)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.ZipPostalCodeRequired)
+                    @Html.ValidationMessageFor(model => model.UserSettings.ZipPostalCodeRequired)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.CityEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.CityEnabled)
+                    @Html.ValidationMessageFor(model => model.UserSettings.CityEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlCityRequired">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.CityRequired)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.CityRequired)
+                    @Html.ValidationMessageFor(model => model.UserSettings.CityRequired)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.CountryEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.CountryEnabled)
+                    @Html.ValidationMessageFor(model => model.UserSettings.CountryEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlStateProvincEnabled">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.StateProvinceEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.StateProvinceEnabled)
+                    @Html.ValidationMessageFor(model => model.UserSettings.StateProvinceEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.PhoneEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.PhoneEnabled)
+                    @Html.ValidationMessageFor(model => model.UserSettings.PhoneEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlPhoneRequired">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.PhoneRequired)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.PhoneRequired)
+                    @Html.ValidationMessageFor(model => model.UserSettings.PhoneRequired)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.FaxEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.FaxEnabled, "")
+                    @Html.ValidationMessageFor(model => model.UserSettings.FaxEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlFaxRequired">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.FaxRequired)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.FaxRequired)
+                    @Html.ValidationMessageFor(model => model.UserSettings.FaxRequired)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.UserSettings.NewsletterEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.UserSettings.NewsletterEnabled)
+                    @Html.ValidationMessageFor(model => model.UserSettings.NewsletterEnabled)
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@helper TabAddressFormFields()
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('input[id="@Html.FieldIdFor(model => model.AddressSettings.CountryEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleAddressCountryFormField(state);
+            });
+            $('input[id="@Html.FieldIdFor(model => model.AddressSettings.CompanyEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleAddressRequiredFormField(state,1);
+            });
+            $('input[id="@Html.FieldIdFor(model => model.AddressSettings.StreetAddressEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleAddressRequiredFormField(state,2);
+            });
+            $('input[id="@Html.FieldIdFor(model => model.AddressSettings.StreetAddress2Enabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleAddressRequiredFormField(state,3);
+            });
+            $('input[id="@Html.FieldIdFor(model => model.AddressSettings.ZipPostalCodeEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleAddressRequiredFormField(state,4);
+            });
+            $('input[id="@Html.FieldIdFor(model => model.AddressSettings.CityEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleAddressRequiredFormField(state,5);
+            });
+            $('input[id="@Html.FieldIdFor(model => model.AddressSettings.PhoneEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleAddressRequiredFormField(state,6);
+            });
+            $('input[id="@Html.FieldIdFor(model => model.AddressSettings.FaxEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleAddressRequiredFormField(state,7);
+            });
+
+
+            toggleAddressCountryFormField(@Model.AddressSettings.CountryEnabled.ToString().ToLower());
+            toggleAddressRequiredFormField(@Model.AddressSettings.CompanyEnabled.ToString().ToLower(),1);
+            toggleAddressRequiredFormField(@Model.AddressSettings.StreetAddressEnabled.ToString().ToLower(),2);
+            toggleAddressRequiredFormField(@Model.AddressSettings.StreetAddress2Enabled.ToString().ToLower(),3);
+            toggleAddressRequiredFormField(@Model.AddressSettings.ZipPostalCodeEnabled.ToString().ToLower(),4);
+            toggleAddressRequiredFormField(@Model.AddressSettings.CityEnabled.ToString().ToLower(),5);
+            toggleAddressRequiredFormField(@Model.AddressSettings.PhoneEnabled.ToString().ToLower(),6);
+            toggleAddressRequiredFormField(@Model.AddressSettings.FaxEnabled.ToString().ToLower(),7);
+        });
+
+        function toggleAddressCountryFormField(state) {
+            if (state) {
+                $('#pnlAddressStateProvinceEnabled').show();
+            }
+            else {
+                $('#pnlAddressStateProvinceEnabled').hide();
+            }
+        }
+
+        function toggleAddressRequiredFormField(state,index) {
+            if (index == 1) {
+                if (state) {
+                    $('#pnlAddressCompanyRequired').show();
+                }
+                else {
+                    $('#pnlAddressCompanyRequired').hide();
+                }
+            }
+
+            if (index == 2) {
+                if (state) {
+                    $('#pnlAddressStreetAddressRequired').show();
+                }
+                else {
+                    $('#pnlAddressStreetAddressRequired').hide();
+                }
+            }
+            if (index == 3) {
+                if (state) {
+
+                    $('#pnlAddressStreetAddress2Required').show();
+                }
+                else {
+                    $('#pnlAddressStreetAddress2Required').hide();
+                }
+            }
+            if (index == 4) {
+                if (state) {
+                    $('#pnlAddressZipPostalCodeRequired').show();
+                }
+                else {
+                    $('#pnlAddressZipPostalCodeRequired').hide();
+                }
+            }
+
+            if (index == 5) {
+                if (state) {
+                    $('#pnlAddressCityRequired').show();
+                }
+                else {
+                    $('#pnlAddressCityRequired').hide();
+                }
+            }
+            if (index == 6) {
+                if (state) {
+                    $('#pnlAddressPhoneRequired').show();
+                }
+                else {
+                    $('#pnlAddressPhoneRequired').hide();
+                }
+            }
+            if (index ==7) {
+                if (state) {
+                    $('#pnlAddressFaxRequired').show();
+                }
+                else {
+                    $('#pnlAddressFaxRequired').hide();
+                }
+            }
+        }
+
+    </script>
+
+    <div class="alert alert-info">
+        <button class="close" data-dismiss="alert">×</button>
+        @T("Admin.Configuration.Settings.GeneralUser.AddressFormFields.Description")
+    </div>
+
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AddressSettings.ValidateEmailAddress)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AddressSettings.ValidateEmailAddress)
+                    @Html.ValidationMessageFor(model => model.AddressSettings.ValidateEmailAddress)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AddressSettings.CompanyEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AddressSettings.CompanyEnabled)
+                    @Html.ValidationMessageFor(model => model.AddressSettings.CompanyEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlAddressCompanyRequired">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AddressSettings.CompanyRequired)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AddressSettings.CompanyRequired)
+                    @Html.ValidationMessageFor(model => model.AddressSettings.CompanyRequired)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AddressSettings.StreetAddressEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AddressSettings.StreetAddressEnabled)
+                    @Html.ValidationMessageFor(model => model.AddressSettings.StreetAddressEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlAddressStreetAddressRequired">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AddressSettings.StreetAddressRequired)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AddressSettings.StreetAddressRequired)
+                    @Html.ValidationMessageFor(model => model.AddressSettings.StreetAddressRequired)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AddressSettings.StreetAddress2Enabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AddressSettings.StreetAddress2Enabled)
+                    @Html.ValidationMessageFor(model => model.AddressSettings.StreetAddress2Enabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlAddressStreetAddress2Required">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AddressSettings.StreetAddress2Required)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AddressSettings.StreetAddress2Required)
+                    @Html.ValidationMessageFor(model => model.AddressSettings.StreetAddress2Required)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AddressSettings.ZipPostalCodeEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AddressSettings.ZipPostalCodeEnabled)
+                    @Html.ValidationMessageFor(model => model.AddressSettings.ZipPostalCodeEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlAddressZipPostalCodeRequired">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AddressSettings.ZipPostalCodeRequired)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AddressSettings.ZipPostalCodeRequired)
+                    @Html.ValidationMessageFor(model => model.AddressSettings.ZipPostalCodeRequired)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AddressSettings.CityEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AddressSettings.CityEnabled)
+                    @Html.ValidationMessageFor(model => model.AddressSettings.CityEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlAddressCityRequired">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AddressSettings.CityRequired)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AddressSettings.CityRequired)
+                    @Html.ValidationMessageFor(model => model.AddressSettings.CityRequired)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AddressSettings.CountryEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AddressSettings.CountryEnabled)
+                    @Html.ValidationMessageFor(model => model.AddressSettings.CountryEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlAddressStateProvinceEnabled">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AddressSettings.StateProvinceEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AddressSettings.StateProvinceEnabled)
+                    @Html.ValidationMessageFor(model => model.AddressSettings.StateProvinceEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AddressSettings.PhoneEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AddressSettings.PhoneEnabled)
+                    @Html.ValidationMessageFor(model => model.AddressSettings.PhoneEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlAddressPhoneRequired">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AddressSettings.PhoneRequired)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AddressSettings.PhoneRequired)
+                    @Html.ValidationMessageFor(model => model.AddressSettings.PhoneRequired)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AddressSettings.FaxEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AddressSettings.FaxEnabled)
+                    @Html.ValidationMessageFor(model => model.AddressSettings.FaxEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="pnlAddressFaxRequired">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.AddressSettings.FaxRequired)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.AddressSettings.FaxRequired)
+                    @Html.ValidationMessageFor(model => model.AddressSettings.FaxRequired)
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@helper TabDateTimeSettings()
+{
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.DateTimeSettings.AllowUsersToSetTimeZone)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.DateTimeSettings.AllowUsersToSetTimeZone)
+                    @Html.ValidationMessageFor(model => model.DateTimeSettings.AllowUsersToSetTimeZone)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.DateTimeSettings.DefaultSiteTimeZoneId)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingOverrideCheckbox(model => model.DateTimeSettings.DefaultSiteTimeZoneId)
+                    @Html.DropDownListFor(model => model.DateTimeSettings.DefaultSiteTimeZoneId, Model.DateTimeSettings.AvailableTimeZones, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.DateTimeSettings.DefaultSiteTimeZoneId)
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@helper TabExternalAuthenticationSettings()
+{
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">
+                @Html.LangLabelFor(model => model.ExternalAuthenticationSettings.AutoRegisterEnabled)
+            </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.ExternalAuthenticationSettings.AutoRegisterEnabled)
+                    @Html.ValidationMessageFor(model => model.ExternalAuthenticationSettings.AutoRegisterEnabled)
+                </div>
+            </div>
+        </div>
+    </div>
+}

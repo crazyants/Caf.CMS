@@ -1,0 +1,127 @@
+﻿@{
+    Layout = "~/Themes/AlphaGuoAo/Views/Shared/_Layout.Head.cshtml";
+    Html.AddBodyCssClass("corporate");
+
+}
+<div id="wrapper" class="insi-page">
+    @if (IsSectionDefined("header"))
+    {
+        @RenderSection("header")
+    }
+    else
+    {
+        <header class="top header-v1 desktops-section default-top">
+            <div class="top-main">
+                <div class="page-width clearfix">
+                    @Html.Action("Header", "Common", new { area = "" })
+
+                    @Html.Action("MegaMenu", "ArticleCatalog", new { currentCategoryId = this.CurrentArticleCategoryId, currentArticleId = this.CurrentArticleId, area = "" })
+                </div>
+            </div>
+            <div class="clear"></div>
+        </header>
+    }
+
+
+    <div class="header">
+        <div class="module-default">
+            <div class="module-inner">
+                <div class="module-content">
+                    <div class="slideshow slideshow-min carousel clearfix" style="height:350px; overflow:hidden;">
+                        <div id="carousel-a">
+                            <div class="carousel-item">
+                                <div class="carousel-img">
+                                    <a href="javascript:;" target="">
+                                        <img src="~/Themes/AlphaGuoAo/Content/images/page/company_banner.jpg" height="350" alt="广告轮换1">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-btn carousel-btn-fixed" id="carousel-page-a"></div>
+                    </div>
+                    <script type="text/javascript">
+                    $(window).bind("load resize", function () {
+                        $("#carousel-a").carouFredSel({
+                            width: '100%',
+                            items: { visible: 1 },
+                            auto: { pauseOnHover: true, timeoutDuration: 5000 },
+                            swipe: { onTouch: true, onMouse: true },
+                            pagination: "#carousel-page-a",
+                            scroll: { fx: "crossfade" }
+                        });
+                    });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @RenderBody()
+
+    @if (IsSectionDefined("footer"))
+    {
+        @RenderSection("footer")
+    }
+    else
+    {
+        @Html.Action("Footer", "Common", new { area = "" })
+    }
+</div>
+    <div class="QHDEmptyArea fixed-bottom"></div>
+
+    <div id="a1portalSkin_fixed-right" class="fixed-side fixed-right" style="top: 917.5px;">
+        <!-- Start_Module -->
+        <div class="module-default">
+            <div class="module-inner">
+                <div class="module-content">
+                    <!-- Start_Module --><div class="link-fixed-side">
+                        <ul>
+                            <li class="first">
+                                <a href="http://wpa.qq.com/msgrd?v=3&amp;uin=3286619561&amp;site=qq&amp;menu=yes" class="link-name" target="_blank">
+                                    <i style="background-image:url(/Themes/AlphaGuoAo/Content/images/qq_UniformFill.png);" alt="加盟咨询"></i>
+                                    <span>加盟咨询</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="http://wpa.qq.com/msgrd?v=3&amp;uin=3286619561&amp;site=qq&amp;menu=yes" class="link-name" target="_blank">
+                                    <i style="background-image:url(/Themes/AlphaGuoAo/Content/images/qq_UniformFill.png);" alt="价格咨询"></i>
+                                    <span>价格咨询</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="http://wpa.qq.com/msgrd?v=3&amp;uin=3286619561&amp;site=qq&amp;menu=yes" class="link-name" target="_blank">
+                                    <i style="background-image:url(/Themes/AlphaGuoAo/Content/images/user_UniformFill.png);" alt="售后客服"></i>
+                                    <span>售后客服</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- End_Module -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup" class="popup">
+        <div class="popup-content not-animated" data-animate="fadeInDown">
+            <div id="a1portalSkin_popup-area" class="QHDEmptyArea popup-content-wrapper">
+            </div>
+            <div class="popup-close-btn">
+                <a href="javascript:;" title="关闭"><span>关闭</span></a>
+            </div>
+        </div>
+        <div class="popup-overlay"></div>
+    </div>
+
+    <div class="gotop-wrapper">
+        <a href="javascript:;" class="fixed-gotop gotop" style="display: block;"></a>
+    </div>
+
+    @if (IsSectionDefined("FootScript"))
+    {
+        @RenderSection("FootScript", required: false)
+    }
+    else
+    {
+
+    }

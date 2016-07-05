@@ -1,0 +1,145 @@
+﻿@model CAF.WebSite.Mvc.Admin.Models.Common.SystemInfoModel
+@{
+    //page title
+    ViewBag.Title = T("Admin.System.SystemInfo").Text;
+}
+ 
+<script type="text/javascript">
+    function toggleAndChangeText() {
+        $('#pnlLoadedAssemblies').toggle();
+        if ($('#pnlLoadedAssemblies').css('display') == 'none') {
+            $('#loadedAssembliesTag').html('@T("Admin.Common.Show")');
+        }
+        else {
+            $('#loadedAssembliesTag').html('@T("Admin.Common.Hide")');
+        }
+    }
+</script>
+ 
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="section-header sticky">
+                <div class="caption">
+                    <i class="icon-equalizer font-red-sunglo"></i>
+                    <span class="caption-subject font-red-sunglo bold uppercase"> @T("Admin.System.SystemInfo")</span>
+                    <span class="caption-helper"></span>
+                </div>
+
+            </div>
+            <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                <div class="form-horizontal  form-body">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">@Html.LangLabelFor(model => model.AppVersion)</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">
+                                @Html.DisplayFor(model => model.AppVersion)
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">@Html.LangLabelFor(model => model.AppDate)</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">
+                                @Model.AppDate.ToString("F")
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">@Html.LangLabelFor(model => model.OperatingSystem)</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">
+                                @Html.DisplayFor(model => model.OperatingSystem)
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">@Html.LangLabelFor(model => model.AspNetInfo)</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">
+                                @Html.DisplayFor(model => model.AspNetInfo)
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">@Html.LangLabelFor(model => model.IsFullTrust)</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">
+                                @Html.DisplayFor(model => model.IsFullTrust)
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">@Html.LangLabelFor(model => model.ServerTimeZone)</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">
+                                @Html.DisplayFor(model => model.ServerTimeZone)
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">@Html.LangLabelFor(model => model.ServerLocalTime)</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">
+                                @Model.ServerLocalTime.ToString("F")
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">@Html.LangLabelFor(model => model.UtcTime)</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">
+                                @Model.UtcTime.ToString("F")
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">@Html.LangLabelFor(model => model.HttpHost)</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">
+                                @Model.HttpHost
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">@Html.LangLabelFor(model => model.DataProviderFriendlyName)</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">
+                                @Model.DataProviderFriendlyName.NaIfEmpty()
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">@Html.LangLabelFor(model => model.DatabaseSize)</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">
+                                @Model.DatabaseSizeString.NaIfEmpty()
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3">@Html.LangLabelFor(model => model.LoadedAssemblies)</label>
+                        <div class="col-md-9">
+                            <a id="loadedAssembliesTag" href="javascript:toggleAndChangeText();">@T("Admin.Common.Show")</a>
+                            <div id="pnlLoadedAssemblies" style="display:none">
+                                @foreach (var assembly in Model.LoadedAssemblies)
+                                {
+                                    @assembly.FullName
+                                    if (!String.IsNullOrEmpty(assembly.Location))
+                                    {
+                                        <br />
+                                        <i>@assembly.Location</i>
+                                    }
+                                    <br />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

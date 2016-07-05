@@ -1,0 +1,61 @@
+﻿@model TopicModel
+@{
+    Layout = "~/Themes/AlphaCosmetic/Views/Shared/_ColumnsTwo.cshtml";
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Title);
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+}
+@section left {
+ @Html.Partial("_PartialServiceLeft")
+}
+<div class="page-content" id="pageContent">
+    <div class="page-content-title float-fix">
+        <h3>@Html.Raw(Model.Title)</h3>
+        <div class="position">当前位置：<a href="@Url.RouteUrl("HomePage")" title="首页">首页</a>&gt;客户服务 &gt;@Html.Raw(Model.Title)</div>
+    </div>
+
+    <div class="active" id="feedback">
+        @using (Html.BeginForm("ContactUs", "Home", FormMethod.Post))
+        {
+            if (!ViewData.ModelState.IsValid)
+            {
+                @Html.ValidationSummary(true)
+            }
+            <table class="feedback_table">
+                <tbody>
+                    <tr>
+                        <td class="text">您的姓名</td>
+                        <td class="input">
+                            @Html.TextBox("FullName", "", new { @class = "input-text", placeholder = T("ContactUs.FullName.Hint") })
+                            @Html.ValidationMessage("FullName")
+                         <span class="info"></span><span></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text">邮箱地址</td>
+                        <td class="input">
+                            @Html.TextBox("Email","", new { @class = "input-text", size = "30", placeholder = T("ContactUs.Email.Hint") })
+                            @Html.ValidationMessage("Email")
+                        <span class="info"></span><span></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text">订购信息</td>
+                        <td class="input">
+                            @Html.TextArea("Enquiry", "", new { @class = "textarea-text", cols = "50", rows = "10", placeholder = T("ContactUs.Enquiry.Hint") })
+                            @Html.ValidationMessage("Enquiry")
+                        <span class="info"></span><span></span></td>
+                    </tr>
+                    <tr>
+                        <td class="text"></td>
+                        <td class="submint">
+                            <button type="submit" name="send-email" class="submit button orange">
+                                提交信息
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+
+    </div>
+
+</div>

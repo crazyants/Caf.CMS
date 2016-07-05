@@ -1,0 +1,452 @@
+﻿@model  ArticleModel
+@using CAF.Infrastructure.Core.Domain.Cms.Articles
+@{
+    var availableTags = Model.AvailableArticleTags.Select(x => x.Value).ToArray();
+    for (int i = 0; i < availableTags.Length; i++)
+    {
+        availableTags[i] = availableTags[i].EncodeJsString();
+    }
+    ViewBag.SerializedTags = String.Join(",", availableTags);
+
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('input[id="@Html.FieldIdFor(model => model.IsPasswordProtected)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+            togglePassword(state);
+        });
+
+        $('input[id="@Html.FieldIdFor(model => model.IsDownload)').on('switchChange.bootstrapSwitch', function (event, state) {
+            //console.log(this); // DOM element
+            //console.log(event); // jQuery event
+            toggleDownloadableArticle(state);
+            //console.log(state); // true | false
+        });
+        togglePassword(@Model.IsPasswordProtected.ToString().ToLower());
+        toggleDownloadableArticle(@Model.IsDownload.ToString().ToLower());
+        toggleUnlimitedDownloads(@Model.UnlimitedDownloads.ToString().ToLower());
+        var tagChooser = $("#@Html.FieldIdFor(x => x.ArticleTags)");
+        tagChooser.select2({ tags: [@(Html.Raw(ViewBag.SerializedTags))] });
+
+
+        @*var CategoryIdSelect = $("#@Html.FieldIdFor(x => x.CategoryId)");
+        CategoryIdSelect.on("change", function (e) {
+            if (e.val == '') return;
+
+            var categoryid = e.val;
+            loadArticleExtendedPartialView(categoryid)
+        });*@
+
+
+        loadArticleExtendedPartialView(@Model.CategoryId);
+
+    });
+
+    function loadArticleExtendedPartialView(categoryid) {
+        var pane = $("#ExtendedWell");
+        var url = '/admin/Article/ArticleExtendedPartialView/' +@Model.Id +'?categoryid=' + categoryid + '&tabName=Exts';
+        $.ajax({
+            cache: false,
+            type: "GET",
+            async: false,
+            global: false,
+            url: url,
+            beforeSend: function (xhr) {
+
+            },
+            success: function (data, status, xhr) {
+                pane.html(data);
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                pane.html('<div class="text-error">Error while loading resource: ' + thrownError + '</div>');
+
+            },
+            complete: function (xhr, status) {
+
+            }
+        });
+    }
+    function toggleDownloadableArticle(state) {
+        if (state) {
+
+            $('#pnlDownloadFile').show();
+            $('#pnlUnlimitedDownloads').show();
+            $('input[id="@Html.FieldIdFor(model => model.UnlimitedDownloads)"]').on('switchChange.bootstrapSwitch', function (event, unlimitestate) {
+                toggleUnlimitedDownloads(unlimitestate);
+            });
+
+        }
+        else {
+            $('#pnlDownloadFile').hide();
+            $('#pnlUnlimitedDownloads').hide();
+            $('#pnlMaxNumberOfDownloads').hide();
+
+        }
+    }
+
+    function toggleUnlimitedDownloads(state) {
+        if (state) {
+            $('#pnlMaxNumberOfDownloads').hide();
+        } else {
+            $('#pnlMaxNumberOfDownloads').show();
+        }
+    }
+    function togglePassword(state) {
+        if (state) {
+            $('#pnlPasswordEnabled').show();
+        }
+        else {
+            $('#pnlPasswordEnabled').hide();
+        }
+    }
+</script>
+
+<div class="form-horizontal  form-body" id="group-downloads">
+    <div class="row">
+        <div class="col-md-8">
+            @(Html.LocalizedEditor<ArticleModel, ArticleLocalizedModel>("article-info-localized",
+            @<div class="form-body">
+                <div class="form-group">
+                    <label class="control-label col-md-2">
+                        @Html.LangLabelFor(model => model.Locales[item].Title)
+                    </label>
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model => Model.Locales[item].Title, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Locales[item].Title)
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">
+                        @Html.LangLabelFor(model => model.Locales[item].ShortContent)
+                    </label>
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Locales[item].ShortContent, new { @class = "form-control", @maxlength = "225", @rows = "5", @placeholder = "This textarea has a limit of 225 chars." })
+                        @Html.ValidationMessageFor(model => model.Locales[item].ShortContent)
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">
+                        @Html.LangLabelFor(model => model.Locales[item].FullContent)
+                    </label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Locales[item].FullContent, Html.RichEditorFlavor())
+                        @Html.ValidationMessageFor(model => model.Locales[item].FullContent)
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">
+
+                    </label>
+                    <div class="col-md-10">
+                        @Html.HiddenFor(model => model.Locales[item].LanguageId)
+                    </div>
+                </div>
+            </div>
+     ,
+    @<div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.Title)
+            </label>
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Title)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.ShortContent)
+            </label>
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.ShortContent, new { @class = "form-control", @maxlength = "225", @rows = "5", @placeholder = "This textarea has a limit of 225 chars." })
+                @Html.ValidationMessageFor(model => model.ShortContent)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.FullContent)
+            </label>
+            <div class="col-md-10">
+                @Html.EditorFor(x => x.FullContent, Html.RichEditorFlavor())
+                @Html.ValidationMessageFor(model => model.FullContent)
+            </div>
+        </div>
+    </div>))
+
+        </div>
+        <div class="col-md-4">
+            @if (Model.Id > 0)
+            {
+                <div class="form-group">
+                    <label class="control-label col-md-2">
+                        @Html.LangLabelFor(model => model.Url)
+                    </label>
+                    <div class="col-md-6">
+                        <a href="@Model.Url">@Model.Url</a>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">
+                        @Html.LangLabelFor(model => model.Id)
+                    </label>
+                    <div class="col-md-6">
+                        @Model.Id.ToString()
+                        @Html.ValidationMessageFor(model => model.Id)
+                    </div>
+                </div>
+            }
+            @*<div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.CategoryId)
+                </label>
+                <div class="col-md-9">
+                   
+                    @(Html.HiddenFor(x => x.CategoryId, new
+                {
+                    style = "min-width: 300px",
+                    placeholder = "[" + T("Common.Unspecified") + "]",
+                    data_select = true,
+                    @class = "form-control",
+                    data_select_lazy = true,
+                    data_select_init_text = Model.CategoryBreadcrumb,
+                    data_select_url = Url.Action("AllCategories", "ArticleCategory")
+                }))
+                    @Html.ValidationMessageFor(model => model.CategoryId)
+
+                </div>
+            </div>*@
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.ModelTemplateId)
+                </label>
+                <div class="col-md-9">
+                    @Html.DropDownListFor(model => model.ModelTemplateId, Model.AvailableModelTemplates, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ModelTemplateId)
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.StatusId)
+                </label>
+                <div class="col-md-9">
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn grey-cascade @((ArticleStatus)Model.StatusId == ArticleStatus.Normal ? "active" : "")">
+                            <input type="radio" class="toggle" id="StatusId" name="StatusId" value="0"> 正常
+                        </label>
+                        <label class="btn grey-cascade @((ArticleStatus)Model.StatusId == ArticleStatus.Audit ? "active" : "")">
+                            <input type="radio" class="toggle" id="StatusId" name="StatusId" value="1"> 待审核
+                        </label>
+                        <label class="btn grey-cascade @((ArticleStatus)Model.StatusId == ArticleStatus.NoDisplay ? "active" : "")">
+                            <input type="radio" class="toggle" id="StatusId" name="StatusId" value="2">不显示
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    推荐类型
+                </label>
+                <div class="col-md-9">
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn @(Model.AllowComments ? "blue-hoki active" : "btn btn-default")">
+                            @Html.CheckBoxFor(model => model.AllowComments, new { @class = "toggle" }) @Html.DisplayNameFor(model => model.AllowComments)
+                        </label>
+                        <label class="btn @(Model.IsTop?"blue-madison active":"btn btn-default")">
+                            @Html.CheckBoxFor(model => model.IsTop, new { @class = "toggle" }) @Html.DisplayNameFor(model => model.IsTop)
+                        </label>
+                        <label class="btn @(Model.IsRed?"green-meadow active":"btn btn-default")">
+                            @Html.CheckBoxFor(model => model.IsRed, new { @class = "toggle" }) @Html.DisplayNameFor(model => model.IsRed)
+                        </label>
+                        <label class="btn @(Model.IsHot?"red-sunglo active":"btn btn-default")">
+                            @Html.CheckBoxFor(model => model.IsHot, new { @class = "toggle" }) @Html.DisplayNameFor(model => model.IsHot)
+                        </label>
+                        <label class="btn @(Model.IsSlide?"yellow-crusta active":"btn btn-default")">
+                            @Html.CheckBoxFor(model => model.IsSlide, new { @class = "toggle" }) @Html.DisplayNameFor(model => model.IsSlide)
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.DisplayOrder)
+                </label>
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.DisplayOrder)
+                    @Html.ValidationMessageFor(model => model.DisplayOrder)
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.LinkUrl)
+                </label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(model => model.LinkUrl, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.LinkUrl)
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.Author)
+                </label>
+                <div class="col-md-9">
+                    @Html.TextBoxFor(model => model.Author, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Author)
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.ArticleTags)
+                </label>
+                <div class="col-md-9">
+
+                    @Html.HiddenFor(model => model.ArticleTags, new { @class = "form-control select2 tag-chooser" })
+                    @Html.ValidationMessageFor(model => model.ArticleTags)
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3"> @Html.LangLabelFor(model => model.PictureId)</label>
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.PictureId, new { transientUpload = true })
+                    @Html.ValidationMessageFor(model => model.PictureId)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @Html.CafSite().TabStrip().Name("articleinfo-edit").Items(x =>
+                        {
+                            x.Add().Text(T("Admin.ContentManagement.Articles.General").Text).Icon("fa fa-building-o fa-lg fa-fw").Content(TabGeneral()).Selected(true);
+                            x.Add().Text(T("Admin.ContentManagement.Articles.Extende").Text).Icon("fa fa-file-text-o fa-lg fa-fw").Content(TabExtende().ToHtmlString());
+                            //generate an event
+                            EngineContext.Current.Resolve<IEventPublisher>().Publish(new TabStripCreated(x, "articleinfo-edit", this.Html, this.Model));
+                        })
+    @helper TabGeneral()
+{
+
+    <div class="form-group">
+        <label class="control-label col-md-2">
+            @Html.LangLabelFor(model => model.Click)
+        </label>
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.Click)
+            @Html.ValidationMessageFor(model => model.Click)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">
+            @Html.LangLabelFor(model => model.AllowUserReviews)
+        </label>
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.AllowUserReviews)
+            @Html.ValidationMessageFor(model => model.AllowUserReviews)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">
+            @Html.LangLabelFor(model => model.IsPasswordProtected)
+        </label>
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.IsPasswordProtected)
+            @Html.ValidationMessageFor(model => model.IsPasswordProtected)
+
+        </div>
+    </div>
+    <div class="form-group" id="pnlPasswordEnabled">
+        <label class="control-label col-md-2">
+            @Html.LangLabelFor(model => model.Password)
+        </label>
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.Password)
+            @Html.ValidationMessageFor(model => model.Password)
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">
+            @Html.LangLabelFor(model => model.IsDownload)
+        </label>
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.IsDownload)
+            @Html.ValidationMessageFor(model => model.IsDownload)
+
+        </div>
+    </div>
+    <div class="form-group" id="pnlDownloadFile">
+        <label class="control-label col-md-2">
+            @Html.LangLabelFor(model => model.DownloadId)
+        </label>
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.DownloadId)
+            @Html.ValidationMessageFor(model => model.DownloadId)
+
+        </div>
+    </div>
+    <div class="form-group" id="pnlUnlimitedDownloads">
+        <label class="control-label col-md-2">
+            @Html.LangLabelFor(model => model.UnlimitedDownloads)
+        </label>
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.UnlimitedDownloads)
+            @Html.ValidationMessageFor(model => model.UnlimitedDownloads)
+
+        </div>
+    </div>
+    <div class="form-group" id="pnlMaxNumberOfDownloads">
+        <label class="control-label col-md-2">
+            @Html.LangLabelFor(model => model.MaxNumberOfDownloads)
+        </label>
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.MaxNumberOfDownloads)
+            @Html.ValidationMessageFor(model => model.MaxNumberOfDownloads)
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">
+            @Html.LangLabelFor(model => model.StartDate)
+        </label>
+        <div class="col-md-6">
+
+            @Html.EditorFor(model => model.StartDate)
+            @Html.ValidationMessageFor(model => model.StartDate)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">
+            @Html.LangLabelFor(model => model.EndDate)
+        </label>
+        <div class="col-md-6">
+
+            @Html.EditorFor(model => model.EndDate)
+            @Html.ValidationMessageFor(model => model.EndDate)
+        </div>
+    </div>
+}
+    @helper TabExtende()
+{
+    <div class="well" id="ExtendedWell">
+    </div>
+}
+
+    @*<div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.is)
+            </label>
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.MaxNumberOfDownloads)
+                @Html.ValidationMessageFor(model => model.MaxNumberOfDownloads)
+
+            </div>
+        </div>*@
+</div>

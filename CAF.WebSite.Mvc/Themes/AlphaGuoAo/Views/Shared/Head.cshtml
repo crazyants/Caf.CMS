@@ -1,0 +1,16 @@
+﻿@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+@using CAF.WebSite.Application.WebUI.Themes;
+
+@{
+     var MediaRootPath = "~/Content/assets/";
+     Html.AppendCssFileParts(MediaRootPath + "global/plugins/font-awesome/css/font-awesome.min.css");
+     Html.AppendCssFileParts(false, "~/Themes/AlphaGuoAo/Content/style.css");
+     Html.AppendCssFileParts(false, "~/Themes/AlphaGuoAo/Content/content.css");
+     Html.AppendCssFileParts(false, "~/Themes/AlphaGuoAo/Content/menu.css");
+     Html.AppendCssFileParts(false, "~/Themes/AlphaGuoAo/Content/jquery.fancybox-1.3.4.css");
+     Html.AppendCssFileParts(false, "~/Themes/AlphaGuoAo/Content/pgwslideshow.css");
+     Html.AppendCssFileParts(false, "~/Themes/AlphaGuoAo/Content/animate.min.css");
+     Html.AppendCssFileParts(false, "~/Themes/AlphaGuoAo/Content/base.css");
+}
+@Html.Partial("ConditionalComments")

@@ -1,0 +1,168 @@
+﻿@model ActivityLogSearchModel
+@using CAF.WebSite.Application.WebUI
+@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+@using CAF.Mvc.JQuery.Datatables.Core;
+@{
+    var gridPageSize = EngineContext.Current.Resolve<CAF.Infrastructure.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
+    ViewBag.Title = T("Admin.Configuration.ActivityLog.ActivityLog").Text;
+    var g = Html.GridToolKit<ActivityLogModel>();
+    var grid = g.DataGrid("loggrid", g.Param(x => x.Id)).TableId("table-id").GridKey("Id").PageLength(gridPageSize)
+    .MainGrid(
+    g.GridColumn(x => x.ActivityLogTypeName, 50),
+    g.GridColumn(x => x.UserId).DefaultContent("<a href='" + @Url.Content("~/Admin/User/Edit/") + "#UserId#'>#UserEmail#</a>"),
+    g.GridColumn(x => x.Comment, 100),
+    g.GridColumn(x => x.CreatedOn, 100).DefaultContent("#CreatedOn-DateTime#"),
+      g.GridColumn("operation", "" + T("Admin.Common.Operation").Text + "", 100).DefaultContent("<a href='/Admin/ActivityLog/AcivityLogDelete/#Id#' class='btn default btn-xs purple delete'><i class='fa fa-trash-o'></i>" + T("Admin.Common.Delete") + "</a>"))
+    .Url(Url.Action("ListLogs", "ActivityLog")).DefaultTableClass().BindDataParamBinding("onDataBinding");
+}
+@using (Html.BeginForm())
+{
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase"> @T("Admin.Configuration.ActivityLog.ActivityLog")</span>
+                        <span class="caption-helper"></span>
+                    </div>
+                    <div class="actions">
+                        <a href="@Url.Action("ClearAll")" class="btn btn-primary">
+                            <i class="fa fa-repeat"></i>&nbsp;@T("Admin.Common.Clear")
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                    <div class="portlet">
+                        
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-search"></i>@T("Admin.Common.Search")
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="well">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CreatedOnFrom)</label>
+                                            <div class="col-md-9">
+                                                @Html.EditorFor(model => model.CreatedOnFrom)
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CreatedOnTo)</label>
+                                            <div class="col-md-9">
+                                                @Html.EditorFor(model => model.CreatedOnTo)
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.UserEmail)</label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(model => model.UserEmail, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.ActivityLogTypeId)</label>
+                                            <div class="col-md-9">
+                                                @Html.DropDownListFor(model => model.ActivityLogTypeId, Model.ActivityLogType, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-offset-3 col-md-9">
+                                                <button type="submit" id="btnSearch" class="btn btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                    @T("Admin.Common.Search")
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="portlet-body flip-scroll">
+                    <div class="portlet">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-search"></i>@T("Admin.Common.List")
+                            </div>
+
+                        </div>
+                        <div class="portlet-body">
+                            <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+                                <thead>
+                                    <tr>
+                                        @foreach (var column in grid.GetColumns)
+                                {
+                                    if (column.Name == "操作")
+                                    {
+
+                                        <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                                    }
+                                    else if (column.DisplayName == null)
+                                    {
+
+                                        <th class="@column.CssClassHeader"><input type="checkbox" class="group-checkable" data-set="checkboxes">@T("Admin.Configuration.ActivityLog.ActivityLogType.Fields.Enabled")</th>
+                                    }
+                                    else
+                                    {
+                                        <th class="@column.CssClassHeader">@column.DisplayName</th>
+                                    }
+
+                                }
+                                    </tr>
+
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function onDataBinding() {
+            var searchModel = {
+                CreatedOnFrom: $('#@Html.FieldIdFor(model => model.CreatedOnFrom)').val(),
+                CreatedOnTo: $('#@Html.FieldIdFor(model => model.CreatedOnTo)').val(),
+                UserEmail: $('#@Html.FieldIdFor(model => model.UserEmail)').val(),
+                ActivityLogTypeId: $('#ActivityLogTypeId').val()
+            };
+            return searchModel;
+        }
+        @(grid)
+        $(document).ready(function () {
+
+            //search button
+            $('#btnSearch').click(function () {
+                //search
+                var grid = loggrid.reload();
+                return false;
+            });
+        });
+
+
+    </script>
+}

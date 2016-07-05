@@ -1,0 +1,213 @@
+﻿@model LogListModel
+@using CAF.WebSite.Application.WebUI
+@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+@using CAF.Mvc.JQuery.Datatables.Core;
+@{
+    var gridPageSize = EngineContext.Current.Resolve<CAF.Infrastructure.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
+    ViewBag.Title = T("Admin.System.Log").Text;
+    var g = Html.GridToolKit<LogModel>();
+    var grid = g.DataGrid("loggrid", g.Param(x => x.Id)).TableId("table-id").GridKey("Id").PageLength(gridPageSize)
+    .MainGrid(
+    g.GridColumn(null, null, 50).DefaultContent("<input type='checkbox' class='checkboxes' value='#Id#'>"),
+    g.GridColumn(x => x.Frequency, 50),
+    g.GridColumn(x => x.ShortMessage).DefaultContent("<span class='label label-#LogLevelHint#' style='margin-right: 4px'>#LogLevel#</span><a href=\"View/#Id#\">#ShortMessage#</a>"),
+    g.GridColumn(x => x.CreatedOn, 150).DefaultContent("#CreatedOn-DateTime#"),
+    g.GridColumn(x => x.UpdatedOn, 100).DefaultContent("#UpdatedOn-DateTime#"))
+    .Url(Url.Action("LogList", "Log")).DefaultTableClass().BindDataParamBinding("onDataBinding");
+}
+
+@using (Html.BeginForm())
+{
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase"> @T("Admin.System.Log")</span>
+                        <span class="caption-helper"></span>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" id="delete-selected" name="delete-selected" value="delete_selected" class="btn btn-default">
+                            <i class="fa fa-trash-o"></i>&nbsp;@T("Admin.System.Log.DeleteSelected")
+                        </button>
+                        <button type="submit" name="clearall" value="clearall" class="btn btn-danger">
+                            <i class="fa fa-trash-o"></i>&nbsp;@T("Admin.System.Log.ClearLog")
+                        </button>
+                    </div>
+                </div>
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                    <div class="portlet">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-search"></i>@T("Admin.Common.Search")
+                            </div>
+                            <div class="tools">
+                              
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="well">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CreatedOnFrom)</label>
+                                            <div class="col-md-9">
+                                                @Html.EditorFor(model => model.CreatedOnFrom)
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CreatedOnTo)</label>
+                                            <div class="col-md-9">
+                                                @Html.EditorFor(model => model.CreatedOnTo)
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.MinFrequency)</label>
+                                            <div class="col-md-9">
+                                                @Html.EditorFor(model => model.MinFrequency)
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.LogLevelId)</label>
+                                            <div class="col-md-9">
+                                                @Html.DropDownListFor(model => model.LogLevelId, Model.AvailableLogLevels, new { @class = "form-control" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.Message)</label>
+                                            <div class="col-md-9">
+                                                @Html.TextBoxFor(model => model.Message, new { @class = "form-control" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-offset-3 col-md-9">
+                                                <button type="submit" id="btnSearch" class="btn btn-default">
+                                                    <i class="fa fa-search"></i>
+                                                    @T("Admin.Common.Search")
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="portlet-body flip-scroll">
+                    <div class="portlet">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-search"></i>@T("Admin.Common.List")
+                            </div>
+                            <div class="tools">
+                              
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            @Html.GridTable(grid)
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function onDataBinding() {
+            var searchModel = {
+                CreatedOnFrom: $('#@Html.FieldIdFor(model => model.CreatedOnFrom)').val(),
+                CreatedOnTo: $('#@Html.FieldIdFor(model => model.CreatedOnTo)').val(),
+                Message: $('#@Html.FieldIdFor(model => model.Message)').val(),
+                LogLevelId: $('#@Html.FieldIdFor(model => model.LogLevelId)').val(),
+                MinFrequency: $('#@Html.FieldIdFor(model => model.MinFrequency)').val()
+            };
+            return searchModel;
+        }
+        @(grid)
+        var selectedIds = [];
+
+        $(document).ready(function () {
+
+            //search button
+            $('#btnSearch').click(function () {
+                //search
+                var grid = loggrid.reload();
+                //clear selected checkboxes
+                $('.checkboxGroups').attr('checked', false).change();
+                selectedIds = [];
+                return false;
+            });
+
+            $("#@Html.FieldIdFor(model => model.Message)").keydown(function (event) {
+                if (event.keyCode == 13) {
+                    $("#btnSearch").click();
+                    return false;
+                }
+            });
+
+            //"delete selected" button
+            $('#delete-selected').click(function (e) {
+                bootbox.confirm("你确定删除?", function (result) {
+                    if (result) {
+                        e.preventDefault();
+                        selectedIds = loggrid.getSelectedRows();
+                        var postData = {
+                            selectedIds: selectedIds
+                        };
+                        $.ajax({
+                            cache: false,
+                            type: "POST",
+                            url: "@(Url.Action("DeleteSelected", "Log"))",
+                            data: postData,
+                            complete: function (data) {
+                                //reload grid
+                                var grid = loggrid.reload();
+                                selectedIds = [];
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                alert(thrownError);
+                            },
+                            traditional: true
+                        });
+                    }
+                });
+                return false;
+            });
+
+        });
+
+
+
+    </script>
+}

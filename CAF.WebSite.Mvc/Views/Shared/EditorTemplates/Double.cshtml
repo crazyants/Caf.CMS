@@ -1,0 +1,39 @@
+@functions{
+    
+    private string Prefix
+    {
+        get
+        {
+            if (ViewData.ContainsKey("prefix"))
+            {
+                return ViewData["prefix"].Convert<string>();
+            }
+            return "";
+        }
+    }
+}
+
+@{
+    var id = ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty);
+    var name = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty);
+    string additionalClass = string.Empty;
+    if (ViewData.ContainsKey("small"))
+    {
+        additionalClass = ViewData["small"].Convert<bool>() ? "small" : "";
+    }
+}
+
+@Html.TextBoxFor(model => model, new { @class = "form-control" })
+<script>
+    $(function () {
+        $("#@id").inputmask("numeric", {
+            groupSeparator: ",",
+            placeholder: "0",
+            autoGroup: true,
+            digits: 2,
+            digitsOptional: false,
+            prefix: "@Prefix"
+        });
+        
+    });
+</script>

@@ -1,0 +1,69 @@
+﻿@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+@{
+
+    var currentUICulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+
+    var localizationService = EngineContext.Current.Resolve<ILocalizationService>();
+
+    var jqueryCssRootPath = "~/Themes/AlphaGuoAo/Content/";
+    Html.AppendScriptParts(ResourceLocation.Head, jqueryCssRootPath + "js/jquery-1.7.2.min.js");
+
+    Html.AppendScriptParts(ResourceLocation.Foot,
+        jqueryCssRootPath + "Js/superfish.js",
+        jqueryCssRootPath + "js/jquery.carouFredSel.js",
+        jqueryCssRootPath + "js/jquery.touchSwipe.min.js",
+        jqueryCssRootPath + "js/jquery.tools.min.js",
+        jqueryCssRootPath + "js/jquery.fancybox-1.3.4.pack.js",
+        jqueryCssRootPath + "js/pgwslideshow.min.js",
+        jqueryCssRootPath + "js/jquery.fixed.js",
+        jqueryCssRootPath + "js/cloud-zoom.1.0.2.min.js",
+        jqueryCssRootPath + "js/device.min.js",
+        jqueryCssRootPath + "js/html5media/html5media-1.2.js",
+        jqueryCssRootPath + "js/animate.min.js",
+        jqueryCssRootPath + "js/custom.js");
+
+
+}
+<!DOCTYPE html>
+<html @Html.Partial("LanguageAttributes")>
+<head>
+    <title>@Html.WorkTitle(true)</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="@(Html.WorkMetaDescription())" />
+    <meta name="keywords" content="@(Html.WorkMetaKeywords())" />
+    <meta name="generator" content="Caf.NET @WorkVersion.CurrentFullVersion" />
+    @*This is used so that themes can inject content into the header*@
+    @Html.Partial("Head")
+    @Html.MetaAcceptLanguage()
+    @* @Html.Partial("_ClientRes")*@
+    @Html.WorkCssFiles(this.Url, ResourceLocation.Head)
+    @Html.WorkScripts(this.Url, ResourceLocation.Head)
+
+    @Html.CanonicalUrls()
+    @Html.LinkRels()
+    @*@Html.Action("RssHeaderLink", "News", new { area = "" })
+        @Html.Action("RssHeaderLink", "Blog", new { area = "" })*@
+    @*Favicon - upload favicon.ico or favicon-[StoreId].ico file either to the root web or your theme directory*@
+    @Html.Action("Favicon", "Common", new { area = "" })
+    @Html.CustomHead()
+</head>
+<body class="font-zh-CN" style="">
+    <form name="Form" method="post" id="Form" enctype="multipart/form-data" style="height:inherit">
+        @RenderBody()
+    </form>
+    @Html.WorkCssFiles(this.Url, ResourceLocation.Foot)
+    @Html.WorkScripts(this.Url, ResourceLocation.Foot)
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+
+        });
+    </script>
+    <script type="text/javascript">
+        html5media.flowplayerSwf = "/Themes/AlphaGuoAo/Content/js/html5media/flowplayer-3.2.18.swf";
+        html5media.flowplayerControlsSwf = "/Themes/AlphaGuoAo/Content/js/html5media/flowplayer.controls-3.2.16.swf";
+    </script>
+    @RenderSection("FootScript", required: false)
+</body>
+</html>

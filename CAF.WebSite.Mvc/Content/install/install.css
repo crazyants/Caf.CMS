@@ -1,0 +1,103 @@
+/*
+ * Uses Bootstrap v2.2.1
+ *
+ * Copyright 2012 Twitter, Inc
+ * Licensed under the Apache License v2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Designed and built with all the love in the world @twitter by @mdo and @fat.
+ */
+
+/* Fonts (Chrome DirectWrite & FF fix)
+-------------------------------------------------------------- */
+
+@font-face {
+    font-family: "Segoe UI Light";
+    font-weight: 100;
+    src: local("Segoe UI Light"), url("../fonts/segoeui-semilight.eot") format('embedded-opentype'), url("../fonts/segoeui-semilight.woff") format('woff'), url("../fonts/segoeui-semilight.ttf") format('truetype');
+}
+@font-face {
+    font-family: "Segoe UI Semibold";
+    font-weight: 100;
+    src: local("Segoe UI Semibold"), url("../fonts/segoeui-semibold.eot") format('embedded-opentype'), url("../fonts/segoeui-semibold.woff") format('woff'), url("../fonts/segoeui-semibold.ttf") format('truetype');
+}
+ 
+/* INSTALL STYLES
+--------------------------------------------------------*/
+
+
+body {
+    background: #29b6d9 url('images/bg.png') 50% 0% no-repeat;
+    background-attachment: fixed;
+}
+
+.install-head {
+	padding: 8px 0;
+	line-height: 40px;
+	vertical-align: middle;
+}
+
+.install-panel {
+	margin-top: 4px;
+	margin-bottom: 20px;
+	padding: 30px;
+    background-color: #fff;
+    background-color: rgba(255,255,255, .5);
+    .box-shadow(~'0 0 15px rgba(0,0,0, .15), 0 10px 6px -10px rgba(0,0,0, .4)');
+    .border-radius(4px);
+}
+
+.install-title {
+	margin: 0;
+	color: #fff;
+	color: lighten(#29b6d9, 40%);
+	text-shadow: 0 1px 0 darken(#29b6d9, 12%);
+	font-family:  "Open Sans", sans-serif;
+	font-weight: 300;
+}
+
+.install-content {
+	/*padding: 0 30px;*/
+}
+
+.install-content legend {
+font-family:  "Open Sans", sans-serif;
+	font-weight: 300;
+	font-size: 22px;
+	border-bottom-color: lighten(#29b6d9, 12%);
+	border-bottom-color: rgba(0,0,0, 0.1);
+	color: #29b6d9;
+	margin-bottom: 0;
+	padding-bottom: 8px;
+}
+
+.install-icon {
+	font-size: 32px;
+	line-height: 32px;
+	vertical-align: bottom;
+	margin-right: 4px;
+	display: none;
+}
+
+.form-horizontal .control-label {
+	width: 240px;
+}
+
+.form-horizontal .controls {
+	margin-left: 260px;
+}
+
+label.control-label {
+	font-weight: bold;
+}
+
+.field-validation-error {
+	color: red;
+	text-shadow: none !important;
+}
+
+label.control-label {
+	font-weight: normal;
+}
+
+

@@ -1,0 +1,154 @@
+﻿@model TreeNode<MenuItem>
+@functions {
+    public string GetNodeLink(TreeNode< MenuItem> node)
+    {
+        if (node.HasChildren)
+        {
+            return "javascript:void(0)";
+        }
+        return node.Value.GenerateUrl(this.ViewContext.RequestContext).TrimStart('/');
+    }
+
+    public string GetItemText(TreeNode<MenuItem> node)
+    {
+        string result = null;
+
+        if (node.Value.ResKey.HasValue())
+        {
+            result = T(node.Value.ResKey).ToHtmlString();
+        }
+
+        if (!result.HasValue() || result.IsCaseInsensitiveEqual(node.Value.ResKey))
+        {
+            result = node.Value.Text;
+        }
+
+        return result;
+    }
+}
+<ul id="menubar" class="nav nav-list" style="z-index:9999;">
+    <li name="PMenu" class="hsub">
+        <a name="item" href="###" class="dropdown-toggle" icon=" fa-puzzle-piece" tagid="c69e2e61-929e-4dc8-b5b1-5f2ed03faeab">
+            <i class="menu-icon fa fa-puzzle-piece"></i>
+            <span class="menu-text">快捷连接</span>
+            <b class="arrow fa fa-angle-down"></b>
+        </a>
+        <b class="arrow"></b>
+        <ul class="submenu">
+            <li class="menuclick">
+                <a name="item" href="Admin/ArticleCategory/List" class="" icon=" fa-list" target="_blank">
+                    <i class="menu-icon fa fa-list"></i>
+                    @T("Admin.ContentManagement.ArticleCategory")
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="menuclick">
+                <a name="item" href="Admin/Article/List" class="" icon=" file-o" target="_blank">
+                    <i class="menu-icon fa fa-file-o"></i>
+                    @T("Admin.ContentManagement.Articles")
+                </a>
+                <b class="arrow"></b>
+            </li>
+            <li class="menuclick">
+                <a name="item" href="###" class="" icon=" file-o" url="Admin/Topic/List" objid="@Guid.NewGuid().ToString()" tagid="@Guid.NewGuid().ToString()">
+                    <i class="menu-icon fa fa-file-o"></i>
+                    @T("Admin.ContentManagement.Topics")
+                </a>
+                <b class="arrow"></b>
+            </li>
+        </ul>
+    </li>
+    @{
+        foreach (var node in Model.Children)
+        {
+            var item = node.Value;
+
+            if (!item.Visible)
+            {
+                continue;
+            }
+
+            var imageUrl = item.ImageUrl;
+            if (!imageUrl.HasValue())
+            {
+                imageUrl = "~/Administration/Content/images/ap-default-white.png";
+            }
+
+            string itemText = GetItemText(node);
+
+            if (ViewBag.SelectedMenuItem == itemText)
+            {
+                //item.Selected = true;
+            }
+
+            var itemUrl = GetNodeLink(node);
+            <li name="PMenu" class=" hsub">
+                <a name="item" href="###" class="@(node.HasChildren ? "dropdown-toggle" : "")" @Html.Attr("icon", " fa-" + item.Icon, item.Icon.HasValue()) @Html.Attr("url", itemUrl, !node.HasChildren) @Html.Attr("objid", @Guid.NewGuid().ToString(), !node.HasChildren) tagid="@Guid.NewGuid().ToString()">
+                    @if (item.Icon.HasValue())
+                    {
+                        <i class="menu-icon fa fa-@item.Icon"></i>
+                    }
+                    else
+                    {
+                        <img class="sm-icon" src="@Url.Content(imageUrl)" alt="" />
+                    }
+                    <span class="menu-text">@itemText</span>
+                    @if (node.HasChildren)
+                    {
+                        <b class="arrow fa fa-angle-down"></b>
+                    }
+                </a>
+                <b class="arrow"></b>
+                @if (node.HasChildren)
+                {
+                    @CreateDropdown(node.Children, true)
+                }
+            </li>
+
+        }
+    }
+</ul>
+
+@helper CreateDropdown(IEnumerable<TreeNode<MenuItem>> nodes, bool isRoot)
+{
+    var hasIcons = nodes.Any(x => x.Value.Icon.HasValue());
+
+    <ul class="submenu">
+        @foreach (var node in nodes)
+        {
+            var item = node.Value;
+
+            if (!item.Visible)
+            {
+                continue;
+            }
+
+            string itemText = GetItemText(node);
+
+            <li class="@(node.HasChildren ? " hsub" : "menuclick ")">
+                <a name="item" href="###" class="@(node.HasChildren ? "dropdown-toggle" : "")" @Html.Attr("icon", " fa-" + node.Value.Icon, hasIcons) @Html.Attr("url", GetNodeLink(node), !node.HasChildren) @Html.Attr("objid", @Guid.NewGuid().ToString(), !node.HasChildren) tagid="@Guid.NewGuid().ToString()">
+                    @if (hasIcons)
+                    {
+                        var iconClass = "menu-icon fa";
+                        if (node.Value.Icon.HasValue())
+                        {
+                            iconClass += " fa-" + node.Value.Icon;
+                        }
+                        <i class='@iconClass'></i>
+                    }
+                    @itemText
+                    @if (node.HasChildren)
+                    {
+                        <b class="arrow fa fa-angle-down"></b>
+                    }
+                </a>
+                <b class="arrow"></b>
+                @if (node.HasChildren)
+                {
+                    @CreateDropdown(node.Children, true)
+                }
+            </li>
+        }
+    </ul>
+}
+

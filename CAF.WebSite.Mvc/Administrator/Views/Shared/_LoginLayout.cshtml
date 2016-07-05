@@ -1,0 +1,85 @@
+﻿@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+@{
+    var currentUICulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+
+    // add css assets
+    var MediaRootPath = "~/Content/assets/";
+
+    Html.AppendCssFileParts(
+        MediaRootPath + "global/plugins/font-awesome/css/font-awesome.min.css",
+        MediaRootPath + "global/plugins/simple-line-icons/simple-line-icons.min.css",
+        MediaRootPath + "global/plugins/bootstrap/css/bootstrap.min.css",
+        MediaRootPath + "global/plugins/uniform/css/uniform.default.css",
+        MediaRootPath + "global/plugins/select2/select2.css",
+        MediaRootPath + "admin/pages/css/login3.css",
+        MediaRootPath + "global/css/components.css",
+        MediaRootPath + "global/css/plugins.css",
+        MediaRootPath + "admin/layout/css/layout.css",
+        MediaRootPath + "admin/layout/css/themes/darkblue.css",
+        MediaRootPath + "admin/layout/css/custom.css"
+        );
+
+    // add js assets (Head)
+    Html.AppendScriptParts(ResourceLocation.Foot,
+         MediaRootPath + "global/plugins/jquery.min.js",
+       MediaRootPath + "global/plugins/jquery-migrate.min.js",
+       MediaRootPath + "global/plugins/bootstrap/js/bootstrap.min.js",
+       MediaRootPath + "global/plugins/jquery.blockui.min.js",
+       MediaRootPath + "global/plugins/uniform/jquery.uniform.min.js",
+       MediaRootPath + "global/plugins/jquery.cokie.min.js",
+       MediaRootPath + "global/plugins/jquery-validation/js/jquery.validate.min.js",
+       MediaRootPath + "global/scripts/metronic.js",
+
+       MediaRootPath + "admin/layout/scripts/layout.js",
+         MediaRootPath + "admin/layout/scripts/demo.js",
+       "~/Content/js/login.js"
+       );
+
+
+
+}
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <title>@ViewBag.Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+
+    @Html.MetaAcceptLanguage()
+    @Html.WorkCssFiles(this.Url, ResourceLocation.Head, true)
+    @Html.WorkScripts(this.Url, ResourceLocation.Head)
+    <link rel="shortcut icon" href="~/Passport/favicon.ico" />
+
+
+</head>
+<body class="login">
+    @RenderBody()
+    @RenderSection("foot", required: false)
+
+    <!--[if lt IE 9]>
+    <script src="../../assets/global/plugins/respond.min.js"></script>
+    <script src="../../assets/global/plugins/excanvas.min.js"></script>
+    <![endif]-->
+
+    @Html.WorkCssFiles(this.Url, ResourceLocation.Foot)
+    @Html.WorkScripts(this.Url, ResourceLocation.Foot)
+
+    <script>
+        jQuery(document).ready(function () {
+            Metronic.init(); // init metronic core components
+            Layout.init(); // init current layout
+            Login.init();
+            Demo.init();
+        });
+    </script>
+</body>
+</html>

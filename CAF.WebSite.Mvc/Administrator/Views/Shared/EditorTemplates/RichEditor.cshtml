@@ -1,0 +1,52 @@
+﻿@model String
+@using CAF.Infrastructure.Core;
+@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core.Utilities;
+
+@functions {
+	private bool FullPage
+	{
+		get
+		{
+			if (ViewData.ContainsKey("fullPage"))
+			{
+				var x = ViewData["fullPage"].Convert<bool>();
+				return x;
+			}
+			return false;
+		}
+	}
+}
+
+@{
+    var availableLangs = new string[] {  "en", "zh-cn" };
+    var lang = WorkContext.WorkingLanguage.LanguageCulture.ToLower();
+    if (!availableLangs.Contains(lang))
+    {
+        lang = "zh-cn";
+    }
+
+    Html.AddScriptParts(true, "~/Content/editors/ckeditor/ckeditor.js");
+}
+
+<script type="text/javascript">
+    $(function () {
+        var roxyFileman = '@Url.Content("~/Content/filemanager/index.html")';
+        var fullPage = $('#@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty)').data("fullpage");
+        CKEDITOR.replace('@ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty)', {
+            language: '@lang',
+        	allowedContent: true,
+            filebrowserBrowseUrl: roxyFileman,
+            filebrowserImageBrowseUrl: roxyFileman + '?integration=ckeditor&type=image',
+            removeDialogTabs: 'link:upload;image:upload',
+            fullPage: (fullPage === true) ? true : false,
+            removePlugins: 'divarea'
+        });
+    });
+</script>
+
+@Html.TextArea(
+	string.Empty, /* Name suffix */
+	(string)ViewData.TemplateInfo.FormattedModelValue, /* Initial value */
+	new { @class = "", style = "", data_fullpage = FullPage.ToString().ToLower(), data_upload_url = Url.Action("UploadImageAjax", "Media") }
+)

@@ -1,0 +1,68 @@
+﻿@model CAF.WebSite.Mvc.Admin.Models.Messages.EmailAccountModel
+@{
+    //page title
+    ViewBag.Title = T("Admin.Configuration.EmailAccounts").Text;
+    var g = Html.GridToolKit();
+    var grid = g.DataGrid("emailAccountGrid", g.Param(x => x.Id)).TableId("table-id").GridKey("Id").Pager(false)
+    .MainGrid(
+     g.GridColumn(x => x.Email).DefaultContent("<a href='/admin/EmailAccount/Edit/#Id#'>#Email#</a>"),
+     g.GridColumn(x => x.DisplayName, 200),
+     g.GridColumn(x => x.Host, 200),
+     g.GridColumn(x => x.Port, 200),
+     g.GridColumn(x => x.EnableSsl, 200),
+     g.GridColumn(x => x.IsDefaultEmailAccount, 200).DefaultContent("<a href='List/#Id#' class='btn btn-default select' title='" + T("Admin.Configuration.EmailAccounts.Fields.MarkAsDefaultEmail").Text + "'>" + T("Admin.Common.Select").Text + "</a>"))
+    .Url(Url.Action("List", "EmailAccount")).DefaultTableClass().BindRowCallback("bindRowCallback");
+} 
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="section-header sticky">
+                <div class="caption">
+                    <i class="icon-equalizer font-red-sunglo"></i>
+                    <span class="caption-subject font-red-sunglo bold uppercase"> @T("Admin.Configuration.EmailAccounts")</span>
+                    <span class="caption-helper"></span>
+                </div>
+                <div class="tools">
+                    @*<a href="javascript:;" class="collapse"></a>*@
+                </div>
+                <div class="actions">
+                    <a href="@Url.Action("Create")" class="btn yellow"><i class="fa fa-plus"></i>@T("Admin.Common.AddNew") </a>
+                </div>
+            </div>
+            <div class="portlet-body flip-scroll">
+                <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+                    <thead>
+                        <tr>
+                            @foreach (var column in grid.GetColumns)
+                            {
+                                <th class="@column.CssClassHeader">@column.DisplayName</th>
+                            }
+                        </tr>
+
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function bindRowCallback(nRow, aData, iDisplayIndex) {
+        var row = $(nRow);
+        $('td a.select', row).each(function () {
+            var disabled = aData["IsDefaultEmailAccount"];
+            if (disabled) {
+                $(this).attr("disabled", true);
+                $(this).html("<i class='fa fa-check'></i>@T("Admin.Common.Select")")
+            }
+            else $(this).removeAttr("disabled");
+
+        });
+    }
+
+    $(document).ready(function () {
+        @(grid)
+    });
+</script>

@@ -1,0 +1,54 @@
+﻿@model ArticleCategoryModel
+@using CAF.WebSite.Application.WebUI
+@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+@using CAF.Mvc.JQuery.Datatables.Core;
+@{
+    Layout = "~/Administrator/Views/Shared/_AdminArticlePopupLayout.cshtml";
+    ViewBag.Title = T("Admin.ContentManagement.ArticleCategory.Manage").Text;
+
+    List<MenuModel> menuModels = new List<MenuModel>();
+    MenuModel menuModel = new MenuModel();
+    menuModel.text = "频道";
+    var firstPage = "";
+    foreach (var item in Model.AvailableChannels)
+    {
+
+        var menuItem = new MenuItemModel();
+
+        menuItem.text = item.Text;
+        menuItem.id = item.Value;
+        menuItem.href = Url.Action("Center", "ArticleCategory", new { channelId = item.Value });
+        menuModel.items.Add(menuItem);
+    }
+    if (menuModel.items.Count > 0)
+    { firstPage = menuModel.items.FirstOrDefault().text; }
+    menuModels.Add(menuModel);
+
+    Html.AppendCssFileParts(
+    "~/Content/bui/css/dpl-min.css",
+    "~/Content/bui/css/bui-min.css",
+    "~/Content/bui/css/main.css");
+
+    Html.AppendScriptParts(ResourceLocation.Head,
+        "~/Content/bui/js/bui-min.js",
+        "~/Content/bui/js/config.js");
+}
+ 
+ 
+<ul id="J_NavContent" class="dl-tab-conten"  ></ul>
+<script type="text/javascript">
+    var data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(menuModels));
+    BUI.use('common/main', function () {
+        var config = [{
+            collapsed:false,
+            // homePage : '@firstPage',
+            id: 'menu',
+            menu: data
+        }];
+        new PageUtil.MainPage({
+            modulesConfig: config
+        });
+
+    });
+</script>

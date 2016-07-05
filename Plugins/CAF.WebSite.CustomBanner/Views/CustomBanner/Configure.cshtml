@@ -1,0 +1,116 @@
+﻿@{
+    Layout = "";
+}
+@model CAF.WebSite.CustomBanner.Models.ConfigurationModel
+	
+@Html.Action("SiteScopeConfiguration", "Setting", new { area = "Admin" })
+
+<script type="text/javascript">
+    $(function () {
+        $('input[id="@Html.FieldIdFor(model => model.ShowBorderBottom)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+            toggleBottomColor(state);
+        });
+        $('input[id="@Html.FieldIdFor(model => model.ShowBorderTop)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+            toggleTopColor(state);
+        });
+        toggleBottomColor(@Model.ShowBorderBottom.ToString().ToLower());
+        toggleTopColor(@Model.ShowBorderTop.ToString().ToLower());
+
+        function toggleBottomColor(state) {
+            if (state) {
+                $('#BorderBottomColor').show();
+            }
+            else {
+                $('#BorderBottomColor').hide();
+            }
+        }
+
+        function toggleTopColor(state) {
+            if (state) {
+                $('#BorderTopColor').show();
+            }
+            else {
+                $('#BorderTopColor').hide();
+            }
+        }
+    });
+</script>
+
+@using (Html.BeginForm())
+{
+
+    <div class="alert alert-info">
+            @Html.Raw(@T("Plugins.Widgets.CustomBanner.AdminInstruction"))
+    </div>
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.MaxBannerHeight)</label>
+            <div class="col-md-6">
+                <div class="input-group input-medium">
+                    @Html.SettingOverrideCheckbox(m => m.MaxBannerHeight)
+                    @Html.EditorFor(m => m.MaxBannerHeight)
+                    @Html.ValidationMessageFor(model => model.MaxBannerHeight)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.StretchPicture)</label>
+            <div class="col-md-6">
+                <div class="input-group input-medium">
+                    @Html.SettingOverrideCheckbox(m => m.StretchPicture)
+                    @Html.EditorFor(m => m.StretchPicture)
+                    @Html.ValidationMessageFor(model => model.StretchPicture)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.ShowBorderTop)</label>
+            <div class="col-md-6">
+                <div class="input-group input-medium">
+                    @Html.SettingOverrideCheckbox(m => m.ShowBorderTop)
+                    @Html.EditorFor(m => m.ShowBorderTop)
+                    @Html.ValidationMessageFor(model => model.ShowBorderTop)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="BorderTopColor">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.BorderTopColor)</label>
+            <div class="col-md-6">
+                <div class="input-group input-medium">
+                    @Html.SettingOverrideCheckbox(m => m.BorderTopColor)
+                    @Html.EditorFor(m => m.BorderTopColor, "Color")
+                    @Html.ValidationMessageFor(m => m.BorderTopColor)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.ShowBorderBottom)</label>
+            <div class="col-md-6">
+                <div class="input-group input-medium">
+                    @Html.SettingOverrideCheckbox(m => m.ShowBorderBottom)
+                    @Html.EditorFor(m => m.ShowBorderBottom)
+                    @Html.ValidationMessageFor(model => model.ShowBorderBottom)
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="BorderBottomColor">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.BorderBottomColor)</label>
+            <div class="col-md-6">
+                <div class="input-group input-medium">
+                    @Html.SettingOverrideCheckbox(m => m.BorderBottomColor)
+                    @Html.EditorFor(m => m.BorderBottomColor, "Color")
+                    @Html.ValidationMessageFor(m => m.BorderBottomColor)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3"></label>
+            <div class="col-md-6">
+                <button type="submit" name="save" value="save" class="btn btn-primary">
+                    <i class="fa fa-check"></i>&nbsp;@T("Admin.Common.Save")
+                </button>
+            </div>
+        </div>
+    </div>
+
+}

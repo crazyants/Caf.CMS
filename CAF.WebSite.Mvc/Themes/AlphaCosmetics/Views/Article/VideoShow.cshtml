@@ -1,0 +1,87 @@
+﻿@model string
+@using CAF.Infrastructure.Core.Domain.Seo;
+@using CAF.Infrastructure.Core;
+@{
+    Layout = null;
+   var downloadService = EngineContext.Current.Resolve<CAF.WebSite.Application.Services.Media.IDownloadService>();
+    var download = downloadService.GetDownloadById(Model.ToInt());
+    var downUrl = Url.Action("DownloadFile", "Download", new { downloadId = Model.ToInt() });
+}
+<?xml version="1.0" encoding="gb2312"?>
+    <cuplayer>
+        <player_set jcscpbuffertime="5"
+                    jcscpvolume="75"
+                    jcscpcode="utf8"
+                    jcscpimgdisplay="no"
+                    jcscpautohidecontrol="yes"
+                    jcscpcontrolhidetime="0.5"
+                    jcscpcontrolheight="40"
+                    jcscpshowlist="no"
+                    jcscpautorepeat="no"
+                    jcscpautoplay="yes"
+                    jcscpsetmode="1"
+                    jcscpafrontcanclose="no"
+                    jcscpshowrightmenu="no"
+                    jcscpsharemode="JcScpVideoPath"
+                    jcscploadbarmode="0"
+                    jcscplivemode="0" />
+        <logo_set jcscplogodisplay="yes"
+                  jcscplogopath="/Themes/AlphaCosmetics/Content/js/player/logo.png"
+                  jcscplogoposition="top-left"
+                  jcscplogowidth="165"
+                  jcscplogoheight="75"
+                  jcscplogoalpha="1" />
+        <flashvars_set jcscpserver=""
+                       jcscpvideopath="@downUrl"
+                       jcscpvideopathhd="@downUrl"
+                       jcscpimg="/Themes/AlphaCosmetics/Content/js/player/startpic.jpg"
+                       jcscpstartime="0"
+                       jcscpendtime="0"
+                       showjcscpafront="no"
+                       jcscpcountdowns="5"
+                       jcscpcountdownsposition="top-right"
+                       jcscpafrontw="650"
+                       jcscpafronth="418"
+                       jcscpafrontpath="/Themes/AlphaCosmetics/Content/js/player/a650x418.swf"
+                       jcscpafrontlink=""
+                       showjcscpavideo="no"
+                       jcscpavideopath="up.flv"
+                       jcscpavideolink=""
+                       showjcscpapause="no"
+                       jcscpapausepath="/Themes/AlphaCosmetics/Content/js/player/a300x250.swf"
+                       jcscpapausew="300"
+                       jcscpapauseh="250"
+                       jcscpapauselink=""
+                       showjcscpacorner="no"
+                       jcscpacornerpath="/Themes/AlphaCosmetics/Content/js/player/a370x250.swf"
+                       jcscpacornerw="80"
+                       jcscpacornerh="50"
+                       jcscpacornerposition="top-right"
+                       jcscpacornerlink=""
+                       showjcscpaend="no"
+                       jcscpaendpath="/Themes/AlphaCosmetics/Content/js/player/a400x300.swf"
+                       jcscpaendw="400"
+                       jcscpaendh="300"
+                       jcscpaendlink="" />
+
+        <skincolor_set jcscpbackcolor="0x000000"
+                       jcscpbackcolortop="0x353535"
+                       jcscplightcolor="0xcfcfcf"
+                       jcscpfontcolor="0xffffff"
+                       jcscptimebg="0x393939"
+                       jcscploadbar="0x00a0e9"
+                       jcscploaded="0x4d4b4b"
+                       jcscploadbg="0x000000"
+                       jcscpplaybtn="0x2d2d2d"
+                       jcscpbar="0xffffff" />
+
+        <thumbnail>
+            <filename>/Themes/AlphaCosmetics/Content/js/player/pic1.jpg</filename>
+            <title>华视传媒</title>
+            <url>/demo1.html</url>
+            <target>_parent</target>
+        </thumbnail>
+
+
+    </cuplayer>
+

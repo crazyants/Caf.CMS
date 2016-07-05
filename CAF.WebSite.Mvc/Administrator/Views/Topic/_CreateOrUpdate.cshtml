@@ -1,0 +1,298 @@
+﻿@model TopicModel
+
+@Html.ValidationSummary(false)
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('input[id="@Html.FieldIdFor(model => model.IsPasswordProtected)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+            togglePassword(state);
+        });
+        togglePassword(@Model.IsPasswordProtected.ToString().ToLower());
+
+        $('input[id="@Html.FieldIdFor(model => model.RenderAsWidget)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+            toggleRenderAsWidget(state);
+        });
+        toggleRenderAsWidget(@Model.RenderAsWidget.ToString().ToLower());
+
+
+
+    });
+
+    function togglePassword(state) {
+        if (state) {
+            $('#pnlPasswordEnabled').show();
+        }
+        else {
+            $('#pnlPasswordEnabled').hide();
+        }
+    }
+
+    function toggleRenderAsWidget(state) {
+        if (state) {
+            $('#pnlWidgetZone').show();
+            $('#pnlWidgetShowTitle').show();
+            $('#pnlWidgetBordered').show();
+            $('#pnlPriority').show();
+        }
+        else {
+            $('#pnlWidgetZone').hide();
+            $('#pnlWidgetShowTitle').hide();
+            $('#pnlWidgetBordered').hide();
+            $('#pnlPriority').hide();
+        }
+    }
+
+</script>
+@Html.HiddenFor(model => model.Id)
+@Html.CafSite().TabStrip().Name("topic-edit").Items(x =>
+{
+    x.Add().Text(T("Admin.ContentManagement.Topics.Info").Text).Content(TabInfo()).Selected(true);
+    x.Add().Text(T("Admin.Common.SEO").Text).Content(TabSeo());
+    x.Add().Text(T("Admin.Common.Sites").Text).Content(TabSites()).Visible(false);
+
+    //generate an event
+    EngineContext.Current.Resolve<IEventPublisher>().Publish(new TabStripCreated(x, "topic-edit", this.Html, this.Model));
+})
+@helper TabInfo()
+{
+
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.SystemName)
+            </label>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.SystemName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SystemName)
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.IsPasswordProtected)
+            </label>
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.IsPasswordProtected)
+                @Html.ValidationMessageFor(model => model.IsPasswordProtected)
+
+            </div>
+        </div>
+        <div id="pnlPasswordEnabled" class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.Password)
+            </label>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Password)
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.IncludeInSitemap)
+            </label>
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.IncludeInSitemap)
+                @Html.ValidationMessageFor(model => model.IncludeInSitemap)
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.TopicTemplateId)
+            </label>
+            <div class="col-md-6">
+                @Html.DropDownListFor(model => model.TopicTemplateId, Model.AvailableTopicTemplates, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TopicTemplateId)
+            </div>
+        </div>
+        @if (Model.Id > 0)
+        {
+            <div class="form-group">
+                <label class="control-label col-md-2">
+                    @Html.LangLabelFor(model => model.Url)
+                </label>
+                <div class="col-md-6">
+                    <a href="@Model.Url">@Model.Url</a>
+
+                </div>
+            </div>
+        }
+    </div>
+    <h3 class="form-section">详细信息</h3>
+
+    @(Html.LocalizedEditor<TopicModel, TopicLocalizedModel>("topic-info-localized",
+    @<div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.Locales[item].Title)
+            </label>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => Model.Locales[item].Title, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Locales[item].Title)
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.Locales[item].Body)
+            </label>
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.Locales[item].Body, Html.RichEditorFlavor(), new { ForceRootBlock = false })
+                @Html.ValidationMessageFor(model => model.Locales[item].Body)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+
+            </label>
+            <div class="col-md-6">
+                @Html.HiddenFor(model => model.Locales[item].LanguageId)
+            </div>
+        </div>
+    </div>
+     ,
+    @<div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.Title)
+            </label>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Title)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.Body)
+            </label>
+            <div class="col-md-9">
+                @Html.EditorFor(x => x.Body, Html.RichEditorFlavor(), new { ForceRootBlock = false })
+                @Html.ValidationMessageFor(model => model.Body)
+            </div>
+        </div>
+    </div>))
+}
+@helper TabSeo()
+{
+    @(Html.LocalizedEditor<TopicModel, TopicLocalizedModel>("topic-seo-localized",
+    @<div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.Locales[item].MetaTitle)
+            </label>
+            <div class="col-md-6">
+                @Html.TextAreaFor(model => model.Locales[item].MetaTitle, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Locales[item].MetaTitle)
+                @Html.HiddenFor(model => model.Locales[item].LanguageId)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.Locales[item].MetaKeywords)
+            </label>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.Locales[item].MetaKeywords, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Locales[item].MetaKeywords)
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.Locales[item].MetaDescription)
+            </label>
+            <div class="col-md-6">
+                @Html.TextAreaFor(model => model.Locales[item].MetaDescription, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Locales[item].MetaDescription)
+
+            </div>
+        </div>
+
+    </div>
+         ,
+        @<div class="form-body">
+            <div class="form-group">
+                <label class="control-label col-md-2">
+                    @Html.LangLabelFor(model => model.MetaTitle)
+                </label>
+                <div class="col-md-6">
+                    @Html.TextAreaFor(x => x.MetaTitle, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MetaTitle)
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">
+                    @Html.LangLabelFor(model => model.MetaKeywords)
+                </label>
+                <div class="col-md-6">
+                    @Html.TextBoxFor(model => model.MetaKeywords, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MetaKeywords)
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">
+                    @Html.LangLabelFor(model => model.MetaDescription)
+                </label>
+                <div class="col-md-6">
+                    @Html.TextAreaFor(x => x.MetaDescription, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MetaDescription)
+                </div>
+            </div>
+
+        </div>))
+
+}
+@helper TabSites()
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('input[id="@Html.FieldIdFor(model => model.LimitedToSites)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleSiteMapping(state);
+            });
+            toggleSiteMapping(@Model.LimitedToSites.ToString().ToLower());
+        });
+        function toggleSiteMapping(state) {
+            if (state) {
+                $('#pnl-available-sites').show();
+            }
+            else {
+                $('#pnl-available-sites').hide();
+            }
+        }
+
+    </script>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">
+            @Html.LangLabelFor(model => model.LimitedToSites)
+        </label>
+        <div class="col-md-6">
+            @Html.EditorFor(x => x.LimitedToSites)
+            @Html.ValidationMessageFor(model => model.LimitedToSites)
+
+        </div>
+    </div>
+    <div id="pnl-available-sites" class="form-group">
+        <label class="control-label col-md-2">
+            @Html.LangLabelFor(model => model.AvailableSites)
+        </label>
+        <div class="col-md-6">
+            @if (Model.AvailableSites != null && Model.AvailableSites.Count > 0)
+            {
+                foreach (var store in Model.AvailableSites)
+                {
+                    <label class="checkbox">
+                        <input type="checkbox" name="SelectedSiteIds" value="@store.Id" checked="@(Model.SelectedSiteIds != null && Model.SelectedSiteIds.Contains(store.Id))" />
+                        <span>@store.Name</span>
+                    </label>
+                }
+            }
+            else
+            {
+                <div>@T("Admin.Configuration.Sites.NoSitesDefined")</div>
+            }
+        </div>
+    </div>
+
+
+}

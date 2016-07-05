@@ -1,0 +1,14 @@
+﻿@model CheckoutBillingAddressModel
+
+@{
+	Layout = "~/Views/Shared/_Checkout.cshtml";
+
+	//title
+	Html.AddTitleParts(T("PageTitle.Checkout").Text);
+}
+
+@section orderProgress{
+	@Html.Action("CheckoutProgress", "Checkout", new { step = CheckoutProgressStep.Address, area = "" })
+}
+
+<h1>Hallo Welt</h1>

@@ -1,0 +1,446 @@
+/* here you can put your own css to customize and override the theme */
+
+/***
+Rounded Portlets
+***/
+/*
+.portlet {
+	border-radius: 4px !important;
+}
+
+.portlet .portlet-title {
+	border-radius: 4px 4px 0px 0px !important;
+}
+
+.portlet .portlet-body,
+.portlet .portlet-body .form-actions  {
+	border-radius: 0px 0px 4px 4px !important;
+}
+*/
+
+/*
+Change Quick Sidebar Width
+*/
+
+/*
+.page-quick-sidebar-wrapper {
+  right: -370px;
+  width: 370px;
+}
+
+.page-quick-sidebar-open.page-quick-sidebar-push-content .page-sidebar-wrapper {
+  margin-left: -370px;
+}
+
+.page-quick-sidebar-open.page-quick-sidebar-push-content .page-footer {
+  margin-right: 370px;
+  margin-left: -370px;
+}
+
+.page-sidebar-reversed.page-quick-sidebar-open.page-quick-sidebar-push-content .page-sidebar-wrapper {
+  margin-right: 370px;
+}
+
+.page-quick-sidebar-open.page-quick-sidebar-push-content.page-quick-sidebar-full-height .page-header {
+  margin-left: -370px;
+}
+
+.page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-list {
+  width: 370px !important;
+}
+
+.page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-item {
+  width: 370px !important;
+  margin-left: 370px;
+}
+
+.page-quick-sidebar-wrapper .page-quick-sidebar .page-quick-sidebar-content-item-shown .page-quick-sidebar-list {
+  margin-left: -370px;
+}
+*/
+.cph {
+  padding-top: 35px;
+}
+.col-day {
+padding-left:0;
+padding-right:0;
+}
+/***  
+Page Loading       
+***/
+.page-on-load {
+    background: #fefefe;
+}
+
+    .page-on-load .page-header,
+    .page-on-load .page-container,
+    .page-on-load .page-footer,
+    .page-on-load > .clearfix {
+        display: none;
+        transition: all 2s;
+    }
+
+.page-content iframe {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background: #fff;
+    overflow: auto;
+}
+
+/*隐藏提示*/
+div.form-group a.hint {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    right: 0;
+    top: 50%;
+    margin-top: -8px;
+    text-decoration: none;
+    text-align: center;
+    outline: 0;
+    color: #999999;
+    -webkit-transition: all 0.1s linear;
+    -o-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+    div.form-group a.hint:hover {
+        color: #595959;
+    }
+
+    div.form-group a.hint .fa {
+        font-size: 16px;
+    }
+
+div.form-group:hover a.hint {
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
+/*验证提示*/
+.validation-summary-errors {
+    padding: 8px 35px 8px 14px;
+    margin-bottom: 18px;
+    background-color: #fff3e0;
+    border-left-width: 5px;
+    border-left-style: solid;
+    border-left-color: #aaa;
+    border-left-color: rgba(0, 0, 0, 0.18);
+    color: #444444;
+    color: rgba(0, 0, 0, 0.75);
+    background-color: #fde0dc;
+}
+
+    .validation-summary-errors ul {
+        margin-bottom: 0;
+    }
+
+.alert .validation-summary-errors > ul {
+    margin-bottom: 0;
+}
+
+span.field-validation-error {
+    color: #b94a48;
+}
+/*上传图片*/
+.img-polaroid {
+    padding: 4px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+/*表单输入框*/
+.table .text-order, .table .text-name, .text-module {
+    padding: 1px 5px;
+    border: 1px dashed transparent;
+    outline: 0;
+    border-radius: 2px;
+    transition: all linear .2s;
+}
+
+.table .text-order {
+    width: 35px;
+    text-align: center;
+    margin-left: 15px;
+    border-color: #999;
+}
+
+.table .text-module {
+    width: 200px;
+    border-color: #999;
+}
+
+    .table .text-order:hover, .table .text-module:hover {
+        border-style: solid;
+    }
+
+    .table .text-order:focus, .table .text-module:focus {
+        border: 1px solid #e7604a;
+    }
+
+.table .text-name {
+    width: 110px;
+}
+
+    .table .text-name:hover {
+        border-color: #999;
+    }
+
+    .table .text-name:focus {
+        border: 1px solid #999;
+    }
+
+#pnlAllFlags a.flag {
+    min-width: 100px;
+    display: inline-block;
+}
+
+    #pnlAllFlags a.flag:hover {
+        text-decoration: none;
+    }
+
+#product-edit h3,
+.caption-container h3 {
+    font-family: 'Segoe UI Semibold', 'Segoe UI', Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 36px;
+    color: #333;
+}
+
+/*插件管理*/
+.module-list,
+.module-item {
+    position: relative;
+}
+
+    .module-list > h3 {
+        font-family: 'Segoe UI Semibold', 'Segoe UI', Arial, Helvetica, sans-serif;
+        font-weight: 600;
+        color: inherit;
+        font-size: 18px;
+        margin-top: 30px;
+    }
+
+.module-item {
+    padding: 12px 0;
+    border-top: 1px solid #ddd;
+}
+
+    .module-item.inactive {
+        background-color: #fafafa;
+    }
+
+        .module-item.inactive .module-icon {
+            opacity: 0.5;
+            filter: alpha(opacity=50);
+        }
+
+.module-icon {
+    float: left;
+    width: 48px;
+    margin-left: 10px;
+    text-align: center;
+}
+
+    .module-icon .icon,
+    .module-icon .fa {
+        max-width: 48px;
+    }
+
+.module-data {
+    box-sizing: border-box;
+    margin-left: 90px;
+}
+
+.module-item:last-child .module-data {
+    border-bottom: none;
+}
+
+.module-col {
+    float: left;
+    display: block;
+    box-sizing: border-box;
+    min-height: 1px;
+    position: relative;
+    padding: 0 15px;
+}
+
+    .module-col:first-child {
+        padding-left: 0;
+    }
+
+.module-data-cols-1 .module-col {
+    width: 100%;
+}
+
+.module-data-cols-2 .module-col {
+    width: 50%;
+}
+
+.module-data-cols-3 .module-col {
+    width: 33.3332%;
+}
+
+.module-data-cols-4 .module-col {
+    width: 25%;
+}
+
+.module-name {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.module-info {
+    margin-top: 3px;
+}
+
+    .module-info .attr-value {
+        color: #aaa;
+        padding-right: 5px;
+    }
+
+.module-description {
+    margin: 4px 0;
+}
+
+.module-actions {
+    margin-top: 8px;
+}
+
+    .module-actions .btn {
+        text-transform: none;
+    }
+
+code,
+pre {
+    padding: 0 3px 2px;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 11px;
+    color: #333333;
+    border-radius: 3px;
+}
+
+code {
+    padding: 2px 4px;
+    color: #d14;
+    background-color: #f7f7f9;
+    border: 1px solid #e1e1e8;
+}
+
+pre {
+    display: block;
+    padding: 8.5px;
+    margin: 0 0 9px;
+    font-size: 12px;
+    line-height: 18px;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: pre;
+    white-space: pre-wrap;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+}
+
+    pre.prettyprint {
+        margin-bottom: 18px;
+    }
+
+    pre code {
+        padding: 0;
+        color: inherit;
+        background-color: transparent;
+        border: 0;
+    }
+
+.pre-scrollable {
+    max-height: 340px;
+    overflow-y: scroll;
+}
+/* Themes */
+#theme-list {
+  min-width: 820px;
+  max-width: 1360px;
+}
+#theme-list .theme-item {
+  position: relative;
+  float: left;
+  width: 250px;
+  box-sizing: border-box;
+  margin: 0 20px 20px 0;
+  border: 1px solid #ccc;
+}
+#theme-list .theme-thumbnail-wrapper,
+#theme-list .theme-data {
+  padding: 8px;
+}
+#theme-list .theme-thumbnail {
+  height: 220px;
+  background-size: cover;
+}
+#theme-list .theme-data h4 {
+  margin-top: 0;
+  color: #333;
+}
+#theme-list .theme-data h4 > small {
+  line-height: 15.3px;
+  font-size: 12px;
+  font-weight: normal;
+}
+#theme-list .theme-info {
+  font-size: 12px;
+  line-height: 16px;
+}
+#theme-list .theme-buttons {
+  margin-top: 15px;
+}
+#theme-list .theme-broken-badge {
+  position: absolute;
+  background-color: #e51c23;
+  color: #fff;
+  right: 0;
+  bottom: 0;
+  padding: 8px 12px;
+  font-size: 20px;
+}
+
+/* Special icons */
+/* Special icons */
+.icon-active-true {
+  color: #259b24;
+  text-shadow: 0 -1px 0 #ffffff;
+}
+.icon-active-true::before {
+  content: '\f00c';
+}
+.icon-active-false {
+  color: #c5c5c5;
+  text-shadow: 0 -1px 0 #ffffff;
+}
+.icon-active-false::before {
+  content: '\f068';
+}
+ 
+
+/*新手指引*/
+ 
+
+.index_point ul{ height:105px; padding:10px; list-style:none; }
+.index_point ul li{ float:left; height:85px; width:20%; text-align:center; position:relative; cursor:pointer; }
+.index_point ul li.line{ width:20px; }
+.index_point ul li a{ color:#777; display:block; }
+.index_point ul li a i{ display:block; font-size:30px; margin:17px 0px 10px 2px;}
+.index_point ul li i.fa-angle-right{ display:block; font-size:60px; position:absolute; right:-10px; top:50%; margin-top:-30px; color:#eee;}
+.index_point ul li a:hover{ color:#1784bd; text-decoration:none; }
+.index_point ul li a:hover i{ color:#1784bd; }
+.bdshare_popup_box{ display:none!important;}
+
+.index_point ul li.on div{background:#1784bd;}
+.index_point ul li.on div i{background:#1784bd;}

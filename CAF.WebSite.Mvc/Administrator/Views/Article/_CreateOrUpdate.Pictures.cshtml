@@ -1,0 +1,152 @@
+﻿@model ArticleModel
+@using CAF.WebSite.Application.WebUI
+@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+@using CAF.Mvc.JQuery.Datatables.Core;
+@{
+
+    var g = Html.GridToolKit<ArticleModel.ArticlePictureModel>();
+    var grid = g.DataGrid("testGrid", g.Param(x => x.ArticleId)).TableId("table-id").GridKey("Id").MainGrid(
+    g.GridColumn(x => x.PictureUrl, 300).DefaultContent("<a href='#PictureUrl#' target='_blank'><img alt='#PictureUrl#' src='#PictureUrl#' class='img-polaroid' style='max-height: 100px' /></a>"),
+    g.GridColumn(x => x.DisplayOrder, 300).DefaultContent("<a class='attr-edit' edit-url='/Admin/Common/UpdateDisplayOrder/#Id#'>#DisplayOrder#</a>"),
+    g.GridColumn("operation", "" + T("Admin.Common.Operation").Text + "", 100).DefaultContent("<a href='/Admin/Article/ArticlePictureDelete/#Id#' class='btn default btn-xs purple delete'><i class='fa fa-trash-o'></i></a>"))
+    .Url(Url.Action("ArticlePictureList", "Article", new { id = Model.Id })).DefaultTableClass().BindInitComplete("BindEditable");
+}
+@if (Model.Id > 0)
+{
+    <script type="text/javascript">
+        window.BindEditable= function () {
+            var setEditable = $('#@grid.GetTableId .attr-edit');
+            // alert(setEditable.length);
+            $(setEditable).each(function () {
+                var obj=$(this);
+                var url= obj.attr("edit-url");
+
+                obj.editable({
+                    url: url,
+                    type: 'text',
+                    pk: 1,
+                    name: 'Picture',
+                    title: '请输入排序',
+                    validate: function (value) {
+                        if ($.trim(value) == '') return '必填项!';
+                    },
+                    success: function (response, newValue) {
+                        if (response.Result) {
+                            {
+                                testGrid.reload();
+                                ShowMetronic(response.Message);
+                            }
+                        }
+                    }
+                });
+                //setTimeout(function () {
+                //    obj.editable('show');
+                //}, 200);
+            });
+        };
+
+        @(grid)
+
+        $(document).ready(function () {
+
+            $('#addProductPicture').click(function () {
+                var pictureId = $("#@Html.FieldIdFor(model => model.AddPictureModel.PictureId)").val();
+                var displayOrder = $("#@Html.FieldIdFor(model => model.AddPictureModel.DisplayOrder)").val();
+
+                if (pictureId == 0) {
+                    alert('@T("Admin.ContentManagement.Articles.Pictures.UploadFirst")');
+                    return;
+                }
+                $('#addProductPicture').attr('disabled', true);
+                $.ajax({
+                    cache:false,
+                    type: "POST",
+                    url: "@(Url.Action("ArticlePictureAdd", "Article"))",
+                    data: { "pictureId": pictureId, "displayOrder": displayOrder, "articleId": @Model.Id },
+                    success: function (data) {
+                        Datatable.reload();
+                        $('#addProductPicture').attr('disabled', false);
+                    },
+                    error:function (xhr, ajaxOptions, thrownError){
+                        alert('@T("Admin.ContentManagement.Articles.Pictures.AddFailed")')
+                        $('#addProductPicture').attr('disabled', false);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <div class="row">
+        <div class="table-container">
+            <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+                <thead>
+                    <tr>
+                        @foreach (var column in grid.GetColumns)
+                        {
+                            <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                        }
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                @if (grid.GetIsFoot)
+                {
+                    <tfoot>
+                        <tr>
+                            @foreach (var column in grid.GetColumns)
+                            {
+                                <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                            }
+                        </tr>
+                    </tfoot>
+                }
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-horizontal  form-body">
+
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.AddPictureModel.PictureId)
+                </label>
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.AddPictureModel.PictureId)
+                    @Html.ValidationMessageFor(model => model.AddPictureModel.PictureId)
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+                    @Html.LangLabelFor(model => model.AddPictureModel.DisplayOrder)
+                </label>
+                <div class="col-md-6">
+                    @Html.TextBoxFor(model => model.AddPictureModel.DisplayOrder, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AddPictureModel.DisplayOrder)
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3">
+
+                </label>
+                <div class="col-md-6">
+                    <button type="button" name="addProductPicture" id="addProductPicture" class="btn  btn-default">
+                        <i class="fa fa-plus"></i>
+                        @T("Admin.ContentManagement.Articles.Pictures.AddButton")
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}
+else
+{
+    <div class="alert alert-danger">
+        @T("Plugins.Widgets.CustomBanner.SaveBeforeEdit")
+    </div>
+}

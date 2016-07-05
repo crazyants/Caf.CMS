@@ -1,0 +1,12 @@
+﻿@{
+    Layout = "";
+
+}
+@*<a class="btn btn-primary btn-extauth btn-facebook btn-block" href="@Url.RouteUrl("CAF.WebSite.QQAuth", new { ReturnUrl = HttpContext.Current.Request.QueryString["ReturnUrl"], action = "Login" })">
+        <i class="fa fa-fw fa-lg fa-facebook-square"></i>
+        @T("Plugins.ExternalAuth.QQ.Login")
+    </a>*@
+
+<a  title="QQ账号登录" href="@Url.RouteUrl("CAF.WebSite.QQAuth", new { ReturnUrl = HttpContext.Current.Request.QueryString["ReturnUrl"], action = "Login" })">
+    <img src="~/Content/assets/global/img/social/Connect_logo_7.png" alt="QQ账号登录" />
+</a>

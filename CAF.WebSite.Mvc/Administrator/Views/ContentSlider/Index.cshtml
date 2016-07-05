@@ -1,0 +1,187 @@
+﻿@model ContentSliderSettingsModel
+@using CAF.Mvc.JQuery.Datatables.Core;
+@{
+    ViewBag.Title = T("Admin.Configuration.ContentSlider").Text;
+    var g = Html.GridToolKit<ContentSliderSlideModel>();
+    var grid = g.DataGrid("slidesGrid", g.Param(x => x.Id)).TableId("table-id").GridKey("Id").Pager()
+    .MainGrid(
+    g.GridColumn(x => x.Title).DefaultContent("<a href='ContentSlider/EditSlide?index=#SlideIndex#'>#Title#</a>"),
+    g.GridColumn(x => x.DisplayOrder, 50),
+    g.GridColumn(x => x.LanguageName, 50),
+    g.GridColumn(x => x.LimitedToSites, 50),
+    g.GridColumn(x => x.Published, 50))
+    .Url(Url.Action("SlideList", "ContentSlider")).DefaultTableClass().BindDataParamBinding("onDataBinding");
+}
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase">@T("Admin.Configuration.ContentSlider")</span>
+                        <span class="caption-helper"></span>
+                    </div>
+                    <div class="tools">
+
+                    </div>
+                    <div class="actions">
+                        <button type="submit" name="save" value="save" class="btn btn-primary">
+                            <i class="fa fa-check"></i>
+                            @T("Admin.Common.Save")
+                        </button>
+                    </div>
+                </div>
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                    <div class="form-body">
+                        <h2 class="margin-bottom-20"> </h2>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3"> @Html.LangLabelFor(model => model.IsActive)</label>
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.IsActive)
+                                @Html.ValidationMessageFor(model => model.IsActive)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.ContentSliderHeight)</label>
+                            <div class="col-md-3">
+                                @Html.TextBoxFor(model => model.ContentSliderHeight, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ContentSliderHeight)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.ContentSliderWidth)</label>
+                            <div class="col-md-3">
+                                @Html.TextBoxFor(model => model.ContentSliderWidth, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ContentSliderWidth)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3"> @Html.LangLabelFor(model => model.BackgroundPictureId)</label>
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.BackgroundPictureId, "Picture")
+                                @Html.ValidationMessageFor(model => model.BackgroundPictureId)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.AutoPlay)</label>
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.AutoPlay)
+                                @Html.ValidationMessageFor(model => model.AutoPlay)
+                            </div>
+                        </div>
+                        <div id="autoplaydelay" class="form-group">
+                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.AutoPlayDelay)</label>
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.AutoPlayDelay)
+                                @Html.ValidationMessageFor(model => model.AutoPlayDelay)
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="margin-bottom-20">@T("Admin.Configuration.ContentSlider.Slides") </h4>
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SearchSiteId)</label>
+                                    <div class="col-md-3">
+                                        @Html.DropDownList("SearchSiteId", Model.AvailableSites, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3"></label>
+                                    <div class="col-md-3">
+                                        <button type="submit" id="search-slides" class="btn btn-default">
+                                            <i class="fa fa-search"></i>
+                                            @T("Admin.Common.Search")
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="portlet-body flip-scroll">
+
+                    <div class="pull-right">
+                        <a href="@Url.Action("CreateSlide")" class="btn btn-default btn-above">
+                            <i class="fa fa-plus"></i>
+                            @T("Admin.Common.AddNew")
+                        </a>
+                    </div>
+
+                    <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+                        <thead>
+                            <tr>
+                                @foreach (var column in grid.GetColumns)
+                                {
+                                    if (column.Name == "" + T("Admin.Common.Edit").Text + "")
+                                    {
+
+                                        <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                                    }
+                                    else if (column.DisplayName == null)
+                                    {
+
+                                        <th class="@column.CssClassHeader"><input type="checkbox" class="group-checkable" data-set="checkboxes"></th>
+
+                                    }
+                                    else
+                                    {
+                                        <th class="@column.CssClassHeader">@column.DisplayName</th>
+                                    }
+
+                                }
+                            </tr>
+
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function onDataBinding() {
+            var searchModel = {
+                SearchSiteId: $('#SearchSiteId').val()
+            };
+            return searchModel;
+        }
+        @(grid)
+
+        $(document).ready(function () {
+
+            //search button
+            $('#search-slides').click(function () {
+                //search
+                var grid = slidesGrid.reload();
+                return false;
+            });
+            $('input[id="@Html.FieldIdFor(model => model.AutoPlay)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleAutoPlayDelay(state);
+            });
+            toggleAutoPlayDelay(@Model.AutoPlay.ToString().ToLower());
+        });
+        function toggleAutoPlayDelay(state) {
+            if (state) {
+                $('#autoplaydelay').show();
+            }
+            else {
+                $('#autoplaydelay').hide();
+            }
+        }
+
+
+    </script>
+}

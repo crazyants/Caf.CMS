@@ -1,0 +1,10 @@
+﻿FriendlyName: Pay with Amazon
+SystemName: CAF.WebSite.AliPay
+Group: Payment
+Version: 1.1.0.0
+MinAppVersion: 1.1.0.0
+Author: CAF.WebSite AG
+DisplayOrder: 1
+FileName: CAF.WebSite.AliPay.dll
+ResourceRootKey: Plugins.Payments.AliPay
+Url: http://community.smartstore.com/index.php?/files/file/11-amazon-payments-plugin/

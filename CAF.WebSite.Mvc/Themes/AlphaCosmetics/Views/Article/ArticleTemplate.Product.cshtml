@@ -1,0 +1,80 @@
+﻿@model ArticlePostModel
+@using CAF.Infrastructure.Core.Domain.Seo;
+@using CAF.Infrastructure.Core;
+@{
+    Layout = "~/Views/Shared/_ColumnsTwo.cshtml";
+
+    //title, meta
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Title);
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+
+    var canonicalUrlsEnabled = EngineContext.Current.Resolve<CAF.Infrastructure.Core.Domain.Seo.SeoSettings>().CanonicalUrlsEnabled;
+    if (canonicalUrlsEnabled)
+    {
+        var articleUrl = Url.RouteUrl("Article", new { SeName = Model.SeName }, this.Request.Url.Scheme);
+        Html.AddCanonicalUrlParts(articleUrl);
+    }
+    string avatarSpanning = (Model.AllowUsersToUploadAvatars ? "padding-left: {0}px; min-height: {0}px;".FormatWith(Model.AvatarPictureSize + 30) : "");
+}
+
+@section left {
+    @Html.Action("CategoryNavigation", "ArticleCatalog", new { currentCategoryId = this.CurrentArticleCategoryId, currentArticleId = this.CurrentArticleId, onlyShowChildren = true, showParent = true, area = "" })
+}
+
+<div class="page-content" id="pageContent">
+    <div class="page-content-title float-fix">
+        @Html.Action("ArticleBreadcrumb", "ArticleCatalog", new { articleId = Model.Id })
+    </div>
+    <div class="active" id="showproduct">
+
+        <h1 class="title">
+            @(Model.Title)
+        </h1>
+        <div>
+            <dl class="pshow">
+                <dt style="width: 380px;">
+                    <span class="info_img" id="imgqwe">
+                        <a href="javascript:void(0);" title="查看大图" target="_blank">
+                            <img src="@Model.DefaultPictureModel.FullSizeImageUrl" class="img-responsive" alt="@Model.DefaultPictureModel.AlternateText" width="380" height="350">
+                        </a>
+                    </span>
+                </dt>
+                <dd style="width: 345px;">
+                    @Html.Partial("_ExtendedAttributes", Model)
+                </dd>
+            </dl>
+        </div>
+        <div style="clear:both;"></div>
+
+        <h3 class="ctitle"><span>详细描述</span> </h3>
+
+        <div class="editor">
+            <div>
+                <p>
+                    @Html.Raw(Model.FullContent)
+                </p>
+
+                <div id="metinfo_additional"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="met_hits">
+            <div class="metjiathis">
+                @if (Model.HasSampleDownload)
+                {
+                    <div>
+                        <a href="@Url.Action("Sample", "Download", new { id = Model.Id })">
+                            <i class="fa fa-fw fa-arrow-circle-o-down"></i>
+                            下载附件
+                        </a>
+                    </div>
+                }
+            </div>
+            点击次数：<span>
+                @Model.Click
+            </span>&nbsp;&nbsp;更新时间：@Model.PostCreatedOnStr&nbsp;&nbsp;【<a href="javascript:window.print()">打印此页</a>】&nbsp;&nbsp;【<a href="javascript:self.close()">关闭</a>】
+        </div>
+        @Html.Partial("_ArticlePrevNext", Model.ArticlePNModel)
+    </div>
+</div>

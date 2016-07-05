@@ -1,0 +1,30 @@
+﻿<Language Name="English" IsDefault="false" IsRightToLeft="false">
+  <LocaleResource Name="Plugins.FriendlyName.Widgets.ETracker" AppendRootKey="false">
+    <Value>Custom banner</Value>
+  </LocaleResource>
+  <LocaleResource Name="Plugins.Widgets.CustomBanner" AppendRootKey="false">
+    <Children>
+      <LocaleResource Name="AdminInstruction">
+        <Value>
+          <![CDATA[
+            To configure this plugin navigate to the respective product category or product for which you want to add a custom banner
+            and choose in the tab Banner the picture you want to display in the header area. For an optimal result use images that 
+            have the size of your shop width (1170px) and the height of the banner height that was configured here.
+          ]]>
+        </Value>
+      </LocaleResource>
+      <LocaleResource Name="MaxBannerHeight">
+        <Value>Maximum Bannerheight</Value>
+      </LocaleResource>
+      <LocaleResource Name="MaxBannerHeight.Hint">
+        <Value>Determines the maximum height for the banner area.</Value>
+      </LocaleResource>
+      <LocaleResource Name="StretchPicture">
+        <Value>Stretch Banner</Value>
+      </LocaleResource>
+      <LocaleResource Name="StretchPicture.Hint">
+        <Value>Determines whether the banner will be stretched over the complete width that's available.</Value>
+      </LocaleResource>
+    </Children>
+  </LocaleResource>
+</Language>

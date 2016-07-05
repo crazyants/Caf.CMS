@@ -1,0 +1,130 @@
+﻿@model SiteModel
+ 
+@Html.HiddenFor(model => model.Id)
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('input[id="@Html.FieldIdFor(model => model.SslEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+            toggleSslEnabled(state);
+        });
+        toggleSslEnabled(@Model.SslEnabled.ToString().ToLower());
+    });
+
+    function toggleSslEnabled(state) {
+        if (state) {
+            $('#pnlSecureUrl').show();
+        }
+        else {
+            $('#pnlSecureUrl').hide();
+        }
+    }
+</script>
+
+
+<div class=" form-body">
+    <h2 class="margin-bottom-20">  @Html.ValidationSummary(true)</h2>
+    <div class="form-group">
+        <label class="control-label col-md-3">
+            @Html.LangLabelFor(model => model.LogoPictureId)
+        </label>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.LogoPictureId, "#site-logo-picture", new { transientUpload = true })
+            @Html.ValidationMessageFor(model => model.LogoPictureId)
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">
+            @Html.LangLabelFor(model => model.Name)
+        </label>
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Name)
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">
+            @Html.LangLabelFor(model => model.Url)
+        </label>
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.Url, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Url)
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">
+            @Html.LangLabelFor(model => model.ContentDeliveryNetwork)
+        </label>
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.ContentDeliveryNetwork, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ContentDeliveryNetwork)
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">
+            @Html.LangLabelFor(model => model.SslEnabled)
+        </label>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.SslEnabled)
+            @Html.ValidationMessageFor(model => model.SslEnabled)
+
+        </div>
+    </div>
+    <div class="form-group" id="pnlSecureUrl">
+        <label class="control-label col-md-3">
+            @Html.LangLabelFor(model => model.SecureUrl)
+        </label>
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.SecureUrl, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SecureUrl)
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">
+            @Html.LangLabelFor(model => model.Hosts)
+        </label>
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.Hosts, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Hosts)
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">
+            @Html.LangLabelFor(model => model.HtmlBodyId)
+        </label>
+        <div class="col-md-4">
+            @Html.TextBoxFor(model => model.HtmlBodyId, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.HtmlBodyId)
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">
+            @Html.LangLabelFor(model => model.DisplayOrder)
+        </label>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.DisplayOrder)
+            @Html.ValidationMessageFor(model => model.DisplayOrder)
+
+        </div>
+    </div>
+    @if (Model.Id > 0)
+    {  <div class="form-group">
+        <label class="control-label col-md-3">
+            @Html.LangLabelFor(model => model.Id)
+        </label>
+        <div class="col-md-4">
+            <span>@Model.Id</span>
+
+        </div>
+    </div>
+
+    }
+
+
+
+</div>

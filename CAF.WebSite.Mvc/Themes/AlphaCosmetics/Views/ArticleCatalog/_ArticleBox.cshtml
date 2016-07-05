@@ -1,0 +1,32 @@
+﻿@model ArticlePostModel
+
+@{
+    string desc = null, descTitle = null;
+    if (Model.ShortContent.HasValue())
+    {
+        desc = Model.ShortContent.Truncate(50, "...");
+        if (Model.ShortContent.Length > desc.Length)
+        {
+            descTitle = Model.ShortContent;
+        }
+    }
+    string name = null, nameTitle = null;
+    name = Model.Title.Truncate(10, "...");
+    if (Model.Title.Length > name.Length)
+    {
+        nameTitle = Model.Title;
+    }
+}
+<li class="list" style='width: 162px; margin-left: 10px; margin-right: 10px; height: 165px;'>
+    <a href="@Url.RouteUrl("Article", new { SeName = Model.SeName })" title="@name" target="_self" class="img">
+        <img src="@Model.DefaultPictureModel.ImageUrl" alt="@Model.DefaultPictureModel.AlternateText" title="@Model.DefaultPictureModel.AlternateText" width="160" height="130">
+    </a>
+    <h3>
+        <a href="@Url.RouteUrl("Article", new { SeName = Model.SeName })">
+            @name
+        </a>
+    </h3>
+</li>
+
+
+

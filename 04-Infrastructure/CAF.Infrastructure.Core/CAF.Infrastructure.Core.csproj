@@ -1,0 +1,624 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B71AA2BA-2059-4165-9512-FE3B46EE10DC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CAF.Infrastructure.Core</RootNamespace>
+    <AssemblyName>CAF.Infrastructure.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Libraries\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=3.4.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Autofac.3.4.0\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc, Version=3.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Autofac.Mvc5.3.3.2\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Fasterflect">
+      <HintPath>..\..\packages\fasterflect.2.1.3\lib\net40\Fasterflect.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="StackExchange.Redis">
+      <HintPath>..\..\packages\StackExchange.Redis.1.0.488\lib\net45\StackExchange.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\AssemblySharedInfo.cs">
+      <Link>Properties\AssemblySharedInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\AssemblyVersionInfo.cs">
+      <Link>Properties\AssemblyVersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="AppDomainTypeFinder.cs" />
+    <Compile Include="Async\AsyncRunner.cs" />
+    <Compile Include="Async\AsyncState.cs" />
+    <Compile Include="Caching\AspNetCache.cs" />
+    <Compile Include="Caching\Cachekey.cs" />
+    <Compile Include="Caching\DefaultCacheManager.cs" />
+    <Compile Include="Caching\NullCache.cs" />
+    <Compile Include="Caching\RedisCacheManager.cs" />
+    <Compile Include="Caching\RedisSetting.cs" />
+    <Compile Include="Caching\RequestCache.cs" />
+    <Compile Include="Caching\StaticCache.cs" />
+    <Compile Include="Collections\IPersistentCollection.cs" />
+    <Compile Include="Collections\MultiMap.cs" />
+    <Compile Include="Collections\PersistentCollection.cs" />
+    <Compile Include="Collections\QuerystringBuilder.cs" />
+    <Compile Include="Collections\ThreadSafeList.cs" />
+    <Compile Include="Collections\TopologicalSorter.cs" />
+    <Compile Include="Collections\TreeNode.cs" />
+    <Compile Include="ComparableObject.cs" />
+    <Compile Include="ComponentModel\TypeConversion\BooleanConverter.cs" />
+    <Compile Include="ComponentModel\TypeConversion\DateTimeConverter.cs" />
+    <Compile Include="ComponentModel\TypeConversion\EnumerableConverter.cs" />
+    <Compile Include="ComponentModel\Expando.cs" />
+    <Compile Include="ComponentModel\FastActivator.cs" />
+    <Compile Include="ComponentModel\FastProperty.cs" />
+    <Compile Include="ComponentModel\GenericListTypeConverter.cs" />
+    <Compile Include="ComponentModel\HybridExpando.cs" />
+    <Compile Include="ComponentModel\ITypeConverter.cs" />
+    <Compile Include="ComponentModel\TypeConversion\NullableConverter.cs" />
+    <Compile Include="ComponentModel\PropertyBag.cs" />
+    <Compile Include="ComponentModel\SerializationUtils.cs" />
+    <Compile Include="ComponentModel\TypeConversion\TimeSpanConverter.cs" />
+    <Compile Include="ComponentModel\TypeConversion\TypeConverterAdapter.cs" />
+    <Compile Include="ComponentModel\TypeConversion\TypeConverterBase.cs" />
+    <Compile Include="ComponentModel\TypeConversion\TypeConverterFactory.cs" />
+    <Compile Include="Configuration\ISettings.cs" />
+    <Compile Include="Configuration\ISettingService.cs" />
+    <Compile Include="Configuration\JsonPersistAttribute.cs" />
+    <Compile Include="ContextState.cs" />
+    <Compile Include="Contexts\EngineContext.cs" />
+    <Compile Include="Data\DataProviderFactory.cs" />
+    <Compile Include="Data\DataSettings.cs" />
+    <Compile Include="Configuration\DbConfig.cs" />
+    <Compile Include="Data\DbContextScope.cs" />
+    <Compile Include="Data\DbQuerySettings.cs" />
+    <Compile Include="Data\EntityState.cs" />
+    <Compile Include="Data\Filters\DataFilters.cs" />
+    <Compile Include="Data\Filters\DataFilterConfiguration.cs" />
+    <Compile Include="Data\Hooks\HookedEntityEntry.cs" />
+    <Compile Include="Data\Hooks\HookEntityMetadata.cs" />
+    <Compile Include="Data\Hooks\HooksEventConsumer.cs" />
+    <Compile Include="Data\Hooks\IHook.cs" />
+    <Compile Include="Data\Hooks\IPostActionHook .cs" />
+    <Compile Include="Data\Hooks\IPreActionHook.cs" />
+    <Compile Include="Data\Hooks\PostActionHook.cs" />
+    <Compile Include="Data\Hooks\PostDeleteHook.cs" />
+    <Compile Include="Data\Hooks\PostInsertHook.cs" />
+    <Compile Include="Data\Hooks\PostUpdateHook.cs" />
+    <Compile Include="Data\Hooks\PreActionHook.cs" />
+    <Compile Include="Data\Hooks\PreDeleteHook.cs" />
+    <Compile Include="Data\Hooks\PreInsertHook.cs" />
+    <Compile Include="Data\Hooks\PreUpdateHook.cs" />
+    <Compile Include="Data\IDataProvider.cs" />
+    <Compile Include="Data\IDbContext.cs" />
+    <Compile Include="Data\IDbContextExtensions.cs" />
+    <Compile Include="Data\IQueryableExtensions.cs" />
+    <Compile Include="Data\Impex\ImportMessage.cs" />
+    <Compile Include="Data\Impex\ImportModeFlags.cs" />
+    <Compile Include="Data\Impex\ImportProgressInfo.cs" />
+    <Compile Include="Data\Impex\ImportResult.cs" />
+    <Compile Include="Data\IRepository.cs" />
+    <Compile Include="Data\ITransaction.cs" />
+    <Compile Include="Data\RepositoryExtensions.cs" />
+    <Compile Include="Data\SqlFileTokenizer.cs" />
+    <Compile Include="DependencyManagement\AutofacRequestLifetimeHttpModule.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DependencyManagement\ContainerManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DependencyManagement\DefaultLifetimeScopeAccessor.cs" />
+    <Compile Include="DependencyManagement\DefaultLifetimeScopeProvider.cs" />
+    <Compile Include="DependencyManagement\IDependencyRegistrar.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DependencyManagement\ILifetimeScopeAccessor.cs" />
+    <Compile Include="Disposable\DisposableObject.cs" />
+    <Compile Include="Disposable\DisposeAction.cs" />
+    <Compile Include="Domain\Base\Affiliates\Affiliate.cs" />
+    <Compile Include="Domain\Base\Common\Address.cs" />
+    <Compile Include="Domain\Base\Common\AddressSettings.cs" />
+    <Compile Include="Domain\Base\Common\AdminAreaSettings.cs" />
+    <Compile Include="Domain\Base\Common\BankConnectionSettings.cs" />
+    <Compile Include="Domain\Base\Common\CommonSettings.cs" />
+    <Compile Include="Domain\Base\Common\CompanyInformationSettings.cs" />
+    <Compile Include="Domain\Base\Common\ContactDataSettings.cs" />
+    <Compile Include="Domain\Base\Common\FulltextSearchMode.cs" />
+    <Compile Include="Domain\Base\Common\GenericAttribute.cs" />
+    <Compile Include="Domain\Base\Common\PdfSettings.cs" />
+    <Compile Include="Domain\Base\Common\SerialRule.cs" />
+    <Compile Include="Domain\Base\Common\SerialRuleFormat.cs" />
+    <Compile Include="Domain\Base\Common\SocialSettings.cs" />
+    <Compile Include="Domain\Base\Common\VisitRecord.cs" />
+    <Compile Include="Domain\Base\Configuration\Setting.cs" />
+    <Compile Include="Domain\Base\Directory\Country.cs" />
+    <Compile Include="Domain\Base\Directory\CurrencySettings.cs" />
+    <Compile Include="Domain\Base\Directory\DeliveryTime.cs" />
+    <Compile Include="Domain\Base\Directory\ExchangeRate.cs" />
+    <Compile Include="Domain\Base\Directory\MeasureDimension.cs" />
+    <Compile Include="Domain\Base\Directory\MeasureSettings.cs" />
+    <Compile Include="Domain\Base\Directory\MeasureWeight.cs" />
+    <Compile Include="Domain\Base\Directory\QuantityUnit.cs" />
+    <Compile Include="Domain\Base\Directory\StateProvince.cs" />
+    <Compile Include="Domain\Base\Localization\ILocalizedEntity.cs" />
+    <Compile Include="Domain\Base\Localization\ILocalizedEnum.cs" />
+    <Compile Include="Domain\Base\Localization\Language.cs" />
+    <Compile Include="Domain\Base\Localization\LocaleStringResource.cs" />
+    <Compile Include="Domain\Base\Localization\LocalizationSettings.cs" />
+    <Compile Include="Domain\Base\Localization\LocalizedProperty.cs" />
+    <Compile Include="Domain\Base\Logging\ActivityLog.cs" />
+    <Compile Include="Domain\Base\Logging\ActivityLogType.cs" />
+    <Compile Include="Domain\Base\Logging\Log.cs" />
+    <Compile Include="Domain\Base\Logging\LogLevel.cs" />
+    <Compile Include="Domain\Base\Logging\SQLProfilerLog.cs" />
+    <Compile Include="Domain\Base\Messages\Campaign.cs" />
+    <Compile Include="Domain\Base\Messages\EmailAccountSettings.cs" />
+    <Compile Include="Domain\Base\Messages\EmailAttachmentStorageLocation.cs" />
+    <Compile Include="Domain\Base\Messages\Events.cs" />
+    <Compile Include="Domain\Base\Messages\MessageTemplate.cs" />
+    <Compile Include="Domain\Base\Messages\MessageTemplatesSettings.cs" />
+    <Compile Include="Domain\Base\Messages\NewsLetterSubscription.cs" />
+    <Compile Include="Domain\Base\Messages\QueuedEmail.cs" />
+    <Compile Include="Domain\Base\Messages\QueuedEmailAttachment.cs" />
+    <Compile Include="Domain\Base\Security\AclRecord.cs" />
+    <Compile Include="Domain\Base\Security\DefaultPermissionRecord.cs" />
+    <Compile Include="Domain\Base\Security\IAclSupported.cs" />
+    <Compile Include="Domain\Base\Security\PermissionRecord.cs" />
+    <Compile Include="Domain\Base\Security\SecuritySettings.cs" />
+    <Compile Include="Domain\Base\Seo\CanonicalHostNameRule.cs" />
+    <Compile Include="Domain\Base\Seo\ISlugSupported.cs" />
+    <Compile Include="Domain\Base\Seo\PageTitleSeoAdjustment.cs" />
+    <Compile Include="Domain\Base\Seo\SeoSettings.cs" />
+    <Compile Include="Domain\Base\Seo\UrlRecord.cs" />
+    <Compile Include="Domain\Base\SiteInformationSettings.cs" />
+    <Compile Include="Domain\Base\Sites\ISiteMappingSupported.cs" />
+    <Compile Include="Domain\Base\Sites\Site.cs" />
+    <Compile Include="Domain\Base\Sites\SiteExtensions.cs" />
+    <Compile Include="Domain\Base\Sites\SiteMapping.cs" />
+    <Compile Include="Domain\Base\Tables\IGridRegistration.cs" />
+    <Compile Include="Domain\Base\Tasks\ScheduleTask.cs" />
+    <Compile Include="Domain\Base\Tax\TaxBasedOn.cs" />
+    <Compile Include="Domain\Base\Tax\TaxCategory.cs" />
+    <Compile Include="Domain\Base\Tax\TaxDisplayType.cs" />
+    <Compile Include="Domain\Base\Tax\TaxSettings.cs" />
+    <Compile Include="Domain\Base\Tax\VatNumberStatus.cs" />
+    <Compile Include="Domain\Base\Themes\ThemeSettings.cs" />
+    <Compile Include="Domain\Base\Themes\ThemeVariable.cs" />
+    <Compile Include="Domain\Base\Users\BestUserReportLine.cs" />
+    <Compile Include="Domain\Base\Users\Events.cs" />
+    <Compile Include="Domain\Base\Users\ExternalAuthenticationRecord.cs" />
+    <Compile Include="Domain\Base\Users\ExternalAuthenticationSettings.cs" />
+    <Compile Include="Domain\Base\Users\Organize.cs" />
+    <Compile Include="Domain\Base\Users\PasswordFormat.cs" />
+    <Compile Include="Domain\Base\Users\Permission.cs" />
+    <Compile Include="Domain\Base\Users\SystemUserAttributeNames.cs" />
+    <Compile Include="Domain\Base\Users\SystemUserNames.cs" />
+    <Compile Include="Domain\Base\Users\SystemUserRoleNames.cs" />
+    <Compile Include="Domain\Base\Users\User.cs" />
+    <Compile Include="Domain\Base\Users\UserCertificate.cs" />
+    <Compile Include="Domain\Base\Users\UserContent.cs" />
+    <Compile Include="Domain\Base\Users\UserNameFormat.cs" />
+    <Compile Include="Domain\Base\Users\UserRegistrationType.cs" />
+    <Compile Include="Domain\Base\Users\UserRole.cs" />
+    <Compile Include="Domain\Base\Users\UserSettings.cs" />
+    <Compile Include="Domain\Cms\Articles\Article.cs" />
+    <Compile Include="Domain\Cms\Articles\ArticleAlbum.cs" />
+    <Compile Include="Domain\Cms\Articles\ArticleAttach.cs" />
+    <Compile Include="Domain\Cms\Articles\ArticleAttribute.cs" />
+    <Compile Include="Domain\Cms\Articles\ArticleAttributeNames.cs" />
+    <Compile Include="Domain\Cms\Articles\ArticleCatalogSettings.cs" />
+    <Compile Include="Domain\Cms\Articles\ArticleCategory.cs" />
+    <Compile Include="Domain\Cms\Articles\ArticleCategoryExtend.cs" />
+    <Compile Include="Domain\Cms\Articles\ArticleCategoryMapping.cs" />
+    <Compile Include="Domain\Cms\Articles\ArticleComment.cs" />
+    <Compile Include="Domain\Cms\Articles\ArticleExtend.cs" />
+    <Compile Include="Domain\Cms\Articles\ArticleReview.cs" />
+    <Compile Include="Domain\Cms\Articles\ArticleReviewHelpfulness.cs" />
+    <Compile Include="Domain\Cms\Articles\ArticleSortingEnum.cs" />
+    <Compile Include="Domain\Cms\Articles\ArticleStatus.cs" />
+    <Compile Include="Domain\Cms\Articles\ArticleTag.cs" />
+    <Compile Include="Domain\Cms\Articles\ArticleType.cs" />
+    <Compile Include="Domain\Cms\Articles\AttributeControlType.cs" />
+    <Compile Include="Domain\Cms\Articles\ExtendedAttribute.cs" />
+    <Compile Include="Domain\Cms\Articles\ExtendedAttributeValue.cs" />
+    <Compile Include="Domain\Cms\Articles\Feedback.cs" />
+    <Compile Include="Domain\Cms\Articles\Link.cs" />
+    <Compile Include="Domain\Cms\Articles\ModelTemplate.cs" />
+    <Compile Include="Domain\Cms\Articles\RelatedArticle.cs" />
+    <Compile Include="Domain\Cms\Articles\StatusFormat.cs" />
+    <Compile Include="Domain\Cms\Articles\TemplateTypeFormat.cs" />
+    <Compile Include="Domain\Cms\Channels\Channel.cs" />
+    <Compile Include="Domain\Cms\Clients\Client.cs" />
+    <Compile Include="Domain\Cms\ContentSliderSettings.cs" />
+    <Compile Include="Domain\Cms\Forums\EditorType.cs" />
+    <Compile Include="Domain\Cms\Forums\Forum.cs" />
+    <Compile Include="Domain\Cms\Forums\ForumGroup.cs" />
+    <Compile Include="Domain\Cms\Forums\ForumPost.cs" />
+    <Compile Include="Domain\Cms\Forums\ForumSearchType.cs" />
+    <Compile Include="Domain\Cms\Forums\ForumSettings.cs" />
+    <Compile Include="Domain\Cms\Forums\ForumSubscription.cs" />
+    <Compile Include="Domain\Cms\Forums\ForumTopic.cs" />
+    <Compile Include="Domain\Cms\Forums\ForumTopicType.cs" />
+    <Compile Include="Domain\Cms\Forums\PrivateMessage.cs" />
+    <Compile Include="Domain\Cms\Media\Download.cs" />
+    <Compile Include="Domain\Cms\Media\MediaSettings.cs" />
+    <Compile Include="Domain\Cms\Media\Picture.cs" />
+    <Compile Include="Domain\Cms\Media\PictureType.cs" />
+    <Compile Include="Domain\Cms\Orders\GiftCard.cs" />
+    <Compile Include="Domain\Cms\Orders\GiftCardType.cs" />
+    <Compile Include="Domain\Cms\Orders\GiftCardUsageHistory.cs" />
+    <Compile Include="Domain\Cms\Orders\Order.cs" />
+    <Compile Include="Domain\Cms\Orders\OrderItem.cs" />
+    <Compile Include="Domain\Cms\Orders\OrderNote.cs" />
+    <Compile Include="Domain\Cms\Orders\OrderSettings.cs" />
+    <Compile Include="Domain\Cms\Orders\OrderStatus.cs" />
+    <Compile Include="Domain\Cms\Orders\OrganizedShoppingCartItem.cs" />
+    <Compile Include="Domain\Cms\Orders\ShoppingCartItem.cs" />
+    <Compile Include="Domain\Cms\Orders\ShoppingCartSettings.cs" />
+    <Compile Include="Domain\Cms\Orders\ShoppingCartType.cs" />
+    <Compile Include="Domain\Cms\Payments\PaymentSettings.cs" />
+    <Compile Include="Domain\Cms\Payments\PaymentStatus.cs" />
+    <Compile Include="Domain\Cms\Polls\Poll.cs" />
+    <Compile Include="Domain\Cms\Polls\PollAnswer.cs" />
+    <Compile Include="Domain\Cms\Polls\PollVotingRecord.cs" />
+    <Compile Include="Domain\Cms\Products\Product.cs" />
+    <Compile Include="Domain\Cms\Products\ProductType.cs" />
+    <Compile Include="Domain\Cms\RegionalContents\RegionalContent.cs" />
+    <Compile Include="Domain\Cms\Topic\Topic.cs" />
+    <Compile Include="Domain\Cms\WidgetSettings.cs" />
+    <Compile Include="Email\DefaultEmailSender.cs" />
+    <Compile Include="Email\EmailAccount.cs" />
+    <Compile Include="Email\EmailAddress.cs" />
+    <Compile Include="Email\EmailException.cs" />
+    <Compile Include="Email\EmailMessage.cs" />
+    <Compile Include="Email\IEmailSender.cs" />
+    <Compile Include="Email\IEmailSenderExtensions.cs" />
+    <Compile Include="Email\SmtpContext.cs" />
+    <Compile Include="Entity\Auditing\IAudited.cs" />
+    <Compile Include="Entity\Auditing\ICreationAudited.cs" />
+    <Compile Include="Entity\Auditing\IDeletionAudited.cs" />
+    <Compile Include="Entity\Auditing\IFullAudited.cs" />
+    <Compile Include="Entity\Auditing\IHasCreationTime.cs" />
+    <Compile Include="Entity\Auditing\IModificationAudited.cs" />
+    <Compile Include="Entity\AuditedBaseEntity.cs" />
+    <Compile Include="Entity\BaseEntity.cs" />
+    <Compile Include="Entity\BaseEntityOfTPrimaryKey.cs" />
+    <Compile Include="Entity\IMayHaveTenant.cs" />
+    <Compile Include="Entity\IMustHaveTenant.cs" />
+    <Compile Include="Entity\WebApiBaseEntity.cs" />
+    <Compile Include="Error.cs" />
+    <Compile Include="Events\AsyncConsumerAttribute.cs" />
+    <Compile Include="Events\CommonMessages\AppInitScheduledTasksEvent.cs" />
+    <Compile Include="Events\CommonMessages\AppRegisterGlobalFiltersEvent.cs" />
+    <Compile Include="Events\CommonMessages\EntityDeleted.cs" />
+    <Compile Include="Events\CommonMessages\EntityInserted.cs" />
+    <Compile Include="Events\CommonMessages\EntityUpdated.cs" />
+    <Compile Include="Events\EventConsumerMetadata.cs" />
+    <Compile Include="Events\IConsumer.cs" />
+    <Compile Include="Events\IConsumerFactory.cs" />
+    <Compile Include="Events\IEventPublisher.cs" />
+    <Compile Include="Events\NullEventPublisher.cs" />
+    <Compile Include="Exceptions\WorkException.cs" />
+    <Compile Include="Extensions\AttributeExtensions.cs" />
+    <Compile Include="Extensions\BaseEntityExtensions.cs" />
+    <Compile Include="Extensions\CollectionExtensions.cs" />
+    <Compile Include="Extensions\ConversionExtensions.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Attributes\EnumFriendlyNameAttribute.cs" />
+    <Compile Include="Extensions\HtmlTextWriterExtensions.cs" />
+    <Compile Include="Extensions\HttpExtensions.cs" />
+    <Compile Include="Extensions\HttpSessionStateExtensions.cs" />
+    <Compile Include="Extensions\IOExtensions.cs" />
+    <Compile Include="Extensions\JsonExtensions.cs" />
+    <Compile Include="Extensions\LinqExtensions.cs" />
+    <Compile Include="Extensions\ListExtensions.cs" />
+    <Compile Include="Extensions\MiscExtensions.cs" />
+    <Compile Include="Extensions\NameValueCollectionExtensions.cs" />
+    <Compile Include="Extensions\PostedFileResult.cs" />
+    <Compile Include="Extensions\RouteExtensions.cs" />
+    <Compile Include="Extensions\StreamExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\TypeDescriptorExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="Extensions\XmlNodeExtensions.cs" />
+    <Compile Include="Extensions\XmlWriterExtensions.cs" />
+    <Compile Include="Fakes\Extensions.cs" />
+    <Compile Include="Fakes\FakeHttpContext.cs" />
+    <Compile Include="Fakes\FakeHttpRequest.cs" />
+    <Compile Include="Fakes\FakeHttpResponse.cs" />
+    <Compile Include="Fakes\FakeHttpSessionState.cs" />
+    <Compile Include="Fakes\FakeIdentity.cs" />
+    <Compile Include="Fakes\FakePrincipal.cs" />
+    <Compile Include="Filter\FilterGroup.cs" />
+    <Compile Include="Filter\FilterHelper.cs" />
+    <Compile Include="Filter\FilterOperate.cs" />
+    <Compile Include="Filter\FilterRule.cs" />
+    <Compile Include="Filter\OperateCodeAttribute.cs" />
+    <Compile Include="Filter\PageCondition.cs" />
+    <Compile Include="Filter\QueryablePropertySorter.cs" />
+    <Compile Include="Filter\SortCondition.cs" />
+    <Compile Include="IO\FileUpLoad.cs" />
+    <Compile Include="Themes\DefaultThemeRegistry.cs" />
+    <Compile Include="Themes\IThemeRegistry.cs" />
+    <Compile Include="Themes\ThemeFolderData.cs" />
+    <Compile Include="Themes\ThemeManifest.cs" />
+    <Compile Include="Themes\ThemeManifestMaterializer.cs" />
+    <Compile Include="Themes\ThemeSwitchedEvent.cs" />
+    <Compile Include="Themes\ThemeTouchedEvent.cs" />
+    <Compile Include="Themes\ThemeVariableInfo.cs" />
+    <Compile Include="Themes\ThemeVariableType.cs" />
+    <Compile Include="Utilities\Html\BBCodeHelper.cs" />
+    <Compile Include="Utilities\Html\CodeFormatter\CLikeFormat.cs" />
+    <Compile Include="Utilities\Html\CodeFormatter\CodeFormat.cs" />
+    <Compile Include="Utilities\Html\CodeFormatter\CodeFormatHelper.cs" />
+    <Compile Include="Utilities\Html\CodeFormatter\CSharpFormat.cs" />
+    <Compile Include="Utilities\Html\CodeFormatter\HighlightOptions.cs" />
+    <Compile Include="Utilities\Html\CodeFormatter\HtmlFormat.cs" />
+    <Compile Include="Utilities\Html\CodeFormatter\JavaScriptFormat.cs" />
+    <Compile Include="Utilities\Html\CodeFormatter\MshFormat.cs" />
+    <Compile Include="Utilities\Html\CodeFormatter\SourceFormat.cs" />
+    <Compile Include="Utilities\Html\CodeFormatter\TsqlFormat.cs" />
+    <Compile Include="Utilities\Html\CodeFormatter\VisualBasicFormat.cs" />
+    <Compile Include="Utilities\Html\HtmlUtils.cs" />
+    <Compile Include="Utilities\Html\ResolveLinksHelper.cs" />
+    <Compile Include="Utilities\HttpLib\HttpCookieHelper.cs" />
+    <Compile Include="Utilities\HttpLib\HttpHelper.cs" />
+    <Compile Include="HttpSecurityMode.cs" />
+    <Compile Include="Entity\IActivatable.cs" />
+    <Compile Include="IHideObjectMembers.cs" />
+    <Compile Include="IO\ImageLibrary\ColorHandler.cs" />
+    <Compile Include="IO\ImageLibrary\ColorSpace\CIELab.cs" />
+    <Compile Include="IO\ImageLibrary\ColorSpace\CIEXYZ.cs" />
+    <Compile Include="IO\ImageLibrary\ColorSpace\CMYK.cs" />
+    <Compile Include="IO\ImageLibrary\ColorSpace\ColorSpaceHelper.cs" />
+    <Compile Include="IO\ImageLibrary\ColorSpace\HSB.cs" />
+    <Compile Include="IO\ImageLibrary\ColorSpace\HSL.cs" />
+    <Compile Include="IO\ImageLibrary\ColorSpace\RGB.cs" />
+    <Compile Include="IO\ImageLibrary\ColorSpace\YUV.cs" />
+    <Compile Include="IO\ImageLibrary\Filters\BrightnessFilter.cs" />
+    <Compile Include="IO\ImageLibrary\Filters\ChromaKeyFilter.cs" />
+    <Compile Include="IO\ImageLibrary\Filters\ContrastFilter.cs" />
+    <Compile Include="IO\ImageLibrary\Filters\ConvolveFilter.cs" />
+    <Compile Include="IO\ImageLibrary\Filters\DesaturationFilter.cs" />
+    <Compile Include="IO\ImageLibrary\Filters\GaussianBlurFilter.cs" />
+    <Compile Include="IO\ImageLibrary\Filters\IFilter.cs" />
+    <Compile Include="IO\ImageLibrary\Filters\InvertFilter.cs" />
+    <Compile Include="IO\ImageLibrary\Filters\Kernel.cs" />
+    <Compile Include="IO\ImageLibrary\Filters\UnsharpMaskFilter.cs" />
+    <Compile Include="IO\ImageLibrary\ImageOutput.cs" />
+    <Compile Include="IO\ImageLibrary\KalikoImage.cs" />
+    <Compile Include="IO\ImageLibrary\Scaling\CropScaling.cs" />
+    <Compile Include="IO\ImageLibrary\Scaling\FitScaling.cs" />
+    <Compile Include="IO\ImageLibrary\Scaling\PadScaling.cs" />
+    <Compile Include="IO\ImageLibrary\Scaling\ScalingBase.cs" />
+    <Compile Include="IO\ImageLibrary\TextField.cs" />
+    <Compile Include="IO\ImageLibrary\TextShadow.cs" />
+    <Compile Include="IO\ImageLibrary\ThumbnailMethod.cs" />
+    <Compile Include="IO\Directory.cs" />
+    <Compile Include="IO\File.cs" />
+    <Compile Include="IO\FileSystemSettings.cs" />
+    <Compile Include="IO\Media\FileSystemStorageProvider.cs" />
+    <Compile Include="IO\Media\IStorageFile.cs" />
+    <Compile Include="IO\Media\IStorageFolder.cs" />
+    <Compile Include="IO\Media\IStorageProvider.cs" />
+    <Compile Include="IO\MimeTypes.cs" />
+    <Compile Include="IO\Read.cs" />
+    <Compile Include="IO\Stream.cs" />
+    <Compile Include="IO\VirtualPath\DefaultVirtualPathProvider.cs" />
+    <Compile Include="IO\VirtualPath\IVirtualPathProvider.cs" />
+    <Compile Include="IO\WebSite\IWebSiteFolder.cs" />
+    <Compile Include="IO\WebSite\WebSiteFolder.cs" />
+    <Compile Include="Entity\ISoftDeletable.cs" />
+    <Compile Include="ISiteContext.cs" />
+    <Compile Include="IWebHelper.cs" />
+    <Compile Include="IWorkContext.cs" />
+    <Compile Include="Localization\LocalizationHelper.cs" />
+    <Compile Include="Localization\LocalizedString.cs" />
+    <Compile Include="Localization\Localizer.cs" />
+    <Compile Include="Localization\NullLocalizer.cs" />
+    <Compile Include="Logging\Logger\Configuration\DebugLoggerElement.cs" />
+    <Compile Include="Logging\Logger\Configuration\FileLoggerElement.cs" />
+    <Compile Include="Logging\Logger\Configuration\LoggersSection.cs" />
+    <Compile Include="Logging\Logger\Configuration\MailLoggerElement.cs" />
+    <Compile Include="Logging\Logger\Logger.cs" />
+    <Compile Include="Logging\Logger\LogItem.cs" />
+    <Compile Include="Logging\Logger\LogProviders\DebugLogProvider.cs" />
+    <Compile Include="Logging\Logger\LogProviders\FileLogProvider.cs" />
+    <Compile Include="Logging\Logger\LogProviders\ILogProvider.cs" />
+    <Compile Include="Logging\Logger\LogProviders\MailLogProvider.cs" />
+    <Compile Include="Logging\Logger\LogProviders\MessageFormatter.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\IUserActivityService.cs" />
+    <Compile Include="Logging\LogContext.cs" />
+    <Compile Include="Logging\LoggingExtensions.cs" />
+    <Compile Include="Logging\Logs\LogHelper.cs" />
+    <Compile Include="Logging\Logs\LogReader.cs" />
+    <Compile Include="Logging\Notifier.cs" />
+    <Compile Include="Logging\NotifyEntry.cs" />
+    <Compile Include="Logging\NullLogger.cs" />
+    <Compile Include="Logging\TraceLogger.cs" />
+    <Compile Include="MostRecentlyUsedList.cs" />
+    <Compile Include="OperationResult.cs" />
+    <Compile Include="OperationResultType.cs" />
+    <Compile Include="Pages\IPageable.cs" />
+    <Compile Include="Pages\PagedList.cs" />
+    <Compile Include="Pages\PagedList`T.cs" />
+    <Compile Include="Plugins\IConfigurable.cs" />
+    <Compile Include="Plugins\Providers\DependentWidgetsAttribute.cs" />
+    <Compile Include="Plugins\Providers\DisplayOrderAttribute.cs" />
+    <Compile Include="Plugins\Providers\FriendlyNameAttribute.cs" />
+    <Compile Include="Plugins\Providers\IProvider.cs" />
+    <Compile Include="Plugins\Providers\IProviderManager.cs" />
+    <Compile Include="Plugins\Providers\IUserEditable.cs" />
+    <Compile Include="Plugins\Providers\ProviderMetadata.cs" />
+    <Compile Include="Plugins\Providers\SystemNameAttribute.cs" />
+    <Compile Include="PushNotifications\IPushNotificationManager.cs" />
+    <Compile Include="PushNotifications\PushNotification.cs" />
+    <Compile Include="PushNotifications\PushNotificationSearchCriteria.cs" />
+    <Compile Include="PushNotifications\PushNotificationSearchResult.cs" />
+    <Compile Include="RouteInfo.cs" />
+    <Compile Include="Settings\SiteDependingSettingData.cs" />
+    <Compile Include="Settings\SiteDependingSettingHelper.cs" />
+    <Compile Include="Timing\Clock.cs" />
+    <Compile Include="Timing\DateTimeRange.cs" />
+    <Compile Include="Timing\IClockProvider.cs" />
+    <Compile Include="Timing\IDateTimeRange.cs" />
+    <Compile Include="Timing\LocalClockProvider.cs" />
+    <Compile Include="Timing\UtcClockProvider.cs" />
+    <Compile Include="Utilities\FileSystemHelper.cs" />
+    <Compile Include="Utilities\JsonHelper.cs" />
+    <Compile Include="Utilities\SecretUtil.cs" />
+    <Compile Include="Utilities\Xml\XmlHelper.cs" />
+    <Compile Include="Utilities\Xml\XMLProcess.cs" />
+    <Compile Include="WebHelper.cs" />
+    <Compile Include="WorkVersion.cs" />
+    <Compile Include="Interfaces\IStartupTask.cs" />
+    <Compile Include="Plugins\BasePlugin.cs" />
+    <Compile Include="Plugins\IPlugin.cs" />
+    <Compile Include="Plugins\IPluginFinder.cs" />
+    <Compile Include="Plugins\IPreApplicationStart.cs" />
+    <Compile Include="Plugins\LoadPluginResult.cs" />
+    <Compile Include="Plugins\PluginDescriptor.cs" />
+    <Compile Include="Plugins\PluginFileParser.cs" />
+    <Compile Include="Plugins\PluginFinder.cs" />
+    <Compile Include="Plugins\PluginManager.cs" />
+    <Compile Include="Singleton.cs" />
+    <Compile Include="WorkEngine.cs" />
+    <Compile Include="Guard.cs" />
+    <Compile Include="Interfaces\ICache.cs" />
+    <Compile Include="Interfaces\ICacheManager.cs" />
+    <Compile Include="Interfaces\ICloneable.cs" />
+    <Compile Include="Interfaces\IMergedData.cs" />
+    <Compile Include="EventBroker.cs" />
+    <Compile Include="Interfaces\IEngine.cs" />
+    <Compile Include="Interfaces\ITypeFinder.cs" />
+    <Compile Include="Interfaces\IOrdered.cs" />
+    <Compile Include="Misc.cs" />
+    <Compile Include="Attributes\ObjectSignatureAttribute.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegularExpressions.cs" />
+    <Compile Include="Utilities\ActionDisposable.cs" />
+    <Compile Include="Utilities\CollectionHelper.cs" />
+    <Compile Include="Utilities\CommonHelper.cs" />
+    <Compile Include="Utilities\DateTimeConvert.cs" />
+    <Compile Include="Utilities\DictionaryConverter.cs" />
+    <Compile Include="Utilities\Inflector.cs" />
+    <Compile Include="Utilities\Prettifier.cs" />
+    <Compile Include="Utilities\Range.cs" />
+    <Compile Include="Utilities\SeoHelper.cs" />
+    <Compile Include="Utilities\StringTokenizer.cs" />
+    <Compile Include="Utilities\Threading\LockExtensions.cs" />
+    <Compile Include="Utilities\Threading\ReadLockDisposable.cs" />
+    <Compile Include="Utilities\Threading\UpgradeableReadLockDisposable.cs" />
+    <Compile Include="Utilities\Threading\WriteLockDisposable.cs" />
+    <Compile Include="Utilities\TypeHelper.cs" />
+    <Compile Include="Utilities\Wildcard.cs" />
+    <Compile Include="WebAppTypeFinder.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <EmbeddedResource Include="Logging\Logs\Default.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CrAnt.FrameWork.Core.csproj.user" />
+    <Content Include="Utilities\HttpLib\Remark.txt" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

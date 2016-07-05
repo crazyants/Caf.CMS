@@ -1,0 +1,74 @@
+﻿@model ActivityLogTypeModel
+@{
+    //page title
+    ViewBag.Title = T("Admin.Configuration.ActivityLog.ActivityLogType").Text;
+    var g = Html.GridToolKit();
+    var grid = g.DataGrid("activityLogGrid", g.Param(x => x.Id)).TableId("table-id").GridKey("Id").Pager(false)
+    .MainGrid(
+    g.GridColumn(null, null, 50).DefaultContent("<input checkedvalue='#Enabled#' class='checkboxes' id='#Id#' name='checkBox_#Id#' type='checkbox' value='#Enabled#' /><input name='checkBox_#Id#' type='hidden' value='false' />"),
+    g.GridColumn(x => x.Name))
+    .Url(Url.Action("ListTypes", "ActivityLog")).DefaultTableClass();
+}
+@using (Html.BeginForm("SaveTypes", "ActivityLog"))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase">  @T("Admin.Configuration.ActivityLog.ActivityLogType")</span>
+                        <span class="caption-helper"></span>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" name="save" value="save" class="btn btn-primary">
+                            <i class="fa fa-check"></i>
+                            @T("Admin.Common.Save")
+                        </button>
+                    </div>
+                </div>
+                <div class="portlet-body flip-scroll">
+                    <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+                        <thead>
+                            <tr>
+                                @foreach (var column in grid.GetColumns)
+                                {
+                                    if (column.Name == "操作")
+                                    {
+
+                                        <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                                    }
+                                    else if (column.DisplayName == null)
+                                    {
+
+                                        <th class="@column.CssClassHeader"><input type="checkbox" class="group-checkable" data-set="checkboxes">@T("Admin.Configuration.ActivityLog.ActivityLogType.Fields.Enabled")</th>
+                                    }
+                                    else
+                                    {
+                                        <th class="@column.CssClassHeader">@column.DisplayName</th>
+                                    }
+
+                                }
+                            </tr>
+
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            @(grid)
+ 
+        });
+
+       
+    </script>
+}

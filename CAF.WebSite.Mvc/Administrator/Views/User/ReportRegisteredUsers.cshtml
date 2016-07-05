@@ -1,0 +1,34 @@
+﻿@model IList<RegisteredUserReportLineModel>
+
+
+<div class="portlet box blue">
+    <div class="section-header sticky">
+        <div class="caption">
+            <i class="fa fa-users"></i>
+            @T("Admin.Users.Reports.RegisteredUsers")
+        </div>
+
+    </div>
+    <div class="portlet-body">
+      
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>@T("Admin.Users.Reports.RegisteredUsers.Fields.Period")</th>
+                    <th>@T("Admin.Users.Reports.RegisteredUsers.Fields.Users")</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var x in Model)
+                {
+                    <tr>
+                        <td>@x.Period</td>
+                        <td>@x.Users</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+

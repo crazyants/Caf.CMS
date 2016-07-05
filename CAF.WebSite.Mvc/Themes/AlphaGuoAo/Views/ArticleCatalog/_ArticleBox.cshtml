@@ -1,0 +1,34 @@
+﻿@model ArticlePostModel
+
+@{
+    string desc = null, descTitle = null;
+    if (Model.ShortContent.HasValue())
+    {
+        desc = Model.ShortContent.Truncate(50, "...");
+        if (Model.ShortContent.Length > desc.Length)
+        {
+            descTitle = Model.ShortContent;
+        }
+    }
+    string name = null, nameTitle = null;
+    name = Model.Title.Truncate(10, "...");
+    if (Model.Title.Length > name.Length)
+    {
+        nameTitle = Model.Title;
+    }
+}
+<li class="col-4-1 fadeInUp animated" data-animate="fadeInUp" data-delay="200">
+    <div class="product-item">
+        <div class="portfolio-img">
+            <a href="@Url.RouteUrl("Article", new { SeName = Model.SeName })" target="_blank"><img src="@Model.DefaultPictureModel.ImageUrl" alt="@name"></a>
+        </div>
+        <div class="portfolio-title">
+            <h2>
+                <a href="@Url.RouteUrl("Article", new { SeName = Model.SeName })" target="_blank">@name</a>
+            </h2>
+        </div>
+    </div>
+</li>
+
+
+

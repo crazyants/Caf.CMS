@@ -1,0 +1,39 @@
+﻿@model IList<CAF.WebSite.Mvc.Admin.Models.Home.ReportVisitModel>
+
+<div class="portlet box blue">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-users"></i>
+            访问概况
+        </div>
+
+    </div>
+    <div class="portlet-body">
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>PV</th>
+                    <th>UV</th>
+                    <th>百度IP</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var x in Model)
+                    {
+                        <tr>
+                            <td>@x.VisitDate</td>
+                            <td>@x.UV</td>
+                            <td>@x.PV</td>
+                            <td>@x.BaiduIP</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>

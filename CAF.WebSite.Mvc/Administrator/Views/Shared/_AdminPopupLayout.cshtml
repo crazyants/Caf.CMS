@@ -1,0 +1,25 @@
+﻿@{
+    Layout = "~/Administrator/Views/Shared/_AdminLayout.cshtml";
+    Html.AddBodyCssClass("popup");
+    var MediaRootPath = "~/Content/assets/";
+    Html.AppendCssFileParts(false,
+
+       MediaRootPath + "global/plugins/jquery-treetable/css/jquery.treetable.css",
+       MediaRootPath + "global/plugins/jquery-treetable/css/jquery.treetable.theme.default.css",
+       MediaRootPath + "global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css");
+
+    Html.AppendScriptParts(ResourceLocation.Head,
+          MediaRootPath + "global/plugins/jquery-treetable/js/src/jquery.treetable.js",
+         MediaRootPath + "global/plugins/datatables/media/js/jquery.dataTables.min.js",
+         MediaRootPath + "global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js",
+        "~/Content/js/dataTables.fnGetHiddenNodes.js",
+        "~/Content/js/table-managed.js"
+         );
+}
+@section navbar
+{
+}
+@RenderBody()
+@section footer
+{
+}

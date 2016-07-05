@@ -1,0 +1,84 @@
+﻿@model ArticleModel
+
+@{
+    var gridPageSize = EngineContext.Current.Resolve<CAF.Infrastructure.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
+    ViewBag.Title = T("Admin.ContentManagement.Articles").Text;
+    var g = Html.GridToolKit<ArticleModel.RelatedArticleModel>();
+    var grid = g.DataGrid("relatedArticleGrid", g.Param(x => x.Id)).TableId("relatedArticleTableId").GridKey("Id").PageLength(gridPageSize)
+    .MainGrid(
+    g.GridColumn(x => x.Article2Name),
+    g.GridColumn("operation", "" + T("Admin.Common.Operation").Text + "", 100).DefaultContent("<a href='/Admin/Article/RelatedArticleDelete/#Id#' class='btn default btn-xs purple delete'><i class='fa fa-trash-o'></i></a>")
+    )
+    .Url(Url.Action("RelatedArticleList", "Article", new { articleId =Model.Id})).DefaultTableClass();
+}
+<div>
+    <h3>@T("Admin.ContentManagement.Articles.RelatedArticles")</h3>
+    @if (Model.Id > 0)
+    {
+        <script type="text/javascript">
+                @(grid)
+            $(document).ready(function () {
+
+                $('#btnRefreshRelatedArticles').click(function () {
+                    //refresh grid
+                    relatedArticleGrid.reload();
+
+                    //return false to don't reload a page
+                    return false;
+                });
+            });
+        </script>
+        <div class="row">
+            <div class="table-container">
+                <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+                    <thead>
+                        <tr>
+                            @foreach (var column in grid.GetColumns)
+                            {
+                                <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                            }
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                    @if (grid.GetIsFoot)
+                    {
+                        <tfoot>
+                            <tr>
+                                @foreach (var column in grid.GetColumns)
+                                {
+                                    <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                                }
+                            </tr>
+                        </tfoot>
+                    }
+                </table>
+
+            </div>
+        </div>
+        <div class="row">
+            <button type="submit" id="btnAddNewRelatedArticle" name="btnAddNewRelatedArticle" class="btn btn-warning btn-below"
+                    onclick="javascript:OpenWindow('@(Url.Action("RelatedArticleAddPopup", "Article", new { articleId = Model.Id, btnId = "btnRefreshRelatedArticles", formId = "article-form" }))', 1000, 700, true); return false;">
+                <i class="fa fa-plus"></i>
+                @T("Admin.ContentManagement.Articles.RelatedArticles.AddNew")
+            </button>
+            <button type="button" id="btnCreateMutuallyRelatedArticles" class="btn btn-below" data-url="@Url.Action("CreateAllMutuallyRelatedArticles", new { articleId = Model.Id })"
+                    data-ask="@T("Admin.Common.AskCreateMutuallyAssociations")">
+                <i class="fa fa-random"></i>
+                @T("Admin.Common.CreateMutuallyAssociations")
+            </button>
+            <button type="button" id="btnRefreshRelatedArticles" class="btn btn-default" style="display: none">
+                <i class="fa fa-search"></i>
+                @T("Admin.Common.Search")
+            </button>
+
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger">
+            @T("Admin.SaveBeforeEdit")
+        </div>
+    }
+</div>

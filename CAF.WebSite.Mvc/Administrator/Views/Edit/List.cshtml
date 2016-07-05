@@ -1,0 +1,293 @@
+﻿@using CAF.WebSite.Application.WebUI
+@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+@using CAF.Mvc.JQuery.Datatables.Core;
+
+@model CAF.WebSite.Mvc.Admin.Models.Channels.ChannelCategoryModel
+@{
+    ViewBag.Title = "Home Page";
+    var g = Html.GridToolKit();
+    var grid = g.DataGrid("testJqGrid", g.Param(x => x.Title)).TableId("table-id").TableName("otable").GridKey("Id").MainGrid(
+    g.GridColumn("checkbox", null, 50).DefaultContent("<input type='checkbox' class='checkboxes' value='#Id#'>"),
+    g.GridColumn(x => x.Title, 300),
+    g.GridColumn(x => x.BuildPath, 300),
+    g.GridColumn(x => x.Domain, 300),
+    g.GridColumn("operation", "" + T("Admin.Common.Operation").Text + "", 100).DefaultContent("<a href='Edit/#Id#/#Domain#' class='btn default btn-xs purple edit'><i class='fa fa-pencil'></i></a>")).Url(Url.Action("GetChannelCategorys", "Edit")).DefaultTableClass();
+}
+@{
+    Layout = "~/Administrator/Views/Shared/_AdminMenu.cshtml";
+    ViewBag.Title = "用户授权应用登录";
+
+    var MediaRootPath = "~/Content/assets/";
+    Html.AppendCssFileParts(false,
+       MediaRootPath + "global/plugins/select2/select2.css",
+       MediaRootPath + "global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css",
+        //隐藏显示
+       MediaRootPath + "global/plugins/datatables/extensions/colVis/css/dataTables.colVis.css",
+        //Tool工具显示
+       MediaRootPath + "global/plugins/datatables/extensions/TableTools/css/dataTables.TableTools.css",
+        //移动列
+       MediaRootPath + "global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.css",
+        //过滤
+       MediaRootPath + "global/plugins/datatables/extensions/ColumnFilter/css/jquery-ui-timepicker-addon.css",
+       MediaRootPath + "global/plugins/datatables/extensions/ColumnFilter/css/jquery.dataTables.columnFilter.css",
+        //固定列
+       MediaRootPath + "global/plugins/datatables/extensions/FixedColumns/css/dataTables.fixedColumns.css");
+    <!-- END PAGE LEVEL STYLES -->
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    Html.AppendScriptParts(ResourceLocation.Foot,
+         MediaRootPath + "global/plugins/select2/select2.js",
+         MediaRootPath + "global/plugins/datatables/media/js/jquery.dataTables.min.js",
+         MediaRootPath + "global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js",
+         MediaRootPath + "global/plugins/datatables/extensions/colVis/js/dataTables.colVis.js",
+         MediaRootPath + "global/plugins/datatables/extensions/TableTools/js/dataTables.TableTools.js",
+         MediaRootPath + "global/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.js",
+         MediaRootPath + "global/plugins/datatables/extensions/FixedColumns/js/dataTables.fixedColumns.js",
+        //过滤
+         MediaRootPath + "global/plugins/datatables/extensions/ColumnFilter/js/jquery-ui-timepicker-addon.js",
+         MediaRootPath + "global/plugins/datatables/extensions/ColumnFilter/js/jquery.dataTables.columnFilter.js",
+         MediaRootPath + "admin/pages/scripts/form-samples.js",
+        "~/Content/js/table-managed.js"
+         );
+
+}
+@{
+
+
+    @*   var vm = Html.DataTableVm("table-id", (CAF.WebSite.Mvc.Admin.Controllers.EditController h) => h.GetChannelCategorys(null));
+        //vm.JsOptions.Add("iDisplayLength", 25);
+        //vm.JsOptions.Add("aLengthMenu", new object[] { new[] {5, 10, 25, 250, -1} , new object[] { 5, 10, 25, 250, "All"} });
+        //    vm.JsOptions.Add("fnCreatedRow", new Raw(@"function( nRow, aData, iDataIndex ) {
+        //        $(nRow).attr('data-id', aData[0]);
+        //    }"));
+        //vm.TableClass = "table table-striped table-bordered table-hover";
+
+        vm.ServerFilterForm = "#filterForm";
+        vm.ServeRequestRefreshFrom = "#btn_search";
+        vm.StateSave = true;
+        vm.LengthMenu = LengthMenuVm.Default();
+        vm.LengthMenu.RemoveAll(t => t.Item2 == 5);
+        vm.PageLength = 10; //... and set a default
+        vm.ColVis = true;//开启隐藏显示列
+        vm.ColumnFilter = false;//开启过滤
+        vm.TableTools = false;
+        vm.ShowSearch = true;
+        vm.IsOperator = true;
+        //vm.CustomerColumnDefs = true;
+        //vm.CustomerColumnDefsString = "[{targets: [6], render: \n function(data, type, full)" +
+        //                               "{\n" +
+        //                               "return \"<a href='#' class='btn default btn-xs purple'><i class='fa fa-pencil'></i></a><a href='#' class='btn default btn-xs black'><i class='fa fa-trash-o'></i> Delete</a>\"" +
+        //                               "\n}},"+
+        //                               //"{searchable: false,orderable: false,targets: 0}"+
+        //                               "]";
+    *@
+
+}
+<script type="text/javascript">
+    (function setDataTable() {
+        if (!window.jQuery || !$.fn.DataTable) {
+            setTimeout(setDataTable, 100);
+            return;
+        }
+        @(grid)
+        //(function setDataTable() {
+        //    if (!window.jQuery || !$.fn.DataTable) {
+        //        setTimeout(setDataTable, 100);
+        //        return;
+        //    }
+        //    var otable = Datatable.init({
+        //        "keyId": "Id",
+        //        "tableId": "#table-id",
+        //        "operations": {
+        //            "edit": false,
+        //            "edittext": "编辑",
+        //            "add": false,
+        //            "addtext": "添加",
+        //            "del": false,
+        //            "deltext": "删除",
+        //            "search": false,
+        //            "searchtext": "查找",
+        //            "refresh": false,
+        //            "RefreshText": "刷新"
+        //        },
+        //        "dataTable": {
+        //            "sAjaxSource": "/Admin/Edit/GetChannelCategorys",
+        //            //"dataType": "json",
+        //            //"scrollX": false,
+        //            //"scrollCollapse": false,
+        //            //"paging": false,
+        //            //"bingTooltip": false,
+        //            "bAutoWidth": false,
+        //            "bProcessing": false,
+        //            "stateSave": true,
+        //            "bServerSide": true,
+        //            "bSortMulti": false,
+        //            "sDom": "<'row'<'col-sm-6'rl><'col-sm-6'Cf>><'row'<'col-sm-12't>><'row'<'col-sm-6'i><'col-sm-6 text-right'p>><'clear'>",
+        //            "pageLength": 10,
+        //            "aoColumnDefs": [{
+        //                "aTargets": 0,
+        //                "sName": "Title",
+        //                "mDataProp": "Title",
+        //                "sTitle": "标题",
+        //                "bVisible": true,
+
+        //            }, {
+        //                "aTargets": 1,
+        //                "sName": "BuildPath",
+        //                "mDataProp": "BuildPath",
+        //                "sTitle": "路径",
+        //                "bVisible": true,
+
+        //            }, {
+        //                "aTargets": 2,
+        //                "sName": "Domain",
+        //                "mDataProp": "Domain",
+        //                "sTitle": "域名",
+        //                "bVisible": true,
+
+        //            }, {
+        //                "aTargets": 3,
+        //                "sName": "op",
+        //                "mDataProp": "op",
+        //                "sTitle": "操作",
+        //                "bVisible": true,
+
+        //            }],
+        //            "fnServerData": function (sSource, aoData, fnCallback) {
+        //                var ajaxOptions = { 'dataType': 'json', 'type': 'POST', 'url': sSource, 'data': aoData, 'success': fnCallback };
+        //                ajaxOptions['error'] = function (jqXHR, textStatus, errorThrown) {
+        //                    //Metronic.alert({
+        //                    //    type: 'danger',
+        //                    //    icon: 'warning',
+        //                    //    message: tableOptions.dataTable.oLanguage.metronicAjaxRequestGeneralError,
+        //                    //    container: tableWrapper,
+        //                    //    place: 'prepend'
+        //                    //});
+        //                    window.alert('error loading data: ' + textStatus + ' - ' + errorThrown);
+        //                    console.log(arguments);
+
+        //                };
+        //                $.ajax(ajaxOptions);
+        //            }
+        //        }
+        //    });
+        //    window['otable'] = otable;
+
+    })();
+</script>
+
+
+<h3 class="page-title">
+    <small>频道管理 -  @Html.ActionLink("(返回列表)", "List")</small>
+</h3>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box grey-cascade">
+            <div class="section-header sticky">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>登录日志
+                </div>
+                <div class="tools">
+
+                </div>
+                <div class="actions">
+                    <div class="btn-group">
+                        <a class="btn btn-default btn-sm" href="#" data-toggle="dropdown">
+                            <i class="fa fa-cogs"></i>工具 <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-print"></i>打印
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-file-pdf-o"></i>保存PDF
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <!-- BEGIN FORM-->
+                <form id="filterForm" action="#" class="horizontal-form">
+                    <div class="form-body">
+                        @*<h3 class="form-section">Person Info</h3>
+                        *@
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Title</label>
+                                    <div class="col-md-9">
+                                         @Html.TextBoxFor(model => model.Title, new { @id = "Title", @class = "form-filter form-control placeholder-no-fix", placeholder = "用户名" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Domain</label>
+                                    <div class="col-md-9">
+                                         @Html.TextBoxFor(model => model.Domain, new { @id = "Domain", @class = "form-filter form-control placeholder-no-fix", placeholder = "邮箱" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <a href="#" class="btn yellow" id="btn_search">
+                                        查询 <i class="fa fa-search"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--/row-->
+
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+            <div class="portlet-body">
+                <div class="table-container">
+                    <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+                        <thead>
+                            <tr>
+                                @foreach (var column in grid.GetColumns)
+                                {
+                                    if (column.Name == "操作")
+                                    {
+
+                                        <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                                    }
+                                    else if (column.Name == "checkbox")
+                                    {
+
+                                        <th class="@column.CssClassHeader"><input type="checkbox" class="group-checkable" data-set="checkboxes"></th>
+
+                                    }
+                                    else
+                                    {
+                                        <th class="@column.CssClassHeader">@column.DisplayName</th>
+                                    }
+
+                                }
+                            </tr>
+
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+

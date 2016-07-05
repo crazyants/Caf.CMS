@@ -1,0 +1,23 @@
+﻿@model ArticleCategoryModel
+@using CAF.Infrastructure.Core.Collections
+@{
+    var node = Model.CategoryBreadcrumb.LastOrDefault();
+    var url = node.GenerateUrl(this.Url);
+}
+@if (Model.Articles.Count > 0)
+{
+    for (int i = 0; i < Model.Articles.Count; i++)
+    {
+        var article = Model.Articles[i];
+        var delayIndex = i % 4 * 200 + 1;
+        <div class="portfolio-grid-item fadeInUp animated" data-animate="fadeInUp" data-delay="@delayIndex">
+            <a href="@Url.RouteUrl("Article", new { SeName = article.SeName })" target="_blank">
+                <div class="portfolio-grid-img">
+                    <img src="@article.DefaultPictureModel.ImageUrl" alt="@article.Title">
+                </div>
+                <div class="portfolio-grid-text"><h3>@article.Title</h3></div>
+                <div class="overlay"></div>
+            </a>
+        </div>
+    }
+}

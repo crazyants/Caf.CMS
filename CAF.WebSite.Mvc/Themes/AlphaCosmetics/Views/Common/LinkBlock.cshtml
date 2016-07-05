@@ -1,0 +1,8 @@
+﻿@model LinkModel
+ 
+<ul class='list-none'>
+    @foreach (var link in Model.LinkBlocks)
+    {
+        <li><a href='@link.LinkUrl' target='_blank' title=''>@link.Name</a></li>
+    }
+</ul>

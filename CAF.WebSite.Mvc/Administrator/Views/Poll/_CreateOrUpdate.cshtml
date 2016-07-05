@@ -1,0 +1,234 @@
+﻿@model PollModel
+@Html.ValidationSummary(true)
+@Html.HiddenFor(model => model.Id)
+@Html.CafSite().TabStrip().Name("poll-edit").Items(x =>
+{
+    x.Add().Text(T("Admin.ContentManagement.Polls.Info").Text).Content(TabInfo()).Selected(true);
+    x.Add().Text(T("Admin.ContentManagement.Polls.Answers").Text).Content(TabAnswers());
+    x.Add().Text(T("Admin.Common.Sites").Text).Content(TabSites());
+
+
+    EngineContext.Current.Resolve<IEventPublisher>().Publish(new TabStripCreated(x, "poll-edit", this.Html, this.Model));
+})
+@helper TabInfo()
+{
+
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.LanguageId)
+            </label>
+            <div class="col-md-3">
+                @Html.DropDownListFor(model => model.LanguageId, new SelectList(ViewBag.AllLanguages, "Id", "Name"), new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.Name)
+            </label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.SystemKeyword)
+            </label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.SystemKeyword)
+                @Html.ValidationMessageFor(model => model.SystemKeyword)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.Published)
+            </label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.Published)
+                @Html.ValidationMessageFor(model => model.Published)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.ShowOnHomePage)
+            </label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.ShowOnHomePage)
+                @Html.ValidationMessageFor(model => model.ShowOnHomePage)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.AllowGuestsToVote)
+            </label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.AllowGuestsToVote)
+                @Html.ValidationMessageFor(model => model.AllowGuestsToVote)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.DisplayOrder)
+            </label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.DisplayOrder)
+                @Html.ValidationMessageFor(model => model.DisplayOrder)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.StartDate)
+            </label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.StartDate)
+                @Html.ValidationMessageFor(model => model.StartDate)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.EndDate)
+            </label>
+            <div class="col-md-3">
+                @Html.EditorFor(model => model.EndDate)
+                @Html.ValidationMessageFor(model => model.EndDate)
+            </div>
+        </div>
+    </div>
+}
+@helper TabAnswers()
+{
+    if (Model.Id > 0)
+    {
+
+        var gridPageSize = EngineContext.Current.Resolve<CAF.Infrastructure.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
+
+        var g = Html.GridToolKit<PollAnswerModel>();
+        var grid = g.DataGrid("pollGrid", g.Param(x => x.Id)).TableId("table-id").GridKey("Id").PageLength(gridPageSize)
+        .MainGrid(
+        g.GridColumn(x => x.Name, 300),
+        g.GridColumn(x => x.NumberOfVotes, 300),
+        g.GridColumn(x => x.DisplayOrder, 300),
+        g.GridColumn("operation", "" + T("Admin.Common.Operation").Text + "", 150).DefaultContent("<a onclick='javascript:OpenWindow(\"" + @Url.Content("~/Admin/Poll/OptionEditPopup/") + "#Id#?btnId=btnRefresh&formId=poll-form\", 850, 250, true); return false;'  class='btn default btn-xs purple'><i class='fa fa-pencil'></i></a> <a href='" + @Url.Content("~/Admin/Poll/PollAnswerDelete/") + "#Id#' class='btn default btn-xs black delete'><i class='fa fa-trash-o'></i></a>"))
+        .Url(Url.Action("PollAnswers", "Poll", new { pollId = Model.Id })).DefaultTableClass();
+        <div class="row">
+            <button type="button" id="btnAddNewOption" name="btnAddNewOption" class="btn btn-default"
+                    onclick="javascript:AddOpenWindow(); ">
+                <i class="fa fa-plus"></i>&nbsp;@T("Admin.ContentManagement.Polls.Answers.AddNew")
+            </button>
+            <button class="btn btn-default" id="btnRefresh" style="display:none">
+                <i class="fa fa-search"></i>@T("Admin.Common.Search")
+            </button>
+            <div class="portlet-body flip-scroll">
+                <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+                    <thead>
+                        <tr>
+                            @foreach (var column in grid.GetColumns)
+                            {
+                                if (column.Name == "操作")
+                                {
+
+                                    <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                                }
+                                else if (column.DisplayName == null)
+                                {
+
+                                    <th class="@column.CssClassHeader"><input type="checkbox" class="group-checkable" data-set="checkboxes">@T("Admin.Configuration.ActivityLog.ActivityLogType.Fields.Enabled")</th>
+                                }
+                                else
+                                {
+                                    <th class="@column.CssClassHeader">@column.DisplayName</th>
+                                }
+
+                            }
+                        </tr>
+
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <script type="text/javascript">
+
+                @(grid)
+                $(document).ready(function () {
+                    //search button
+                    $('#btnRefresh').click(function () {
+                        //search
+                        var grid = pollGrid.reload();
+
+                        return false;
+                    });
+                });
+                function AddOpenWindow() {
+                    var url = '@Url.Content("~/Admin/Poll/OptionCreatePopup")?pollId=' + @Model.Id + '&btnId=btnRefresh&formId=poll-form';
+                    OpenWindow(url, 800, 250, true);
+                    return false;
+                }
+
+            </script>
+
+
+
+        </div>
+    }
+    else
+    {
+        @T("Admin.ContentManagement.Polls.Answers.SaveBeforeEdit")
+    }
+}
+@helper TabSites()
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('input[id="@Html.FieldIdFor(model => model.LimitedToSites)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleSiteMapping(state);
+            });
+            toggleSiteMapping(@Model.LimitedToSites.ToString().ToLower());
+        });
+        function toggleSiteMapping(state) {
+            if (state) {
+                $('#pnl-available-sites').show();
+            }
+            else {
+                $('#pnl-available-sites').hide();
+            }
+        }
+
+    </script>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">
+            @Html.LangLabelFor(model => model.LimitedToSites)
+        </label>
+        <div class="col-md-3">
+            @Html.EditorFor(x => x.LimitedToSites)
+            @Html.ValidationMessageFor(model => model.LimitedToSites)
+
+        </div>
+    </div>
+    <div id="pnl-available-sites" class="form-group">
+        <label class="control-label col-md-2">
+            @Html.LangLabelFor(model => model.AvailableSites)
+        </label>
+        <div class="col-md-3">
+            @if (Model.AvailableSites != null && Model.AvailableSites.Count > 0)
+            {
+                foreach (var store in Model.AvailableSites)
+                {
+                    <label class="checkbox">
+                        <input type="checkbox" name="SelectedSiteIds" value="@store.Id" checked="@(Model.SelectedSiteIds != null && Model.SelectedSiteIds.Contains(store.Id))" />
+                        <span>@store.Name</span>
+                    </label>
+                }
+            }
+            else
+            {
+                <div>@T("Admin.Configuration.Sites.NoSitesDefined")</div>
+            }
+        </div>
+    </div>
+
+
+}

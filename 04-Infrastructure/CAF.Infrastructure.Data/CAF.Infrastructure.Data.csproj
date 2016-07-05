@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{069B9059-B9C7-49F1-9844-F93E01DA6EE3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CAF.Infrastructure.Data</RootNamespace>
+    <AssemblyName>CAF.Infrastructure.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Libraries\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CAF.Infrastructure.Core, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CAF.Infrastructure.Core\bin\Debug\CAF.Infrastructure.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EFCache, Version=1.0.0.0, Culture=neutral, PublicKeyToken=46c4868af4307d2c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.Cache.1.0.0\lib\net45\EFCache.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.DynamicFilters">
+      <HintPath>..\..\packages\EntityFramework.DynamicFilters.1.4.0\lib\net40\EntityFramework.DynamicFilters.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.Extended">
+      <HintPath>..\..\packages\EntityFramework.Extended.6.1.0.121\lib\net45\EntityFramework.Extended.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServerCompact">
+      <HintPath>..\..\packages\EntityFramework.SqlServerCompact.6.1.1\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Unofficial.Microsoft.SQLServer.SMO.2014.12.0.2000.8\lib\Microsoft.SqlServer.ConnectionInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.ConnectionInfoExtended, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Unofficial.Microsoft.SQLServer.SMO.2014.12.0.2000.8\lib\Microsoft.SqlServer.ConnectionInfoExtended.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Unofficial.Microsoft.SQLServer.SMO.2014.12.0.2000.8\lib\Microsoft.SqlServer.Management.Sdk.Sfc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Smo, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Unofficial.Microsoft.SQLServer.SMO.2014.12.0.2000.8\lib\Microsoft.SqlServer.Smo.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SmoExtended, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Unofficial.Microsoft.SQLServer.SMO.2014.12.0.2000.8\lib\Microsoft.SqlServer.SmoExtended.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SqlClrProvider, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Unofficial.Microsoft.SQLServer.SMO.2014.12.0.2000.8\lib\Microsoft.SqlServer.SqlClrProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SqlEnum, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Unofficial.Microsoft.SQLServer.SMO.2014.12.0.2000.8\lib\Microsoft.SqlServer.SqlEnum.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable">
+      <HintPath>..\..\packages\System.Collections.Immutable.1.1.36\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\AssemblySharedInfo.cs">
+      <Link>Properties\AssemblySharedInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\AssemblyVersionInfo.cs">
+      <Link>Properties\AssemblyVersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="Caching\EfCacheImpl.cs" />
+    <Compile Include="Caching\EfCachingPolicy.cs" />
+    <Compile Include="Dblogger.cs" />
+    <Compile Include="EfDataProviderFactory.cs" />
+    <Compile Include="EfRepository.cs" />
+    <Compile Include="Extensions\BaseEntityExtensions.cs" />
+    <Compile Include="Extensions\DataReaderExtensions.cs" />
+    <Compile Include="Extensions\DbContextExtensions.cs" />
+    <Compile Include="Extensions\IDbContextExtensions.cs" />
+    <Compile Include="Extensions\MiscExtensions.cs" />
+    <Compile Include="Extensions\SqlDataReaderExtensions.cs" />
+    <Compile Include="IEfDataProvider.cs" />
+    <Compile Include="Mapping\Base\Affiliates\AffiliateMap.cs" />
+    <Compile Include="Mapping\Base\Common\GenericAttributeMap.cs" />
+    <Compile Include="Mapping\Base\Common\SerialRuleMap.cs" />
+    <Compile Include="Mapping\Base\Common\VisitRecordMap.cs" />
+    <Compile Include="Mapping\Base\Configuration\SettingMap.cs" />
+    <Compile Include="Mapping\Base\Directory\CountryMap.cs" />
+    <Compile Include="Mapping\Base\Directory\DeliveryTimeMap.cs" />
+    <Compile Include="Mapping\Base\Directory\MeasureDimensionMap.cs" />
+    <Compile Include="Mapping\Base\Directory\MeasureWeightMap.cs" />
+    <Compile Include="Mapping\Base\Directory\QuantityUnitMap.cs" />
+    <Compile Include="Mapping\Base\Directory\StateProvinceMap.cs" />
+    <Compile Include="Mapping\Base\Localization\LanguageMap.cs" />
+    <Compile Include="Mapping\Base\Localization\LocaleStringResourceMap.cs" />
+    <Compile Include="Mapping\Base\Localization\LocalizedPropertyMap.cs" />
+    <Compile Include="Mapping\Base\Logging\ActivityLogMap.cs" />
+    <Compile Include="Mapping\Base\Logging\ActivityLogTypeMap.cs" />
+    <Compile Include="Mapping\Base\Logging\SQLProfilerLogMap.cs" />
+    <Compile Include="Mapping\Base\Logging\LogMap.cs" />
+    <Compile Include="Mapping\Base\Messages\CampaignMap.cs" />
+    <Compile Include="Mapping\Base\Messages\EmailAccountMap.cs" />
+    <Compile Include="Mapping\Base\Messages\MessageTemplateMap.cs" />
+    <Compile Include="Mapping\Base\Messages\NewsLetterSubscriptionMap.cs" />
+    <Compile Include="Mapping\Base\Messages\QueuedEmailMap.cs" />
+    <Compile Include="Mapping\Base\Security\AclRecordMap.cs" />
+    <Compile Include="Mapping\Base\Security\PermissionRecordMap.cs" />
+    <Compile Include="Mapping\Base\Seo\UrlRecordMap.cs" />
+    <Compile Include="Mapping\Base\Sites\SiteMap.cs" />
+    <Compile Include="Mapping\Base\Sites\SiteMappingMap.cs" />
+    <Compile Include="Mapping\Base\Tasks\ScheduleTaskMap.cs" />
+    <Compile Include="Mapping\Base\Tax\TaxCategoryMap.cs" />
+    <Compile Include="Mapping\Base\Themes\ThemeVariableMap.cs" />
+    <Compile Include="Mapping\Base\Users\ExternalAuthenticationRecordMap.cs" />
+    <Compile Include="Mapping\Base\Users\UserContentMap.cs" />
+    <Compile Include="Mapping\Base\Users\UserMap.cs" />
+    <Compile Include="Mapping\Base\Users\UserRoleMap.cs" />
+    <Compile Include="Mapping\Cms\Articles\ArticleAlbumMap.cs" />
+    <Compile Include="Mapping\Cms\Articles\ArticleAttachMap.cs" />
+    <Compile Include="Mapping\Cms\Articles\ArticleAttributeMap.cs" />
+    <Compile Include="Mapping\Cms\Articles\ArticleCategoryExtendMap.cs" />
+    <Compile Include="Mapping\Cms\Articles\ArticleCategoryMap.cs" />
+    <Compile Include="Mapping\Cms\Articles\ArticleCategoryMappingMap.cs" />
+    <Compile Include="Mapping\Cms\Articles\ArticleCommentMap.cs" />
+    <Compile Include="Mapping\Cms\Articles\ArticleExtendMap.cs" />
+    <Compile Include="Mapping\Cms\Articles\ArticleMap.cs" />
+    <Compile Include="Mapping\Cms\Articles\ArticleReviewHelpfulnessMap.cs" />
+    <Compile Include="Mapping\Cms\Articles\ArticleReviewMap.cs" />
+    <Compile Include="Mapping\Cms\Articles\ArticleTagMap.cs" />
+    <Compile Include="Mapping\Cms\Articles\ExtendedAttributeMap.cs" />
+    <Compile Include="Mapping\Cms\Articles\ExtendedAttributeValueMap.cs" />
+    <Compile Include="Mapping\Cms\Articles\FeedbackMap.cs" />
+    <Compile Include="Mapping\Cms\Articles\LinkMap.cs" />
+    <Compile Include="Mapping\Cms\Articles\ModelTemplateMap.cs" />
+    <Compile Include="Mapping\Cms\Articles\RelatedArticleMap.cs" />
+    <Compile Include="Mapping\Cms\Channels\ChannelMap.cs" />
+    <Compile Include="Mapping\Cms\Clients\ClientMap.cs" />
+    <Compile Include="Mapping\Cms\Forums\ForumGroupMap.cs" />
+    <Compile Include="Mapping\Cms\Forums\ForumMap.cs" />
+    <Compile Include="Mapping\Cms\Forums\ForumPostMap.cs" />
+    <Compile Include="Mapping\Cms\Forums\ForumSubscriptionMap.cs" />
+    <Compile Include="Mapping\Cms\Forums\ForumTopicMap.cs" />
+    <Compile Include="Mapping\Cms\Forums\PrivateMessageMap.cs" />
+    <Compile Include="Mapping\Cms\Media\DownloadMap.cs" />
+    <Compile Include="Mapping\Cms\Media\PictureMap.cs" />
+    <Compile Include="Mapping\Cms\Orders\GiftCardMap.cs" />
+    <Compile Include="Mapping\Cms\Orders\GiftCardUsageHistoryMap.cs" />
+    <Compile Include="Mapping\Cms\Orders\OrderItemMap.cs" />
+    <Compile Include="Mapping\Cms\Orders\OrderMap.cs" />
+    <Compile Include="Mapping\Cms\Orders\OrderNoteMap.cs" />
+    <Compile Include="Mapping\Cms\Orders\ShoppingCartItemMap.cs" />
+    <Compile Include="Mapping\Cms\Polls\PollAnswerMap.cs" />
+    <Compile Include="Mapping\Cms\Polls\PollMap.cs" />
+    <Compile Include="Mapping\Cms\Polls\PollVotingRecordMap.cs" />
+    <Compile Include="Mapping\Cms\Products\ProductMap.cs" />
+    <Compile Include="Mapping\Cms\RegionalContents\RegionalContentMap.cs" />
+    <Compile Include="Mapping\Cms\Topics\TopicMap.cs" />
+    <Compile Include="Migrations\201607041021268_InitialCreate.cs" />
+    <Compile Include="Migrations\201607041021268_InitialCreate.Designer.cs">
+      <DependentUpon>201607041021268_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\MigrationsConfiguration.cs" />
+    <Compile Include="ObjectContextBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Setup\Builder\BuilderDbContextExtensions.cs" />
+    <Compile Include="Setup\Builder\LocaleResourcesBuilder.cs" />
+    <Compile Include="Setup\Builder\LocaleResourcesMigrator.cs" />
+    <Compile Include="Setup\Builder\SettingsBuilder.cs" />
+    <Compile Include="Setup\Builder\SettingsMigrator.cs" />
+    <Compile Include="Setup\DbMigrationContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Setup\DbMigrationException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Setup\DbSeedingMigrator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Setup\IDataSeeder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Setup\IDbMigrationExtensions.cs" />
+    <Compile Include="Setup\ILocaleResourcesProvider.cs" />
+    <Compile Include="Setup\InstallDatabaseInitializer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Setup\MigrateDatabaseInitializer.cs" />
+    <Compile Include="Setup\MigratorUtils.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Setup\SeedData\InvariantSeedData.cs" />
+    <Compile Include="Setup\SeedData\SeedDataConfiguration.cs" />
+    <Compile Include="Setup\SeedData\SeedDataException.cs" />
+    <Compile Include="Setup\SeedData\SeedEntityExtensions.cs" />
+    <Compile Include="Setup\TestDatabaseInitializer.cs" />
+    <Compile Include="DefaultDbConfiguration.cs" />
+    <Compile Include="DefaultObjectContext.cs" />
+    <Compile Include="SqlCeDataProvider.cs" />
+    <Compile Include="SqlServerDataProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201607041021268_InitialCreate.resx">
+      <DependentUpon>201607041021268_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sql\Indexes.sql" />
+    <EmbeddedResource Include="Sql\Indexes.SqlServer.sql" />
+    <EmbeddedResource Include="Sql\ArticleLoadAllPaged.sql" />
+    <EmbeddedResource Include="Sql\StoredProcedures.sql" />
+    <Content Include="迁移.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Mapping\Base\Permissions\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    if not exist "$(TargetDir)x86" md "$(TargetDir)x86"
+    xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\x86\*.*" "$(TargetDir)x86"
+    if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
+    xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

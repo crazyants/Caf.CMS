@@ -1,0 +1,135 @@
+﻿@model CAF.WebSite.Mvc.Admin.Models.Links.LinkModel
+
+
+@Html.HiddenFor(model => model.Id)
+@Html.CafSite().TabStrip().Name("link-edit").Items(x =>
+{
+    x.Add().Text(T("Admin.ContentManagement.Links.Info").Text).Content(TabInfo()).Selected(true);
+    x.Add().Text(T("Admin.Common.Sites").Text).Content(TabSites());
+
+    //generate an event
+    EngineContext.Current.Resolve<IEventPublisher>().Publish(new TabStripCreated(x, "link-edit", this.Html, this.Model));
+})
+@helper TabInfo()
+{
+    <h2 class="margin-bottom-20">  @Html.ValidationSummary(true)</h2>
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.LanguageId)
+            </label>
+            <div class="col-md-6">
+                @Html.DropDownListFor(model => model.LanguageId, new SelectList(ViewBag.AllLanguages, "Id", "Name"), new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.Name)
+            </label>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Name)
+
+            </div>
+        </div>
+        <div id="pnlPasswordEnabled" class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.Intro)
+            </label>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.Intro, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Intro)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.LinkUrl)
+            </label>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.LinkUrl, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LinkUrl)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.LogoUrl)
+            </label>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.LogoUrl, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LogoUrl)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.IsHome)
+            </label>
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.IsHome)
+                @Html.ValidationMessageFor(model => model.IsHome)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.PictureId)
+            </label>
+            <div class="col-md-6">
+                @Html.EditorFor(model => model.PictureId)
+                @Html.ValidationMessageFor(model => model.PictureId)
+            </div>
+        </div>
+    </div>
+}
+@helper TabSites()
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('input[id="@Html.FieldIdFor(model => model.LimitedToSites)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                toggleSiteMapping(state);
+            });
+            toggleSiteMapping(@Model.LimitedToSites.ToString().ToLower());
+        });
+        function toggleSiteMapping(state) {
+            if (state) {
+                $('#pnl-available-sites').show();
+            }
+            else {
+                $('#pnl-available-sites').hide();
+            }
+        }
+
+    </script>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">
+            @Html.LangLabelFor(model => model.LimitedToSites)
+        </label>
+        <div class="col-md-6">
+            @Html.EditorFor(x => x.LimitedToSites)
+            @Html.ValidationMessageFor(model => model.LimitedToSites)
+
+        </div>
+    </div>
+    <div id="pnl-available-sites" class="form-group">
+        <label class="control-label col-md-2">
+            @Html.LangLabelFor(model => model.AvailableSites)
+        </label>
+        <div class="col-md-6">
+            @if (Model.AvailableSites != null && Model.AvailableSites.Count > 0)
+            {
+                foreach (var store in Model.AvailableSites)
+                {
+                    <label class="checkbox">
+                        <input type="checkbox" name="SelectedSiteIds" value="@store.Id" checked="@(Model.SelectedSiteIds != null && Model.SelectedSiteIds.Contains(store.Id))" />
+                        <span>@store.Name</span>
+                    </label>
+                }
+            }
+            else
+            {
+                <div>@T("Admin.Configuration.Sites.NoSitesDefined")</div>
+            }
+        </div>
+    </div>
+
+
+}

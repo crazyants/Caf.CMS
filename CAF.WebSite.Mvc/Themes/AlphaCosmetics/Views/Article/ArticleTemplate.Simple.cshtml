@@ -1,0 +1,63 @@
+﻿@model ArticlePostModel
+@using CAF.Infrastructure.Core.Domain.Seo;
+@using CAF.Infrastructure.Core;
+@{
+    Layout = "~/Views/Shared/_ColumnsTwo.cshtml";
+
+    //title, meta
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Title);
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+
+    var canonicalUrlsEnabled = EngineContext.Current.Resolve<CAF.Infrastructure.Core.Domain.Seo.SeoSettings>().CanonicalUrlsEnabled;
+    if (canonicalUrlsEnabled)
+    {
+        var articleUrl = Url.RouteUrl("Article", new { SeName = Model.SeName }, this.Request.Url.Scheme);
+        Html.AddCanonicalUrlParts(articleUrl);
+    }
+    string avatarSpanning = (Model.AllowUsersToUploadAvatars ? "padding-left: {0}px; min-height: {0}px;".FormatWith(Model.AvatarPictureSize + 30) : "");
+}
+@section left {
+    @Html.Action("CategoryNavigation", "ArticleCatalog", new { currentCategoryId = this.CurrentArticleCategoryId, currentArticleId = this.CurrentArticleId, onlyShowChildren = true, showParent = true, area = "" })
+}
+
+<div class="sb_box fr sb-DG">
+    
+        @Html.Action("ArticleBreadcrumb", "ArticleCatalog", new { articleId = Model.Id })
+   
+    <div class="clear"></div>
+    <div class="active" id="shownews">
+        <h1 class="title">@Model.Title</h1>
+        <div class="editor">
+            <div>
+                <p>
+                    @Html.Raw(Model.FullContent)
+                </p>
+
+                <div id="metinfo_additional"></div>
+            </div><div class="clear"></div>
+        </div>
+        @Html.Action("RelatedArticles", new { articleId = Model.Id })
+        <div class="met_hits">
+            <div class="metjiathis">
+                @if (Model.HasSampleDownload)
+                {
+                <div>
+                    <a href="@Url.Action("Sample", "Download", new { id = Model.Id })">
+                        <i class="fa fa-fw fa-arrow-circle-o-down"></i>
+                        下载附件
+                    </a>
+                </div>
+                }
+            </div>
+            点击次数：<span>
+                @Model.Click
+            </span>&nbsp;&nbsp;更新时间：@Model.PostCreatedOnStr&nbsp;&nbsp;【<a href="javascript:window.print()">打印此页</a>】&nbsp;&nbsp;【<a href="javascript:self.close()">关闭</a>】
+
+        </div>
+        @Html.Partial("_ArticlePrevNext", Model.ArticlePNModel)
+    </div>
+</div>
+
+
+ 

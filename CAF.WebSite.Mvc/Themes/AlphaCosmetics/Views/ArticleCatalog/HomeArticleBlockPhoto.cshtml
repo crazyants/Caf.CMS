@@ -1,0 +1,26 @@
+﻿@model ArticleCategoryModel
+@using CAF.Infrastructure.Core.Collections
+@{
+    var node = Model.CategoryBreadcrumb.LastOrDefault();
+    var url = node.GenerateUrl(this.Url);
+}
+@if (Model.Articles.Count > 0)
+{
+    <ol class="list-none metlist">
+
+        @for (int i = 0; i < Model.Articles.Count; i++)
+        {
+            var article = Model.Articles[i];
+            <li class='fl DG-con' style='width:162px; margin-left:6px; margin-right:6px;'>
+                <div style='width:160px;'>
+                    <a href='@Url.RouteUrl("Article", new { SeName = article.SeName })' title='@article.Title' target='_self' class='img'><img src='@article.DefaultPictureModel.ImageUrl' alt='@article.DefaultPictureModel.AlternateText' title='@article.DefaultPictureModel.AlternateText' width='160' height='130' /></a>
+                    <h3>
+                        <a href='@Url.RouteUrl("Article", new { SeName = article.SeName })' title='@article.Title' target='_self'>@article.Title</a>
+                    </h3>
+                </div>
+            </li>
+        }
+    </ol>
+
+
+}

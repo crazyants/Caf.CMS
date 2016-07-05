@@ -1,0 +1,86 @@
+﻿@model HandleErrorInfo
+@{
+    Layout = null;
+    var currentUICulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+
+    var localizationService = EngineContext.Current.Resolve<ILocalizationService>();
+
+    var MediaRootPath = "~/Content/assets/";
+    // add css assets
+    Html.AppendCssFileParts(
+       MediaRootPath + "global/plugins/font-awesome/css/font-awesome.min.css",
+       MediaRootPath + "global/plugins/bootstrap/css/bootstrap.min.css",
+       MediaRootPath + "admin/pages/css/error.css",
+       MediaRootPath + "global/css/components.css",
+       MediaRootPath + "admin/layout/css/layout.css",
+       MediaRootPath + "admin/layout/css/custom.css",
+       MediaRootPath + "dmin/layout/css/themes/darkblue.css"
+       );
+
+
+    Html.AppendScriptParts(ResourceLocation.Head,
+   "~/Scripts/modernizr-2.8.3.js",
+   MediaRootPath + "global/plugins/jquery.min.js",
+   "~/Scripts/globalize/globalize.js");
+
+    Html.AddScriptParts(ResourceLocation.Head, true,
+   "~/Scripts/globalize/cultures/globalize.culture.{0}.js".FormatInvariant(currentUICulture.ToString()));
+
+    Html.AppendScriptParts(ResourceLocation.Foot,
+    MediaRootPath + "global/plugins/jquery-migrate.min.js",
+    MediaRootPath + "global/plugins/bootstrap/js/bootstrap.min.js"
+     );
+
+}
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8" />
+    <title>@T("NotFoundPage.Title").Text</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="description" content="@(Html.WorkMetaDescription())" />
+    <meta name="keywords" content="@(Html.WorkMetaKeywords())" />
+    <meta name="generator" content="Caf.NET @WorkVersion.CurrentFullVersion" />
+    @Html.WorkCssFiles(this.Url, ResourceLocation.Head)
+    @Html.WorkScripts(this.Url, ResourceLocation.Head)
+   
+    @Html.CanonicalUrls()
+    @Html.LinkRels()
+    @Html.Action("Favicon", "Common", new { area = "" })
+    @Html.CustomHead()
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="page-500-full-page">
+    <div class="row">
+        <div class="col-md-12 page-500">
+            <div class=" number">
+                @T("NotFoundPage.Title")
+            </div>
+            <div class=" details">
+                <h3>@T("NotFoundPage.Body").</h3>
+                <p>
+                    <a class="link" href="@Url.RouteUrl("HomePage")#0">
+                        首页
+                    </a>
+                    @*<a class="link" href="@Url.RouteUrl("ContactUs")">
+                        @T("ContactUs")
+                    </a>*@
+                    <a class="link" target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=3286619561&site=qq&menu=yes">@T("ContactUs")</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    @Html.WorkCssFiles(this.Url, ResourceLocation.Foot)
+    @Html.WorkScripts(this.Url, ResourceLocation.Foot)
+</body>
+<!-- END BODY -->
+</html>

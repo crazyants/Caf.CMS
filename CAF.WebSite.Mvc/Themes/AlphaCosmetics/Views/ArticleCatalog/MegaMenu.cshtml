@@ -1,0 +1,23 @@
+﻿@model NavigationModel
+@using CAF.Infrastructure.Core.Collections;
+@{   
+    
+}
+@if (GetThemeVariable<bool>("DisplayNavbar"))
+{
+    <ul class="list-none" >
+        <li class="navdown" style='width:116px;'><a href="@Url.RouteUrl("HomePage")" class="nav" title="首页" target="_self"><span>首页</span></a></li>
+        <li class="HER--con-line"></li>
+        <li  style='width:116px;'><a href="@Url.RouteUrl("Topic", new { SystemName = "aboutus" })" class="hover-none nav" title="关于我们" target="_self"><span>关于我们</span></a></li>
+        <li class="HER--con-line"></li>
+        <li  style='width:115px;'><a href="@Url.RouteUrl("ArticleCategory", new { SeName = "1" })" class="hover-none nav" title="栏目1" target="_self"><span>公司产品</span></a></li>
+        <li class="HER--con-line"></li>
+        <li  style='width:115px;'><a href="@Url.RouteUrl("ArticleCategory", new { SeName = "2" })" class="hover-none nav" title="栏目2" target="_self"><span>护理知识</span></a></li>
+        <li class="HER--con-line"></li>
+        <li  style='width:115px;'><a href="@Url.RouteUrl("ContactUs")" class="hover-none nav" title="联系我们" target="_self"><span>联系我们</span></a></li>
+        <li class="HER--con-line"></li>
+        <li  style='width:115px;'><a href="@Url.RouteUrl("Topic", new { SystemName = "information" })" class="hover-none nav" title="信息" target="_self"><span>人气推荐</span></a></li>
+    </ul>
+
+} 
+

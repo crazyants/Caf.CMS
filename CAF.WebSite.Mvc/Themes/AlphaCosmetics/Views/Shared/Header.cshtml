@@ -1,0 +1,7 @@
+﻿@model SiteHeaderModel
+<div class="HER--nav">
+    <ul class="width list-none">
+        <li class="fl HER--nav-metlang"><a href='#' onclick='SetHome(this,window.location,"非IE浏览器不支持此功能，请手动设置！");' style='cursor:pointer;' title='设为首页'>设为首页</a><span>|</span><a href='#' onclick='addFavorite("非IE浏览器不支持此功能，请手动设置！");' style='cursor:pointer;' title='收藏本站'>收藏本站</a></li>
+        <li class="fr HER--nav-Helpline">@Html.Action("LanguageSelector", "Common")<a href='@Url.RouteUrl("login")'  title='登录'>登录</a>|咨询热线:<span>0662-123456789</span></li>
+    </ul>
+</div>

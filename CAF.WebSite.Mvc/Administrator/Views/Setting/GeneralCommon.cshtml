@@ -1,0 +1,847 @@
+﻿@model GeneralCommonSettingsModel
+
+@{
+    ViewBag.Title = T("Admin.Configuration.Settings.GeneralCommon").Text;
+}
+@using (Html.BeginForm())
+{
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase">@T("Admin.Configuration.Settings.GeneralCommon") </span>
+                        <span class="caption-helper"></span>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" name="save" value="save" class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;@T("Admin.Common.Save")</button>
+                    </div>
+                </div>
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+
+
+
+                    <script type="text/javascript">
+                        $(document).ready(function () {
+                            $('input[id="@Html.FieldIdFor(model => model.SiteInformationSettings.SiteClosed)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                                toggleSiteClosed(state);
+                            });
+                            $('input[id="@Html.FieldIdFor(model => model.LocalizationSettings.SeoFriendlyUrlsForLanguagesEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                                toggleSeoLanguageUrls(state);
+                            });
+                            $('input[id="@Html.FieldIdFor(model => model.CaptchaSettings.Enabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                                toggleCaptchaEnabled(state);
+                            });
+                            $('input[id="@Html.FieldIdFor(model => model.SocialSettings.ShowSocialLinksInFooter)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                                toggleSocial(state);
+                            });
+
+
+                            toggleSiteClosed(@Model.SiteInformationSettings.SiteClosed.ToString().ToLower());
+                            toggleSeoLanguageUrls(@Model.LocalizationSettings.SeoFriendlyUrlsForLanguagesEnabled.ToString().ToLower());
+                            toggleCaptchaEnabled(@Model.CaptchaSettings.Enabled.ToString().ToLower());
+                            toggleSocial(@Model.SocialSettings.ShowSocialLinksInFooter.ToString().ToLower());
+                        });
+                        function toggleCaptchaEnabled(state) {
+                            $('#SecuritySettingTable').find('.captcha-setting').toggle(state);
+                        }
+                        function toggleSocial(state) {
+                            $('#SocialLinkTable').find('.social-link').toggle(state);
+                        }
+                        function toggleSiteClosed(state) {
+                            if (state) {
+                                $('#pnlSiteClosedAllowForAdmins').show();
+                            }
+                            else {
+                                $('#pnlSiteClosedAllowForAdmins').hide();
+                            }
+                        }
+
+                        function toggleSeoLanguageUrls(state) {
+                            if (state) {
+                                $('#pnlDefaultLanguageRedirectBehaviour').show();
+                                $('#pnlInvalidLanguageRedirectBehaviour').show();
+                            }
+                            else {
+                                $('#pnlDefaultLanguageRedirectBehaviour').hide();
+                                $('#pnlInvalidLanguageRedirectBehaviour').hide();
+                            }
+                        }
+                    </script>
+                    @Html.Action("SiteScopeConfiguration", "Setting")
+                    @Html.ValidationSummary(false)
+
+                    @(Html.CafSite().TabStrip().Name("generalsettings-edit").Items(x =>
+    {
+        x.Add().Text(T("Common.General").Text).Content(@TabSiteInformationSettings()).Selected(true);
+        x.Add().Text(T("Admin.Configuration.Settings.GeneralCommon.SEOSettings").Text).Content(@TabSEOSettings());
+        x.Add().Text(T("Admin.Configuration.Settings.GeneralCommon.SecuritySettings").Text).Content(@TabSecuritySettings());
+        x.Add().Text(T("Admin.Configuration.Settings.GeneralCommon.LocalizationSettings").Text).Content(TabLocalizationSettings());
+        x.Add().Text(T("Admin.Configuration.Settings.GeneralCommon.PdfSettings").Text).Content(@TabPdfSettings());
+        x.Add().Text(T("Admin.Configuration.Settings.GeneralCommon.CompanyInformationSettings").Text).Content(@TabCompanyInformationSettings());
+        x.Add().Text(T("Admin.Configuration.Settings.GeneralCommon.ContactDataSettings").Text).Content(@TabContactDataSettings());
+        x.Add().Text(T("Admin.Configuration.Settings.GeneralCommon.SocialSettings").Text).Content(@TabSocialSettings());
+        x.Add().Text(T("Admin.Configuration.Settings.GeneralCommon.FullTextSettings").Text).Content(@TabFullTextSettings());
+    }))
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+@helper TabSiteInformationSettings()
+{
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SiteInformationSettings.SiteClosed)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.SiteInformationSettings.SiteClosed, "small")
+                    @Html.ValidationMessageFor(model => model.SiteInformationSettings.SiteClosed)
+                </div>
+            </div>
+        </div>
+        <div id="pnlSiteClosedAllowForAdmins" class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SiteInformationSettings.SiteClosedAllowForAdmins)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.SiteInformationSettings.SiteClosedAllowForAdmins, "small")
+                    @Html.ValidationMessageFor(model => model.SiteInformationSettings.SiteClosedAllowForAdmins)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SiteInformationSettings.SiteContentShare)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.SiteInformationSettings.SiteContentShare, "small")
+                    @Html.ValidationMessageFor(model => model.SiteInformationSettings.SiteContentShare)
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@helper TabSEOSettings()
+{
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SeoSettings.PageTitleSeparator)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.SeoSettings.PageTitleSeparator, "small")
+                    @Html.ValidationMessageFor(model => model.SeoSettings.PageTitleSeparator)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SeoSettings.PageTitleSeoAdjustment)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingOverrideCheckbox(model => model.SeoSettings.PageTitleSeoAdjustment)
+                    @Html.DropDownListForEnum(model => model.SeoSettings.PageTitleSeoAdjustment, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SeoSettings.PageTitleSeoAdjustment)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SeoSettings.DefaultTitle)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.SeoSettings.DefaultTitle, "small")
+                    @Html.ValidationMessageFor(model => model.SeoSettings.DefaultTitle)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SeoSettings.DefaultMetaKeywords)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.SeoSettings.DefaultMetaKeywords, "small")
+                    @Html.ValidationMessageFor(model => model.SeoSettings.DefaultMetaKeywords)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SeoSettings.DefaultMetaDescription)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.SeoSettings.DefaultMetaDescription, "small")
+                    @Html.ValidationMessageFor(model => model.SeoSettings.DefaultMetaDescription)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SeoSettings.ConvertNonWesternChars)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.SeoSettings.ConvertNonWesternChars, "small")
+                    @Html.ValidationMessageFor(model => model.SeoSettings.ConvertNonWesternChars)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SeoSettings.CanonicalUrlsEnabled)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.SeoSettings.CanonicalUrlsEnabled, "small")
+                    @Html.ValidationMessageFor(model => model.SeoSettings.CanonicalUrlsEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SeoSettings.CanonicalHostNameRule)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingOverrideCheckbox(model => model.SeoSettings.CanonicalHostNameRule)
+                    @Html.DropDownListForEnum(model => model.SeoSettings.CanonicalHostNameRule, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SeoSettings.CanonicalHostNameRule)
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+@helper TabSecuritySettings()
+{
+    <div id="SecuritySettingTable" class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SecuritySettings.EncryptionKey)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.EditorFor(model => model.SecuritySettings.EncryptionKey, "small")
+                    @Html.ValidationMessageFor(model => model.SecuritySettings.EncryptionKey)
+                    <input type="submit" name="changeencryptionkey" value="@T("Admin.Common.Change")" id="changeencryptionkey" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SecuritySettings.AdminAreaAllowedIpAddresses)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.EditorFor(model => model.SecuritySettings.AdminAreaAllowedIpAddresses, "small")
+                    @Html.ValidationMessageFor(model => model.SecuritySettings.AdminAreaAllowedIpAddresses)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SecuritySettings.HideAdminMenuItemsBasedOnPermissions)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.EditorFor(model => model.SecuritySettings.HideAdminMenuItemsBasedOnPermissions, "small")
+                    @Html.ValidationMessageFor(model => model.SecuritySettings.HideAdminMenuItemsBasedOnPermissions)
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-info">
+            @T("Admin.Configuration.Settings.General.Common.Captcha.Hint")
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CaptchaSettings.Enabled)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CaptchaSettings.Enabled, "small")
+                    @Html.ValidationMessageFor(model => model.CaptchaSettings.Enabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group captcha-setting">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CaptchaSettings.ShowOnLoginPage)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CaptchaSettings.ShowOnLoginPage, "small")
+                    @Html.ValidationMessageFor(model => model.CaptchaSettings.ShowOnLoginPage)
+                </div>
+            </div>
+        </div>
+        <div class="form-group captcha-setting">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CaptchaSettings.ShowOnRegistrationPage)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CaptchaSettings.ShowOnRegistrationPage, "small")
+                    @Html.ValidationMessageFor(model => model.CaptchaSettings.ShowOnRegistrationPage)
+                </div>
+            </div>
+        </div>
+        <div class="form-group captcha-setting">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CaptchaSettings.ShowOnContactUsPage)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CaptchaSettings.ShowOnContactUsPage, "small")
+                    @Html.ValidationMessageFor(model => model.CaptchaSettings.ShowOnContactUsPage)
+                </div>
+            </div>
+        </div>
+        <div class="form-group captcha-setting">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CaptchaSettings.ShowOnEmailWishlistToFriendPage)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CaptchaSettings.ShowOnEmailWishlistToFriendPage, "small")
+                    @Html.ValidationMessageFor(model => model.CaptchaSettings.ShowOnEmailWishlistToFriendPage)
+                </div>
+            </div>
+        </div>
+        <div class="form-group captcha-setting">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CaptchaSettings.ShowOnEmailProductToFriendPage)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CaptchaSettings.ShowOnEmailProductToFriendPage, "small")
+                    @Html.ValidationMessageFor(model => model.CaptchaSettings.ShowOnEmailProductToFriendPage)
+                </div>
+            </div>
+        </div>
+        <div class="form-group captcha-setting">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CaptchaSettings.ShowOnAskQuestionPage)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CaptchaSettings.ShowOnAskQuestionPage, "small")
+                    @Html.ValidationMessageFor(model => model.CaptchaSettings.ShowOnAskQuestionPage)
+                </div>
+            </div>
+        </div>
+        <div class="form-group captcha-setting">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CaptchaSettings.ShowOnArticleCommentPage)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CaptchaSettings.ShowOnArticleCommentPage, "small")
+                    @Html.ValidationMessageFor(model => model.CaptchaSettings.ShowOnArticleCommentPage)
+                </div>
+            </div>
+        </div>
+
+        @*<div class="form-group captcha-setting">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CaptchaSettings.ReCaptchaPublicKey)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CaptchaSettings.ReCaptchaPublicKey, "small")
+                    @Html.ValidationMessageFor(model => model.CaptchaSettings.ReCaptchaPublicKey)
+                </div>
+            </div>
+        </div>
+        <div class="form-group captcha-setting">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CaptchaSettings.ReCaptchaPrivateKey)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CaptchaSettings.ReCaptchaPrivateKey, "small")
+                    @Html.ValidationMessageFor(model => model.CaptchaSettings.ReCaptchaPrivateKey)
+                </div>
+            </div>
+        </div>*@
+    </div>
+
+}
+@helper TabPdfSettings()
+{
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.PdfSettings.Enabled)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.PdfSettings.Enabled, "small")
+                    @Html.ValidationMessageFor(model => model.PdfSettings.Enabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.PdfSettings.LetterPageSizeEnabled)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.PdfSettings.LetterPageSizeEnabled, "small")
+                    @Html.ValidationMessageFor(model => model.PdfSettings.LetterPageSizeEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.PdfSettings.LogoPictureId)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.PdfSettings.LogoPictureId, "#pdf-logo-picture")
+                    @Html.ValidationMessageFor(model => model.PdfSettings.LogoPictureId)
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+@helper TabLocalizationSettings()
+{
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.LocalizationSettings.LoadAllLocaleRecordsOnStartup)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.EditorFor(model => model.LocalizationSettings.LoadAllLocaleRecordsOnStartup, "small")
+                    @Html.ValidationMessageFor(model => model.LocalizationSettings.LoadAllLocaleRecordsOnStartup)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.LocalizationSettings.SeoFriendlyUrlsForLanguagesEnabled)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.EditorFor(model => model.LocalizationSettings.SeoFriendlyUrlsForLanguagesEnabled, "small")
+                    @Html.ValidationMessageFor(model => model.LocalizationSettings.SeoFriendlyUrlsForLanguagesEnabled)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.LocalizationSettings.DefaultLanguageRedirectBehaviour)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.DropDownListForEnum(model => model.LocalizationSettings.DefaultLanguageRedirectBehaviour, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.LocalizationSettings.DefaultLanguageRedirectBehaviour)
+                </div>
+            </div>
+        </div>
+        <div id="pnlInvalidLanguageRedirectBehaviour" class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.LocalizationSettings.InvalidLanguageRedirectBehaviour)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.DropDownListForEnum(model => model.LocalizationSettings.InvalidLanguageRedirectBehaviour, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.LocalizationSettings.InvalidLanguageRedirectBehaviour)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.LocalizationSettings.UseImagesForLanguageSelection)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.LocalizationSettings.UseImagesForLanguageSelection, "small")
+                    @Html.ValidationMessageFor(model => model.LocalizationSettings.UseImagesForLanguageSelection)
+                </div>
+            </div>
+        </div><div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.LocalizationSettings.DetectBrowserUserLanguage)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.LocalizationSettings.DetectBrowserUserLanguage, "small")
+                    @Html.ValidationMessageFor(model => model.LocalizationSettings.DetectBrowserUserLanguage)
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+@helper TabCompanyInformationSettings()
+{
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CompanyInformationSettings.CompanyName)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CompanyInformationSettings.CompanyName, "small")
+                    @Html.ValidationMessageFor(model => model.CompanyInformationSettings.CompanyName)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CompanyInformationSettings.Salutation)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingOverrideCheckbox(model => model.CompanyInformationSettings.Salutation)
+                    @Html.DropDownListFor(model => model.CompanyInformationSettings.Salutation, Model.CompanyInformationSettings.Salutations, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CompanyInformationSettings.Salutation)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CompanyInformationSettings.Title)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CompanyInformationSettings.Title, "small")
+                    @Html.ValidationMessageFor(model => model.CompanyInformationSettings.Title)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CompanyInformationSettings.Firstname)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CompanyInformationSettings.Firstname, "small")
+                    @Html.ValidationMessageFor(model => model.CompanyInformationSettings.Firstname)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CompanyInformationSettings.Lastname)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CompanyInformationSettings.Lastname, "small")
+                    @Html.ValidationMessageFor(model => model.CompanyInformationSettings.Lastname)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CompanyInformationSettings.CompanyManagementDescription)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingOverrideCheckbox(model => model.CompanyInformationSettings.CompanyManagementDescription)
+                    @Html.DropDownListFor(model => model.CompanyInformationSettings.CompanyManagementDescription, Model.CompanyInformationSettings.ManagementDescriptions, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CompanyInformationSettings.CompanyManagementDescription)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CompanyInformationSettings.CompanyManagement)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CompanyInformationSettings.CompanyManagement, "small")
+                    @Html.ValidationMessageFor(model => model.CompanyInformationSettings.CompanyManagement)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CompanyInformationSettings.Street)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CompanyInformationSettings.Street, "small")
+                    @Html.ValidationMessageFor(model => model.CompanyInformationSettings.Street)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CompanyInformationSettings.Street2)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CompanyInformationSettings.Street2, "small")
+                    @Html.ValidationMessageFor(model => model.CompanyInformationSettings.Street2)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CompanyInformationSettings.ZipCode)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CompanyInformationSettings.ZipCode, "small")
+                    @Html.ValidationMessageFor(model => model.CompanyInformationSettings.ZipCode)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CompanyInformationSettings.City)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CompanyInformationSettings.City, "small")
+                    @Html.ValidationMessageFor(model => model.CompanyInformationSettings.City)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CompanyInformationSettings.CountryId)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingOverrideCheckbox(model => model.CompanyInformationSettings.CountryId)
+                    @Html.DropDownListFor(model => model.CompanyInformationSettings.CountryId, Model.CompanyInformationSettings.AvailableCountries, new { style = "min-width:289px", @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.CompanyInformationSettings.CountryId)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CompanyInformationSettings.Region)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CompanyInformationSettings.Region, "small")
+                    @Html.ValidationMessageFor(model => model.CompanyInformationSettings.Region)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CompanyInformationSettings.VatId)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CompanyInformationSettings.VatId, "small")
+                    @Html.ValidationMessageFor(model => model.CompanyInformationSettings.VatId)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CompanyInformationSettings.CommercialRegister)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CompanyInformationSettings.CommercialRegister, "small")
+                    @Html.ValidationMessageFor(model => model.CompanyInformationSettings.CommercialRegister)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.CompanyInformationSettings.TaxNumber)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.CompanyInformationSettings.TaxNumber, "small")
+                    @Html.ValidationMessageFor(model => model.CompanyInformationSettings.TaxNumber)
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@helper TabContactDataSettings()
+{
+    <div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.ContactDataSettings.CompanyTelephoneNumber)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.ContactDataSettings.CompanyTelephoneNumber, "small")
+                    @Html.ValidationMessageFor(model => model.ContactDataSettings.CompanyTelephoneNumber)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.ContactDataSettings.HotlineTelephoneNumber)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.ContactDataSettings.HotlineTelephoneNumber, "small")
+                    @Html.ValidationMessageFor(model => model.ContactDataSettings.HotlineTelephoneNumber)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.ContactDataSettings.MobileTelephoneNumber)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.ContactDataSettings.MobileTelephoneNumber, "small")
+                    @Html.ValidationMessageFor(model => model.ContactDataSettings.MobileTelephoneNumber)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.ContactDataSettings.CompanyFaxNumber)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.ContactDataSettings.CompanyFaxNumber, "small")
+                    @Html.ValidationMessageFor(model => model.ContactDataSettings.CompanyFaxNumber)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.ContactDataSettings.CompanyEmailAddress)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.ContactDataSettings.CompanyEmailAddress, "small")
+                    @Html.ValidationMessageFor(model => model.ContactDataSettings.CompanyEmailAddress)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.ContactDataSettings.WebmasterEmailAddress)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.ContactDataSettings.WebmasterEmailAddress, "small")
+                    @Html.ValidationMessageFor(model => model.ContactDataSettings.WebmasterEmailAddress)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.ContactDataSettings.SupportEmailAddress)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.ContactDataSettings.SupportEmailAddress, "small")
+                    @Html.ValidationMessageFor(model => model.ContactDataSettings.SupportEmailAddress)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.ContactDataSettings.ContactEmailAddress)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.ContactDataSettings.ContactEmailAddress, "small")
+                    @Html.ValidationMessageFor(model => model.ContactDataSettings.ContactEmailAddress)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.BankConnectionSettings.Bankname)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.BankConnectionSettings.Bankname, "small")
+                    @Html.ValidationMessageFor(model => model.BankConnectionSettings.Bankname)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.BankConnectionSettings.Bankcode)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.BankConnectionSettings.Bankcode, "small")
+                    @Html.ValidationMessageFor(model => model.BankConnectionSettings.Bankcode)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.BankConnectionSettings.AccountNumber)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.BankConnectionSettings.AccountNumber, "small")
+                    @Html.ValidationMessageFor(model => model.BankConnectionSettings.AccountNumber)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.BankConnectionSettings.AccountHolder)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.BankConnectionSettings.AccountHolder, "small")
+                    @Html.ValidationMessageFor(model => model.BankConnectionSettings.AccountHolder)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.BankConnectionSettings.Iban)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.BankConnectionSettings.Iban, "small")
+                    @Html.ValidationMessageFor(model => model.BankConnectionSettings.Iban)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.BankConnectionSettings.Bic)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.BankConnectionSettings.Bic, "small")
+                    @Html.ValidationMessageFor(model => model.BankConnectionSettings.Bic)
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+@helper TabSocialSettings()
+{
+    <div id="SocialLinkTable" class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SocialSettings.ShowSocialLinksInFooter)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.SocialSettings.ShowSocialLinksInFooter, "small")
+                    @Html.ValidationMessageFor(model => model.SocialSettings.ShowSocialLinksInFooter)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SocialSettings.FacebookLink)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.SocialSettings.FacebookLink, "small")
+                    @Html.ValidationMessageFor(model => model.SocialSettings.FacebookLink)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SocialSettings.GooglePlusLink)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.SocialSettings.GooglePlusLink, "small")
+                    @Html.ValidationMessageFor(model => model.SocialSettings.GooglePlusLink)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SocialSettings.TwitterLink)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.SocialSettings.TwitterLink, "small")
+                    @Html.ValidationMessageFor(model => model.SocialSettings.TwitterLink)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SocialSettings.PinterestLink)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.SocialSettings.PinterestLink, "small")
+                    @Html.ValidationMessageFor(model => model.SocialSettings.PinterestLink)
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SocialSettings.YoutubeLink)</label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @Html.SettingEditorFor(model => model.SocialSettings.YoutubeLink, "small")
+                    @Html.ValidationMessageFor(model => model.SocialSettings.YoutubeLink)
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+@helper TabFullTextSettings()
+{
+    <div id="SocialLinkTable" class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-3"> </label>
+            <div class="col-md-3">
+                <div class="input-group input-medium">
+                    @if (Model.FullTextSettings.Supported)
+                    {
+                        <div class="alert alert-success fade in">
+                            @T("Admin.Configuration.Settings.GeneralCommon.FullTextSettings.Supported")
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-danger fade in">
+                            @T("Admin.Configuration.Settings.GeneralCommon.FullTextSettings.NotSupported")
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        @if (Model.FullTextSettings.Supported)
+        {
+
+            <div class="form-group">
+                <label class="control-label col-md-3"></label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @if (Model.FullTextSettings.Enabled)
+                        {
+                            @T("Admin.Configuration.Settings.GeneralCommon.FullTextSettings.CurrenlyEnabled")
+                        }
+                        else
+                        {
+                            @T("Admin.Configuration.Settings.GeneralCommon.FullTextSettings.CurrenlyDisabled")
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-3"></label>
+                <div class="col-md-3">
+                    <div class="input-group input-medium">
+                        @if (Model.FullTextSettings.Enabled)
+                        {
+                            <button type="submit" name="togglefulltext" value="togglefulltext" class="btn btn-success">
+                                <i class="fa fa-power-off"></i>&nbsp;&nbsp;
+                                @T("Admin.Configuration.Settings.GeneralCommon.FullTextSettings.Disable").Text
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="submit" name="togglefulltext" value="togglefulltext" class="btn btn-primary">
+                                <i class="fa fa-power-off"></i>&nbsp;&nbsp;
+                                @T("Admin.Configuration.Settings.GeneralCommon.FullTextSettings.Enable").Text
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+            if (Model.FullTextSettings.Enabled)
+            {
+                <div class="form-group">
+                    <label class="control-label col-md-3">@Html.LangLabelFor(model => model.FullTextSettings.SearchMode)</label>
+                    <div class="col-md-3">
+                        <div class="input-group input-medium">
+                            @Html.DropDownListFor(model => model.FullTextSettings.SearchMode, Model.FullTextSettings.SearchModeValues, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.FullTextSettings.SearchMode)
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+}

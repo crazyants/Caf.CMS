@@ -1,0 +1,48 @@
+﻿@functions{
+
+    private bool? Value
+    {
+        get
+        {
+            bool? value = null;
+            if (ViewData.Model != null)
+            {
+                value = Convert.ToBoolean(ViewData.Model, System.Globalization.CultureInfo.InvariantCulture);
+            }
+            return value;
+        }
+    }
+
+    private List<SelectListItem> TriStateValues
+    {
+        get
+        {
+            return new List<SelectListItem> {
+                new SelectListItem { Text = T("Common.Undefined").ToString(), Value = String.Empty, Selected = !Value.HasValue },
+                new SelectListItem { Text = T("Common.Yes").ToString(), Value = "true", Selected = Value.HasValue && Value.Value },
+                new SelectListItem { Text = T("Common.No").ToString(), Value = "false", Selected = Value.HasValue && !Value.Value },
+            };
+        }
+    }
+}
+
+@if (!ViewData.ModelMetadata.IsNullableValueType)
+{
+    var id = ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty);
+    var name = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty);
+  
+    @*@Html.CheckBox(string.Empty, Value ?? false, new { @class = "make-switch switch-large" })*@
+    <input id="@id" name="@name" value="@(Value.Value?"true":"false")" @(Value.Value ? "checked" : "") type="checkbox" onoffswitch class="make-switch switch-large" data-size="small" data-label-icon="fa fa-fullscreen" data-on-text="@Html.Raw("<i class='fa fa-check'></i>")" data-off-text="@Html.Raw("<i class='fa fa-times'></i>")" />
+    <script>
+        $(function () {
+            $('input[id="@id"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                $(this).attr("value", state);
+            });
+        });
+    </script>
+}
+else
+{
+    @Html.DropDownList(string.Empty, TriStateValues, new { @class = "list-box tri-state" })
+}
+

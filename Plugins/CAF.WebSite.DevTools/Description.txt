@@ -1,0 +1,9 @@
+﻿FriendlyName: CAF.NET Developer Tools (MiniProfiler and other goodies)
+SystemName: CAF.WebSite.DevTools
+Group: Developer
+Version: 1.1.0.0
+MinAppVersion: 1.1.0.0
+Author: CAF AG
+DisplayOrder: 1
+FileName: CAF.WebSite.DevTools.dll
+ResourceRootKey: Plugins.Developer.DevTools

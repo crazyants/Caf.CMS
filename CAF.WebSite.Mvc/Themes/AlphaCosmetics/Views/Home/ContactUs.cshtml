@@ -1,0 +1,230 @@
+﻿@model ContactUsModel
+@{
+    Layout = "~/Themes/AlphaCosmetic/Views/Shared/_ColumnsTwo.cshtml";
+    //title
+    Html.AddTitleParts(T("PageTitle.ContactUs").Text);
+}
+
+
+
+@section left {
+    @Html.Partial("_PartialServiceLeft")
+}
+
+<div class="page-content" id="pageContent">
+    <div class="page-content-title float-fix">
+        <h3>联系我们</h3>
+        <div class="position">当前位置：<a href="@Url.RouteUrl("HomePage")" title="首页">首页</a> &gt; 客户服务</div>
+    </div>
+
+    <div class="editor active" id="showtext">
+        <div>
+
+            <table border="0" cellpadding="1" cellspacing="1" style="width: 100%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div id="dituContent" style="border: 1px solid rgb(204, 204, 204); width: 380px; height: 250px; overflow: hidden; position: relative; z-index: 0; color: rgb(0, 0, 0); text-align: left; background-image: url(http://api.map.baidu.com/images/bg.png);"><div id="platform" style="overflow: visible; position: absolute; z-index: 0; left: 0px; top: 0px; cursor: url(http://api.map.baidu.com/images/openhand.cur) 8 8, default;"><div id="mask" class=" BMap_mask" style="position: absolute; left: 0px; top: 0px; z-index: 9; overflow: hidden; -webkit-user-select: none; width: 380px; height: 250px;"></div><div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 200;"><div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 800;"></div><div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 700;"><span class="BMap_Marker BMap_noprint" unselectable="on" "=" " style=" position absolute; padding 0px; margin 0px; border 0px; cursor pointer; width 21px; height 21px; left 209px; top 121px; z-index -5645206; background url(http />/api.map.baidu.com/images/blank.gif);" title=""></span></div><div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 600;"></div><div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 500;"></div><div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 400;"><span class="BMap_Marker" unselectable="on" style="position: absolute; padding: 0px; margin: 0px; border: 0px; width: 0px; height: 0px; left: 215px; top: 142px; z-index: -5645206;"><div style="position: absolute; margin: 0px; padding: 0px; width: 21px; height: 21px; left: -6px; top: -21px; overflow: hidden;"><img src="http://app.baidu.com/map/images/us_mk_icon.png" style="border:none;left:0px; top:0px; position:absolute;"></div><label class=" BMapLabel" unselectable="on" style="position: absolute; display: inline; cursor: pointer; border: 1px solid rgb(128, 128, 128); padding: 1px; white-space: nowrap; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: arial, simsun; z-index: 80; color: rgb(51, 51, 51); -webkit-user-select: none; left: 9px; top: -20px; background-color: rgb(255, 255, 255);">机械设备</label></span></div><div style="position: absolute; height: 0px; width: 0px; left: 0px; top: 0px; z-index: 200;"></div></div><div style="position: absolute; z-index: -1; left: 190px; top: 125px;"><img src="http://online0.map.bdimg.com/tile/?qt=tile&amp;x=24548&amp;y=6362&amp;z=17&amp;styles=pl&amp;udt=20140928" style="position: absolute; border: none; width: 256px; height: 256px; left: -285px; top: -357px;"><img src="http://online0.map.bdimg.com/tile/?qt=tile&amp;x=24549&amp;y=6361&amp;z=17&amp;styles=pl&amp;udt=20140928" style="position: absolute; border: none; width: 256px; height: 256px; left: -29px; top: -101px;"><img src="http://online4.map.bdimg.com/tile/?qt=tile&amp;x=24548&amp;y=6361&amp;z=17&amp;styles=pl&amp;udt=20140928" style="position: absolute; border: none; width: 256px; height: 256px; left: -285px; top: -101px;"><img src="http://online1.map.bdimg.com/tile/?qt=tile&amp;x=24549&amp;y=6362&amp;z=17&amp;styles=pl&amp;udt=20140928" style="position: absolute; border: none; width: 256px; height: 256px; left: -29px; top: -357px;"></div></div><div id="zoomer" style="position:absolute;z-index:0;top:0px;left:0px;overflow:hidden;visibility:hidden;cursor:url(http://api.map.baidu.com/images/openhand.cur) 8 8,default"><div class="BMap_zoomer" style="top:0;left:0;"></div><div class="BMap_zoomer" style="top:0;right:0;"></div><div class="BMap_zoomer" style="bottom:0;left:0;"></div><div class="BMap_zoomer" style="bottom:0;right:0;"></div></div><div class=" anchorBL" style="height: 32px; position: absolute; z-index: 10; bottom: 0px; right: auto; top: auto; left: 1px;"><a title="到百度地图首页" target="_blank" href="http://map.baidu.com/?sr=1" style="outline: none;"><img style="border:none;width:77px;height:32px" src="http://api.map.baidu.com/images/copyright_logo.png"></a></div><div unselectable="on" class=" BMap_cpyCtrl anchorBL" style="cursor: default; white-space: nowrap; bottom: 2px; right: auto; top: auto; left: 81px; position: absolute; z-index: 10;"><span style="-webkit-text-size-adjust:none;color:#000;background:none;line-height:15px;font:11px arial,simsun" _cid="1">© 2015 Baidu</span></div><div unselectable="on" class=" BMap_stdMpCtrl BMap_stdMpType0 BMap_noprint anchorTL" style="width: 52px; height: 226px; bottom: auto; right: auto; top: 10px; left: 10px; position: absolute; z-index: 1100;"><div class="BMap_stdMpPan"><div class="BMap_button BMap_panN" title="向上平移"></div><div class="BMap_button BMap_panW" title="向左平移"></div><div class="BMap_button BMap_panE" title="向右平移"></div><div class="BMap_button BMap_panS" title="向下平移"></div><div class="BMap_stdMpPanBg BMap_smcbg"></div></div><div class="BMap_stdMpZoom" style="height: 167px; width: 52px;"><div style="height: 167px; width: 37px;"><div class="BMap_button BMap_stdMpZoomIn" title="放大一级"><div class="BMap_smcbg"></div></div><div class="BMap_button BMap_stdMpZoomOut" title="缩小一级"><div class="BMap_smcbg"></div></div></div><div class="BMap_stdMpSlider" style="height: 133px;"><div class="BMap_stdMpSliderBgTop" style="height: 124px;"><div class="BMap_smcbg"></div></div><div class="BMap_stdMpSliderBgBot" style="top: 124px;"><div class="BMap_smcbg"></div></div><div class="BMap_stdMpSliderMask" title="放置到此级别"></div><div class="BMap_stdMpSliderBar" title="拖动缩放" style="cursor: url(http://api.map.baidu.com/images/openhand.cur) 8 8, default; top: 8px;"><div class="BMap_smcbg"></div></div></div><div class="BMap_zlHolder"><div class="BMap_zlSt"><div class="BMap_smcbg"></div></div><div class="BMap_zlCity"><div class="BMap_smcbg"></div></div><div class="BMap_zlProv"><div class="BMap_smcbg"></div></div><div class="BMap_zlCountry"><div class="BMap_smcbg"></div></div></div></div></div><div unselectable="on" class=" BMap_scaleCtrl BMap_noprint anchorBL" style="bottom: 18px; right: auto; top: auto; left: 81px; width: 60px; position: absolute; z-index: 10;"><div class="BMap_scaleTxt" unselectable="on">100&nbsp;米</div><div class="BMap_scaleBar BMap_scaleHBar"><img style="border:none" src="http://api.map.baidu.com/images/mapctrls11.png"></div><div class="BMap_scaleBar BMap_scaleLBar"><img style="border:none" src="http://api.map.baidu.com/images/mapctrls11.png"></div><div class="BMap_scaleBar BMap_scaleRBar"><img style="border:none" src="http://api.map.baidu.com/images/mapctrls11.png"></div></div></div>
+                        </td>
+                        <td>
+                            <p style="margin-left: 40px">
+                                <strong>机械设备</strong>
+                            </p>
+                            <p style="margin-left: 40px">
+                                地址：湖南长沙高新开发区<br>
+                                电话：0731-834849591<br>
+                                手机：189876543210<br>
+                                联系人：陈先生<br>
+                                邮&nbsp; 编：410001<br>
+                                E-mail：mobanpeizhi@163.com<br>
+                                网站：www.mobanpeizhi.com
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                <meta content="百度地图API自定义地图，帮助用户在可视化操作下生成百度地图" name="description">
+                <!--引用百度地图API-->
+                <style type="text/css">
+                    html, body {
+                        margin: 0;
+                        padding: 0;
+                    }
+
+                    .iw_poi_title {
+                        color: #CC5522;
+                        font-size: 14px;
+                        font-weight: bold;
+                        overflow: hidden;
+                        padding-right: 13px;
+                        white-space: nowrap;
+                    }
+
+                    .iw_poi_content {
+                        font: 12px arial,sans-serif;
+                        overflow: visible;
+                        padding-top: 4px;
+                        white-space: -moz-pre-wrap;
+                        word-wrap: break-word;
+                    }
+                </style>
+                <script type="text/javascript" src="http://api.map.baidu.com/api?key=&amp;v=1.1&amp;services=true"></script>
+                <script type="text/javascript" src="http://api.map.baidu.com/getscript?v=1.1&amp;ak=&amp;services=true&amp;t=20130716024058"></script><link rel="stylesheet" type="text/css" href="http://api.map.baidu.com/res/11/bmap.css"><!--百度地图容器-->
+            </p>
+            <script type="text/javascript">
+                //创建和初始化地图函数：
+                function initMap() {
+                    createMap();//创建地图
+                    setMapEvent();//设置地图事件
+                    addMapControl();//向地图添加控件
+                    addMarker();//向地图中添加marker
+                }
+
+                //创建地图函数：
+                function createMap() {
+                    var map = new BMap.Map("dituContent");//在百度地图容器中创建一个地图
+                    var point = new BMap.Point(112.90933, 28.226301);//定义一个中心点坐标
+                    map.centerAndZoom(point, 17);//设定地图的中心点和坐标并将地图显示在地图容器中
+                    window.map = map;//将map变量存储在全局
+                }
+
+                //地图事件设置函数：
+                function setMapEvent() {
+                    map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
+                    map.enableScrollWheelZoom();//启用地图滚轮放大缩小
+                    map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
+                    map.enableKeyboard();//启用键盘上下左右键移动地图
+                }
+
+                //地图控件添加函数：
+                function addMapControl() {
+                    //向地图中添加缩放控件
+                    var ctrl_nav = new BMap.NavigationControl({ anchor: BMAP_ANCHOR_TOP_LEFT, type: BMAP_NAVIGATION_CONTROL_LARGE });
+                    map.addControl(ctrl_nav);
+                    //向地图中添加比例尺控件
+                    var ctrl_sca = new BMap.ScaleControl({ anchor: BMAP_ANCHOR_BOTTOM_LEFT });
+                    map.addControl(ctrl_sca);
+                }
+
+                //标注点数组
+                var markerArr = [{ title: "机械设备", content: "Tel :+0086 189 7654 3210", point: "112.909779|28.22603", isOpen: 0, icon: { w: 21, h: 21, l: 0, t: 0, x: 6, lb: 5 } }
+                ];
+                //创建marker
+                function addMarker() {
+                    for (var i = 0; i < markerArr.length; i++) {
+                        var json = markerArr[i];
+                        var p0 = json.point.split("|")[0];
+                        var p1 = json.point.split("|")[1];
+                        var point = new BMap.Point(p0, p1);
+                        var iconImg = createIcon(json.icon);
+                        var marker = new BMap.Marker(point, { icon: iconImg });
+                        var iw = createInfoWindow(i);
+                        var label = new BMap.Label(json.title, { "offset": new BMap.Size(json.icon.lb - json.icon.x + 10, -20) });
+                        marker.setLabel(label);
+                        map.addOverlay(marker);
+                        label.setStyle({
+                            borderColor: "#808080",
+                            color: "#333",
+                            cursor: "pointer"
+                        });
+
+                        (function () {
+                            var index = i;
+                            var _iw = createInfoWindow(i);
+                            var _marker = marker;
+                            _marker.addEventListener("click", function () {
+                                this.openInfoWindow(_iw);
+                            });
+                            _iw.addEventListener("open", function () {
+                                _marker.getLabel().hide();
+                            })
+                            _iw.addEventListener("close", function () {
+                                _marker.getLabel().show();
+                            })
+                            label.addEventListener("click", function () {
+                                _marker.openInfoWindow(_iw);
+                            })
+                            if (!!json.isOpen) {
+                                label.hide();
+                                _marker.openInfoWindow(_iw);
+                            }
+                        })()
+                    }
+                }
+                //创建InfoWindow
+                function createInfoWindow(i) {
+                    var json = markerArr[i];
+                    var iw = new BMap.InfoWindow("<b class='iw_poi_title' title='" + json.title + "'>" + json.title + "</b><div class='iw_poi_content'>" + json.content + "</div>");
+                    return iw;
+                }
+                //创建一个Icon
+                function createIcon(json) {
+                    var icon = new BMap.Icon("http://app.baidu.com/map/images/us_mk_icon.png", new BMap.Size(json.w, json.h), { imageOffset: new BMap.Size(-json.l, -json.t), infoWindowOffset: new BMap.Size(json.lb + 5, 1), offset: new BMap.Size(json.x, json.h) })
+                    return icon;
+                }
+
+                initMap();//创建和初始化地图
+            </script>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="active" id="feedback">
+        @using (Html.BeginForm("ContactUs", "Home", FormMethod.Post))
+        {
+            if (!ViewData.ModelState.IsValid)
+            {
+                @Html.ValidationSummary(true)
+            }
+            <table class="feedback_table">
+                <tbody>
+                    <tr>
+                        <td class="text">您的姓名</td>
+                        <td class="input">
+                            @Html.TextBoxFor(model => model.FullName, new { @class = "input-text", placeholder = T("ContactUs.FullName.Hint") })
+                            @Html.ValidationMessageFor(model => model.FullName)
+                            <span class="info"></span><span></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text">邮箱地址</td>
+                        <td class="input">
+                            @Html.TextBoxFor(model => model.Email, new { @class = "input-text", size = "30", placeholder = T("ContactUs.Email.Hint") })
+                            @Html.ValidationMessageFor(model => model.Email)
+                            <span class="info"></span><span></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text">订购信息</td>
+                        <td class="input">
+                            @Html.TextAreaFor(model => model.Enquiry, new { @class = "textarea-text", cols = "50", rows = "10", placeholder = T("ContactUs.Enquiry.Hint") })
+                            @Html.ValidationMessageFor(model => model.Enquiry)
+                            <span class="info"></span><span></span>
+                        </td>
+                    </tr>
+                    @if (Model.SuccessfullySent)
+                    {
+                        <tr>
+                            <td class="text"></td>
+                            <td class="input">
+                                @Model.Result
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td class="text"></td>
+                        <td class="submint">
+                            <button type="submit" name="send-email" class="submit button orange">
+                                提交信息
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+
+    </div>
+</div>
+<div class="clear"></div>

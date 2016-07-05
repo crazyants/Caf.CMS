@@ -1,0 +1,136 @@
+﻿@model ArticlePostModel
+@using CAF.Infrastructure.Core.Domain.Seo;
+@using CAF.Infrastructure.Core;
+@{
+    Layout = "~/Themes/AlphaGuoAo/Views/Shared/_ColumnsOne.cshtml";
+
+
+    //title, meta
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Title);
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+
+    var canonicalUrlsEnabled = EngineContext.Current.Resolve<CAF.Infrastructure.Core.Domain.Seo.SeoSettings>().CanonicalUrlsEnabled;
+    if (canonicalUrlsEnabled)
+    {
+        var articleUrl = Url.RouteUrl("Article", new { SeName = Model.SeName }, this.Request.Url.Scheme);
+        Html.AddCanonicalUrlParts(articleUrl);
+    }
+    string avatarSpanning = (Model.AllowUsersToUploadAvatars ? "padding-left: {0}px; min-height: {0}px;".FormatWith(Model.AvatarPictureSize + 30) : "");
+}
+
+<section class="main">
+    <div class="page-width clearfix">
+        @Html.Action("CategoryNavigation", "ArticleCatalog", new { currentCategoryId = this.CurrentArticleCategoryId, currentArticleId = Model.Id, onlyShowChildren = true, showParent = true, area = "" })
+
+
+
+        <section class="content float-right">
+            <div class="content-wrapper">
+                <div class="module-default">
+                    <div class="module-inner">
+                        <div class="module-content">
+                            <div class="product-detail product-detail-complete">
+                                <div class="product-intr clearfix">
+                                    <div class="product-preview">
+                                        <div class="single-img-wrap">
+                                            <p><img src="@Model.DefaultPictureModel.FullSizeImageUrl" alt="@Model.DefaultPictureModel.AlternateText"></p>
+                                        </div>
+                                        <div class="share-toolbar clearfix">
+                                            <div class="bdsharebuttonbox bdshare-button-style0-16" data-bd-bind="1465893867508"><span style="float:left; height:16px; line-height:16px; margin:6px 0 6px 0;">分享到：</span><a title="分享到QQ空间" href="#" class="bds_qzone" data-cmd="qzone"></a><a title="分享到新浪微博" href="#" class="bds_tsina" data-cmd="tsina"></a><a title="分享到腾讯微博" href="#" class="bds_tqq" data-cmd="tqq"></a><a title="分享到人人网" href="#" class="bds_renren" data-cmd="renren"></a><a title="分享到微信" href="#" class="bds_weixin" data-cmd="weixin"></a><a href="#" class="bds_more" data-cmd="more"></a></div>
+                                            <script>
+                                                window._bd_share_config = {
+                                                    "common": {
+                                                        "bdSnsKey": {}, "bdText": "", "bdMini": "2",
+                                                        "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16"
+                                                    }, "share": {}
+                                                }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+                                            </script>
+                                        </div>
+                                    </div>
+                                    <div class="product-info">
+                                        <div class="product-info-item">
+                                            <div class="product-name">
+                                                <h1>@(Model.Title)</h1>
+                                            </div>
+                                        </div>
+                                        <div class="product-info-item">
+                                            <div class="product-summary">
+                                                <div class="qhd-content">
+                                                    @Html.Raw(Model.ShortContent)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @*<div class="product-info-item product-info-item-last">
+                                            <div class="back-category">
+                                                <a href="http://buildingmaterial.81yk.com/p_01/ctlcategoryid_1630_language_zh-CN">
+                                                    <span>查看更多</span>&nbsp;<span>理石•石英砖</span>
+                                                </a>
+                                            </div>
+                                        </div>*@
+                                    </div>
+                                </div>
+                                <div class="product-desc">
+                                    <div class="product-desc-title clearfix"><h3>详细介绍</h3></div><div class="product-desc-content">
+                                        <div class="product-desc-item">
+                                            <div class="product-desc-item-content">
+                                                <div class="qhd-content">
+                                                    @Html.Raw(Model.FullContent)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="product-desc-item">
+                                            <div class="product-desc-item-title  clearfix"><h4>图片欣赏</h4></div><div class="product-desc-item-content">
+                                                <div class="img-desc">
+                                                    <div class="portfolio-list">
+                                                        <ul class="column clearfix">
+                                                            @if (Model.DetailsPictureModel.PictureModels.Count > 0)
+                                                            {
+
+                                                                for (int i = 0, length = Model.DetailsPictureModel.PictureModels.Count; i < length; i++)
+                                                                {
+                                                                    var picture = Model.DetailsPictureModel.PictureModels[i];
+                                                                    <li class="col-4-1 fadeInUp animated" data-animate="fadeInUp" data-delay="200">
+                                                                        <div class="portfolio-img">
+                                                                            <a href="@picture.FullSizeImageUrl" title="@picture.AlternateText" rel="imgZoom-group-detail">
+                                                                                <img src="@picture.FullSizeImageUrl" alt="@picture.AlternateText">
+                                                                                <span class="opacity-overlay"><i class="icon-zoom"></i></span>
+                                                                            </a>
+                                                                        </div>
+                                                                        <div class="portfolio-title">
+                                                                            <h2><a href="@picture.FullSizeImageUrl" title="@picture.AlternateText" rel="imgZoom-group-title-detail">@picture.AlternateText</a></h2>
+                                                                        </div>
+                                                                    </li>
+                                                                }
+
+                                                            }
+                                                        </ul>
+
+                                                        <script type="text/javascript">
+                                                            $(document).ready(function () {
+                                                                //弹窗
+                                                                $('a[rel=imgZoom-group-detail],a[rel=imgZoom-group-title-detail]').fancybox({
+                                                                    'transitionIn': 'elastic',
+                                                                    'transitionOut': 'elastic',
+                                                                    'hideOnOverlayClick': false,
+                                                                    'centerOnScroll': true,
+                                                                    'overlayColor': '#000',
+                                                                    'padding': 0
+                                                                });
+                                                            });
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</section>

@@ -1,0 +1,165 @@
+﻿@model CAF.MvcPager.PagedList<CAF.WebSite.Mvc.Admin.Models.Channels.ChannelCategoryModel>
+@using CAF.WebSite.Application.WebUI
+@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+@using CAF.Mvc.JQuery.Datatables;
+@using CAF.Mvc.JQuery.Datatables.Models;
+@using CAF.Infrastructure.LinqSearchModel.Model;
+@using CAF.Infrastructure.LinqSearchModel.Extensions;
+@{
+    Layout = "~/Administrator/Views/Shared/_AdminMenu.cshtml";
+    ViewBag.Title = "用户授权应用登录";
+
+    var MediaRootPath = "~/Content/assets/";
+    Html.AppendCssFileParts(false,
+       MediaRootPath + "global/plugins/select2/select2.css",
+       MediaRootPath + "global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css",
+        //隐藏显示
+       MediaRootPath + "global/plugins/datatables/extensions/colVis/css/dataTables.colVis.css",
+        //Tool工具显示
+       MediaRootPath + "global/plugins/datatables/extensions/TableTools/css/dataTables.TableTools.css",
+        //移动列
+       MediaRootPath + "global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.css",
+        //过滤
+       MediaRootPath + "global/plugins/datatables/extensions/ColumnFilter/css/jquery-ui-timepicker-addon.css",
+       MediaRootPath + "global/plugins/datatables/extensions/ColumnFilter/css/jquery.dataTables.columnFilter.css",
+        //固定列
+       MediaRootPath + "global/plugins/datatables/extensions/FixedColumns/css/dataTables.fixedColumns.css");
+    <!-- END PAGE LEVEL STYLES -->
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    Html.AppendScriptParts(ResourceLocation.Foot,
+         MediaRootPath + "global/plugins/select2/select2.js",
+         MediaRootPath + "global/plugins/datatables/media/js/jquery.dataTables.min.js",
+         MediaRootPath + "global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js",
+         MediaRootPath + "global/plugins/datatables/extensions/colVis/js/dataTables.colVis.js",
+         MediaRootPath + "global/plugins/datatables/extensions/TableTools/js/dataTables.TableTools.js",
+         MediaRootPath + "global/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.js",
+         MediaRootPath + "global/plugins/datatables/extensions/FixedColumns/js/dataTables.fixedColumns.js",
+        //过滤
+         MediaRootPath + "global/plugins/datatables/extensions/ColumnFilter/js/jquery-ui-timepicker-addon.js",
+         MediaRootPath + "global/plugins/datatables/extensions/ColumnFilter/js/jquery.dataTables.columnFilter.js",
+         MediaRootPath + "admin/pages/scripts/form-samples.js",
+        "~/Content/js/Mvc.MvcPager.min.js",
+        "~/Scripts/jquery.unobtrusive-ajax.min.js",
+        "~/Content/js/table-managed.js"
+         );
+
+}
+
+
+<h3 class="page-title">
+    @*控制台 <small>报告 & 统计数据</small>*@
+
+    @*@T("Admin.ContentManagement.News.NewsItems.EditNewsItemDetails") -  @Html.ActionLink("(" + T("Admin.ContentManagement.News.NewsItems.BackToList") + ")", "List")*@
+    <small>频道管理 -  @Html.ActionLink("(返回列表)", "List")</small>
+
+</h3>
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="/Admin/Home">首页</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            @Html.ActionLink("频道管理", "List")
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            编辑
+        </li>
+    </ul>
+    @*<div class="page-toolbar">
+            <div id="dashboard-report-range" class="pull-right tooltips btn btn-fit-height grey-salt" data-placement="top" data-original-title="Change dashboard date range">
+                <i class="icon-calendar"></i>&nbsp;
+                <span class="thin uppercase visible-lg-inline-block">&nbsp;</span>&nbsp;
+                <i class="fa fa-angle-down"></i>
+            </div>
+        </div>*@
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box grey-cascade">
+            <div class="section-header sticky">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>登录日志
+                </div>
+                <div class="tools">
+
+                </div>
+                <div class="actions">
+                    <div class="btn-group">
+                        <a class="btn btn-default btn-sm" href="#" data-toggle="dropdown">
+                            <i class="fa fa-cogs"></i> 工具 <i class="fa fa-angle-down"></i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-print"></i> 打印
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-file-pdf-o"></i> 保存PDF
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body form">
+
+                <!-- BEGIN FORM-->
+                @*@using (Html.BeginForm("ListPager", "Edit", new { id = "" }, FormMethod.Post, new { @class = "horizontal-form", id = "searchForm" }))
+                    {*@
+                @using (Ajax.BeginForm("ListPager",  new RouteValueDictionary { { "id", "" } }, new AjaxOptions { UpdateTargetId = "articles", InsertionMode = InsertionMode.Replace }, new RouteValueDictionary { { "id", "searchForm" } }))
+                {
+                    <div class="form-body">
+                        @*<h3 class="form-section">Person Info</h3>*@
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">标题<a class="hint" href="#" onclick="return false;" tabindex="-1" data-original-title="The creation from date for the search."><i class="fa fa-question-circle"></i></a></label>
+
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control form-filter" name="title" id="title" placeholder="Chee Kin">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+
+                                    <button type="submit" class="btn yellow" accesskey="S"><i class="fa fa-search"></i> 查询</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    @*<div class="form-actions right">
+                            <button type="button" class="btn default">Cancel</button>
+                            <button type="submit" class="btn yellow"><i class="fa fa-check"></i> Save</button>
+                        </div>*@
+                }
+
+
+
+            </div>
+            <div class="portlet-body">
+                <div class="table-container">
+                    <div id="articles">
+                        @Html.Partial("_AjaxSearchPost", Model)
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    @*@{Html.RegisterMvcPagerScriptResource();}*@

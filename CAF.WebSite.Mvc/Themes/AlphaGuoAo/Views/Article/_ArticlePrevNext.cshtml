@@ -1,0 +1,7 @@
+﻿@model ArticlePostModel.ArticlePrevAndNextModel
+<div class="met_page">
+    上一篇：
+    <a href="@(Model.PrevId.HasValue?Url.RouteUrl("Article", new { SeName = Model.PrevSeName }):"javascript:void(0)")">@Model.PrevTitle</a>
+    &nbsp;&nbsp;
+    下一篇：<a href="@(Model.NextId.HasValue?Url.RouteUrl("Article", new { SeName = Model.NextSeName }):"javascript:void(0)")">@Model.NextTitle</a>
+</div>

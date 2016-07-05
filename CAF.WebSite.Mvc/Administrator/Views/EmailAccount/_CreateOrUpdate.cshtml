@@ -1,0 +1,83 @@
+﻿@model EmailAccountModel
+
+@Html.HiddenFor(model => model.Id)
+
+<div class="form-body">
+    <h2 class="margin-bottom-20">  @Html.ValidationSummary(true)</h2>
+
+    <div class="form-group">
+        <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.Email)</label>
+        <div class="col-md-3">
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.DisplayName)</label>
+        <div class="col-md-3">
+            @Html.TextBoxFor(model => model.DisplayName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.DisplayName)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Host)</label>
+        <div class="col-md-3">
+            @Html.TextBoxFor(model => model.Host, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Host)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Port)</label>
+        <div class="col-md-3">
+            @Html.EditorFor(model => model.Port)
+            @Html.ValidationMessageFor(model => model.Port)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.UserName)</label>
+        <div class="col-md-3">
+            @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.UserName)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.Password)</label>
+        <div class="col-md-3">
+            @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.EnableSsl)</label>
+        <div class="col-md-3">
+            @Html.EditorFor(model => model.EnableSsl)
+            @Html.ValidationMessageFor(model => model.EnableSsl)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.UseDefaultCredentials)</label>
+        <div class="col-md-3">
+            @Html.EditorFor(model => model.UseDefaultCredentials)
+            @Html.ValidationMessageFor(model => model.UseDefaultCredentials)
+        </div>
+    </div>
+@if (Model.Id > 0)
+{
+    <h4 class="form-section">@T("Admin.Configuration.EmailAccounts.SendTestEmail")</h4>
+    <div class="form-group">
+        <label class="control-label col-md-3">  @Html.LangLabelFor(model => model.SendTestEmailTo)</label>
+        <div class="col-md-3">
+            @Html.TextBoxFor(model => model.SendTestEmailTo, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3"></label>
+        <div class="col-md-3">
+            <button type="submit" name="sendtestemail" value="sendtestemail" class="btn">
+                <i class="fa fa-envelope"></i>&nbsp;@T("Admin.Configuration.EmailAccounts.SendTestEmail.Button")
+            </button>
+        </div>
+    </div>
+    }
+</div>
+

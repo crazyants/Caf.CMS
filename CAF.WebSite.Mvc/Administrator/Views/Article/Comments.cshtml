@@ -1,0 +1,65 @@
+﻿@model ArticleCommentModel
+
+@{
+    var gridPageSize = EngineContext.Current.Resolve<CAF.Infrastructure.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
+
+    //page title
+    ViewBag.Title = T("Admin.ContentManagement.Articles.Comments").Text;
+    int? filterByArticleId = ViewBag.FilterByArticleId;
+
+    var g = Html.GridToolKit();
+    var grid = g.DataGrid("ArticleCommentsGrid", g.Param(x => x.Id)).TableId("table-id").GridKey("Id").PageLength(gridPageSize)
+    .MainGrid(
+    g.GridColumn(x => x.Id, 50),
+    g.GridColumn(x => x.ArticleTitle, 50).DefaultContent("<a href=\"" + @Url.Content("~/Admin/Article/Edit/") + "#ArticleId#\">#ArticleTitle#</a>"),
+    g.GridColumn(x => x.UserId, 50).DefaultContent("<a href=\"" + @Url.Content("~/Admin/User/Edit/") + "#UserId#\">#UserName#</a>"),
+    g.GridColumn(x => x.Comment, 50),
+    g.GridColumn(x => x.IpAddress, 50),
+    g.GridColumn(x => x.CreatedOn, 50).DefaultContent("#CreatedOn-DateTime#"),
+    g.GridColumn("operation", "" + T("Admin.Common.Operation").Text + "", 100).DefaultContent("<a href='CommentDelete/#Id#' class='btn default btn-xs black delete'><i class='fa fa-trash-o'></i></a>"))
+    .Url(Url.Action("Comments", "Article", new { filterByArticleId = filterByArticleId })).DefaultTableClass();
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        @(grid)
+
+    });
+</script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="section-header sticky">
+                <div class="caption">
+                    <i class="icon-equalizer font-red-sunglo"></i>
+                    <span class="caption-subject font-red-sunglo bold uppercase">@T("Admin.ContentManagement.Articles.Comments")</span>
+                    <span class="caption-helper"></span>
+                </div>
+
+            </div>
+            <div class="portlet-body flip-scroll">
+                <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+                    <thead>
+                        <tr>
+                            @foreach (var column in grid.GetColumns)
+                            {
+                                if (column.Name == "" + T("Admin.Common.Edit").Text + "")
+                                {
+
+                                    <th class="@column.CssClassHeader">@column.DisplayName</th>
+
+                                }
+                                else
+                                {
+                                    <th class="@column.CssClassHeader">@column.DisplayName</th>
+                                }
+
+                            }
+                        </tr>
+
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+﻿@model LanguageSelectorModel
+@if (Model.AvailableLanguages.Count > 1)
+{
+    var webHelper = EngineContext.Current.Resolve<IWebHelper>();
+
+
+            foreach (var lang in Model.AvailableLanguages)
+            {
+                <a title="@lang.NativeName" rel="tooltip nofollow" class='language @(Model.UseImages ? "flag" : "regional-label")'
+                   href="@webHelper.ModifyQueryString(Url.RouteUrl("ChangeLanguage", new { langid = lang.Id }), "returnurl=" + Url.Encode(Model.ReturnUrls[lang.SeoCode]), null)">
+                    @if (Model.UseImages)
+                        {
+                        <img title='@lang.Name' alt='@lang.Name' @(lang.Id == Model.CurrentLanguageId ? " class=selected" : null)
+                             src="@Url.Content("~/Content/Images/flags/" + @lang.FlagImageFileName)" width="16" height="11" />
+                        }
+                        else
+                        {
+                        @lang.ISOCode.ToUpper().Substring(0, 2)
+                        }
+                </a><text>|</text>
+            }
+
+
+}

@@ -1,0 +1,348 @@
+﻿@model  MediaSettingsModel
+@{
+    //page title
+    ViewBag.Title = T("Admin.Configuration.Settings.Media").Text;
+}
+@using (Html.BeginForm())
+{
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase"> @T("Admin.Configuration.Settings.Media") </span>
+                        <span class="caption-helper"></span>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" name="save" value="save" class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;@T("Admin.Common.Save")</button>
+                    </div>
+                </div>
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                    <script>
+                        $(function () {
+                            $('input[id="@Html.FieldIdFor(model => model.DefaultPictureZoomEnabled)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+                                togglePictureZoomType(state);
+                            });
+                            $("#WatermarkFont").val('@Model.WatermarkFont');
+                        });
+                        function togglePictureZoomType(state) {
+                            if (state) {
+                                $('#pnlPictureZoomType').show();
+                            }
+                            else {
+                                $('#pnlPictureZoomType').hide();
+                            }
+                        }
+                    </script>
+                    @Html.Action("SiteScopeConfiguration", "Setting")
+                    @Html.ValidationSummary(false)
+
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.AvatarPictureSize)</label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.AvatarPictureSize)
+                                    @Html.ValidationMessageFor(model => model.AvatarPictureSize)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.ArticleThumbPictureSize)</label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.ArticleThumbPictureSize)
+                                    @Html.ValidationMessageFor(model => model.ArticleThumbPictureSize)
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="form-group">
+                                <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.ArticleThumbPictureSizeOnArticleDetailsPage)</label>
+                                <div class="col-md-3">
+                                    <div class="input-group input-medium">
+                                        @Html.SettingEditorFor(model => model.ArticleThumbPictureSizeOnArticleDetailsPage)
+                                        @Html.ValidationMessageFor(model => model.ArticleThumbPictureSizeOnArticleDetailsPage)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.ArticleDetailsPictureSize)</label>
+                                <div class="col-md-3">
+                                    <div class="input-group input-medium">
+                                        @Html.SettingEditorFor(model => model.ArticleDetailsPictureSize)
+                                        @Html.ValidationMessageFor(model => model.ArticleDetailsPictureSize)
+                                    </div>
+                                </div>
+                            </div>*@
+                        <div class="form-group">
+                            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.DefaultPictureZoomEnabled)</label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.DefaultPictureZoomEnabled)
+                                    @Html.ValidationMessageFor(model => model.DefaultPictureZoomEnabled)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" id="pnlPictureZoomType">
+                            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.PictureZoomType)</label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingOverrideCheckbox(model => Model.PictureZoomType)
+                                    @Html.DropDownListFor(model => model.PictureZoomType, Model.AvailablePictureZoomTypes, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.PictureZoomType)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.AssociatedArticlePictureSize)</label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.AssociatedArticlePictureSize)
+                                    @Html.ValidationMessageFor(model => model.AssociatedArticlePictureSize)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.CategoryThumbPictureSize)</label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.CategoryThumbPictureSize)
+                                    @Html.ValidationMessageFor(model => model.CategoryThumbPictureSize)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.MiniCartThumbPictureSize)</label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.MiniCartThumbPictureSize)
+                                    @Html.ValidationMessageFor(model => model.MiniCartThumbPictureSize)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.MaximumImageSize)</label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.MaximumImageSize)
+                                    @Html.ValidationMessageFor(model => model.MaximumImageSize)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.WatermarkType)</label>
+                            <div class="col-md-3">
+                                @Html.SettingOverrideCheckbox(model => Model.WatermarkType)
+                                <div class="icheck-inline">
+                                    <label>
+                                        <input type="radio" class="toggle" name="WatermarkType" @(Model.WatermarkType == 0 ? "checked" : "") value="0"> 关闭水印
+                                    </label>
+                                    <label>
+                                        <input type="radio" class="toggle" name="WatermarkType" @(Model.WatermarkType == 1 ? "checked" : "") value="1"> 文字水印
+                                    </label>
+                                    <label>
+                                        <input type="radio" class="toggle" name="WatermarkType" @(Model.WatermarkType == 2 ? "checked" : "") value="2">图片水印
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.WatermarkImgQuality)</label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.WatermarkImgQuality)
+                                    @Html.ValidationMessageFor(model => model.WatermarkImgQuality)
+
+                                </div>
+                                <span class="help-block">
+                                    只适用于加水印的jpeg格式图片.取值范围 0-100, 0质量最低, 100质量最高, 默认80
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.WatermarkPosition)</label>
+                            <div class="col-md-6">
+                                @Html.SettingOverrideCheckbox(model => Model.WatermarkPosition)
+                                <div class="icheck-inline">
+                                    <label>
+                                        <input type="radio" class="toggle" name="WatermarkPosition" @(Model.WatermarkPosition == 1 ? "checked" : "") value="1"> 左上
+                                    </label>
+                                    <label>
+                                        <input type="radio" class="toggle" name="WatermarkPosition" @(Model.WatermarkPosition == 2 ? "checked" : "") value="2"> 中上
+                                    </label>
+                                    <label>
+                                        <input type="radio" class="toggle" name="WatermarkPosition" @(Model.WatermarkPosition == 3 ? "checked" : "") value="3">右上
+                                    </label>
+                                    <label>
+                                        <input type="radio" class="toggle" name="WatermarkPosition" @(Model.WatermarkPosition == 4 ? "checked" : "") value="4">左中
+                                    </label>
+                                    <label>
+                                        <input type="radio" class="toggle" name="WatermarkPosition" @(Model.WatermarkPosition == 5 ? "checked" : "") value="5">居中
+                                    </label>
+                                    <label>
+                                        <input type="radio" class="toggle" name="WatermarkPosition" @(Model.WatermarkPosition == 6 ? "checked" : "") value="6">右中
+                                    </label>
+                                    <label>
+                                        <input type="radio" class="toggle" name="WatermarkPosition" @(Model.WatermarkPosition == 7 ? "checked" : "") value="7">左下
+                                    </label>
+                                    <label>
+                                        <input type="radio" class="toggle" name="WatermarkPosition" @(Model.WatermarkPosition == 8 ? "checked" : "") value="8">中下
+                                    </label>
+                                    <label>
+                                        <input type="radio" class="toggle" name="WatermarkPosition" @(Model.WatermarkPosition == 9 ? "checked" : "") value="9">右下
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.WatermarkName)</label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.WatermarkName)
+                                    @Html.ValidationMessageFor(model => model.WatermarkName)
+
+                                </div>
+                                <span class="help-block">
+                                    需存放在站点目录下Contant/Images，如图片不存在将使用文字水印
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.WatermarkTransparency)</label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.WatermarkTransparency)
+                                    @Html.ValidationMessageFor(model => model.WatermarkTransparency)
+
+                                </div>
+                                <span class="help-block">
+                                    取值范围1--10 (10为不透明)
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.WatermarkText)</label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.WatermarkText)
+                                    @Html.ValidationMessageFor(model => model.WatermarkText)
+
+                                </div>
+                                <span class="help-block">
+                                    文字水印的内容
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.WatermarkFont)</label>
+                            <div class="col-md-3">
+                                @Html.SettingOverrideCheckbox(model => Model.WatermarkFont)
+                                <div class="input-group input-medium">
+                                    <select class="form-control" name="WatermarkFont" id="WatermarkFont">
+                                        <option value="Arial">Arial</option>
+                                        <option value="Arial Black">Arial Black</option>
+                                        <option value="Batang">Batang</option>
+                                        <option value="BatangChe">BatangChe</option>
+                                        <option value="Comic Sans MS">Comic Sans MS</option>
+                                        <option value="Courier New">Courier New</option>
+                                        <option value="Dotum">Dotum</option>
+                                        <option value="DotumChe">DotumChe</option>
+                                        <option value="Estrangelo Edessa">Estrangelo Edessa</option>
+                                        <option value="Franklin Gothic Medium">Franklin Gothic Medium</option>
+                                        <option value="Gautami">Gautami</option>
+                                        <option value="Georgia">Georgia</option>
+                                        <option value="Gulim">Gulim</option>
+                                        <option value="GulimChe">GulimChe</option>
+                                        <option value="Gungsuh">Gungsuh</option>
+                                        <option value="GungsuhChe">GungsuhChe</option>
+                                        <option value="Impact">Impact</option>
+                                        <option value="Latha">Latha</option>
+                                        <option value="Lucida Console">Lucida Console</option>
+                                        <option value="Lucida Sans Unicode">Lucida Sans Unicode</option>
+                                        <option value="Mangal">Mangal</option>
+                                        <option value="Marlett">Marlett</option>
+                                        <option value="Microsoft Sans Serif">Microsoft Sans Serif</option>
+                                        <option value="MingLiU">MingLiU</option>
+                                        <option value="MS Gothic">MS Gothic</option>
+                                        <option value="MS Mincho">MS Mincho</option>
+                                        <option value="MS PGothic">MS PGothic</option>
+                                        <option value="MS PMincho">MS PMincho</option>
+                                        <option value="MS UI Gothic">MS UI Gothic</option>
+                                        <option value="MV Boli">MV Boli</option>
+                                        <option value="Palatino Linotype">Palatino Linotype</option>
+                                        <option value="PMingLiU">PMingLiU</option>
+                                        <option value="Raavi">Raavi</option>
+                                        <option value="Shruti">Shruti</option>
+                                        <option value="Sylfaen">Sylfaen</option>
+                                        <option value="Symbol">Symbol</option>
+                                        <option value="Tahoma" selected="True">Tahoma</option>
+                                        <option value="Times New Roman">Times New Roman</option>
+                                        <option value="Trebuchet MS">Trebuchet MS</option>
+                                        <option value="Tunga">Tunga</option>
+                                        <option value="Verdana">Verdana</option>
+                                        <option value="Webdings">Webdings</option>
+                                        <option value="Wingdings">Wingdings</option>
+                                        <option value="仿宋_GB2312">仿宋_GB2312</option>
+                                        <option value="宋体">宋体</option>
+                                        <option value="新宋体">新宋体</option>
+                                        <option value="楷体_GB2312">楷体_GB2312</option>
+                                        <option value="黑体">黑体</option>
+                                    </select>
+                                    @Html.ValidationMessageFor(model => model.WatermarkFont)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">   @Html.LangLabelFor(model => model.WatermarkFontSize)</label>
+                            <div class="col-md-3">
+                                <div class="input-group input-medium">
+                                    @Html.SettingEditorFor(model => model.WatermarkFontSize)
+                                    @Html.ValidationMessageFor(model => model.WatermarkFontSize)
+
+                                </div>
+                                <span class="help-block">
+                                    文字水印的字体和大小
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <fieldset style="margin-top: 20px">
+                        <legend>@T("Admin.Configuration.Settings.Media.PicturesStoredIntoDatabase")</legend>
+                        <div>
+                            <div class="alert alert-warning">
+                                @T("Admin.Configuration.Settings.Media.MovePicturesNote")
+                            </div>
+                            <strong style="text-transform: capitalize">
+                                @if (Model.PicturesStoredIntoDatabase)
+                                {
+                                    @T("Admin.Configuration.Settings.Media.PicturesStoredIntoDatabase.Database")
+                                }
+                                else
+                                {
+                                    @T("Admin.Configuration.Settings.Media.PicturesStoredIntoDatabase.FileSystem")
+                                }
+                            </strong>
+                            <button type="submit" name="change-picture-storage" value="change-picture-storage" class="btn" style="margin-left: 10px">
+                                @if (Model.PicturesStoredIntoDatabase)
+                                {
+                                    <i class="fa fa-fw fa-hdd-o"></i>
+                                    @T("Admin.Configuration.Settings.Media.MoveToFs")
+                                }
+                                else
+                                {
+                                    <i class="fa fa-fw fa-database"></i>
+                                    @T("Admin.Configuration.Settings.Media.MoveToDb")
+                                }
+                            </button>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+}

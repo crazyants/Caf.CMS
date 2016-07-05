@@ -1,0 +1,34 @@
+﻿@model  ArticleCategoryModel
+@{
+    Layout = "~/Administrator/Views/Shared/_AdminLayout.cshtml";
+    //page title
+    ViewBag.Title = T("Admin.ContentManagement.ArticleCategory.AddNew").Text;
+
+}
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light">
+                <div class="section-header sticky">
+                    <div class="caption">
+                        <i class="icon-equalizer font-red-sunglo"></i>
+                        <span class="caption-subject font-red-sunglo bold uppercase"> @T("Admin.ContentManagement.ArticleCategory.AddNew") </span>
+                        <span class="caption-helper">@Html.ActionLink("(" + T("Admin.ContentManagement.ArticleCategory.BackToList") + ")", "Center", new { channelId = Model.ChannelId })</span>
+                    </div>
+                    <div class="actions">
+                        <button type="submit" name="save" value="save" class="btn btn-primary"><i class="fa fa-check"></i>@T("Admin.Common.Save")</button>
+                        <button type="submit" name="save" value="save-create" class="btn yellow"><i class="fa fa-plus"></i>@T("Admin.Common.SaveCreate")</button>
+                        <button type="submit" name="save" value="save-continue" class="btn blue-madison">@T("Admin.Common.SaveContinue")</button>
+                    </div>
+                </div>
+                <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                    @Html.Partial("_CreateOrUpdate", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+

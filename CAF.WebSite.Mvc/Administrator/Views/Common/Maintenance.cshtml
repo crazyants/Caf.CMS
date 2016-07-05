@@ -1,0 +1,165 @@
+﻿@model CAF.WebSite.Mvc.Admin.Models.Common.MaintenanceModel
+@{
+    //page title
+    ViewBag.Title = T("Admin.System.Maintenance").Text;
+
+}
+ @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-horizontal" }))
+ {
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="section-header sticky">
+                <div class="caption">
+                    <i class="icon-equalizer font-red-sunglo"></i>
+                    <span class="caption-subject font-red-sunglo bold uppercase"> @T("Admin.System.Maintenance") </span>
+                    <span class="caption-helper"></span>
+                </div>
+            </div>
+            <div class="portlet-body form form-horizontal form-bordered form-row-stripped">
+                <div class="form-horizontal  form-body">
+                    <h4 class="form-section">@T("Admin.System.Maintenance.DeleteImageCache")</h4>
+                    <div class="row">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.DeleteImageCache.FileCount)</label>
+                            <div class="col-md-3">
+                                @Model.DeleteImageCache.FileCount
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.DeleteImageCache.TotalSize)</label>
+                            <div class="col-md-3">
+                                @Model.DeleteImageCache.TotalSize
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3"></label>
+                            <div class="col-md-3">
+                                <button type="submit" name="delete-image-cache" value="delete-image-cache" class="btn btn-default">
+                                    <i class="fa fa-trash-o"></i>
+                                    @T("Admin.Header.ClearCache")
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <h4 class="form-section">@T("Admin.System.Maintenance.DeleteGuests")</h4>
+                    <div class="row">
+
+                        @if (Model.DeleteGuests.NumberOfDeletedUsers.HasValue)
+                        {
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3"></label>
+                                <div class="col-md-3">
+                                    <div class="alert alert-info">
+                                        @string.Format(T("Admin.System.Maintenance.DeleteGuests.TotalDeleted").Text, Model.DeleteGuests.NumberOfDeletedUsers.Value)
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="form-group">
+                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.DeleteGuests.StartDate)</label>
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.DeleteGuests.StartDate)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.DeleteGuests.EndDate)</label>
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => Model.DeleteGuests.EndDate)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.DeleteGuests.OnlyWithoutShoppingCart)</label>
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => Model.DeleteGuests.OnlyWithoutShoppingCart)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3"></label>
+                            <div class="col-md-3">
+                                <button type="submit" name="delete-guests" value="delete-guests" class="btn btn-default">
+                                    <i class="fa fa-trash-o"></i>
+                                    @T("Admin.Common.Delete")
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <h4 class="form-section">@T("Admin.System.Maintenance.DeleteExportedFiles")</h4>
+                    <div class="row">
+
+                        @if (Model.DeleteExportedFiles.NumberOfDeletedFiles.HasValue)
+                        {
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3"></label>
+                                <div class="col-md-3">
+                                    <div class="alert alert-info">
+                                        @string.Format(T("Admin.System.Maintenance.DeleteExportedFiles.TotalDeleted").Text, Model.DeleteExportedFiles.NumberOfDeletedFiles.Value)
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="form-group">
+                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.DeleteExportedFiles.StartDate)</label>
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.DeleteExportedFiles.StartDate)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.DeleteExportedFiles.EndDate)</label>
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => Model.DeleteExportedFiles.EndDate)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3"></label>
+                            <div class="col-md-3">
+                                <button type="submit" name="delete-exported-files" value="delete-exported-files" class="btn btn-danger">
+                                    <i class="fa fa-trash-o"></i>
+                                    @T("Admin.Common.Delete")
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <h4 class="form-section">@T("Admin.System.Maintenance.SqlQueryTitle")</h4>
+                    <div class="row">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">@Html.LangLabelFor(model => model.SqlQuery)</label>
+                            <div class="col-md-3">
+                                @Html.TextAreaFor(model => model.SqlQuery, new { style = "width:500px; height:250px;" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3"></label>
+                            <div class="col-md-3">
+                                <button type="submit" name="execute-sql-query" value="execute-sql-query" class="btn btn-danger">
+                                    <i class="fa fa-bolt"></i>
+                                    @T("Admin.System.Maintenance.SqlQueryExecute")
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+}
+
+
+
+
+
+

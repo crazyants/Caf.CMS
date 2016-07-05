@@ -1,0 +1,107 @@
+﻿@section FootScript
+{
+
+}
+@*@Html.Action("ContentSlider", "Home")*@
+<content>
+    <div class="CON--bg">
+        <div class="width">
+            <!--<div class="CON--l-t position">
+                 <h3 class="sskd fl"></h3>
+
+                 <div class="clear"></div>
+            </div>-->
+            <div class="CON--l fl tupAple">
+
+                <div class="CON--l-c">
+                    <div class="title-ct position">
+                        <h3>公司产品<span>PRODUCTS</span></h3>
+                        <a href="@Url.RouteUrl("ArticleCategory", new { SeName = "Product" })" class="title-more position" title="公司产品">更多>></a>
+                    </div>
+
+                    <div class="CON--l-cnr">
+                        @Html.Action("HomeRecentlyArticleViewed", "ArticleCatalog", new { area = "", partialView = "HomeArticleBlockPhoto", categoryId = 1, articleThumbPictureSize = 130, PageSize = 12, @*IsTop = true*@ })
+
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="CON--r fr tupAple">
+
+
+                <div class="CON--l-b">
+                    <div class="title-ct position">
+                        <h3>关于我们<span>ABOUT US</span></h3>
+                        <a href="@Url.RouteUrl("Topic", new { SystemName = "AboutUs" })" class="title-more position" title="关于我们">更多>></a>
+                    </div>
+                    <div class="CON--l-bnr editor"><img alt="" src="~/Themes/AlphaCosmetics/Content/images//home_into.jpg" style="margin: 9px; width: 156px; height: 101px; float: left;" />&nbsp;&nbsp;&nbsp; 某某护肤品公司前身为中医药大学离退休专家教授及在读中医大的博士、硕士生组织的一个承接医药攻关项目、用于勤工俭学的非赢利性科研小组，于2001年三 月筹建运作。<div class="clear"></div></div>
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="clear"></div>
+                <div class="CON--r-b">
+                    <div class="title-zx position">
+                        <h3>护理知识</h3>
+                        <a href="@Url.RouteUrl("ArticleCategory", new { SeName = "New" })" class="titlezx-more position" title="护理知识">更多>></a>
+                    </div>
+                    <div class="CON--r-bxw">
+                        @Html.Action("HomeRecentlyArticleViewed", "ArticleCatalog", new { area = "", partialView = "HomeArticleBlockList", categoryId = 1, PageSize = 4, IsRed = true })
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="content-bottom tupAple">
+        <div class="width">
+            <div class="bottom-l fl bottom-DG">
+                <div class="bot--title-zx position">
+                    <h3>最新产品</h3>
+                    <a href="@Url.RouteUrl("ArticleCategory", new { SeName = "Product", categoryId = 2045, OrderBy = (int)CAF.Infrastructure.Core.Domain.Cms.Articles.ArticleSortingEnum.CreatedOn })" class="bot--titlezx-more position" title="最新产品">更多>></a>
+                </div>
+                <div class="bottom--zx">
+                    @Html.Action("HomeRecentlyArticleViewed", "ArticleCatalog", new { area = "", partialView = "HomeArticleBlockList", categoryId = 1, PageSize = 7, OrderBy = (int)CAF.Infrastructure.Core.Domain.Cms.Articles.ArticleSortingEnum.CreatedOn })
+                </div>
+            </div>
+            <div class="bottom-c fl bottom-DG">
+                <div class="bot--title-zx position">
+                    <h3>使用心得</h3>
+                    <a href="message1/message1_15_1.html" class="bot--titlezx-more position" title="使用心得">更多>></a>
+                </div>
+                <div class="bottom--zx">
+                    @Html.Action("HomeRecentlyArticleViewed", "ArticleCatalog", new { area = "", partialView = "HomeArticleBlockList", categoryId = 1, PageSize = 7, OrderBy = (int)CAF.Infrastructure.Core.Domain.Cms.Articles.ArticleSortingEnum.CreatedOn })
+                </div>
+            </div>
+            <div class="bottom-r fr bottom-DG">
+                <div class="bot--title-zx position">
+                    <h3>人气推荐</h3>
+                    <a href="cases/" class="bot--titlezx-more position" title="人气推荐">更多>></a>
+                </div>
+                <div class="bottom--al">
+                    @Html.Action("HomeRecentlyArticleViewed", "ArticleCatalog", new { area = "", partialView = "HomeArticleBlockRed", categoryId = 1, PageSize = 4, IsRed = true })
+
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <div class="content--link">
+        <div class="width">
+
+            <div class="BotSide">
+                <h3 class="linkLJ fl">友情链接 / Links</h3>
+
+                <div class="WBtxt fl">
+                    @Html.Action("LinkBlock", "Common")
+                </div>
+
+                <div class="clear"></div>
+            </div>
+
+        </div>
+    </div>
+
+</content>

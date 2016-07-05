@@ -1,0 +1,122 @@
+﻿@model NavigationModel
+@using CAF.Infrastructure.Core.Collections;
+@functions {
+    private string GetNodeLink(TreeNode<MenuItem> node)
+    {
+        return node.Value.GenerateUrl(this.Url);
+    }
+
+    private string GetCssClassForNode(TreeNode<MenuItem> node, NodePathState state)
+    {
+        var liClasses = new List<string>();
+
+        if (node.Depth == 1)
+        {
+            liClasses.Add("drop-list-item");
+        }
+
+        if (node.Depth <= 1 && node.HasChildren)
+        {
+            liClasses.Add(node.Depth > 0 ? "dropdown-submenu" : "dropdown");
+        }
+
+        if ((state & NodePathState.Expanded) == NodePathState.Expanded)
+        {
+            liClasses.Add("expanded");
+        }
+
+        if ((state & NodePathState.Selected) == NodePathState.Selected)
+        {
+            liClasses.Add("current");
+        }
+
+        return liClasses.Count > 0 ? String.Join(" ", liClasses) : null;
+    }
+
+}
+
+
+@if (GetThemeVariable<bool>("DisplayNavbar"))
+{
+    <div class="top-main-content float-right">
+        <nav class="nav">
+            <div class="main-nav clearfix">
+                <ul class="sf-menu sf-js-enabled">
+                    <li class="current">
+                        <a class="first-level" href="@Url.RouteUrl("HomePage")" target="">
+                            <strong>首页</strong>
+                        </a>
+                        <i>
+                        </i>
+                    </li>
+                    <li >
+                        <a class="first-level" href="@Url.RouteUrl("Topic", new { SystemName = "companyinfo" })" target="">
+                            <strong>关于我们</strong>
+                        </a>
+                        <i>
+                        </i>
+                    </li>
+                    @Html.Widget("megamenu_before_first_item")
+                    @foreach (var node in Model.Root.Children.Take(6))
+                    {
+                        var item = node.Value;
+
+                        if (!item.Visible)
+                        {
+                            continue;
+                        }
+
+                        var itemUrl = GetNodeLink(node);
+                        var itemState = node.GetNodePathState(Model.Path);
+                        <li class='@(Model.Root.Children.Take(6).LastOrDefault() == node ? "last" : "")'>
+                            <a class="first-level" href="@itemUrl" data-target="#">
+                                <strong>@item.Text </strong>
+                                @if (node.HasChildren){
+                                    <span class="sf-sub-indicator"> »</span>
+                                }
+                            </a>
+                            <i></i>
+                            @if (node.HasChildren)
+                            {
+                                @CreateDrilldownMenu(node.Children, true)
+                            }
+                        </li>
+
+                    }
+
+                    @Html.Widget("megamenu_after_last_item")
+
+
+                </ul>
+            </div>
+        </nav><!-- E nav-->
+    </div>
+
+}
+@helper CreateDrilldownMenu(IEnumerable<TreeNode<MenuItem>> nodes, bool isRoot)
+{
+    <ul class="" style="display: none; visibility: hidden;">
+        @foreach (var node in nodes)
+        {
+            var item = node.Value;
+
+            if (!item.Visible)
+            {
+                continue;
+            }
+
+            var itemUrl = GetNodeLink(node);
+            var itemState = node.GetNodePathState(Model.Path);
+
+            <li class='@(GetCssClassForNode(node, itemState))'>
+                <a href="@itemUrl"><strong>@item.Text</strong></a>
+                @if (node.Depth <= 2 && node.HasChildren)
+                {
+                    @CreateDrilldownMenu(node.Children, false)
+                }
+            </li>
+        }
+    </ul>
+
+
+}

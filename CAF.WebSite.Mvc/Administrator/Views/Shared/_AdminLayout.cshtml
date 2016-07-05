@@ -1,0 +1,76 @@
+﻿@using CAF.WebSite.Application.WebUI.UI;
+@using CAF.Infrastructure.Core;
+@using CAF.WebSite.Application.WebUI;
+@{
+    Layout = "~/Administrator/Views/Shared/_AdminRoot.cshtml";
+
+    var currentUICulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
+
+    // resources
+    var localizationService = EngineContext.Current.Resolve<CAF.WebSite.Application.Services.Localization.ILocalizationService>();
+    var MediaRootPath = "~/Content/assets/";
+    Html.AppendCssFileParts(false,
+
+       MediaRootPath + "global/plugins/jquery-treetable/css/jquery.treetable.css",
+       MediaRootPath + "global/plugins/jquery-treetable/css/jquery.treetable.theme.default.css",
+        //MediaRootPath + "global/plugins/datatables/media/css/jquery.dataTables.css",
+       MediaRootPath + "global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css",
+        //隐藏显示
+       MediaRootPath + "global/plugins/datatables/extensions/colVis/css/dataTables.colVis.css",
+        //Tool工具显示
+       MediaRootPath + "global/plugins/datatables/extensions/TableTools/css/dataTables.TableTools.css",
+        //移动列
+       MediaRootPath + "global/plugins/datatables/extensions/ColReorder/css/dataTables.colReorder.css",
+        //过滤
+       MediaRootPath + "global/plugins/datatables/extensions/ColumnFilter/css/jquery-ui-timepicker-addon.css",
+       MediaRootPath + "global/plugins/datatables/extensions/ColumnFilter/css/jquery.dataTables.columnFilter.css",
+        //固定列
+       MediaRootPath + "global/plugins/datatables/extensions/FixedColumns/css/dataTables.fixedColumns.css");
+
+    Html.AppendScriptParts(ResourceLocation.Head,
+          MediaRootPath + "global/plugins/jquery-treetable/js/src/jquery.treetable.js",
+         MediaRootPath + "global/plugins/datatables/media/js/jquery.dataTables.min.js",
+         MediaRootPath + "global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js",
+         MediaRootPath + "global/plugins/datatables/extensions/colVis/js/dataTables.colVis.js",
+         MediaRootPath + "global/plugins/datatables/extensions/TableTools/js/dataTables.TableTools.js",
+         MediaRootPath + "global/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.js",
+         MediaRootPath + "global/plugins/datatables/extensions/FixedColumns/js/dataTables.fixedColumns.js",
+        //过滤
+         MediaRootPath + "global/plugins/datatables/extensions/ColumnFilter/js/jquery-ui-timepicker-addon.js",
+         MediaRootPath + "global/plugins/datatables/extensions/ColumnFilter/js/jquery.dataTables.columnFilter.js",
+        "~/Content/js/dataTables.fnGetHiddenNodes.js",
+        "~/Content/js/table-managed.js"
+         );
+}
+@if (IsSectionDefined("header"))
+{
+    @RenderSection("header")
+}
+else
+{
+    if (IsSectionDefined("navbar"))
+    {
+        @RenderSection("navbar")
+    }
+    else
+    {
+        //  @Html.Partial("_Navbar")
+    }
+
+}
+
+<!-- BEGIN CONTENT 内容 -->
+<div class="cph">
+    <div class="page-content">
+        @RenderBody()
+    </div>
+</div>
+<!-- END CONTENT -->
+@if (IsSectionDefined("footer"))
+{
+    @RenderSection("footer")
+}
+else
+{
+    //  @Html.Partial("_Footer")
+}

@@ -1,0 +1,26 @@
+﻿@functions{
+    private int? Value
+    {
+        get
+        {
+            int? value = null;
+            if (ViewData.Model != null)
+            {
+                value = Convert.ToInt32(ViewData.Model, System.Globalization.CultureInfo.InvariantCulture);
+            }
+
+            return value;
+        }
+    }
+}
+@{
+    var id = ViewData.TemplateInfo.GetFullHtmlFieldId(string.Empty);
+    var name = ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty);
+    string additionalClass = string.Empty;
+    if (ViewData.ContainsKey("small"))
+    {
+        additionalClass = ViewData["small"].Convert<bool>() ? "input-sm" : "";
+    }
+}
+
+@Html.TextBoxFor(model => model, new { @class = "form-control " + additionalClass })

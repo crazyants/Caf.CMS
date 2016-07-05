@@ -1,0 +1,50 @@
+﻿@model ArticleModel
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('input[id="@Html.FieldIdFor(model => model.SubjectToAcl)"]').on('switchChange.bootstrapSwitch', function (event, state) {
+            toggleAcl(state);
+        });
+        toggleAcl(@Model.SubjectToAcl.ToString().ToLower());
+    });
+    function toggleAcl(state) {
+        if (state) {
+            $('#pnl-acl').show();
+        }
+        else {
+            $('#pnl-acl').hide();
+        }
+    }
+
+</script>
+<div class="form-group">
+    <label class="control-label col-md-2">
+        @Html.LangLabelFor(model => model.SubjectToAcl)
+    </label>
+    <div class="col-md-6">
+        @Html.EditorFor(x => x.SubjectToAcl)
+        @Html.ValidationMessageFor(model => model.SubjectToAcl)
+
+    </div>
+</div>
+<div id="pnl-acl" class="form-group">
+    <label class="control-label col-md-2">
+        @Html.LangLabelFor(model => model.AvailableUserRoles)
+    </label>
+    <div class="col-md-6">
+        @if (Model.AvailableUserRoles != null && Model.AvailableUserRoles.Count > 0)
+        {
+            foreach (var userRole in Model.AvailableUserRoles)
+            {
+                <div>
+                    <label class="checkbox">
+                        <input type="checkbox" name="SelectedUserRoleIds" value="@userRole.Id" checked="@(Model.SelectedUserRoleIds != null && Model.SelectedUserRoleIds.Contains(userRole.Id))" />@userRole.Name
+                    </label>
+                </div>
+            }
+        }
+        else
+        {
+            <div>No user roles defined</div>
+        }
+    </div>
+</div>

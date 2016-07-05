@@ -1,0 +1,93 @@
+﻿@model ArticleModel
+
+@(Html.LocalizedEditor<ArticleModel, ArticleLocalizedModel>("article-seo-localized",
+    @<div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.Locales[item].MetaKeywords)
+            </label>
+            <div class="col-md-3">
+                @Html.TextBoxFor(model => Model.Locales[item].MetaKeywords, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Locales[item].MetaKeywords)
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.Locales[item].MetaTitle)
+            </label>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => Model.Locales[item].MetaTitle, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Locales[item].MetaTitle)
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.Locales[item].MetaDescription)
+            </label>
+            <div class="col-md-6">
+                @Html.TextAreaFor(model => Model.Locales[item].MetaDescription, new { @class = "form-control", row = 5 })
+                @Html.ValidationMessageFor(model => model.Locales[item].MetaDescription)
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.Locales[item].SeName)
+            </label>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => Model.Locales[item].SeName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Locales[item].SeName)
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+
+            </label>
+            <div class="col-md-6">
+                @Html.HiddenFor(model => model.Locales[item].LanguageId)
+            </div>
+        </div>
+    </div>
+     ,
+    @<div class="form-body">
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.MetaKeywords)
+            </label>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.MetaKeywords, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MetaKeywords)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.MetaTitle)
+            </label>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.MetaTitle, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MetaTitle)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.MetaDescription)
+            </label>
+            <div class="col-md-6">
+                @Html.TextAreaFor(model => model.MetaDescription, new { @class = "form-control", row = 5 })
+                @Html.ValidationMessageFor(model => model.MetaDescription)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">
+                @Html.LangLabelFor(model => model.SeName)
+            </label>
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.SeName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SeName)
+            </div>
+        </div>
+    </div>
+))

@@ -1,0 +1,59 @@
+﻿@model OnlineUserModel
+@{
+    var gridPageSize = EngineContext.Current.Resolve<CAF.Infrastructure.Core.Domain.Common.AdminAreaSettings>().GridPageSize;
+
+    //page title
+    ViewBag.Title = T("Admin.Users.OnlineUsers").Text;
+
+    var g = Html.GridToolKit();
+    var grid = g.DataGrid("onlineUsersGrid", g.Param(x => x.Id)).TableId("table-id").GridKey("Id").PageLength(gridPageSize)
+    .MainGrid(
+    g.GridColumn(x => x.UserInfo).DefaultContent("<a href='" + @Url.Content("~/Admin/User/Edit/") + "#Id#'>#UserInfo#</a>"),
+    g.GridColumn(x => x.LastIpAddress, 100),
+    g.GridColumn(x => x.Location, 100),
+    g.GridColumn(x => x.LastActivityDate, 100).DefaultContent("#LastActivityDate-DateTime#"),
+    g.GridColumn(x => x.LastVisitedPage, 100))
+    .Url(Url.Action("List", "OnlineUser")).DefaultTableClass();
+
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light">
+            <div class="portlet-body flip-scroll">
+                <div class="portlet">
+                    <div class="section-header sticky">
+                        <div class="caption">
+                            <i class="fa fa-search"></i>@T("Admin.Users.OnlineUsers")
+                        </div>
+                        <div class="tools">
+
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <table id="@grid.GetTableId" class="@grid.GetDefaultTableClass" @Html.Raw(grid.GetFixedLayout ? "style='table-layout:fixed'" : "")>
+                            <thead>
+                                <tr>
+                                    @foreach (var column in grid.GetColumns)
+                                    {
+                                        <th class="@column.CssClassHeader">@column.DisplayName</th>
+                                    }
+                                </tr>
+
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+        @(grid)
+    $(document).ready(function () {
+
+    });
+
+
+</script>

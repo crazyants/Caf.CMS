@@ -1,0 +1,15 @@
+EF系统迁移：
+ 
+Enable-Migrations -ProjectName CAF.Infrastructure.Data -StartUpProjectName CAF.Infrastructure.Data
+Update-Database -ConfigurationTypeName Configuration
+
+//启动迁移
+PM> Enable-Migrations -EnableAutomaticMigrations
+//新增创建语句
+PM> Add-Migration InitialCreate
+//更新数据库 （必须不存在）
+PM> Update-Database -ConfigurationTypeName MigrationsConfiguration
+//添加更改脚本
+PM> Add-Migration ModifyAppSystem -ConfigurationTypeName MigrationsConfiguration
+//更新脚本
+PM> Update-Database -ConfigurationTypeName MigrationsConfiguration

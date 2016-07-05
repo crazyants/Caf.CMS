@@ -1,0 +1,538 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1BB4FB3D-B5C0-4E3F-B1B6-1638C0303D5C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CAF.WebSite.Application.WebUI</RootNamespace>
+    <AssemblyName>CAF.WebSite.Application.WebUI</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AjaxMin">
+      <HintPath>..\packages\AjaxMin.5.10.5260.16959\lib\net40\AjaxMin.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.4.0\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc">
+      <HintPath>..\packages\Autofac.Mvc5.3.3.2\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.WebApi">
+      <HintPath>..\packages\Autofac.WebApi.3.1.0\lib\net40\Autofac.Integration.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="BundleTransformer.Core">
+      <HintPath>..\packages\BundleTransformer.Core.1.8.32\lib\net40\BundleTransformer.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="BundleTransformer.Less">
+      <HintPath>..\packages\BundleTransformer.Less.1.8.32\lib\net40\BundleTransformer.Less.dll</HintPath>
+    </Reference>
+    <Reference Include="BundleTransformer.MicrosoftAjax">
+      <HintPath>..\packages\BundleTransformer.MicrosoftAjax.1.8.33\lib\net40\BundleTransformer.MicrosoftAjax.dll</HintPath>
+    </Reference>
+    <Reference Include="CAF.Infrastructure.Core">
+      <HintPath>..\Libraries\CAF.Infrastructure.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="CAF.Infrastructure.Data">
+      <HintPath>..\Libraries\CAF.Infrastructure.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="CAF.Infrastructure.Search">
+      <HintPath>..\Libraries\CAF.Infrastructure.Search.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Fasterflect">
+      <HintPath>..\packages\fasterflect.2.1.3\lib\net40\Fasterflect.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation">
+      <HintPath>..\packages\FluentValidation.5.1.0.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\packages\NPOI.2.1.3.1\lib\net40\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="JavaScriptEngineSwitcher.Core, Version=1.2.4.0, Culture=neutral, PublicKeyToken=c608b2a8cc9e4472, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\JavaScriptEngineSwitcher.Core.1.2.4\lib\net40\JavaScriptEngineSwitcher.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>..\packages\NPOI.2.1.3.1\lib\net40\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>..\packages\NPOI.2.1.3.1\lib\net40\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>..\packages\NPOI.2.1.3.1\lib\net40\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>..\packages\NPOI.2.1.3.1\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.0.34.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Immutable.1.0.34\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WebGrease">
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\CacheHelper.cs" />
+    <Compile Include="Common\CookieHelper.cs" />
+    <Compile Include="Common\EncryptHelper.cs" />
+    <Compile Include="Controllers\HandleInstallFilter.cs" />
+    <Compile Include="Controllers\JsonFilter.cs" />
+    <Compile Include="Controllers\AdminAuthorizeAttribute.cs" />
+    <Compile Include="Controllers\AdminControllerBase.cs" />
+    <Compile Include="Controllers\Attributes\NoAuthorizeAttribute.cs" />
+    <Compile Include="Controllers\Attributes\ViewPageAttribute.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CompressAttribute.cs" />
+    <Compile Include="Controllers\ContollerExtensions.cs" />
+    <Compile Include="Controllers\FormValueExistsAttribute.cs" />
+    <Compile Include="Controllers\FormValueRequiredAttribute.cs" />
+    <Compile Include="Controllers\HandleExceptionFilter.cs" />
+    <Compile Include="Controllers\InitializeTablesFilter.cs" />
+    <Compile Include="Controllers\LanguageSeoCodeAttribute.cs" />
+    <Compile Include="Controllers\NotifyAttribute.cs" />
+    <Compile Include="Controllers\ParameterBasedOnFormNameAndValueAttribute.cs" />
+    <Compile Include="Controllers\ParameterBasedOnFormNameAttribute.cs" />
+    <Compile Include="Controllers\ParameterBasedOnQueryNameAttribute.cs" />
+    <Compile Include="Controllers\PaymentControllerBase.cs" />
+    <Compile Include="Controllers\PluginControllerBase.cs" />
+    <Compile Include="Controllers\RssActionResult.cs" />
+    <Compile Include="Controllers\SetWorkingCultureAttribute.cs" />
+    <Compile Include="Controllers\SiteIpAddressAttribute.cs" />
+    <Compile Include="Controllers\SiteLastVisitedPageAttribute.cs" />
+    <Compile Include="Controllers\SiteClosedAttribute.cs" />
+    <Compile Include="Controllers\UserLastActivityAttribute.cs" />
+    <Compile Include="Controllers\WhiteSpaceFilter.cs" />
+    <Compile Include="DependencyRegistrar.cs" />
+    <Compile Include="Events\TabStripCreated.cs" />
+    <Compile Include="Events\ThemeTouched.cs" />
+    <Compile Include="Extensions\Extensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Extensions\PostedFileResult.cs" />
+    <Compile Include="Extensions\UrlHelperExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ModelCacheEventConsumer.cs" />
+    <Compile Include="HtmlAttribute.cs" />
+    <Compile Include="HtmlAttributeExtensions.cs" />
+    <Compile Include="HtmlExtensions.cs" />
+    <Compile Include="LangResourceDisplayName.cs" />
+    <Compile Include="Localization\ILocalizedModel.cs" />
+    <Compile Include="Localization\ILocalizedModelLocal.cs" />
+    <Compile Include="Localization\IText.cs" />
+    <Compile Include="Localization\LocalizedRoute.cs" />
+    <Compile Include="Localization\LocalizedRouteExtensions.cs" />
+    <Compile Include="Localization\LocalizedUrlHelper.cs" />
+    <Compile Include="Localization\Text.cs" />
+    <Compile Include="Mvc\Bundles\BundlePublisher.cs" />
+    <Compile Include="Mvc\Bundles\IBundleProvider.cs" />
+    <Compile Include="Mvc\Bundles\IBundlePublisher.cs" />
+    <Compile Include="Mvc\CommaSeparatedModelBinder.cs" />
+    <Compile Include="Mvc\DefinedMetadataProvider.cs" />
+    <Compile Include="Mvc\DefinedModelBinder.cs" />
+    <Compile Include="Mvc\DeleteConfirmationModel.cs" />
+    <Compile Include="Mvc\ErrorMessageProvider.cs" />
+    <Compile Include="Mvc\IModelAttribute.cs" />
+    <Compile Include="Mvc\JQAjaxModelBinder.cs" />
+    <Compile Include="Mvc\ModelBase.cs" />
+    <Compile Include="Mvc\ModelBoundEvent.cs" />
+    <Compile Include="Mvc\ProviderModel.cs" />
+    <Compile Include="Mvc\Routes\GuidConstraint.cs" />
+    <Compile Include="Mvc\Routes\IRouteProvider.cs" />
+    <Compile Include="Mvc\Routes\IRoutePublisher.cs" />
+    <Compile Include="Mvc\Routes\RoutePublisher.cs" />
+    <Compile Include="Mvc\XmlDownloadResult.cs" />
+    <Compile Include="Pdf\Content\PdfPartialViewContent.cs" />
+    <Compile Include="Pdf\Content\PdfRouteContent.cs" />
+    <Compile Include="Pdf\Content\PdfViewContent.cs" />
+    <Compile Include="Pdf\PdfHeaderFooterVariables.cs" />
+    <Compile Include="Pdf\PdfReceiptHeaderFooterModel.cs" />
+    <Compile Include="Pdf\PdfResult.cs" />
+    <Compile Include="Plugins\PluginDebugViewVirtualPathProvider.cs" />
+    <Compile Include="Plugins\PluginHelper.cs" />
+    <Compile Include="Plugins\PluginMediator.cs" />
+    <Compile Include="Plugins\ProviderManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Controllers\AdminValidateIpAddressAttribute.cs" />
+    <Compile Include="RemotePost.cs" />
+    <Compile Include="Security\AuthorizeKey.cs" />
+    <Compile Include="Security\ExtendMvcHtml.cs" />
+    <Compile Include="Security\FilePermissionHelper.cs" />
+    <Compile Include="Security\PerBtnModel.cs" />
+    <Compile Include="Security\RequireHttpsByConfigAttribute.cs" />
+    <Compile Include="Security\SslRequirement.cs" />
+    <Compile Include="CAFUrlRoutingModule.cs" />
+    <Compile Include="Security\SSOAuthHelper.cs" />
+    <Compile Include="Seo\CanonicalHostNameAttribute.cs" />
+    <Compile Include="Seo\DomainRoute.cs" />
+    <Compile Include="Seo\GenericPathRoute.cs" />
+    <Compile Include="Seo\GenericPathRouteExtensions.cs" />
+    <Compile Include="SiteMaps\LinkedObjectBase.cs" />
+    <Compile Include="SiteMaps\LinkedObjectCollection.cs" />
+    <Compile Include="SiteMaps\SiteMapBase.cs" />
+    <Compile Include="SiteMaps\SiteMapNode.cs" />
+    <Compile Include="SiteMaps\XmlSiteMap.cs" />
+    <Compile Include="Themes\AdminThemedAttribute.cs" />
+    <Compile Include="Themes\InheritedVirtualThemeFile.cs" />
+    <Compile Include="Themes\IThemeContext.cs" />
+    <Compile Include="Themes\LessCssHttpHandler.cs" />
+    <Compile Include="Themes\LocalizedDisplayMode.cs" />
+    <Compile Include="Themes\ThemeableRazorViewEngine.cs" />
+    <Compile Include="Themes\ThemeableVirtualPathProviderViewEngine.cs" />
+    <Compile Include="Themes\ThemeContext.cs" />
+    <Compile Include="Themes\ThemeFileResolver.cs" />
+    <Compile Include="Themes\ThemeHelper.cs" />
+    <Compile Include="Themes\ThemeHtmlExtensions.cs" />
+    <Compile Include="Themes\ThemeVarsRepository.cs" />
+    <Compile Include="Themes\ThemeVarsVirtualFile.cs" />
+    <Compile Include="Themes\ThemingVirtualPathProvider.cs" />
+    <Compile Include="Themes\TwoLevelViewLocationCache.cs" />
+    <Compile Include="Themes\WebViewPage.cs" />
+    <Compile Include="Themes\WorkStyleBundle.cs" />
+    <Compile Include="UI\BundleBuilder.cs" />
+    <Compile Include="UI\Components\Menu\AdminMenuProvider.cs" />
+    <Compile Include="UI\Components\Menu\MenuExtensions.cs" />
+    <Compile Include="UI\Components\Menu\MenuPublisher.cs" />
+    <Compile Include="UI\Components\Menu\NavigationModel.cs" />
+    <Compile Include="UI\Components\Menu\NodePathState.cs" />
+    <Compile Include="UI\DataListExtensions.cs" />
+    <Compile Include="UI\DynamicCaptcha\DynamicCaptchaRoutes.cs" />
+    <Compile Include="UI\DynamicCaptcha\Assets.cs" />
+    <Compile Include="UI\DynamicCaptcha\Captcha.cs" />
+    <Compile Include="UI\DynamicCaptcha\DynamicCaptchaValidatorAttribute.cs" />
+    <Compile Include="UI\DynamicCaptcha\CryptoHelper.cs" />
+    <Compile Include="UI\DynamicCaptcha\FrontEndData.cs" />
+    <Compile Include="UI\DynamicCaptcha\DynamicCaptchaController.cs" />
+    <Compile Include="UI\Grid\GridPublisher.cs" />
+    <Compile Include="UI\Grid\IGridPublisher.cs" />
+    <Compile Include="UI\IPageAssetsBuilder.cs" />
+    <Compile Include="UI\IWidgetProvider.cs" />
+    <Compile Include="UI\IWidgetSelector.cs" />
+    <Compile Include="UI\LayoutExtensions.cs" />
+    <Compile Include="UI\MvcCaptcha\MvcCaptchaRoutes.cs" />
+    <Compile Include="UI\PageAssetsBuilder.cs" />
+    <Compile Include="UI\ResourceLocation.cs" />
+    <Compile Include="UI\ScaffoldExtensions.cs" />
+    <Compile Include="UI\WidgetProvider.cs" />
+    <Compile Include="UI\WidgetRouteInfo.cs" />
+    <Compile Include="UI\WidgetZoneModel.cs" />
+    <Compile Include="Validators\ValidatorFactory.cs" />
+    <Compile Include="UI\Captcha\CaptchaSettings.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UI\Components\BadgeStyle.cs" />
+    <Compile Include="UI\Components\Button\Button.cs" />
+    <Compile Include="UI\Components\Component.cs" />
+    <Compile Include="UI\Components\ComponentBuilder.cs" />
+    <Compile Include="UI\Components\ComponentFactory.cs" />
+    <Compile Include="UI\Components\ComponentRenderer.cs" />
+    <Compile Include="UI\Components\ComponentRendererUtils.cs" />
+    <Compile Include="UI\Components\HtmlHelperExtensions.cs" />
+    <Compile Include="UI\Components\IComponent.cs" />
+    <Compile Include="UI\Components\IContentContainer.cs" />
+    <Compile Include="UI\Components\IHtmlAttributesContainer.cs" />
+    <Compile Include="UI\Components\INavigatable.cs" />
+    <Compile Include="UI\Components\Menu\IMenuProvider.cs" />
+    <Compile Include="UI\Components\Menu\MenuItem.cs" />
+    <Compile Include="UI\Components\Menu\MenuItemBuilder.cs" />
+    <Compile Include="UI\Components\NavigatableComponentBuilder.cs" />
+    <Compile Include="UI\Components\NavigatableExtensions.cs" />
+    <Compile Include="UI\Components\NavigationItem.cs" />
+    <Compile Include="UI\Components\NavigationItemBuilder.cs" />
+    <Compile Include="UI\Components\Pager\ForumTopicPagerRenderer.cs" />
+    <Compile Include="UI\Components\Pager\MobilePagerRenderer.cs" />
+    <Compile Include="UI\Components\Pager\Pager.cs" />
+    <Compile Include="UI\Components\Pager\PagerBuilder.cs" />
+    <Compile Include="UI\Components\Pager\PagerItem.cs" />
+    <Compile Include="UI\Components\Pager\PagerRenderer.cs" />
+    <Compile Include="UI\Components\RouteValueDictionaryExtensions.cs" />
+    <Compile Include="UI\Components\TabStrip\Tab.cs" />
+    <Compile Include="UI\Components\TabStrip\TabBuilder.cs" />
+    <Compile Include="UI\Components\TabStrip\TabFactory.cs" />
+    <Compile Include="UI\Components\TabStrip\TabStrip.cs" />
+    <Compile Include="UI\Components\TabStrip\TabStripBuilder.cs" />
+    <Compile Include="UI\Components\TabStrip\TabStripRenderer.cs" />
+    <Compile Include="UI\Components\Window\Window.cs" />
+    <Compile Include="UI\Components\Window\WindowBuilder.cs" />
+    <Compile Include="UI\Components\Window\WindowRenderer.cs" />
+    <Compile Include="UI\MvcCaptcha\Enumerations.cs" />
+    <Compile Include="UI\MvcCaptcha\MvcCaptchaConfigSection.cs" />
+    <Compile Include="UI\MvcCaptcha\MvcCaptchaController.cs" />
+    <Compile Include="UI\MvcCaptcha\MvcCaptchaHelper.cs" />
+    <Compile Include="UI\MvcCaptcha\MvcCaptchaImage.cs" />
+    <Compile Include="UI\MvcCaptcha\MvcCaptchaImageResult.cs" />
+    <Compile Include="UI\MvcCaptcha\MvcCaptchaOptions.cs" />
+    <Compile Include="UI\MvcCaptcha\ValidateMvcCaptchaAttribute.cs" />
+    <Compile Include="WebApi\HmacAuthentication.cs" />
+    <Compile Include="WebApi\WebApiConsumer.cs" />
+    <Compile Include="WebApi\WebApiConsumerResponse.cs" />
+    <Compile Include="WebApi\WebApiCore.cs" />
+    <Compile Include="WebApi\WebApiExtensions.cs" />
+    <Compile Include="WorkContext\WebSiteContext.cs" />
+    <Compile Include="WorkContext\WebWorkContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="BundleTransformer.Configuration.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\12times2.ogg" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\2times10.ogg" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\4plus1.ogg" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\4plus3.ogg" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\5plus1.ogg" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\5times2.ogg" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\6plus6.ogg" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\99plus1.ogg" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\add3to1.ogg" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\addblueandyellow.ogg" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\after2.ogg" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\capitaloffrance.ogg" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\divide4by2.ogg" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\firstletteralphabet.ogg" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\milkcolor.ogg" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\skycolor.ogg" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\skynight.ogg" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\sunastar.ogg" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\thirdmonth.ogg" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\yourobot.ogg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CAF.WebSite.Application.Services\CAF.WebSite.Application.Services.csproj">
+      <Project>{83bab22a-c88b-43e9-928b-5c3d5c5a738f}</Project>
+      <Name>CAF.WebSite.Application.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UI\Components\Dialog\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\12times2.mp3" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\2times10.mp3" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\4plus1.mp3" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\4plus3.mp3" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\5plus1.mp3" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\5times2.mp3" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\6plus6.mp3" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\99plus1.mp3" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\add3to1.mp3" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\addblueandyellow.mp3" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\after2.mp3" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\capitaloffrance.mp3" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\divide4by2.mp3" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\firstletteralphabet.mp3" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\milkcolor.mp3" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\skycolor.mp3" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\skynight.mp3" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\sunastar.mp3" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\thirdmonth.mp3" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\audios\yourobot.mp3" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\airplane.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\airplane2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\balloons.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\balloons2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\camera.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\camera2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\car.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\car2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\cat.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\cat2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\chair.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\chair2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\clip.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\clip2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\clock.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\clock2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\cloud.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\cloud2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\computer.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\computer2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\envelope.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\envelope2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\eye.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\eye2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\flag.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\flag2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\folder.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\folder2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\foot.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\foot2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\graph.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\graph2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\house.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\house2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\key.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\key2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\leaf.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\leaf2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\light-bulb.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\light-bulb2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\lock.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\lock2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\magnifying-glass.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\magnifying-glass2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\man.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\man2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\music-note.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\music-note2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\pants.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\pants2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\pencil.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\pencil2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\printer.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\printer2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\robot.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\robot2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\scissors.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\scissors2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\sunglasses.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\sunglasses2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\t-shirt.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\t-shirt2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\tag.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\tag2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\tree.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\tree2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\truck.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\truck2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\umbrella.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\umbrella2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\woman.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\woman2x.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\world.png" />
+    <EmbeddedResource Include="UI\DynamicCaptcha\assets\images\world2x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\jquery-1.8.3.intellisense.js" />
+    <Content Include="Scripts\jquery-1.8.3.js" />
+    <Content Include="Scripts\jquery-1.8.3.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

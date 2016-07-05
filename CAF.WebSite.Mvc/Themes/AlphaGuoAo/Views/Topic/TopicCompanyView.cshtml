@@ -1,0 +1,41 @@
+﻿@model TopicModel
+@{
+    Layout = "~/Themes/AlphaGuoAo/Views/Shared/_ColumnsOne.cshtml";
+    Html.AddTitleParts(!String.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Title);
+    Html.AddMetaDescriptionParts(Model.MetaDescription);
+    Html.AddMetaKeywordParts(Model.MetaKeywords);
+}
+
+
+<section class="main">
+    <section class="full-page-title-wrap clearfix">
+        <h2>关于我们</h2><em class="full-page-title-line"></em>
+    </section>
+    <section class="full-page-menu">
+        <div class="full-page-menu-content">
+            <div class="page-width">
+                <ul class="clearfix">
+                    <li class="@(Model.SystemName == "companyinfo" ? "current" : "")"><a href="@Url.RouteUrl("Topic", new { SystemName = "companyinfo" })">公司简介</a></li>
+                    <li class="@(Model.SystemName == "companyculture" ? "current" : "")"><a href="@Url.RouteUrl("Topic", new { SystemName = "companyculture" })">企业文化</a></li>
+                    <li class="@(Model.SystemName == "companyhonor" ? "current" : "")"><a href="@Url.RouteUrl("Topic", new { SystemName = "companyhonor" })">企业荣誉</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <div class="page-width clearfix">
+        <div class="full-page-content">
+            <div class="full-page-content-wrapper">
+                <div class="module-default">
+                    <div class="module-inner">
+                        <div class="module-content">
+                            <div class="qhd-content">
+                                @Html.Raw(Model.Body)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
