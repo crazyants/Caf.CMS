@@ -1,3 +1,0 @@
-AppVersion: 1.1.0.0
-DataProvider: sqlserver
-DataConnectionString: Data Source=.;Initial Catalog=caf.cms123;Integrated Security=False;Persist Security Info=False;User ID=sa;Password=wharton@168;Enlist=False;Pooling=True;Min Pool Size=1;Max Pool Size=100;Connect Timeout=15;User Instance=False
