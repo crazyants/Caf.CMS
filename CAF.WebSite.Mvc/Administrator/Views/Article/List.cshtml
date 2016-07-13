@@ -2,29 +2,65 @@
 @{
     Layout = "~/Administrator/Views/Shared/_AdminArticlePopupLayout.cshtml";
     ViewBag.Title = T("Admin.ContentManagement.Articles").Text;
-    Html.AppendCssFileParts(
-  "~/Content/bui/css/dpl-min.css",
-  "~/Content/bui/css/bui-min.css",
-  "~/Content/bui/css/main.css");
-
-    Html.AppendScriptParts(ResourceLocation.Head,
-        "~/Content/bui/js/bui-min.js",
-        "~/Content/bui/js/config.js");
 
 }
 
-<ul id="J_NavContent" class="dl-tab-conten"></ul>
-<script type="text/javascript">
-    var data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
-    BUI.use('common/main', function () {
-        var config = [{
-            collapsed:false,
-            id: 'menu',
-            menu: data
-        }];
-        new PageUtil.MainPage({
-            modulesConfig: config
-        });
+<ul id="menubar" class="nav nav-list" style="z-index:9999;">
 
-    });
-</script>
+    @foreach (var node in Model)
+    {
+        var currentId = Guid.NewGuid().ToString();
+        var hasChildren = node.Childitems.Any();
+        <li name="PMenu" class=" hsub">
+            <a name="item" href="#" class="@(hasChildren ? "dropdown-toggle" : "")" @Html.Attr("icon", " fa-list") @Html.Attr("objid", @Guid.NewGuid().ToString(), !hasChildren) tagid="@Guid.NewGuid().ToString()">
+                <i class="menu-icon fa fa-list"></i>
+                <span class="menu-text">@node.Text</span>
+                @if (hasChildren)
+                {
+                    <b class="arrow fa fa-angle-down"></b>
+                }
+            </a>
+            <b class="arrow"></b>
+
+            <div id="menuleft" class="span3">
+                @if (hasChildren)
+                {
+                    <ul id="menu-group-@currentId" class="nav menu">
+
+                        @CreateDropdown(node.Childitems, true, currentId)
+                    </ul>
+                }
+            </div>
+        </li>
+    }
+</ul>
+
+@helper CreateDropdown(IEnumerable<MenuModel> nodes, bool isRoot, string parentId)
+{
+    foreach (var node in nodes)
+    {
+        var newParentId = parentId;
+        var currentId = Guid.NewGuid().ToString();
+        var hasChildren = node.Childitems.Any();
+        <li class="@(isRoot ? "item-1 " : "item-2") @(hasChildren ? "deeper parent " : "") ">
+            <a   href="#">
+                <span @Html.Attr("data-toggle", "collapse", hasChildren) class="sign" @Html.Attr("data-parent", "#menu-group" + newParentId, hasChildren) href="#sub-item-@currentId">
+                    @if (hasChildren)
+                    {<i class="fa fa-plus fa-white"></i>}
+                    else
+                    {<i class="fa fa-play"></i> }
+                </span>
+                <span name="item" class=" lbl" icon=" fa-list" url="@node.Href" @Html.Attr("objid", Guid.NewGuid().ToString(), false) tagid="@Guid.NewGuid().ToString()">@node.Text</span>
+            </a>
+
+            @if (hasChildren)
+            {
+                <ul class="children nav-child unstyled small collapse" id="sub-item-@currentId">
+                    @CreateDropdown(node.Childitems, false, newParentId)
+                </ul>
+
+            }
+        </li>
+    }
+
+}

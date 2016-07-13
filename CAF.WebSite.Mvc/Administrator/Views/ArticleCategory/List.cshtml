@@ -9,46 +9,61 @@
 
     List<MenuModel> menuModels = new List<MenuModel>();
     MenuModel menuModel = new MenuModel();
-    menuModel.text = "频道";
-    var firstPage = "";
+    menuModel.Text = "频道";
+
     foreach (var item in Model.AvailableChannels)
     {
-
-        var menuItem = new MenuItemModel();
-
-        menuItem.text = item.Text;
-        menuItem.id = item.Value;
-        menuItem.href = Url.Action("Center", "ArticleCategory", new { channelId = item.Value });
-        menuModel.items.Add(menuItem);
+        var menuItem = new MenuModel();
+        menuItem.Text = item.Text;
+        menuItem.Id = item.Value;
+        menuItem.Href = Url.Action("Center", "ArticleCategory", new { channelId = item.Value });
+        menuModel.Childitems.Add(menuItem);
     }
-    if (menuModel.items.Count > 0)
-    { firstPage = menuModel.items.FirstOrDefault().text; }
+
     menuModels.Add(menuModel);
 
-    Html.AppendCssFileParts(
-    "~/Content/bui/css/dpl-min.css",
-    "~/Content/bui/css/bui-min.css",
-    "~/Content/bui/css/main.css");
 
-    Html.AppendScriptParts(ResourceLocation.Head,
-        "~/Content/bui/js/bui-min.js",
-        "~/Content/bui/js/config.js");
 }
- 
- 
-<ul id="J_NavContent" class="dl-tab-conten"  ></ul>
-<script type="text/javascript">
-    var data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(menuModels));
-    BUI.use('common/main', function () {
-        var config = [{
-            collapsed:false,
-            // homePage : '@firstPage',
-            id: 'menu',
-            menu: data
-        }];
-        new PageUtil.MainPage({
-            modulesConfig: config
-        });
 
-    });
-</script>
+<ul id="menubar" class="nav nav-list" style="z-index:9999;">
+    @foreach (var node in menuModels)
+    {
+        var hasChildren = node.Childitems.Any();
+        <li name="PMenu" class=" hsub">
+            <a name="item" href="#" class="@(hasChildren ? "dropdown-toggle" : "")" @Html.Attr("icon", " fa-list") @Html.Attr("objid", @Guid.NewGuid().ToString(), !hasChildren) tagid="@Guid.NewGuid().ToString()">
+                <i class="menu-icon fa fa-list"></i>
+                <span class="menu-text">@node.Text</span>
+                @if (hasChildren)
+                {
+                    <b class="arrow fa fa-angle-down"></b>
+                }
+            </a>
+            <b class="arrow"></b>
+            @if (hasChildren)
+            {
+                @CreateDropdown(node.Childitems, true)
+            }
+        </li>
+
+    }
+</ul>
+
+@helper CreateDropdown(IEnumerable<MenuModel> nodes, bool isRoot)
+{
+    <ul class="submenu">
+        @foreach (var node in nodes)
+        {
+            <li class="menuclick">
+                <a name="item" href="###" @Html.Attr("icon", " fa-list") url="@node.Href.TrimStart('/')" @Html.Attr("objid", @Guid.NewGuid().ToString(), false) tagid="@Guid.NewGuid().ToString()">
+                    <i class='menu-icon fa fa-list"'></i>
+                    @node.Text
+
+                </a>
+                <b class="arrow"></b>
+
+            </li>
+        }
+    </ul>
+}
+
+
