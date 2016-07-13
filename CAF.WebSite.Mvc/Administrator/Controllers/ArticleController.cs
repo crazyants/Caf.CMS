@@ -740,6 +740,21 @@ namespace CAF.WebSite.Mvc.Admin.Controllers
             }
             model.SiteContentShare = _siteSettings.SiteContentShare;
         }
+
+        private void ConvertMenuItemNode(MenuModel node, List<ArticleCategory> allCategroySource, List<ArticleCategory> categroySource)
+        {
+            foreach (var childNode in categroySource)
+            {
+                var menuItemModel = new MenuModel();
+                menuItemModel.Text = childNode.Name;
+                menuItemModel.Id = childNode.Id.ToString();
+                menuItemModel.Href = Url.Action("Center", new { SearchCategoryId = childNode.Id });
+                node.Childitems.Add(menuItemModel);
+                var childCategory = allCategroySource.Where(p => p.ParentCategoryId == childNode.Id).ToList();
+                if (childCategory.Count > 0)
+                    ConvertMenuItemNode(menuItemModel, allCategroySource, childCategory);
+            }
+        }
         #endregion
 
         #region Methods
@@ -759,29 +774,20 @@ namespace CAF.WebSite.Mvc.Admin.Controllers
             var allCategories = _categoryService.GetAllCategories(showHidden: true);
 
             var mappedCategories = allCategories.ToDictionary(x => x.Id);
-            foreach (var c in allCategories)
-            {
-                // c.Name = c.GetCategoryNameWithPrefix(_categoryService, mappedCategories);
-                c.Name = c.GetCategoryBreadCrumb(_categoryService, mappedCategories);
-            }
+            //foreach (var c in allCategories)
+            //{
+            //    // c.Name = c.GetCategoryNameWithPrefix(_categoryService, mappedCategories);
+            //    c.Name = c.GetCategoryBreadCrumb(_categoryService, mappedCategories);
+            //}
 
             var menuModels = new List<MenuModel>();
             foreach (var item in allChannels)
             {
-
                 var menuModel = new MenuModel();
-                menuModel.text = item.Title;
-                var channelCategory = allCategories.Where(p => p.ChannelId == item.Id).ToList();
-                foreach (var category in channelCategory)
-                {
-                    var menuItemModel = new MenuItemModel();
-                    menuItemModel.text = category.Name;
-                    menuItemModel.id = category.Id.ToString();
-                    menuItemModel.href = @Url.Action("Center", new { SearchCategoryId = category.Id });
-                    menuModel.items.Add(menuItemModel);
-                }
+                menuModel.Text = item.Title;
+                var channelCategory = allCategories.Where(p => p.ChannelId == item.Id && p.ParentCategoryId == 0).ToList();
+                ConvertMenuItemNode(menuModel, allCategories.ToList(), channelCategory);
                 menuModels.Add(menuModel);
-
             }
 
             #endregion
@@ -975,7 +981,7 @@ namespace CAF.WebSite.Mvc.Admin.Controllers
                 locale.SeName = article.GetSeName(languageId, false, false);
                 //locale.BundleTitleText = article.GetLocalized(x => x.BundleTitleText, languageId, false, false);
             });
-      
+
             PrerpareArticleExtendedAttributes(model, article);
             PrepareArticlePictureThumbnailModel(model, article);
             PrepareArticleModel(model, article, false, false);
