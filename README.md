@@ -1,6 +1,6 @@
 # Caf.CMS
 
-## [Caf.CMS2.0地址](https://github.com/crazyants/CAF.CMS.2.0)
+## [Caf.CMS2.0地址](https://git.oschina.net/sframework/CAF.CMS.2.0)
 Caf.CMS（疯狂蚂蚁CMS） 是一个免费的、 开源，功能全面的CMS(内容管理系统)。定位CMS也有点狭义呢，因为Caf.CMS是基于国外SmartStore.NET 开源商城源码的基础上改造而成的CMS。
 定位：由于基于Smartstore.Net开源商城框架进行改造，所以整体上相对于其他几MB的CMS来说，Caf.CMS比较笨重，只适合编程人员进行模板开发及功能扩展。
 
